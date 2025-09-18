@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 interface Streamer {
@@ -50,14 +50,14 @@ const ChzzkCard = () => {
   }
 
   return (
-    <div>
-      <div className="px-3 py-2 border-b border-slate-700/50">
+    <div className="bg-zinc-800 rounded-xl border border-black dark:border-zinc-700 shadow px-4 py-5 w-full max-w-[400px]">
+      <div className="px-3 py-2 border-b border-slate-700/50 rounded-t-xl -mx-4 -mt-5 mb-4">
         <h2 className="flex items-center justify-center gap-1.5 text-[16px] text-slate-300 font-bold tracking-wide">
           <span className="text-purple-500 text-[18px]">🎮</span>
           검은사막 LIVE in Chzzk
         </h2>
       </div>
-      <div className="grid grid-cols-2 gap-2 px-2 py-2">
+      <div className="grid grid-cols-2 gap-2">
         <div className="space-y-1">
           {streamers.filter((_, i) => i % 2 === 0).map((streamer) => (
             <StreamerItem key={streamer.url} streamer={streamer} />
@@ -73,42 +73,66 @@ const ChzzkCard = () => {
   )
 }
 
-const StreamerItem = ({ streamer }: { streamer: Streamer }) => (
-  <a
-    href={streamer.url}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group block"
-  >
-    <div className="flex flex-col gap-1">
-      {streamer.isLive && (
-        <div className="relative w-full aspect-video rounded-md overflow-hidden">
-          <img
-            src={streamer.broadcastThumbnail || DEFAULT_THUMBNAIL}
-            alt={`${streamer.nickname}의 방송`}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute top-1 left-1">
-            <span className="bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">
-              LIVE
-            </span>
+const StreamerItem = ({ streamer }: { streamer: Streamer }) => {
+  const [imageError, setImageError] = useState(false)
+  const [profileImageError, setProfileImageError] = useState(false)
+
+  return (
+    <a
+      href={streamer.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block"
+    >
+      <div className="flex flex-col gap-1">
+        {streamer.isLive && (
+          <div className="relative w-full aspect-video rounded-md overflow-hidden bg-gray-700">
+            {!imageError && streamer.broadcastThumbnail && 
+             streamer.broadcastThumbnail !== DEFAULT_THUMBNAIL && 
+             streamer.broadcastThumbnail.startsWith('http') && 
+             streamer.broadcastThumbnail.includes('.') ? (
+              <img
+                src={streamer.broadcastThumbnail}
+                alt={`${streamer.nickname}의 방송`}
+                className="w-full h-full object-cover"
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600">
+                <span className="text-white text-xs font-bold">LIVE</span>
+              </div>
+            )}
+            <div className="absolute top-1 left-1">
+              <span className="bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">
+                LIVE
+              </span>
+            </div>
           </div>
+        )}
+        <div className="flex items-center gap-2 mb-2">
+          <div className="relative flex-shrink-0">
+            {!profileImageError && streamer.thumbnailUrl && streamer.thumbnailUrl !== DEFAULT_THUMBNAIL ? (
+              <img
+                src={streamer.thumbnailUrl}
+                alt={streamer.nickname}
+                className="w-7 h-7 rounded-full object-cover"
+                onError={() => setProfileImageError(true)}
+              />
+            ) : (
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+                <span className="text-white text-xs font-bold">
+                  {streamer.nickname.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            )}
+          </div>
+          <p className="text-[11px] font-medium text-slate-200 tracking-wide group-hover:text-purple-400 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
+            {streamer.nickname}
+          </p>
         </div>
-      )}
-      <div className="flex items-center gap-2 mb-2">
-        <div className="relative flex-shrink-0">
-          <img
-            src={streamer.thumbnailUrl || DEFAULT_THUMBNAIL}
-            alt={streamer.nickname}
-            className="w-7 h-7 rounded-full object-cover"
-          />
-        </div>
-        <p className="text-[11px] font-medium text-slate-200 tracking-wide group-hover:text-purple-400 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
-          {streamer.nickname}
-        </p>
       </div>
-    </div>
-  </a>
-)
+    </a>
+  )
+}
 
 export default ChzzkCard 

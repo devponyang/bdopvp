@@ -1,5 +1,7 @@
 'use client'
 
+import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
+
 export interface Entry {
   name: string
   subclass: string
@@ -27,6 +29,13 @@ export default function SolareAdminForm({
 }: Props) {
   const isOverall = selectedClass === '전체'
   const data = isOverall ? overall : (classData[selectedClass] ?? [])
+  
+  // 키보드 내비게이션 (7열: 가문명, 전승/각성, 클래스, 승, 무, 패, 점수)
+  const tableRef = useKeyboardNavigation({ 
+    rows: isOverall ? 100 : 20, 
+    cols: 7, 
+    disabled: false 
+  })
 
   const ensureEntry = (entry?: Entry): Entry => ({
     name: entry?.name || '',
@@ -57,19 +66,30 @@ export default function SolareAdminForm({
   }
 
   const handleSave = async () => {
-    const res = await fetch('/api/admin/solare/save-all', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ overall, classData })
-    })
-    if (res.ok) alert('저장 완료')
-    else alert('저장 실패')
+    try {
+      const res = await fetch('/api/admin/solare/save-all', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ overall, classData })
+      })
+      
+      if (res.ok) {
+        alert('✅ 솔라레 데이터 저장 완료!')
+      } else {
+        const errorData = await res.json().catch(() => ({ detail: '네트워크 오류가 발생했습니다.' }))
+        console.error('❌ 솔라레 저장 실패:', errorData)
+        alert(`❌ 저장 실패: ${errorData.detail || errorData.message || '알 수 없는 오류가 발생했습니다.'}`)
+      }
+    } catch (error) {
+      console.error('❌ 솔라레 저장 중 예외 발생:', error)
+      alert(`❌ 저장 실패: 네트워크 연결을 확인해주세요. (${error instanceof Error ? error.message : '알 수 없는 오류'})`)
+    }
   }
 
   return (
     <div className="space-y-4 text-base">
       <h2 className="text-xl font-semibold">{selectedClass} 랭킹</h2>
-      <table className="w-full text-lg border border-gray-700">
+      <table ref={tableRef} className="w-full text-lg border border-gray-700">
         <thead className="bg-gray-800 text-white">
           <tr>
             <th className="border p-2 text-sm">순위</th>

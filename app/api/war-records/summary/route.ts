@@ -2,7 +2,6 @@
 
 import { db } from '@/lib/db'
 import { NextResponse } from 'next/server'
-import { REGION_TIERS } from '@/lib/constants/war-tiers'
 
 export const revalidate = 300 // 5분 캐시
 
@@ -20,10 +19,9 @@ export async function GET(req: Request) {
         return NextResponse.json([])
       }
 
-      // tier에 해당하는 지역 목록 가져오기
-      const regionsForTier = Object.entries(REGION_TIERS)
-        .filter(([_, tier]) => tier === tierFilter)
-        .map(([region]) => region)
+      // tier에 해당하는 지역 목록 가져오기 (날짜별로 다르게 처리)
+      // 6월 25일 이전과 이후의 모든 가능한 지역을 포함
+      const allRegions = ['칼페온', '메디아', '발렌시아', '발레노스', '세렌디아', '카마실비아']
 
       // 기간에 따른 쿼리 구성
       let dateFilter = ''
@@ -44,26 +42,50 @@ export async function GET(req: Request) {
 
       const query = `
         WITH filtered_records AS (
-          SELECT DISTINCT w.id, w.alliance_id, w.result
+          SELECT DISTINCT w.id, w.alliance_id, w.result, w.region, w.war_date
           FROM war_records w
           JOIN alliances a ON w.alliance_id = a.id
           WHERE ${dateFilter}
             AND w.region = ANY($1)
-            AND a.tiers @> ARRAY[$2]::text[]
             AND w.war_type = '거점전'
+            AND a.is_active = TRUE
+        ),
+        records_with_tier AS (
+          SELECT fr.*, 
+            CASE 
+              WHEN fr.war_date < '2025-06-25' THEN
+                CASE fr.region
+                  WHEN '칼페온' THEN '무제한'
+                  WHEN '메디아' THEN '2단'
+                  WHEN '발렌시아' THEN '1단'
+                  ELSE NULL
+                END
+              ELSE
+                CASE fr.region
+                  WHEN '발레노스' THEN '1단'
+                  WHEN '세렌디아' THEN '1단'
+                  WHEN '메디아' THEN '2단'
+                  WHEN '발렌시아' THEN '2단'
+                  WHEN '칼페온' THEN '무제한'
+                  WHEN '카마실비아' THEN '무제한'
+                  ELSE NULL
+                END
+            END as calculated_tier
+          FROM filtered_records fr
         )
         SELECT
           a.name AS alliance_name,
-          COUNT(DISTINCT fr.id) FILTER (WHERE fr.result = '점령성공') AS count,
-          COUNT(DISTINCT fr.id) AS participated
-        FROM filtered_records fr
-        JOIN alliances a ON fr.alliance_id = a.id
+          COUNT(DISTINCT rwt.id) FILTER (WHERE rwt.result = '점령성공') AS count,
+          COUNT(DISTINCT rwt.id) AS participated
+        FROM records_with_tier rwt
+        JOIN alliances a ON rwt.alliance_id = a.id
+        WHERE rwt.calculated_tier = $2
         GROUP BY a.id, a.name
         ORDER BY count DESC
       `
 
       // 쿼리 실행
-      const result = await client.query(query, [regionsForTier, tierFilter])
+      const result = await client.query(query, [allRegions, tierFilter])
 
       const filteredRecords = result.rows.map(r => ({
         alliance_name: r.alliance_name,

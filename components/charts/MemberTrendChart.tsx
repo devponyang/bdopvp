@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -25,6 +26,26 @@ export default function MemberTrendChart({
   data: MemberData[]
   currentMemberCount: number
 }) {
+  const [isDark, setIsDark] = useState(true)
+
+  // 테마 변경 감지
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    }
+    
+    checkTheme()
+    
+    // 테마 변경 감지
+    const observer = new MutationObserver(checkTheme)
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class'] 
+    })
+    
+    return () => observer.disconnect()
+  }, [])
+  
   const formatted: (MemberData & { total: number })[] = []
 
   // 과거부터 누적 계산
@@ -43,25 +64,31 @@ export default function MemberTrendChart({
     <ResponsiveContainer width="100%" height={300}>
       <ComposedChart
         data={formatted}
-        margin={{ top: 20, right: 20, bottom: 0, left: 0 }}
+        margin={{ top: 15, right: 15, bottom: 10, left: 5 }}
       >
-        <CartesianGrid stroke="#444" strokeDasharray="0" />
+        <CartesianGrid stroke={isDark ? "#444" : "#cbd5e1"} strokeDasharray="0" />
 
         <XAxis
           dataKey="date"
-          tick={{ fill: '#ccc' }}
-          axisLine={{ stroke: '#666' }}
+          tick={{ fill: isDark ? '#ffffff' : '#374151', fontSize: 11 }}
+          axisLine={{ stroke: isDark ? '#666' : '#9ca3af' }}
           tickLine={false}
+          interval="preserveStartEnd"
         />
         <YAxis
           domain={[0, 100]}
-          tick={{ fill: '#ccc' }}
-          axisLine={{ stroke: '#666' }}
+          tick={{ fill: isDark ? '#ffffff' : '#374151', fontSize: 11 }}
+          axisLine={{ stroke: isDark ? '#666' : '#9ca3af' }}
           tickLine={false}
+          width={35}
         />
 
         <Tooltip
-          contentStyle={{ backgroundColor: '#111', border: 'none' }}
+          contentStyle={{ 
+            backgroundColor: isDark ? '#111' : '#ffffff', 
+            border: isDark ? 'none' : '1px solid #e5e7eb',
+            color: isDark ? '#ffffff' : '#1f2937'
+          }}
           labelFormatter={(label) => `날짜: ${label}`}
           formatter={(value, name) => {
             if (name === 'total') return [`${value}명`, '전체 인원']
@@ -72,15 +99,20 @@ export default function MemberTrendChart({
         />
         <Legend />
 
-        <Bar dataKey="join" fill="#10b981" name="가입" barSize={20} />
-        <Bar dataKey="leave" fill="#d1d5db" name="탈퇴" barSize={20} />
+        <Bar dataKey="join" fill="#10b981" name="가입" barSize={15} />
+        <Bar dataKey="leave" fill={isDark ? "#d1d5db" : "#ef4444"} name="탈퇴" barSize={15} />
         <Line
           type="monotone"
           dataKey="total"
-          stroke="#ffffff"
+          stroke={isDark ? "#ffffff" : "#1f2937"}
           strokeWidth={3}
           name="전체 인원"
-          dot={{ r: 5, strokeWidth: 2, stroke: '#fff', fill: 'black' }}
+          dot={{ 
+            r: 5, 
+            strokeWidth: 2, 
+            stroke: isDark ? '#ffffff' : '#1f2937', 
+            fill: isDark ? '#000000' : '#ffffff' 
+          }}
         />
       </ComposedChart>
     </ResponsiveContainer>

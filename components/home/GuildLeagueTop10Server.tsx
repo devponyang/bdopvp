@@ -11,7 +11,7 @@ export default async function GuildLeagueTop10Server() {
   }
 
   return (
-    <div className="bg-zinc-800 rounded-xl border border-zinc-700 shadow px-4 py-5 w-full max-w-[540px]">
+    <div className="bg-zinc-800 rounded-xl border border-black dark:border-zinc-700 shadow px-4 py-5 w-full max-w-[400px] overflow-x-auto">
       <div className="flex flex-col items-center mb-4">
         <h2 className="text-xl font-semibold text-center">🏆 길드 리그 TOP 10</h2>
         <Link

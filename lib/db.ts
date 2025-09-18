@@ -1,7 +1,11 @@
 import { Pool } from 'pg'
 
 export const db = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT || '5432'),
+  database: process.env.DB_NAME || 'new_dium',
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD,
   max: 10, // 최대 동시 연결 수
   idleTimeoutMillis: 10000, // 10초 유휴 시 커넥션 정리
   connectionTimeoutMillis: 5000, // 연결 대기 시간 제한
@@ -23,7 +27,7 @@ export async function createIndexes() {
       CREATE INDEX IF NOT EXISTS idx_alliances_name ON alliances(name);
     `)
 
-    // guild_league 테이블 인덱스
+    // guild_league 테이블 인
     await client.query(`
       CREATE INDEX IF NOT EXISTS idx_guild_league_rank ON guild_league(rank);
       CREATE INDEX IF NOT EXISTS idx_guild_league_name ON guild_league(guild_name);

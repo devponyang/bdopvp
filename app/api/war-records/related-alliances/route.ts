@@ -13,12 +13,12 @@ export async function GET(req: Request) {
       SELECT ag.guild_name
       FROM alliance_guilds ag
       JOIN alliances a ON ag.alliance_id = a.id
-      WHERE a.name = $1
+      WHERE a.name = $1 AND a.is_active = TRUE
     `, [allianceName])
     const targetGuilds = guildRes.rows.map(r => r.guild_name)
     if (targetGuilds.length === 0) return NextResponse.json([])
 
-    // 전체 연맹의 길드 정보
+    // 전체 연맹의 길드 정보 (활성 연맹만)
     const allRes = await client.query(`
       SELECT
         a.id,
@@ -35,7 +35,8 @@ export async function GET(req: Request) {
           WHERE w.alliance_id = a.id
         ) AS participated
       FROM alliances a
-      JOIN alliance_guilds ag ON ag.alliance_id = a.id
+      LEFT JOIN alliance_guilds ag ON ag.alliance_id = a.id
+      WHERE a.is_active = TRUE
       GROUP BY a.id
     `)
 

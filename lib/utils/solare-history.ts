@@ -14,8 +14,21 @@ interface ClassEntry {
   [key: string]: any
 }
 
-// ✅ 전체 랭킹 순위 변동 계산 (가장 최근 snapshot 기준)
+// ✅ 전체 랭킹 순위 변동 계산 (시즌 상태에 따라 처리)
 export async function getSolareOverallRankChanges(today: OverallEntry[]) {
+  // 활성 시즌 확인
+  const activeSeason = await db.query(`
+    SELECT id FROM solare_seasons WHERE is_active = TRUE LIMIT 1
+  `)
+  
+  const isSeasonActive = activeSeason.rows.length > 0
+  
+  // 시즌이 비활성화된 경우 모든 변동을 '-'로 표시
+  if (!isSeasonActive) {
+    return today.map(entry => ({ ...entry, rankChange: '-' }))
+  }
+
+  // 활성 시즌인 경우에만 전날 데이터와 비교
   const latest = await db.query(`
     SELECT snapshot_date
     FROM solare_overall_league_history
@@ -50,8 +63,21 @@ export async function getSolareOverallRankChanges(today: OverallEntry[]) {
   })
 }
 
-// ✅ 클래스별 랭킹 순위 변동 계산 (가장 최근 snapshot 기준)
+// ✅ 클래스별 랭킹 순위 변동 계산 (시즌 상태에 따라 처리)
 export async function getSolareClassRankChanges(today: ClassEntry[], className: string) {
+  // 활성 시즌 확인
+  const activeSeason = await db.query(`
+    SELECT id FROM solare_seasons WHERE is_active = TRUE LIMIT 1
+  `)
+  
+  const isSeasonActive = activeSeason.rows.length > 0
+  
+  // 시즌이 비활성화된 경우 모든 변동을 '-'로 표시
+  if (!isSeasonActive) {
+    return today.map(entry => ({ ...entry, rankChange: '-' }))
+  }
+
+  // 활성 시즌인 경우에만 전날 데이터와 비교
   const latest = await db.query(`
     SELECT snapshot_date
     FROM solare_class_league_history

@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
         w.id,
         w.war_type,
         w.war_date,
-        a.name AS alliance_name,  -- ✅ 연맹 이름
+        COALESCE(a.name, '[해체된 연맹]') AS alliance_name,  -- ✅ 연맹 이름 (해체된 연맹은 해체 표시)
         w.occupied_area,
         w.result,
         w.fort_stage,

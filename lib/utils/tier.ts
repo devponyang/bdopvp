@@ -7,6 +7,6 @@ export function getTier(score: number): string {
     if (score >= 1201) return 'sunset'
     if (score >= 801) return 'expert'
     if (score >= 401) return 'apprentice'
-    return 'none'
+    return 'null'
   }
   

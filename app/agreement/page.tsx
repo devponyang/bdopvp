@@ -2,17 +2,17 @@ import React from "react";
 
 export default function AgreementPage() {
   return (
-    <div className="max-w-3xl mx-auto p-6 text-zinc-100">
+    <div className="max-w-3xl mx-auto p-6 text-zinc-800 dark:text-white">
       <h1 className="text-2xl font-bold mb-4">사이트 이용약관</h1>
-      <p className="mb-2 text-sm text-zinc-400">본 약관은 2025년 05월 07일부터 적용됩니다.</p>
+      <p className="mb-2 text-sm text-zinc-600 dark:text-gray-400">본 약관은 2025년 09월 15일부터 적용됩니다.</p>
       <h2 className="font-semibold mt-6 mb-2">목적</h2>
       <p className="mb-2">이 약관은 BDOPonyang(이하 "사이트")에서 제공하는 게임 정보/커뮤니티 서비스 및 이에 부수된 제반 서비스(이하 '서비스')의 이용과 관련하여, 사이트와 이용자 간에 서비스 이용에 관한 권리 및 의무와 책임사항, 기타 필요한 사항을 규정하는 것을 목적으로 합니다.</p>
       <h2 className="font-semibold mt-6 mb-2">약관의 게시와 효력, 개정</h2>
       <ol className="list-decimal pl-6 mb-2">
-        <li>사이트는 서비스의 가입 과정에서 이용자에게 본 약관을 제시하고, 서비스 홈페이지에 본 약관을 게시합니다.</li>
+        <li>사이트는 서비스 홈페이지에 본 약관을 게시합니다.</li>
         <li>사이트는 관련법에 위배되지 않는 범위에서 본 약관을 변경할 수 있습니다.</li>
         <li>약관 개정 시 적용일자, 개정내용, 개정사유 등을 명시하여 최소 7일 전(중대한 변경은 30일 전)부터 공지합니다.</li>
-        <li>이용자는 변경된 약관에 동의하지 않을 권리가 있으며, 동의하지 않을 경우 서비스 이용 중단 및 탈퇴를 요청할 수 있습니다. 별도 의사표시가 없을 경우 동의한 것으로 간주할 수 있습니다.</li>
+        <li>이용자는 변경된 약관에 동의하지 않을 권리가 있으며, 동의하지 않을 경우 서비스 이용을 중단할 수 있습니다. 별도 의사표시가 없을 경우 동의한 것으로 간주할 수 있습니다.</li>
       </ol>
       <h2 className="font-semibold mt-6 mb-2">약관의 해석과 예외 준칙</h2>
       <ol className="list-decimal pl-6 mb-2">
@@ -22,17 +22,16 @@ export default function AgreementPage() {
       <h2 className="font-semibold mt-6 mb-2">용어의 정의</h2>
       <ul className="list-disc pl-6 mb-2">
         <li>서비스: BDOPonyang에서 제공하는 게임 정보/커뮤니티 및 이에 부수된 제반 서비스</li>
-        <li>이용자: 사이트와 서비스 이용계약을 체결하고 서비스를 이용하는 모든 사용자</li>
-        <li>아이디: 이용자 식별 및 서비스 이용을 위해 부여된 문자/숫자 조합</li>
-        <li>비밀번호: 이용자 본인 확인 및 정보 보호를 위한 문자/숫자 조합</li>
+        <li>이용자: 사이트를 이용하는 모든 사용자</li>
+        <li>관리자: 사이트 운영 및 관리를 담당하는 자</li>
         <li>게시물: 이용자가 서비스 내에 게시한 모든 정보(텍스트, 이미지, 링크 등)</li>
       </ul>
-      <h2 className="font-semibold mt-6 mb-2">이용계약의 체결</h2>
+      <h2 className="font-semibold mt-6 mb-2">서비스 이용</h2>
       <ol className="list-decimal pl-6 mb-2">
-        <li>이용계약은 이용자가 약관에 동의 후 서비스 이용을 신청하고, 사이트가 이를 승낙함으로써 체결됩니다.</li>
-        <li>이용자는 본인의 실제 정보를 기재해야 하며, 허위 정보 또는 타인 정보 도용 시 권리를 주장할 수 없습니다.</li>
-        <li>사이트는 설비 여유, 기술적 장애, 정책상 부적합 등 사유로 승낙을 유보/거절할 수 있습니다.</li>
-        <li>이용자는 언제든지 탈퇴를 요청할 수 있습니다.</li>
+        <li>이용자는 사이트를 이용함으로써 본 약관에 동의한 것으로 간주됩니다.</li>
+        <li>이용자는 서비스 이용 시 관련 법령을 준수해야 합니다.</li>
+        <li>사이트는 기술적 장애, 정책상 부적합 등 사유로 서비스 이용을 제한할 수 있습니다.</li>
+        <li>이용자는 언제든지 서비스 이용을 중단할 수 있습니다.</li>
       </ol>
       <h2 className="font-semibold mt-6 mb-2">개인정보보호 의무</h2>
       <ol className="list-decimal pl-6 mb-2">
@@ -40,10 +39,10 @@ export default function AgreementPage() {
         <li>서비스 중단 또는 동의 철회 시 신속히 개인정보를 파기합니다. 단, 법령에 따라 일정 기간 보관할 수 있습니다.</li>
         <li>법률상 특별한 규정이 없는 한, 별도 동의 없이 개인정보를 제3자에게 제공하지 않습니다.</li>
       </ol>
-      <h2 className="font-semibold mt-6 mb-2">이용자의 아이디 및 비밀번호</h2>
+      <h2 className="font-semibold mt-6 mb-2">관리자 계정</h2>
       <ol className="list-decimal pl-6 mb-2">
-        <li>이용자는 아이디와 비밀번호 관리 책임이 있습니다.</li>
-        <li>도용, 유출, 부정 사용 시 즉시 사이트에 통지해야 하며, 관리 소홀로 인한 손해는 이용자 책임입니다.</li>
+        <li>관리자는 계정 정보 관리 책임이 있습니다.</li>
+        <li>계정 도용, 유출, 부정 사용 시 즉시 사이트에 통지해야 하며, 관리 소홀로 인한 손해는 관리자 책임입니다.</li>
       </ol>
       <h2 className="font-semibold mt-6 mb-2">사이트의 의무</h2>
       <ol className="list-decimal pl-6 mb-2">
@@ -70,8 +69,17 @@ export default function AgreementPage() {
       </ol>
       <h2 className="font-semibold mt-6 mb-2">광고의 게재</h2>
       <ol className="list-decimal pl-6 mb-2">
-        <li>사이트는 서비스 운영과 관련하여 광고를 게재할 수 있습니다.</li>
-        <li>광고 참여, 거래 등으로 인한 손해에 대해 책임지지 않습니다.</li>
+        <li>사이트는 서비스 운영과 관련하여 다음과 같은 광고를 게재할 수 있습니다:
+          <ul className="list-disc pl-6 mt-2">
+            <li>Google AdSense를 통한 자동 광고</li>
+            <li>기타 승인된 광고 네트워크를 통한 광고</li>
+            <li>직접 계약을 통한 광고</li>
+          </ul>
+        </li>
+        <li>광고는 사이트 운영비 충당을 목적으로 하며, 이용자의 서비스 이용에 과도한 방해가 되지 않도록 노력합니다.</li>
+        <li>광고 클릭, 참여, 거래 등으로 인한 손해에 대해 책임지지 않습니다.</li>
+        <li>이용자는 광고 차단 도구 사용 권리가 있으나, 이로 인한 서비스 제한이 있을 수 있습니다.</li>
+        <li>광고 콘텐츠는 광고주의 책임이며, 사이트는 광고 내용의 정확성을 보장하지 않습니다.</li>
       </ol>
       <h2 className="font-semibold mt-6 mb-2">책임제한</h2>
       <ol className="list-decimal pl-6 mb-2">

@@ -19,6 +19,7 @@ export async function GET() {
           WHERE w.war_type = '점령전'
             AND w.result = '점령성공'
             AND w.war_date >= CURRENT_DATE - INTERVAL '7 days'
+            AND a.is_active = TRUE
           ORDER BY w.alliance_id, w.region, w.war_date DESC
         )
         SELECT 

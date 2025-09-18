@@ -11,6 +11,7 @@ export async function getWeeklyWarRanking() {
        FROM war_records w
        JOIN alliances a ON w.alliance_id = a.id
        WHERE war_date >= CURRENT_DATE - INTERVAL '6 days'
+         AND a.is_active = TRUE
        GROUP BY a.id, a.name
        ORDER BY count DESC`
     )
@@ -35,6 +36,7 @@ export async function getMonthlyWarRanking() {
        FROM war_records w
        JOIN alliances a ON w.alliance_id = a.id
        WHERE war_date >= CURRENT_DATE - INTERVAL '1 month'
+         AND a.is_active = TRUE
        GROUP BY a.id, a.name
        ORDER BY count DESC`
     )
@@ -59,6 +61,7 @@ export async function getYearlyWarRanking() {
        FROM war_records w
        JOIN alliances a ON w.alliance_id = a.id
        WHERE war_date >= CURRENT_DATE - INTERVAL '1 year'
+         AND a.is_active = TRUE
        GROUP BY a.id, a.name
        ORDER BY count DESC`
     )
@@ -83,6 +86,7 @@ export async function getAlliancesWithGuilds() {
          ARRAY_AGG(ag.guild_name) AS guilds
        FROM alliances a
        LEFT JOIN alliance_guilds ag ON ag.alliance_id = a.id
+       WHERE a.is_active = TRUE
        GROUP BY a.name, a.tiers
        ORDER BY a.name`
     )

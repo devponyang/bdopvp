@@ -44,13 +44,20 @@ export async function GET() {
     const streamers = (livesData.content?.data || [])
       .map((stream: any) => {
         try {
+          // 썸네일 URL 처리 개선
+          let broadcastThumbnail = stream.liveThumbAddr
+          if (!broadcastThumbnail || broadcastThumbnail === '') {
+            // liveThumbAddr이 없으면 다른 필드 시도
+            broadcastThumbnail = stream.thumbnailUrl || stream.channel?.channelImageUrl
+          }
+
           return {
             nickname: stream.channel?.channelName || '알 수 없음',
             title: stream.liveTitle || '',
             isLive: true,
             viewerCount: stream.concurrentUserCount || 0,
             thumbnailUrl: stream.channel?.channelImageUrl || DEFAULT_THUMBNAIL,
-            broadcastThumbnail: stream.liveThumbAddr || DEFAULT_THUMBNAIL,
+            broadcastThumbnail: broadcastThumbnail || DEFAULT_THUMBNAIL,
             url: `https://chzzk.naver.com/live/${stream.channel?.channelId || ''}`
           }
         } catch (error) {
@@ -59,9 +66,10 @@ export async function GET() {
         }
       })
 
-    // null 값 제거 및 시청자 수 기준으로 정렬
+    // null 값 제거, 특정 스트리머 제외, 시청자 수 기준으로 정렬
     const filteredStreamers = streamers
       .filter((streamer: Streamer | null): streamer is Streamer => streamer !== null)
+      .filter((streamer: Streamer) => streamer.nickname !== '독고민') // 독고민 제외
       .sort((a: Streamer, b: Streamer) => b.viewerCount - a.viewerCount)
 
     return NextResponse.json(filteredStreamers)

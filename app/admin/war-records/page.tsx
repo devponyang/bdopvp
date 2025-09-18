@@ -39,6 +39,7 @@ interface AllianceRow {
   name: string
   guilds: string[]
   tiers: string[]
+  isActive?: boolean
 }
 
 const TIER_ORDER = { '무제한': 0, '2단': 1, '1단': 2 }
@@ -49,6 +50,7 @@ export default function AdminWarRecordsPage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [records, setRecords] = useState<Record<string, RecordRow[]>>({})
   const [alliances, setAlliances] = useState<AllianceRow[]>([])
+  const [activeTab, setActiveTab] = useState<'active' | 'inactive'>('active')
 
   const filteredRegions = selectedWarType === '점령전' ? SIEGE_REGIONS : NODE_REGIONS
 
@@ -71,45 +73,85 @@ export default function AdminWarRecordsPage() {
     setRecords((prev) => ({ ...prev, [getKey()]: updated }))
   }
 
-  const updateAlliance = (idx: number, key: keyof AllianceRow, value: any) => {
-    const updated = [...alliances]
-    updated[idx][key] = value
-    setAlliances(updated)
-  }
+  const updateAlliance = (name: string, key: keyof AllianceRow, value: any) => {
+    setAlliances(prev =>
+      prev.map(a =>
+        a.name === name
+          ? { ...a, [key]: value }
+          : a
+      )
+    );
+  };
 
-  const toggleTier = (idx: number, tier: string) => {
-    const prev = alliances[idx].tiers ?? []
-    const next = prev.includes(tier) ? prev.filter(t => t !== tier) : [...prev, tier]
-    updateAlliance(idx, 'tiers', next)
-  }
+  const toggleTier = (name: string, tier: string) => {
+    setAlliances(prev =>
+      prev.map(a => {
+        if (a.name !== name) return a;
+        const prevTiers = a.tiers ?? [];
+        const next = prevTiers.includes(tier)
+          ? prevTiers.filter(t => t !== tier)
+          : [...prevTiers, tier];
+        return { ...a, tiers: next };
+      })
+    );
+  };
+
 
   const saveRecords = async () => {
-    const payload = (records[getKey()] || []).filter(r => r.alliance_name && r.result)
-    const res = await fetch('/api/admin/war-records/save-all', {
-      method: 'POST',
-      body: JSON.stringify({
-        date: format(selectedDate, 'yyyy-MM-dd'),
-        region: selectedRegion,
-        war_type: selectedWarType,
-        records: payload,
-      }),
-    })
-    if (res.ok) alert('✅ 저장 완료!')
-    else {
-      const error = await res.json()
-      console.error('❌ 저장 실패:', error)
-      alert(`❌ 저장 실패: ${error.detail || 'Unknown error'}`)
+    const payload = (records[getKey()] || []).filter(r => r.alliance_name && r.result);
+
+    // 기존 저장 로직
+    try {
+      const res = await fetch('/api/admin/war-records/save-all', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: format(selectedDate, 'yyyy-MM-dd'),
+          region: selectedRegion,
+          war_type: selectedWarType,
+          records: payload,
+        }),
+      });
+
+      if (res.ok) {
+        alert('✅ 저장 완료!');
+      } else {
+        const errorData = await res.json().catch(() => ({ detail: '네트워크 오류가 발생했습니다.' }));
+        console.error('❌ 저장 실패:', errorData);
+        alert(`❌ 저장 실패: ${errorData.detail || errorData.message || '알 수 없는 오류가 발생했습니다.'}`);
+      }
+    } catch (error) {
+      console.error('❌ 저장 중 예외 발생:', error);
+      alert(`❌ 저장 실패: 네트워크 연결을 확인해주세요. (${error instanceof Error ? error.message : '알 수 없는 오류'})`);
     }
-  }
+  };
 
   const saveAlliances = async () => {
-    const valid = alliances.filter(a => a.name && a.guilds.length > 0)
-    const res = await fetch('/api/admin/alliances/save-all', {
-      method: 'POST',
-      body: JSON.stringify({ alliances: valid }),
-    })
-    if (res.ok) alert('✅ 연맹 저장 완료!')
-    else alert('❌ 저장 실패')
+    // 이름이 있는 모든 연맹을 저장 (활성/비활성 모두 포함)
+    const valid = alliances.filter(a => a.name && a.name.trim())
+    
+    try {
+      const res = await fetch('/api/admin/alliances/save-all', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ alliances: valid }),
+      })
+      
+      if (res.ok) {
+        alert('✅ 연맹 저장 완료!')
+      } else {
+        const errorData = await res.json().catch(() => ({ detail: '네트워크 오류가 발생했습니다.' }))
+        console.error('❌ 연맹 저장 실패:', errorData)
+        alert(`❌ 연맹 저장 실패: ${errorData.detail || errorData.message || '알 수 없는 오류가 발생했습니다.'}`)
+      }
+    } catch (error) {
+      console.error('❌ 연맹 저장 중 예외 발생:', error)
+      alert(`❌ 연맹 저장 실패: 네트워크 연결을 확인해주세요. (${error instanceof Error ? error.message : '알 수 없는 오류'})`)
+    }
   }
 
   useEffect(() => {
@@ -123,6 +165,7 @@ export default function AdminWarRecordsPage() {
               ? a.guilds
               : (a.guilds ?? '').split('/').map((g: string) => g.trim()).filter(Boolean),
             tiers: Array.isArray(a.tiers) ? a.tiers : [],
+            isActive: a.isActive === true, // 명시적으로 true인 경우만 활성으로 처리
           }))
         : []
       setAlliances(parsed)
@@ -166,7 +209,7 @@ export default function AdminWarRecordsPage() {
   )
 
   return (
-    <div className="p-6 max-w-screen-xl mx-auto space-y-8">
+    <div className="p-6 max-w-screen-xl mx-auto space-y-8 bg-gray-900 rounded-2xl">
       {/* 전투 기록 */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">⚔️ 전투 기록</h2>
@@ -206,8 +249,8 @@ export default function AdminWarRecordsPage() {
           </div>
         </div>
 
-        <div className="bg-muted/30 rounded-2xl p-4 shadow">
-          <table className="w-full text-center text-black text-sm">
+        <div className="bg-gray-800 rounded-2xl p-4 shadow">
+          <table className="w-full text-center text-white text-sm">
             <thead className="bg-muted">
               <tr>
                 <th className="border px-2 py-1 text-left">연맹명</th>
@@ -268,7 +311,7 @@ export default function AdminWarRecordsPage() {
           <div className="flex gap-2">
             <Button 
               variant="outline"
-              onClick={() => setAlliances([...alliances, { name: '', guilds: [''], tiers: [] }])}
+              onClick={() => setAlliances([...alliances, { name: '', guilds: [''], tiers: [], isActive: true }])}
               className="flex items-center gap-2"
             >
               <span>+ 연맹 추가</span>
@@ -282,10 +325,32 @@ export default function AdminWarRecordsPage() {
           </div>
         </div>
 
-        {/* 활성 연맹 */}
+        {/* 연맹 관리 탭 */}
         <div className="space-y-4">
-          <h3 className="text-lg font-medium text-green-400">활성 연맹</h3>
-          <div className="bg-muted/30 rounded-xl shadow-lg overflow-hidden">
+          <div className="flex space-x-1 bg-gray-800 p-1 rounded-lg">
+            <button
+              onClick={() => setActiveTab('active')}
+              className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                activeTab === 'active'
+                  ? 'bg-green-600 text-white'
+                  : 'text-gray-400 hover:text-white hover:bg-gray-700'
+              }`}
+            >
+              활성 연맹
+            </button>
+            <button
+              onClick={() => setActiveTab('inactive')}
+              className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                activeTab === 'inactive'
+                  ? 'bg-red-600 text-white'
+                  : 'text-gray-400 hover:text-white hover:bg-gray-700'
+              }`}
+            >
+              해체 연맹
+            </button>
+          </div>
+
+          <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-muted/50">
@@ -294,185 +359,124 @@ export default function AdminWarRecordsPage() {
                     <th className="px-4 py-3 text-left font-medium" colSpan={4}>길드명</th>
                     <th className="px-4 py-3 text-center font-medium w-20">+ 길드</th>
                     <th className="px-4 py-3 text-center font-medium">단계</th>
-                    <th className="px-4 py-3 text-center font-medium w-20">해체</th>
-                    <th className="px-4 py-3 text-center font-medium w-20">삭제</th>
+                    {activeTab === 'active' && (
+                      <>
+                        <th className="px-4 py-3 text-center font-medium w-20">해체</th>
+                        <th className="px-4 py-3 text-center font-medium w-20">삭제</th>
+                      </>
+                    )}
+                    {activeTab === 'inactive' && (
+                      <th className="px-4 py-3 text-center font-medium w-20">삭제</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-700">
                   {sortedAlliances
-                    .filter(a => a.tiers.length > 0)
-                    .map((a, idx) => {
-                      const originalIndex = alliances.findIndex(orig => orig.name === a.name)
-                      return (
-                        <tr key={a.name || idx} className="hover:bg-muted/40 transition-colors">
-                          <td className="px-4 py-3">
-                            <Input 
-                              value={a.name} 
-                              onChange={(e) => updateAlliance(originalIndex, 'name', e.target.value)}
+                    .filter(a => activeTab === 'active' ? a.isActive !== false : a.isActive === false)
+                    .map((a) => (
+                      <tr key={a.name} className="hover:bg-muted/40 transition-colors">
+                        <td className="px-4 py-3">
+                          <Input
+                            value={a.name}
+                            onChange={e => updateAlliance(a.name, 'name', e.target.value)}
+                            className="bg-transparent border-gray-600"
+                            placeholder="연맹명 입력"
+                          />
+                        </td>
+                        {a.guilds.map((g, gIdx) => (
+                          <td key={gIdx} className="px-4 py-3">
+                            <Input
+                              value={g}
+                              onChange={e => {
+                                const updated = [...a.guilds];
+                                updated[gIdx] = e.target.value;
+                                updateAlliance(a.name, 'guilds', updated);
+                              }}
                               className="bg-transparent border-gray-600"
-                              placeholder="연맹명 입력"
+                              placeholder={`길드 ${gIdx + 1}`}
                             />
                           </td>
-                          {a.guilds.map((g, gIdx) => (
-                            <td key={gIdx} className="px-4 py-3">
-                              <Input
-                                value={g}
-                                onChange={(e) => {
-                                  const updated = [...a.guilds]
-                                  updated[gIdx] = e.target.value
-                                  updateAlliance(originalIndex, 'guilds', updated)
-                                }}
-                                className="bg-transparent border-gray-600"
-                                placeholder={`길드 ${gIdx + 1}`}
-                              />
-                            </td>
-                          ))}
-                          {Array.from({ length: Math.max(0, 4 - a.guilds.length) }).map((_, i) => (
-                            <td key={`empty-${i}`} className="px-4 py-3" />
-                          ))}
+                        ))}
+                        {Array.from({ length: Math.max(0, 4 - a.guilds.length) }).map((_, i) => (
+                          <td key={`empty-${i}`} className="px-4 py-3" />
+                        ))}
+                        <td className="px-4 py-3 text-center">
+                          <Button
+                            variant="ghost"
+                            onClick={() => updateAlliance(a.name, 'guilds', [...a.guilds, ''])}
+                            className="hover:bg-muted/60"
+                          >
+                            +
+                          </Button>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex gap-3 justify-center">
+                            {TIERS.map((tier) => (
+                              <label key={tier} className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={a.tiers.includes(tier)}
+                                  onChange={() => toggleTier(a.name, tier)}
+                                  className="w-4 h-4 rounded border-gray-600"
+                                />
+                                <span className="text-sm">{tier}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </td>
+                        {activeTab === 'active' && (
                           <td className="px-4 py-3 text-center">
                             <Button
                               variant="ghost"
-                              onClick={() => updateAlliance(originalIndex, 'guilds', [...a.guilds, ''])}
-                              className="hover:bg-muted/60"
-                            >
-                              +
-                            </Button>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex gap-3 justify-center">
-                              {TIERS.map((tier) => (
-                                <label key={tier} className="flex items-center gap-2 cursor-pointer">
-                                  <input
-                                    type="checkbox"
-                                    checked={a.tiers.includes(tier)}
-                                    onChange={() => toggleTier(originalIndex, tier)}
-                                    className="w-4 h-4 rounded border-gray-600"
-                                  />
-                                  <span className="text-sm">{tier}</span>
-                                </label>
-                              ))}
-                            </div>
-                          </td>
-                          <td className="px-4 py-3 text-center">
-                            <Button
-                              variant="ghost"
-                              onClick={() => {
-                                const updated = [...alliances]
-                                updated[originalIndex].tiers = []
-                                setAlliances(updated)
+                              onClick={async () => {
+                                if (confirm(`${a.name} 연맹을 해체하시겠습니까?`)) {
+                                  try {
+                                    const response = await fetch('/api/admin/alliances/deactivate', {
+                                      method: 'POST',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({ allianceName: a.name })
+                                    })
+                                    
+                                    if (response.ok) {
+                                      // 로컬 상태에서 연맹을 비활성화 상태로 표시 (제거하지 않음)
+                                      setAlliances(alliances.map(alliance => 
+                                        alliance.name === a.name 
+                                          ? { ...alliance, isActive: false }
+                                          : alliance
+                                      ))
+                                      alert('연맹이 해체되었습니다.')
+                                    } else {
+                                      alert('연맹 해체에 실패했습니다.')
+                                    }
+                                  } catch (error) {
+                                    console.error('연맹 해체 오류:', error)
+                                    alert('연맹 해체 중 오류가 발생했습니다.')
+                                  }
+                                }
                               }}
                               className="hover:bg-yellow-500/20 text-yellow-400 hover:text-yellow-300"
                             >
                               해체
                             </Button>
                           </td>
-                          <td className="px-4 py-3 text-center">
-                            <Button
-                              variant="ghost"
-                              onClick={() => setAlliances(alliances.filter(alliance => alliance.name !== a.name))}
-                              className="hover:bg-red-500/20 text-red-400 hover:text-red-300"
-                            >
-                              삭제
-                            </Button>
-                          </td>
-                        </tr>
-                      )
-                    })}
+                        )}
+                        <td className="px-4 py-3 text-center">
+                          <Button
+                            variant="ghost"
+                            onClick={() => setAlliances(alliances.filter(alliance => alliance.name !== a.name))}
+                            className="hover:bg-red-500/20 text-red-400 hover:text-red-300"
+                          >
+                            삭제
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
 
-        {/* 해체 연맹 */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-medium text-red-400">해체 연맹</h3>
-          <div className="bg-muted/30 rounded-xl shadow-lg overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-muted/50">
-                  <tr>
-                    <th className="px-4 py-3 text-left font-medium">연맹명</th>
-                    <th className="px-4 py-3 text-left font-medium" colSpan={4}>길드명</th>
-                    <th className="px-4 py-3 text-center font-medium w-20">+ 길드</th>
-                    <th className="px-4 py-3 text-center font-medium">단계</th>
-                    <th className="px-4 py-3 text-center font-medium w-20">삭제</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-700">
-                  {sortedAlliances
-                    .filter(a => a.tiers.length === 0)
-                    .map((a, idx) => {
-                      const originalIndex = alliances.findIndex(orig => orig.name === a.name)
-                      return (
-                        <tr key={a.name || idx} className="hover:bg-muted/40 transition-colors">
-                          <td className="px-4 py-3">
-                            <Input 
-                              value={a.name} 
-                              onChange={(e) => updateAlliance(originalIndex, 'name', e.target.value)}
-                              className="bg-transparent border-gray-600"
-                              placeholder="연맹명 입력"
-                            />
-                          </td>
-                          {a.guilds.map((g, gIdx) => (
-                            <td key={gIdx} className="px-4 py-3">
-                              <Input
-                                value={g}
-                                onChange={(e) => {
-                                  const updated = [...a.guilds]
-                                  updated[gIdx] = e.target.value
-                                  updateAlliance(originalIndex, 'guilds', updated)
-                                }}
-                                className="bg-transparent border-gray-600"
-                                placeholder={`길드 ${gIdx + 1}`}
-                              />
-                            </td>
-                          ))}
-                          {Array.from({ length: Math.max(0, 4 - a.guilds.length) }).map((_, i) => (
-                            <td key={`empty-${i}`} className="px-4 py-3" />
-                          ))}
-                          <td className="px-4 py-3 text-center">
-                            <Button
-                              variant="ghost"
-                              onClick={() => updateAlliance(originalIndex, 'guilds', [...a.guilds, ''])}
-                              className="hover:bg-muted/60"
-                            >
-                              +
-                            </Button>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex gap-3 justify-center">
-                              {TIERS.map((tier) => (
-                                <label key={tier} className="flex items-center gap-2 cursor-pointer">
-                                  <input
-                                    type="checkbox"
-                                    checked={a.tiers.includes(tier)}
-                                    onChange={() => toggleTier(originalIndex, tier)}
-                                    className="w-4 h-4 rounded border-gray-600"
-                                  />
-                                  <span className="text-sm">{tier}</span>
-                                </label>
-                              ))}
-                            </div>
-                          </td>
-                          <td className="px-4 py-3 text-center">
-                            <Button
-                              variant="ghost"
-                              onClick={() => setAlliances(alliances.filter(alliance => alliance.name !== a.name))}
-                              className="hover:bg-red-500/20 text-red-400 hover:text-red-300"
-                            >
-                              삭제
-                            </Button>
-                          </td>
-                        </tr>
-                      )
-                    })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )

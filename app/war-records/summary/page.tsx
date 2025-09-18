@@ -5,9 +5,18 @@ export const dynamic = 'force-dynamic'
 import { useState, Fragment, useCallback, useMemo } from 'react'
 import PeriodSelector from '@/components/war-records/PeriodSelector'
 import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
 import Link from 'next/link'
 import { format, subDays, subMonths, subYears } from 'date-fns'
+import Image from 'next/image'
+
+const imageMap: Record<string, string> = {
+  '칼페온': '/war-records/calfeon.png',
+  '카마실비아': '/war-records/kamasylvia.png',
+  '메디아': '/war-records/media.png',
+  '발렌시아': '/war-records/balencia.png',
+  '발레노스': '/war-records/balenos.png',
+  '세렌디아': '/war-records/Serendia.png',
+}
 
 interface AllianceData {
   alliance_name: string
@@ -130,12 +139,13 @@ export default function WarSummaryPage() {
     )
 
     return (
-      <section key={tier} className="transform transition-all hover:scale-[1.01]">
-        <h3 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+      <section key={tier} className="mb-6">
+        <h2 className="text-2xl font-bold text-white mb-4 text-center">
           {tier} 연맹
-        </h3>
-        <div className="bg-gradient-to-br from-slate-900/90 to-slate-800/90 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
-          <table className="w-full text-sm text-left">
+        </h2>
+        <div className="bg-slate-800/40 rounded-lg p-4">
+          {/* 데스크톱 테이블 */}
+          <table className="w-full text-sm text-left hidden md:table">
             <thead>
               <tr className="border-b border-slate-700">
                 <th className="px-4 py-3 text-lg font-extrabold text-blue-300">연맹/길드명</th>
@@ -241,6 +251,112 @@ export default function WarSummaryPage() {
               })}
             </tbody>
           </table>
+
+          {/* 모바일 카드 레이아웃 - 간단하게 */}
+        <div className="md:hidden space-y-2">
+          {filtered.map((a: AllianceData) => {
+            const main = rankingByTier[tier].find((r: WarSummaryData) => r.alliance_name === a.alliance_name)
+            const occupied = main?.count ?? 0
+            const participated = main?.participated ?? occupied
+            const winRate = participated > 0 ? Math.round((occupied / participated) * 100) : 0
+            const winRateText = participated > 0 ? `${winRate}%` : '-'
+            const isExpanded = Array.isArray(expandedAlliances[a.alliance_name])
+
+            return (
+              <div key={a.alliance_name} className="bg-slate-700/50 rounded-lg p-3">
+                {/* 연맹명 */}
+                <div 
+                  className="flex items-center justify-between mb-2 cursor-pointer"
+                  onClick={() => toggleExpanded(a.alliance_name)}
+                >
+                  <div className="font-bold text-white text-lg">{a.alliance_name}</div>
+                  <span className="text-blue-400" style={{ transform: isExpanded ? 'rotate(90deg)' : 'none' }}>
+                    ▶
+                  </span>
+                </div>
+
+                  {/* 전적 정보 */}
+                  <div className="grid grid-cols-3 gap-2 text-center text-sm">
+                    <div className="bg-slate-600/50 rounded p-2">
+                      <div className="text-gray-400">참여</div>
+                      <div className="font-bold text-blue-300">{participated}</div>
+                    </div>
+                    <div className="bg-slate-600/50 rounded p-2">
+                      <div className="text-gray-400">점령</div>
+                      <div className="font-bold text-cyan-300">{occupied}</div>
+                    </div>
+                    <div className="bg-slate-600/50 rounded p-2">
+                      <div className="text-gray-400">승률</div>
+                      <div className="font-bold text-white">{winRateText}</div>
+                    </div>
+                  </div>
+
+                  {/* 소속 길드 */}
+                  <div className="mt-2 text-xs text-gray-400">
+                    길드: {a.guilds.join(', ')}
+                  </div>
+
+                  {/* 확장된 길드 정보 */}
+                  {isExpanded && expandedAlliances[a.alliance_name] && (
+                    <div className="mt-3 pt-3 border-t border-slate-600">
+                      <div className="text-sm text-gray-300 font-medium mb-2">길드리그 정보</div>
+                      <div className="space-y-2">
+                        {expandedAlliances[a.alliance_name]?.map((guild, i) => (
+                          <div key={`guild-${a.alliance_name}-${i}`} className="bg-slate-600/30 rounded p-2">
+                            <div className="flex justify-between items-center mb-1">
+                              <Link 
+                                href={`/guild/${encodeURIComponent(guild.guild_name)}`}
+                                className="text-white font-medium hover:text-blue-400 text-sm"
+                              >
+                                {guild.guild_name}
+                              </Link>
+                              {guild.league_rank > 0 && (
+                                <span className="text-gray-300 text-xs">{guild.league_rank}위</span>
+                              )}
+                            </div>
+                            <div className="grid grid-cols-3 gap-2 text-xs">
+                              <div className="text-center">
+                                <div className="text-gray-400">전적</div>
+                                <div>
+                                  {guild.wins > 0 || guild.losses > 0 ? (
+                                    <span>{guild.wins}승/{guild.losses}패</span>
+                                  ) : (
+                                    <span className="text-gray-500">-</span>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-gray-400">승률</div>
+                                <div>
+                                  {guild.wins + guild.losses > 0 ? (
+                                    <span className="font-bold">
+                                      {Math.round((guild.wins / (guild.wins + guild.losses)) * 100)}%
+                                    </span>
+                                  ) : (
+                                    <span className="text-gray-500">-</span>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-gray-400">점수</div>
+                                <div>
+                                  {guild.league_points > 0 ? (
+                                    <span className="font-bold text-amber-400">{guild.league_points}</span>
+                                  ) : (
+                                    <span className="text-gray-500">-</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
     )
@@ -262,57 +378,47 @@ export default function WarSummaryPage() {
   }
 
   return (
-    <div className="p-6 max-w-screen-xl mx-auto mt-4">
-      <div className="flex flex-col md:flex-row md:justify-between items-center gap-4 mb-8 bg-gradient-to-r from-slate-800/50 to-blue-900/50 p-6 rounded-2xl shadow-lg">
-        <h2 className="text-4xl text-center font-bold text-white">
-          <span>🏰</span>
-          <span className="ml-2">연맹 점령 현황</span>
-        </h2>
-        <div className="flex flex-col w-full md:w-auto">
-          <PeriodSelector
-            selected={selectedTab}
-            onChange={(val) => setSelectedTab(val as 'weekly' | 'monthly' | 'yearly')}
-          />
-          <span className="text-base text-blue-200 font-semibold mt-2 ml-1 whitespace-nowrap">{periodText}</span>
+    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-4">
+      {/* 컴팩트한 헤더 */}
+      <div className="mb-6">
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <h1 className="text-4xl md:text-5xl font-bold text-white">🏰 연맹 점령 현황</h1>
+            <div className="flex flex-col gap-3 items-center sm:items-end sm:gap-4">
+              <PeriodSelector
+                selected={selectedTab}
+                onChange={(val) => setSelectedTab(val as 'weekly' | 'monthly' | 'yearly')}
+              />
+              <span className="text-sm sm:text-base text-gray-300">{periodText}</span>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* 영지별 성주 - 간단하게 */}
       {recentVictories.length > 0 && (
-        <div className="mb-8 bg-gradient-to-r from-slate-800/50 to-blue-900/50 p-6 rounded-2xl shadow-lg">
-          <h3 className="text-2xl font-bold mb-4 text-white flex items-center gap-2">
-            <span>🏆</span>
-            <span>영지별 성주</span>
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mb-8 bg-slate-800/30 rounded-lg p-4">
+          <h2 className="text-xl font-bold text-white mb-4 text-center">🏆 영지별 성주</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-center">
             {['칼페온', '메디아', '발렌시아'].map((region) => {
               const regionVictory = recentVictories
                 .filter(v => v.region === region)
                 .sort((a, b) => new Date(b.war_date).getTime() - new Date(a.war_date).getTime())[0]
-              const imageMap = {
-                '칼페온': '/war-records/calfeon.png',
-                '메디아': '/war-records/media.png',
-                '발렌시아': '/war-records/balencia.png'
-              }
 
               return (
-                <div key={region} className="bg-slate-800/50 rounded-xl p-4 hover:bg-slate-800/70 transition-colors">
-                  <div className="relative w-full h-65 mb-4 rounded-lg overflow-hidden">
+                <div key={region} className="bg-slate-700/50 rounded-lg p-3">
+                  {/* 지역 이미지 */}
+                  <div className="relative w-[120px] h-[140px] sm:w-[140px] sm:h-[160px] mx-auto mb-3">
                     <Image
-                      src={imageMap[region as keyof typeof imageMap]}
-                      alt={region}
+                      src={imageMap[region]}
+                      alt={region + ' 방패'}
                       fill
-                      className="object-cover"
+                      className="object-contain drop-shadow-xl"
                     />
                   </div>
-                  <div className="text-center">
-                    <h4 className="text-xl font-bold text-white mb-2">{region}</h4>
-                    {regionVictory ? (
-                      <div className="space-y-1">
-                        <p className="text-blue-300 font-semibold">{regionVictory.alliance_name}</p>
-                      </div>
-                    ) : (
-                      <p className="text-gray-400 text-sm">최근 승리 기록 없음</p>
-                    )}
+                  <div className="text-white font-bold mb-1">{region}</div>
+                  <div className="text-blue-300 text-sm">
+                    {regionVictory ? regionVictory.alliance_name : '데이터 없음'}
                   </div>
                 </div>
               )
@@ -325,6 +431,10 @@ export default function WarSummaryPage() {
         {renderTableByTier('무제한')}
         {renderTableByTier('2단')}
         {renderTableByTier('1단')}
+      </div>
+
+      <div className="mt-6 text-center text-gray-500 text-xs">
+        출처: <a href="https://discord.gg/korbdo" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">KOR BDO</a>
       </div>
     </div>
   )

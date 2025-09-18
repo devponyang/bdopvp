@@ -11,30 +11,32 @@ export async function GET(req: Request) {
   const client = await db.connect()
 
   try {
-    // 정확히 일치하는 우선 검색
+    // 검색 로그 저장
+    try {
+      const userIp = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown'
+      const userAgent = req.headers.get('user-agent') || 'unknown'
+      
+      await client.query(
+        'INSERT INTO search_logs (query, user_ip, user_agent) VALUES ($1, $2, $3)',
+        [q, userIp, userAgent]
+      )
+    } catch (logError) {
+      console.error('Failed to log search:', logError)
+      // 로깅 실패해도 검색은 계속 진행
+    }
+    // 정확히 일치하는 우선 검색 (길드만)
     const exactGuilds = await client.query(
       `SELECT name FROM guilds WHERE name = $1`,
       [q]
     )
 
-    const exactFamilies = await client.query(
-      `SELECT family_name FROM family_tracking WHERE family_name = $1`,
-      [q]
-    )
-
-    // 포함 검색 (한글 정규화 고려)
+    // 포함 검색 (길드만, 한글 정규화 고려)
     const partialGuilds = await client.query(
       `SELECT name FROM guilds WHERE name ILIKE $1`,
       [`%${q}%`]
     )
 
-    const partialFamilies = await client.query(
-      `SELECT family_name FROM family_tracking WHERE family_name ILIKE $1`,
-      [`%${q}%`]
-    )
-
     const guildMap = new Map<string, { type: 'guild'; name: string }>()
-    const famMap = new Map<string, { type: 'family'; name: string }>()
 
     exactGuilds.rows.forEach(row =>
       guildMap.set(row.name, { type: 'guild', name: row.name })
@@ -43,14 +45,7 @@ export async function GET(req: Request) {
       guildMap.set(row.name, { type: 'guild', name: row.name })
     )
 
-    exactFamilies.rows.forEach(row =>
-      famMap.set(row.family_name, { type: 'family', name: row.family_name })
-    )
-    partialFamilies.rows.forEach(row =>
-      famMap.set(row.family_name, { type: 'family', name: row.family_name })
-    )
-
-    const combined = [...guildMap.values(), ...famMap.values()].slice(0, 5)
+    const combined = [...guildMap.values()].slice(0, 5)
     return NextResponse.json(combined)
   } catch (err) {
     console.error('Search API Error:', err)

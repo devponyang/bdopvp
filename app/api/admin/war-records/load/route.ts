@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   try {
     const result = await client.query(
       `SELECT
-         COALESCE(a.name, '[미등록]') AS alliance_name,
+         COALESCE(a.name, '[해체된 연맹]') AS alliance_name,  -- ✅ 해체된 연맹은 해체 표시
          w.occupied_area,
          w.fort_stage,
          w.result

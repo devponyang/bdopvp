@@ -5,6 +5,9 @@ import { getSolareOverallRankChanges } from '@/lib/utils/solare-history'
 
 export const dynamic = 'force-dynamic'
 
+// 5분간 캐싱
+export const revalidate = 300
+
 export async function GET() {
   const client = await db.connect()
   try {

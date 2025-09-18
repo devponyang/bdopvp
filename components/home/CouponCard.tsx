@@ -6,9 +6,14 @@ import { useQuery } from '@tanstack/react-query'
 
 interface Coupon {
   code: string
+  title: string
+  description: string
+  start_date: string
   end_date: string
   status: 'active' | 'expired'
 }
+
+type CouponCardProps = { data?: Coupon[] }
 
 async function fetchCoupons(): Promise<Coupon[]> {
   const res = await fetch('/api/coupons')
@@ -21,12 +26,14 @@ const formatDate = (dateString: string) => {
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
 }
 
-const CouponCard = () => {
-  const { data: coupons = [], isLoading, error } = useQuery({
+const CouponCard = ({ data }: CouponCardProps) => {
+  const { data: coupons = data || [], isLoading, error } = useQuery({
     queryKey: ['coupons'],
     queryFn: fetchCoupons,
     staleTime: 3600 * 1000, // 1시간
     gcTime: 3600 * 1000, // 1시간
+    initialData: data,
+    enabled: !data, // 초기 데이터가 있으면 쿼리 비활성화
   })
 
   const copyToClipboard = async (code: string) => {
@@ -56,14 +63,14 @@ const CouponCard = () => {
   }
 
   return (
-    <div>
-      <div className="px-4 py-3 border-b border-slate-700/50">
+    <div className="bg-zinc-800 rounded-xl border border-black dark:border-zinc-700 shadow px-4 py-5 w-full max-w-[400px]">
+      <div className="px-4 py-3 border-b border-slate-700/50 rounded-t-xl -mx-4 -mt-5 mb-4">
         <h2 className="flex items-center justify-center gap-2 text-[20px] text-slate-300 font-bold tracking-wide">
           <span className="text-yellow-500 text-[22px]">🛠️</span>
           최신 쿠폰
         </h2>
       </div>
-      <div className="px-4 py-2 space-y-2">
+      <div className="space-y-2">
         {coupons
           .sort((a, b) => new Date(a.end_date).getTime() - new Date(b.end_date).getTime())
           .map((coupon) => (

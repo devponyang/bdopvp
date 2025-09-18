@@ -1,11 +1,20 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Card } from "@/components/card"
 import Image from "next/image"
 import { FaTrophy } from "react-icons/fa"
 import MemberTrendChart from "@/components/charts/MemberTrendChart"
 import RankTrendChart from "@/components/charts/RankTrendChart"
+import GuildAchievementsSection from "@/components/guild/GuildAchievementsSection"
+
+interface GuildMark {
+  id: number
+  guild_name: string
+  mark_url: string
+  created_at: string
+  updated_at: string
+}
 
 interface GuildDetail {
   name: string
@@ -18,6 +27,7 @@ interface GuildDetail {
   winRate: number
   updated_at: string
   icon_url?: string
+  alliance_name?: string
   members: string[]
   joinCount: number
   leaveCount: number
@@ -25,10 +35,29 @@ interface GuildDetail {
 }
 
 export default function GuildDetailClient({ guild }: { guild: GuildDetail }) {
+  const [guildMark, setGuildMark] = useState<GuildMark | null>(null)
+
   // ✅ 페이지 진입 시 스크롤 최상단으로 이동
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  // ✅ 길드마크 정보 가져오기
+  useEffect(() => {
+    const fetchGuildMark = async () => {
+      try {
+        const response = await fetch(`/api/guild-marks?guild_name=${encodeURIComponent(guild.name)}`)
+        if (response.ok) {
+          const mark = await response.json()
+          setGuildMark(mark)
+        }
+      } catch (error) {
+        console.error('길드마크 정보를 불러오는데 실패했습니다:', error)
+      }
+    }
+
+    fetchGuildMark()
+  }, [guild.name])
 
   const renderTrophy = () => {
     if (guild.rank === 1) return <FaTrophy className="w-4 h-4 inline text-yellow-400" title="1위" />
@@ -41,21 +70,58 @@ export default function GuildDetailClient({ guild }: { guild: GuildDetail }) {
     <div className="max-w-screen-xl mx-auto px-4 py-10 space-y-8">
       {/* 길드 기본 정보 */}
       <Card className="p-6 space-y-6">
-        <h1 className="text-3xl font-extrabold text-left">{guild.name}</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <h1 className="text-3xl font-extrabold text-left">{guild.name}</h1>
+          {guildMark && (
+            <div className="flex items-center gap-2">
+              <span className="sponsor-badge flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white text-sm font-medium rounded-full shadow-lg">
+                <Image
+                  src="/logo.png"
+                  alt="BDOPonyang 로고"
+                  width={20}
+                  height={20}
+                  className="object-contain"
+                />
+                후원
+              </span>
+            </div>
+          )}
+        </div>
         <div className="flex flex-col md:flex-row gap-6">
-          <div className="w-[130px] h-[130px] border-4 border-white flex items-center justify-center">
-            <Image
-              src={guild.icon_url || "/guild-icons/default.png"}
-              alt="길드 마크"
-              width={100}
-              height={100}
-              className="object-contain"
-            />
+          <div className="flex flex-col items-center gap-4">
+            {guildMark ? (
+              // 후원자 길드마크가 있는 경우 - 메인으로 표시
+              <div className="w-[130px] h-[130px] border-4 border-white flex items-center justify-center">
+                <Image
+                  src={guildMark.mark_url}
+                  alt="후원자 길드마크"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement
+                    target.src = '/guild-icons/default.png'
+                  }}
+                />
+              </div>
+            ) : (
+              // 후원자 길드마크가 없는 경우 - 기본 이미지 표시
+              <div className="w-[130px] h-[130px] border-4 border-white flex items-center justify-center">
+                <Image
+                  src={guild.icon_url || "/guild-icons/default.png"}
+                  alt="길드 마크"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                />
+              </div>
+            )}
           </div>
           <div className="flex-1 grid grid-cols-2 gap-2 text-sm md:text-base">
             <p><strong>인원 수 :</strong> {guild.member_count}명</p>
             <p><strong>길드리그 순위 :</strong> {guild.rank ?? "-"}위 {renderTrophy()}</p>
             <p><strong>대장 :</strong> {guild.leader}</p>
+            <p><strong>연맹 :</strong> {guild.alliance_name || "소속 연맹 없음"}</p>
             <p><strong>길드리그 전적 :</strong> {guild.wins}승 / {guild.losses}패 ({guild.winRate.toFixed(1)}%)
               {guild.winRate >= 70 && (
                 <span className="ml-2 px-2 py-0.5 text-xs bg-rose-600 text-white rounded-full">고승률🔥</span>
@@ -78,6 +144,9 @@ export default function GuildDetailClient({ guild }: { guild: GuildDetail }) {
           </div>
         </div>
       </Card>
+
+      {/* 길드 업적 */}
+      <GuildAchievementsSection guildName={guild.name} />
 
       {/* 길드원 목록 */}
       <Card className="p-6">

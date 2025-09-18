@@ -5,11 +5,11 @@ export async function GET() {
   const client = await db.connect()
   try {
     const result = await client.query(`
-      SELECT a.name AS name, a.tiers AS tiers, STRING_AGG(ag.guild_name, ',') AS guilds
+      SELECT a.name AS name, a.tiers AS tiers, STRING_AGG(ag.guild_name, ',') AS guilds, a.is_active
       FROM alliances a
       LEFT JOIN alliance_guilds ag ON ag.alliance_id = a.id
-      GROUP BY a.name, a.tiers
-      ORDER BY a.name
+      GROUP BY a.name, a.tiers, a.is_active
+      ORDER BY a.is_active DESC, a.name
     `)
 
     return NextResponse.json(result.rows.map(row => ({
@@ -18,6 +18,7 @@ export async function GET() {
       guilds: row.guilds
         ? row.guilds.split(',').map((g: string) => g.trim()).filter(Boolean)
         : [],
+      isActive: row.is_active ?? true, // ✅ is_active 정보 포함
     })))
   } catch (err) {
     console.error('Error loading alliances:', err)

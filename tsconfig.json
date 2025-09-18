@@ -31,6 +31,7 @@
     "lib",
     "components",
     "actions",
+    "hooks",
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",

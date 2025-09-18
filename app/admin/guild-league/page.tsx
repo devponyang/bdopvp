@@ -5,6 +5,7 @@ import SaveAllButton from './save-all-button'
 import { Calendar } from '@/components/ui/calendar'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
+import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
 
 interface GuildRow {
   id: number
@@ -21,6 +22,13 @@ export default function AdminGuildLeaguePage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
 
   const isPast = true
+  
+  // 키보드 내비게이션 (5열: 순위, 길드명, 승, 패, 점수)
+  const tableRef = useKeyboardNavigation({ 
+    rows: rows.length, 
+    cols: 5, 
+    disabled: !isPast 
+  })
 
   // 데이터 가져오기 함수
   const fetchData = async (targetDate: string) => {
@@ -91,7 +99,7 @@ export default function AdminGuildLeaguePage() {
             selected={selectedDate}
             onSelect={(date) => date && setSelectedDate(date)}
             locale={ko}
-            className="rounded-md border bg-zinc-900"
+            className="rounded-md border bg-white"
           />
         </div>
       </div>
@@ -112,7 +120,7 @@ export default function AdminGuildLeaguePage() {
         </div>
         <span>{format(selectedDate, 'yyyy-MM-dd')} 데이터 수정 중</span>
       </div>
-      <table className="w-full text-sm border border-zinc-700">
+      <table ref={tableRef} className="w-full text-sm border border-zinc-700">
         <thead className="bg-zinc-800 text-gray-300">
           <tr>
             <th className="p-2">순위</th>

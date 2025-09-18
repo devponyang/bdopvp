@@ -1,7 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { requireAdminAuth } from 'lib/auth'
+import { sanitizeString } from 'lib/validation'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  // 어드민 인증 확인
+  const authError = requireAdminAuth(req)
+  if (authError) return authError
+
   try {
     const client = await db.connect()
     
@@ -31,10 +37,36 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
+  // 어드민 인증 확인
+  const authError = requireAdminAuth(req)
+  if (authError) return authError
+
   try {
-    const body = await request.json()
+    const body = await req.json()
     const { code, title, description, start_date, end_date } = body
+
+    // 입력 검증
+    if (!code || !title || !start_date || !end_date) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      )
+    }
+
+    // 입력 값 정화
+    const sanitizedCode = sanitizeString(code)
+    const sanitizedTitle = sanitizeString(title)
+    const sanitizedDescription = description ? sanitizeString(description) : ''
+
+    // 날짜 형식 검증
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+    if (!dateRegex.test(start_date) || !dateRegex.test(end_date)) {
+      return NextResponse.json(
+        { error: 'Invalid date format. Use YYYY-MM-DD' },
+        { status: 400 }
+      )
+    }
 
     const client = await db.connect()
     
@@ -45,7 +77,7 @@ export async function POST(request: Request) {
         VALUES ($1, $2, $3, $4, $5)
         RETURNING *
         `,
-        [code, title, description, start_date, end_date]
+        [sanitizedCode, sanitizedTitle, sanitizedDescription, start_date, end_date]
       )
 
       return NextResponse.json(result.rows[0])

@@ -59,6 +59,17 @@ export async function GET(req: NextRequest) {
     const totalGames = guild.wins + guild.losses
     const winRate = totalGames > 0 ? (guild.wins / totalGames) * 100 : 0
 
+    // 연맹 정보 가져오기
+    const allianceRes = await db.query(`
+      SELECT a.name AS alliance_name
+      FROM alliance_guilds ag
+      JOIN alliances a ON ag.alliance_id = a.id
+      WHERE LOWER(ag.guild_name) = LOWER($1) AND a.is_active = TRUE
+      LIMIT 1
+    `, [name])
+
+    const allianceName = allianceRes.rows.length > 0 ? allianceRes.rows[0].alliance_name : null
+
     return NextResponse.json({
       name: guild.name,
       leader: guild.leader,
@@ -70,6 +81,7 @@ export async function GET(req: NextRequest) {
       winRate,
       updated_at: guild.updated_at,
       icon_url: null,
+      alliance_name: allianceName,
       members,
       joinCount,
       leaveCount,
