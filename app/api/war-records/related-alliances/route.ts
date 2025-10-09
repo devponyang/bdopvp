@@ -23,7 +23,7 @@ export async function GET(req: Request) {
       SELECT
         a.id,
         a.name AS alliance_name,
-        ARRAY_AGG(ag.guild_name ORDER BY ag.guild_name) AS guilds,
+        ARRAY_AGG(ag.guild_name ORDER BY ag.id) AS guilds,
         (
           SELECT COUNT(*) FILTER (WHERE w.result = '점령성공')
           FROM war_records w

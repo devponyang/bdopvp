@@ -41,8 +41,33 @@ export async function getSolareTop10(): Promise<Entry[]> {
         LIMIT 100
       `)
     } else {
-      // 활성 시즌이 없으면 빈 배열 반환
-      return []
+      // 활성 시즌이 없으면 가장 최근 시즌의 데이터 조회
+      const latestSeason = await client.query(`
+        SELECT id FROM solare_seasons 
+        ORDER BY season_number DESC 
+        LIMIT 1
+      `)
+      
+      if (latestSeason.rows.length > 0) {
+        const seasonId = latestSeason.rows[0].id
+        result = await client.query(`
+          SELECT
+            name,
+            subclass,
+            class,
+            wins,
+            draws,
+            losses,
+            score
+          FROM solare_overall_league_seasons
+          WHERE season_id = $1
+          ORDER BY score DESC
+          LIMIT 100
+        `, [seasonId])
+      } else {
+        // 시즌이 아예 없으면 빈 배열 반환
+        return []
+      }
     }
 
     const ranked = result.rows.map((row, index) => ({

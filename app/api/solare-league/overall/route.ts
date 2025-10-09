@@ -13,15 +13,18 @@ export async function GET() {
   try {
     const result = await client.query(`
       SELECT
-        name,
-        subclass,
-        class,
-        wins,
-        draws,
-        losses,
-        score
-      FROM solare_overall_league
-      ORDER BY score DESC
+        s.name,
+        s.subclass,
+        s.class,
+        s.wins,
+        s.draws,
+        s.losses,
+        s.score,
+        g.name AS guild_name
+      FROM solare_overall_league s
+      LEFT JOIN guild_members gm ON s.name = gm.family_name
+      LEFT JOIN guilds g ON gm.guild_id = g.id
+      ORDER BY s.score DESC
       LIMIT 100
     `)
 
@@ -31,7 +34,19 @@ export async function GET() {
     }))
 
     const withRankChanges = await getSolareOverallRankChanges(today)
-    return NextResponse.json(withRankChanges)
+    
+    // 마지막 업데이트 시간 조회 (테이블의 updated_at 컬럼 사용)
+    const updateTimeResult = await client.query(`
+      SELECT MAX(updated_at) as last_updated 
+      FROM solare_overall_league
+    `)
+    
+    const lastUpdated = updateTimeResult.rows[0]?.last_updated || null
+    
+    return NextResponse.json({
+      data: withRankChanges,
+      lastUpdated
+    })
   } catch (err) {
     console.error('[solare_overall_league GET]', err)
     return new NextResponse('서버 오류', { status: 500 })

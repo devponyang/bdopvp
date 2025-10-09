@@ -23,7 +23,7 @@ import {
 const WAR_TYPES = ['거점전', '점령전'] as const
 const NODE_REGIONS = ['발레노스', '세렌디아', '칼페온', '카마실비아', '메디아', '발렌시아']
 const SIEGE_REGIONS = ['칼페온', '발렌시아', '메디아']
-const RESULTS = ['점령성공', '점령실패']
+const RESULTS = ['점령성공', '점령실패', '진행중']
 const TIERS = ['무제한', '2단', '1단']
 
 type WarType = (typeof WAR_TYPES)[number]
@@ -64,7 +64,7 @@ export default function AdminWarRecordsPage() {
     alliance_name: '',
     fort_stage: null,
     occupied_area: '',
-    result: '점령실패',
+    result: '진행중',
   }))
 
   const updateRecord = <K extends keyof RecordRow>(idx: number, key: K, value: RecordRow[K]) => {
@@ -208,6 +208,19 @@ export default function AdminWarRecordsPage() {
     [alliances]
   )
 
+  // 정렬된 전투기록 생성 (점령성공이 맨 위로) - 인덱스 매핑 방식
+  const sortedRows = useMemo(() => {
+    // 원본 인덱스와 함께 정렬
+    const indexedRows = rows.map((row, index) => ({ ...row, originalIndex: index }))
+    
+    return indexedRows.sort((a, b) => {
+      const resultOrder = { '점령성공': 0, '진행중': 1, '점령실패': 2 }
+      const aOrder = resultOrder[a.result as keyof typeof resultOrder] ?? 3
+      const bOrder = resultOrder[b.result as keyof typeof resultOrder] ?? 3
+      return aOrder - bOrder
+    })
+  }, [rows])
+
   return (
     <div className="p-6 max-w-screen-xl mx-auto space-y-8 bg-gray-900 rounded-2xl">
       {/* 전투 기록 */}
@@ -260,10 +273,10 @@ export default function AdminWarRecordsPage() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((row, idx) => (
-                <tr key={idx}>
+              {sortedRows.map((row) => (
+                <tr key={row.originalIndex}>
                   <td className="border px-2 py-1 text-white font-semibold">
-                    <Input value={row.alliance_name} onChange={(e) => updateRecord(idx, 'alliance_name', e.target.value)} />
+                    <Input value={row.alliance_name} onChange={(e) => updateRecord(row.originalIndex, 'alliance_name', e.target.value)} />
                   </td>
                   <td className="border px-2 py-1">
                     <Input
@@ -271,14 +284,14 @@ export default function AdminWarRecordsPage() {
                       min={1}
                       max={5}
                       value={row.fort_stage ?? ''}
-                      onChange={(e) => updateRecord(idx, 'fort_stage', Number(e.target.value))}
+                      onChange={(e) => updateRecord(row.originalIndex, 'fort_stage', Number(e.target.value))}
                     />
                   </td>
                   <td className="border px-2 py-1 text-white font-semibold">
-                    <Input value={row.occupied_area} onChange={(e) => updateRecord(idx, 'occupied_area', e.target.value)} />
+                    <Input value={row.occupied_area} onChange={(e) => updateRecord(row.originalIndex, 'occupied_area', e.target.value)} />
                   </td>
                   <td className="border px-2 py-1 text-white font-semibold">
-                    <Select value={row.result} onValueChange={(val) => updateRecord(idx, 'result', val)}>
+                    <Select value={row.result} onValueChange={(val) => updateRecord(row.originalIndex, 'result', val)}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
                         {RESULTS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
@@ -294,7 +307,7 @@ export default function AdminWarRecordsPage() {
             <Button onClick={() => setRecords(prev => ({
               ...prev,
               [getKey()]: [...(records[getKey()] ?? []), {
-                alliance_name: '', fort_stage: null, occupied_area: '', result: '점령실패'
+                alliance_name: '', fort_stage: null, occupied_area: '', result: '진행중'
               }]
             }))}>
               + 기록 추가

@@ -8,7 +8,6 @@ import ClassSelector from './ClassSelector'
 import SeasonSelector from './SeasonSelector'
 import PonyangLoading from '../../app/components/PonyangLoading'
 import ErrorMessage from '../../app/components/ErrorMessage'
-import { Card } from '@/components/card'
 
 interface Entry {
   name: string
@@ -20,6 +19,7 @@ interface Entry {
   score: number
   tier: string
   rankChange?: string // ✅ 순위 변동
+  guild_name?: string | null
 }
 
 export default function SolareClassClient() {
@@ -30,6 +30,7 @@ export default function SolareClassClient() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [updateDate, setUpdateDate] = useState('')
+  const [lastUpdateTime, setLastUpdateTime] = useState('')
   const [selectedSeasonId, setSelectedSeasonId] = useState<number | null>(null)
 
   useEffect(() => {
@@ -61,7 +62,27 @@ export default function SolareClassClient() {
         } catch (jsonError) {
           throw new Error('서버에서 잘못된 응답을 받았습니다.')
         }
-        setData(result)
+        
+        // API 응답이 새 형식(객체)인지 기존 형식(배열)인지 확인
+        if (Array.isArray(result)) {
+          // 기존 형식 (배열)
+          setData(result)
+        } else {
+          // 새 형식 (객체)
+          setData(result.data)
+          
+          // 업데이트 시간 설정
+          if (result.lastUpdated) {
+            const updateTime = new Date(result.lastUpdated)
+            const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+            setUpdateDate(kstDate.toISOString().split('T')[0])
+            setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
+              timeZone: 'Asia/Seoul',
+              hour: '2-digit',
+              minute: '2-digit'
+            }))
+          }
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : '데이터를 불러오는 중 오류가 발생했습니다.')
         setData(null)
@@ -87,41 +108,109 @@ export default function SolareClassClient() {
           const res = await fetch(url)
           if (res.ok) {
             const result = await res.json()
-            setData(result)
+            // API 응답이 새 형식(객체)인지 기존 형식(배열)인지 확인
+            if (Array.isArray(result)) {
+              setData(result)
+            } else {
+              setData(result.data)
+              if (result.lastUpdated) {
+                const updateTime = new Date(result.lastUpdated)
+                const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+                setUpdateDate(kstDate.toISOString().split('T')[0])
+                setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
+                  timeZone: 'Asia/Seoul',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }))
+              }
+            }
           } else {
             throw new Error(`API 요청 실패: ${res.status}`)
           }
           setLoading(false)
-        } else {
-          // URL에 시즌 ID가 없으면 활성 시즌 확인 후 데이터 로드
-          const response = await fetch('/api/admin/solare/seasons')
-          const seasons = await response.json()
-          const activeSeason = seasons.find((season: any) => season.is_active)
-          
-          if (activeSeason) {
-            setSelectedSeasonId(activeSeason.id)
-            // 직접 시즌 데이터 로드
-            try {
-              setLoading(true)
-              setError(null)
-              const url = `/api/solare-league/class-season?class=${encodeURIComponent(className)}&seasonId=${activeSeason.id}`
-              const res = await fetch(url)
-              if (res.ok) {
-                const result = await res.json()
-                setData(result)
-              } else {
-                throw new Error(`API 요청 실패: ${res.status}`)
-              }
-            } catch (err) {
-              console.error('시즌 데이터 로딩 오류:', err)
-              fetchData() // 실패 시 기본 데이터로 폴백
-            } finally {
-              setLoading(false)
-            }
           } else {
-            fetchData() // 활성 시즌이 없으면 기본 데이터
+            // URL에 시즌 ID가 없으면 활성 시즌 확인 후 데이터 로드
+            const response = await fetch('/api/admin/solare/seasons')
+            const seasons = await response.json()
+            const activeSeason = seasons.find((season: any) => season.is_active)
+            
+            if (activeSeason) {
+              setSelectedSeasonId(activeSeason.id)
+              // 직접 시즌 데이터 로드
+              try {
+                setLoading(true)
+                setError(null)
+                const url = `/api/solare-league/class-season?class=${encodeURIComponent(className)}&seasonId=${activeSeason.id}`
+                const res = await fetch(url)
+                if (res.ok) {
+                  const result = await res.json()
+                  if (Array.isArray(result)) {
+                    setData(result)
+                  } else {
+                    setData(result.data)
+                    if (result.lastUpdated) {
+                      const updateTime = new Date(result.lastUpdated)
+                      const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+                      setUpdateDate(kstDate.toISOString().split('T')[0])
+                      setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
+                        timeZone: 'Asia/Seoul',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      }))
+                    }
+                  }
+                } else {
+                  throw new Error(`API 요청 실패: ${res.status}`)
+                }
+              } catch (err) {
+                console.error('시즌 데이터 로딩 오류:', err)
+                fetchData() // 실패 시 기본 데이터로 폴백
+              } finally {
+                setLoading(false)
+              }
+            } else {
+              // 활성 시즌이 없으면 가장 최근 시즌을 기본값으로 설정
+              const sortedSeasons = seasons.sort((a: any, b: any) => b.season_number - a.season_number)
+              if (sortedSeasons.length > 0) {
+                const latestSeason = sortedSeasons[0]
+                setSelectedSeasonId(latestSeason.id)
+                // 직접 시즌 데이터 로드
+                try {
+                  setLoading(true)
+                  setError(null)
+                  const url = `/api/solare-league/class-season?class=${encodeURIComponent(className)}&seasonId=${latestSeason.id}`
+                  const res = await fetch(url)
+                  if (res.ok) {
+                    const result = await res.json()
+                    if (Array.isArray(result)) {
+                      setData(result)
+                    } else {
+                      setData(result.data)
+                      if (result.lastUpdated) {
+                        const updateTime = new Date(result.lastUpdated)
+                        const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+                        setUpdateDate(kstDate.toISOString().split('T')[0])
+                        setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
+                          timeZone: 'Asia/Seoul',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }))
+                      }
+                    }
+                  } else {
+                    throw new Error(`API 요청 실패: ${res.status}`)
+                  }
+                } catch (err) {
+                  console.error('시즌 데이터 로딩 오류:', err)
+                  fetchData() // 실패 시 기본 데이터로 폴백
+                } finally {
+                  setLoading(false)
+                }
+              } else {
+                fetchData() // 시즌이 아예 없으면 기본 데이터
+              }
+            }
           }
-        }
       } catch (error) {
         console.error('초기 데이터 로딩 오류:', error)
         fetchData() // 오류 시 기본 데이터
@@ -129,11 +218,6 @@ export default function SolareClassClient() {
     }
 
     loadInitialData()
-
-    // Fetch the update date (KST)
-    const currentDate = new Date()
-    const kstDate = new Date(currentDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
-    setUpdateDate(kstDate.toISOString().split('T')[0]) // YYYY-MM-DD 형식으로 표시
   }, [className, searchParams])
 
   const handleSeasonChange = useCallback(async (seasonId: number | null) => {
@@ -162,7 +246,23 @@ export default function SolareClassClient() {
       } catch (jsonError) {
         throw new Error('서버에서 잘못된 응답을 받았습니다.')
       }
-      setData(result)
+      
+      // API 응답이 새 형식(객체)인지 기존 형식(배열)인지 확인
+      if (Array.isArray(result)) {
+        setData(result)
+      } else {
+        setData(result.data)
+        if (result.lastUpdated) {
+          const updateTime = new Date(result.lastUpdated)
+          const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+          setUpdateDate(kstDate.toISOString().split('T')[0])
+          setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
+            timeZone: 'Asia/Seoul',
+            hour: '2-digit',
+            minute: '2-digit'
+          }))
+        }
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : '데이터를 불러오는 중 오류가 발생했습니다.')
       setData(null)
@@ -196,22 +296,64 @@ export default function SolareClassClient() {
   )
 
   return (
-    <Card className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
-      <div className="bg-gradient-to-r from-slate-800/50 to-blue-900/50 p-3 md:p-6 rounded-2xl shadow-lg flex items-center justify-center mb-2">
-        <h2 className="text-2xl md:text-4xl text-center font-bold text-white flex items-center gap-2 m-0">
-          <span className="text-2xl md:text-4xl">🌟</span>
-          <span className="text-lg md:text-4xl">솔라레의 창 - {className} 순위</span>
-        </h2>
+    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+      {/* 메인 헤더 */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-red-500/20 rounded-3xl blur-sm"></div>
+        <div className="relative bg-gradient-to-r from-slate-800/80 to-blue-900/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-2xl border border-white/10">
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="text-4xl md:text-6xl animate-pulse">⚔️</div>
+              <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
+                솔라레의 창 - {className}
+              </h1>
+              <div className="text-4xl md:text-6xl">🏆</div>
+            </div>
+            <div className="text-lg md:text-xl text-blue-300 font-medium">
+              {className} 클래스 순위
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-300">
+              <span className="px-3 py-1 bg-blue-600/30 rounded-full border border-blue-400/30">
+                ⏰ 매일 오전 업데이트
+              </span>
+              {updateDate && (
+                <span className="px-3 py-1 bg-purple-600/30 rounded-full border border-purple-400/30">
+                  📅 {updateDate} {lastUpdateTime && `(${lastUpdateTime})`}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="flex justify-between w-full text-sm text-white mt-2 px-2 mb-4">
-        <span>⏰ 매일 오전 중에 업데이트 중입니다.</span>
-        <span>📅 {updateDate}</span>
+
+      {/* 컨트롤 패널 */}
+      <div className="mt-8 mb-6">
+        <div className="bg-gradient-to-r from-slate-800/60 to-blue-900/60 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <SeasonSelector onSeasonChange={handleSeasonChange} selectedSeasonId={selectedSeasonId} />
+            <ClassSelector selectedSeasonId={selectedSeasonId} />
+          </div>
+        </div>
       </div>
-      <div className="flex justify-between items-center mb-4">
-        <SeasonSelector onSeasonChange={handleSeasonChange} selectedSeasonId={selectedSeasonId} />
-        <ClassSelector selectedSeasonId={selectedSeasonId} />
+
+      {/* 안내 문구 */}
+      <div className="mb-6">
+        <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm p-4 rounded-xl border border-blue-400/30 shadow-lg">
+          <div className="flex items-center justify-center gap-2 text-sm md:text-base text-blue-200">
+            <span className="text-xl">💡</span>
+            <span className="font-medium">
+              <span className="hidden md:inline">가문명을 클릭하면</span>
+              <span className="md:hidden">카드를 터치하면</span>
+              {' '}해당 플레이어의 <span className="text-yellow-300 font-bold">특화</span>를 확인할 수 있습니다!
+            </span>
+          </div>
+        </div>
       </div>
-      <SolareTable data={data} />
-    </Card>
+
+      {/* 랭킹 테이블 */}
+      <div className="relative bg-slate-800/40 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/10 overflow-hidden">
+        <SolareTable data={data} />
+      </div>
+    </div>
   )
 }

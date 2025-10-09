@@ -124,6 +124,106 @@ export default function AdminDashboard() {
             <p className="text-gray-400 text-sm">거점/점령전 옵저버 스트리머를 관리합니다.</p>
           </div>
         </Link>
+
+        <Link href="/admin/master-class" className="group">
+          <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700 hover:border-blue-500 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center">
+                <img 
+                  src="/ponyang/masterclass.png" 
+                  alt="마스터클래스" 
+                  className="w-6 h-6 object-contain"
+                />
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">마스터클래스 관리</h3>
+            </div>
+            <p className="text-gray-400 text-sm">2025 마스터클래스 대회 정보를 관리합니다.</p>
+          </div>
+        </Link>
+
+        <Link href="/admin/alliances" className="group">
+          <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700 hover:border-blue-500 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                <span className="text-xl">🤝</span>
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">동맹 관리</h3>
+            </div>
+            <p className="text-gray-400 text-sm">길드 동맹 정보를 관리합니다.</p>
+          </div>
+        </Link>
+
+        <Link href="/admin/guild-league/seasons" className="group">
+          <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700 hover:border-blue-500 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
+                <span className="text-xl">📅</span>
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">길드 리그 시즌</h3>
+            </div>
+            <p className="text-gray-400 text-sm">길드 리그 시즌 정보를 관리합니다.</p>
+          </div>
+        </Link>
+
+        <Link href="/admin/solare/seasons" className="group">
+          <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700 hover:border-blue-500 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-violet-600 rounded-lg flex items-center justify-center">
+                <span className="text-xl">📅</span>
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">솔라레 시즌</h3>
+            </div>
+            <p className="text-gray-400 text-sm">솔라레의 창 시즌 정보를 관리합니다.</p>
+          </div>
+        </Link>
+
+        <Link href="/admin/solare/specializations" className="group">
+          <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700 hover:border-blue-500 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-cyan-600 rounded-lg flex items-center justify-center">
+                <span className="text-xl">⚔️</span>
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">솔라레 전문화</h3>
+            </div>
+            <p className="text-gray-400 text-sm">솔라레의 창 전문화 정보를 관리합니다.</p>
+          </div>
+        </Link>
+
+        <Link href="/admin/tip-board/write" className="group">
+          <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700 hover:border-blue-500 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+                <span className="text-xl">✍️</span>
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">팁 게시글 작성</h3>
+            </div>
+            <p className="text-gray-400 text-sm">새로운 팁 게시글을 작성합니다.</p>
+          </div>
+        </Link>
+
+        <Link href="/admin/banners/new" className="group">
+          <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700 hover:border-blue-500 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-rose-600 rounded-lg flex items-center justify-center">
+                <span className="text-xl">➕</span>
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">배너 추가</h3>
+            </div>
+            <p className="text-gray-400 text-sm">새로운 배너를 추가합니다.</p>
+          </div>
+        </Link>
+
+        <Link href="/admin/war-records/notification-test" className="group">
+          <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700 hover:border-blue-500 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-slate-600 rounded-lg flex items-center justify-center">
+                <span className="text-xl">🔔</span>
+              </div>
+              <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">알림 테스트</h3>
+            </div>
+            <p className="text-gray-400 text-sm">전투 알림 시스템을 테스트합니다.</p>
+          </div>
+        </Link>
       </div>
 
       {/* 트래픽 통계 */}
@@ -169,6 +269,12 @@ export default function AdminDashboard() {
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             홈페이지 열기
+          </button>
+          <button 
+            onClick={() => window.open('/master-class', '_blank')}
+            className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+          >
+            마스터클래스 페이지
           </button>
           <button 
             onClick={() => window.location.reload()}

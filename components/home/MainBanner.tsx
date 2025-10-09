@@ -55,7 +55,7 @@ export default function MainBanner() {
   // 로딩 상태
   if (isLoading) {
     return (
-      <div className="relative w-full h-32 md:h-40 lg:h-48 mb-4 md:mb-6">
+      <div className="relative w-full h-40 md:h-48 lg:h-56 mb-4 md:mb-6">
         <div className="w-full h-full rounded-xl bg-gradient-to-r from-gray-700 to-gray-800 animate-pulse flex items-center justify-center">
           <div className="text-white text-lg">배너 로딩 중...</div>
         </div>
@@ -85,14 +85,12 @@ export default function MainBanner() {
   }
 
   return (
-    <div className="relative w-full h-32 md:h-40 lg:h-48 mb-4 md:mb-6">
+    <div className="relative w-full h-40 md:h-48 lg:h-56 mb-4 md:mb-6">
       {/* 메인 배너 */}
       <div 
         className="relative w-full h-full rounded-xl overflow-hidden cursor-pointer group"
         onClick={() => handleBannerClick(currentBannerData)}
       >
-        {/* 배경 그라데이션 - 라이트모드와 다크모드 모두 고려 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/90 via-purple-600/90 to-indigo-600/90 dark:from-blue-900/80 dark:via-purple-900/80 dark:to-indigo-900/80 z-10" />
         
         {/* 배경 이미지 */}
         {currentBannerData.image_url && (
@@ -100,25 +98,33 @@ export default function MainBanner() {
             src={currentBannerData.image_url}
             alt={currentBannerData.title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-contain md:object-cover transition-transform duration-700 group-hover:scale-105"
             priority={currentBanner === 0}
           />
         )}
         
-        {/* 컨텐츠 */}
-        <div className="relative z-20 h-full flex items-center px-4 md:px-6 lg:px-8">
-          <div className="max-w-2xl ml-4 md:ml-6 lg:ml-8">
-            <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-white mb-1 md:mb-2 drop-shadow-lg">
-              {currentBannerData.title}
-            </h1>
-            <p className="text-xs md:text-sm lg:text-base text-gray-100 dark:text-gray-200 mb-2 md:mb-3 max-w-lg drop-shadow-md">
-              {currentBannerData.description}
-            </p>
-            <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-4 py-2 text-sm rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg">
-              {currentBannerData.button_text} →
-            </button>
+        {/* 컨텐츠 - 제목이나 설명이 있을 때만 표시 */}
+        {(currentBannerData.title.trim() !== '' || currentBannerData.description.trim() !== '') && (
+          <div className="relative z-20 h-full flex items-center px-4 md:px-6 lg:px-8">
+            <div className="max-w-2xl ml-4 md:ml-6 lg:ml-8">
+              {currentBannerData.title.trim() !== '' && (
+                <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-white mb-1 md:mb-2 drop-shadow-lg">
+                  {currentBannerData.title}
+                </h1>
+              )}
+              {currentBannerData.description.trim() !== '' && (
+                <p className="text-xs md:text-sm lg:text-base text-gray-100 dark:text-gray-200 mb-2 md:mb-3 max-w-lg drop-shadow-md">
+                  {currentBannerData.description}
+                </p>
+              )}
+              {currentBannerData.button_text.trim() !== '' && (
+                <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-4 py-2 text-sm rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg">
+                  {currentBannerData.button_text} →
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 오버레이 효과 */}
         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />

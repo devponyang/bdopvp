@@ -56,10 +56,29 @@ export default async function SolareTop10() {
             const changeColor = getRankChangeStyle(rankChange)
 
             return (
-              <tr key={`${e.name}-${e.rank}`} className="h-[42px] border-b border-gray-500">
+              <tr 
+                key={`${e.name}-${e.rank}`} 
+                className="h-[42px] border-b border-gray-500"
+                style={e.rank <= 3 ? {
+                  backgroundImage: `url('/ponyang/${e.rank}st-bg.png')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                } : {}}
+              >
                 <td className="px-2 py-2">
                   <div className="flex items-center justify-center gap-1">
-                    <span className="w-6 text-right">{e.rank}</span>
+                    {e.rank <= 3 ? (
+                      <Image
+                        src={`/ponyang/${e.rank}st.png`}
+                        alt={`${e.rank}등`}
+                        width={36}
+                        height={36}
+                        className="inline relative top-1"
+                      />
+                    ) : (
+                      <span className="w-6 text-right">{e.rank}</span>
+                    )}
                     <span className={`w-6 text-left text-xs ${changeColor}`}>{rankChange}</span>
                   </div>
                 </td>
@@ -75,7 +94,78 @@ export default async function SolareTop10() {
                 </td>
 
                 <td className="px-2 py-1 whitespace-nowrap text-white-300">{e.name}</td>
-                <td className="px-2 py-1 whitespace-nowrap">{e.class}</td>
+                <td className="px-2 py-1 whitespace-nowrap">
+                  <div className="flex items-center justify-center gap-1">
+                    {e.subclass === '전승' && (
+                      <Image
+                        src="/ponyang/ac.png"
+                        alt="전승"
+                        width={20}
+                        height={20}
+                        className="inline"
+                      />
+                    )}
+                    {e.subclass === '각성' && (
+                      <Image
+                        src="/ponyang/aw.png"
+                        alt="각성"
+                        width={20}
+                        height={20}
+                        className="inline"
+                      />
+                    )}
+                    {(!e.subclass || (e.subclass !== '전승' && e.subclass !== '각성')) && (
+                      <>
+                        {e.class === '샤이' && (
+                          <Image
+                            src="/ponyang/shai.png"
+                            alt="샤이"
+                            width={20}
+                            height={20}
+                            className="inline"
+                          />
+                        )}
+                        {e.class === '스칼라' && (
+                          <Image
+                            src="/ponyang/scara.png"
+                            alt="스칼라"
+                            width={20}
+                            height={20}
+                            className="inline"
+                          />
+                        )}
+                        {e.class === '아처' && (
+                          <Image
+                            src="/ponyang/archer.png"
+                            alt="아처"
+                            width={20}
+                            height={20}
+                            className="inline"
+                          />
+                        )}
+                        {e.class === '오공' && (
+                          <Image
+                            src="/ponyang/ukong.png"
+                            alt="오공"
+                            width={20}
+                            height={20}
+                            className="inline"
+                          />
+                        )}
+                        {e.class === '데드아이' && (
+                          <Image
+                            src="/ponyang/dead.png"
+                            alt="데드아이"
+                            width={20}
+                            height={20}
+                            className="inline"
+                          />
+                        )}
+                      </>
+                    )}
+                    <span>{e.class}</span>
+                  </div>
+                </td>
                 <td className="px-2 py-1 whitespace-nowrap">{winRate}%</td>
                 <td className="px-2 py-1 whitespace-nowrap">{e.score}</td>
               </tr>

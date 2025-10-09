@@ -40,7 +40,12 @@ export default function SeasonSelector({ onSeasonChange, selectedSeasonId }: Sea
           if (activeSeason) {
             setSelectedSeason(activeSeason.id.toString())
           } else {
-            setSelectedSeason('current')
+            // 활성 시즌이 없으면 가장 최근 시즌을 기본값으로 설정
+            if (sortedSeasons.length > 0) {
+              setSelectedSeason(sortedSeasons[0].id.toString())
+            } else {
+              setSelectedSeason('current')
+            }
           }
         }
       } catch (error) {
@@ -53,24 +58,18 @@ export default function SeasonSelector({ onSeasonChange, selectedSeasonId }: Sea
 
   // 부모 컴포넌트에서 전달받은 selectedSeasonId에 따라 UI 업데이트
   useEffect(() => {
-    console.log('SeasonSelector - selectedSeasonId 변경:', selectedSeasonId)
     if (selectedSeasonId === null) {
-      console.log('SeasonSelector - current로 설정')
       setSelectedSeason('current')
     } else if (selectedSeasonId) {
-      console.log('SeasonSelector - 시즌ID로 설정:', selectedSeasonId.toString())
       setSelectedSeason(selectedSeasonId.toString())
     }
   }, [selectedSeasonId])
 
   const handleSeasonChange = (value: string) => {
-    console.log('SeasonSelector - handleSeasonChange 호출:', value)
     setSelectedSeason(value)
     if (value === 'current') {
-      console.log('SeasonSelector - 현재 시즌으로 변경')
       onSeasonChange(null) // 현재 시즌
     } else {
-      console.log('SeasonSelector - 시즌', parseInt(value), '으로 변경')
       onSeasonChange(parseInt(value))
     }
   }

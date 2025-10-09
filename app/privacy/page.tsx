@@ -57,7 +57,7 @@ export default function PrivacyPage() {
         <li><strong>광고 차단:</strong> 사용자는 브라우저 설정 또는 광고 차단 도구를 통해 광고 표시를 제한할 수 있습니다.</li>
         <li><strong>개인화 광고 거부:</strong> Google 광고 설정(www.google.com/settings/ads)에서 개인화 광고를 거부할 수 있습니다.</li>
       </ul>
-      <p className="mb-4 text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded">
+      <p className="mb-4 text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 p-3 rounded">
         <strong>참고:</strong> 광고 서비스 제공업체는 자체 개인정보 처리방침을 가지고 있으며, 해당 업체의 정책에 따라 개인정보가 처리될 수 있습니다. 자세한 내용은 각 업체의 개인정보 처리방침을 확인해 주세요.
       </p>
       

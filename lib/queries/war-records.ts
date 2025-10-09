@@ -83,7 +83,7 @@ export async function getAlliancesWithGuilds() {
       `SELECT
          a.name AS alliance_name,
          a.tiers AS tiers,
-         ARRAY_AGG(ag.guild_name) AS guilds
+         ARRAY_AGG(ag.guild_name ORDER BY ag.id) AS guilds
        FROM alliances a
        LEFT JOIN alliance_guilds ag ON ag.alliance_id = a.id
        WHERE a.is_active = TRUE

@@ -8,9 +8,9 @@ import NodeWarScheduleCard from '@/components/home/NodeWarScheduleCard'
 import GuildLeagueTop10Server from '@/components/home/GuildLeagueTop10Server'
 import SolareTop10 from '@/components/home/SolareTop10'
 import ChzzkCard from '@/components/home/ChzzkCard'
-import HomeWithNotice from './components/HomeWithNotice'
 import SidebarBanner from '@/components/banners/SidebarBanner'
 import CardBanner from '@/components/banners/CardBanner'
+import HomeWithNotice from './components/HomeWithNotice'
 import { db } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
@@ -67,23 +67,23 @@ export default async function Home() {
     <HomeWithNotice>
       <main className="bg-zinc-900 text-white">
         {/* 메인 배너 */}
-        <div className="pt-6 md:pt-10">
-          <div className="max-w-full md:max-w-[1490px] mx-auto px-4 md:px-5">
+        <div className="pt-4 sm:pt-6 md:pt-10">
+          <div className="max-w-full md:max-w-[1490px] mx-auto px-2 sm:px-4 md:px-5">
             <MainBanner />
           </div>
         </div>
 
         {/* 기존 컨텐츠 */}
         <div className="pb-6 md:pb-10">
-          <div className="max-w-full md:max-w-[1490px] mx-auto px-4 md:px-5 grid gap-4 md:gap-5
+          <div className="max-w-full md:max-w-[1490px] mx-auto px-3 sm:px-4 md:px-5 grid gap-3 sm:gap-4 md:gap-5
                         grid-cols-1
                         lg:grid-cols-[300px_1fr_440px]">
             
             {/* 모바일/태블릿: 좌측 사이드바 */}
-            <aside className="space-y-4 md:space-y-6 lg:col-span-1 order-1 lg:order-1">
-              {/* 후원 배너 */}
-              <a href="/support" className="block bg-zinc-800 text-white font-bold text-lg md:text-xl rounded-lg border border-zinc-600 shadow-sm py-3 md:py-4 px-2 text-center hover:bg-zinc-600 transition-all">
-                포냥이 후원하기
+            <aside className="space-y-3 sm:space-y-4 md:space-y-6 lg:col-span-1 order-1 lg:order-1">
+              {/* 디스코드 배너 */}
+              <a href="https://discord.com/invite/mD37c4GEby" target="_blank" rel="noopener noreferrer" className="block bg-zinc-800 text-white font-bold text-base sm:text-lg md:text-xl rounded-lg border border-zinc-600 shadow-sm py-2 sm:py-3 md:py-4 px-2 text-center hover:bg-zinc-600 transition-all">
+                포냥이 디스코드
               </a>
               
               {/* 사이드바 광고 배너 */}
@@ -95,23 +95,24 @@ export default async function Home() {
               <CardBanner position="home" />
               
               <CouponCard data={initialData.coupons} />
+              {/* 치지직 스트리머 카드 */}
               <div className="hidden md:block">
                 <ChzzkCard />
               </div>
             </aside>
 
             {/* 중앙: 거점전 + PvP */}
-            <section className="space-y-4 md:space-y-6 lg:col-span-1 flex flex-col items-center order-2 lg:order-2">
-              <div className="w-full max-w-[710px] mx-auto">
+            <section className="space-y-3 sm:space-y-4 md:space-y-6 lg:col-span-1 flex flex-col items-center order-2 lg:order-2">
+              <div className="w-full max-w-full sm:max-w-[710px] mx-auto">
                 <NodeWarScheduleCard />
               </div>
-              <div className="w-full max-w-[710px] mx-auto">
+              <div className="w-full max-w-full sm:max-w-[710px] mx-auto">
                 <PvPScheduleCard />
               </div>
             </section>
 
             {/* 우측: 길드 리그 / 솔라레 */}
-            <aside className="space-y-4 md:space-y-6 lg:col-span-1 order-3 lg:order-3">
+            <aside className="space-y-3 sm:space-y-4 md:space-y-6 lg:col-span-1 order-3 lg:order-3">
               <GuildLeagueTop10Server />
               
               {/* 우측 사이드바 광고 배너 */}

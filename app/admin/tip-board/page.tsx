@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { CLASS_EMOJIS, getCategoryFromTags, getClassFromTags } from '@/lib/constants/tip-categories'
 
 interface TipPost {
   id: number
@@ -68,7 +69,8 @@ export default function AdminTipBoardManagePage() {
           <table className="w-full text-left border-separate border-spacing-y-2">
             <thead>
               <tr className="text-blue-300 text-sm">
-                <th className="w-1/2 px-2">제목</th>
+                <th className="w-2/5 px-2">제목</th>
+                <th className="w-1/5 px-2">카테고리</th>
                 <th className="w-1/6 px-2">작성자</th>
                 <th className="w-1/6 px-2">작성일</th>
                 <th className="w-1/6 px-2">관리</th>
@@ -78,15 +80,36 @@ export default function AdminTipBoardManagePage() {
               {posts.map(post => (
                 <tr key={post.id} className="bg-zinc-800 hover:bg-zinc-700 transition border-b border-zinc-700">
                   <td className="px-2 py-2 font-semibold text-blue-200 truncate">{post.title}</td>
+                  <td className="px-2 py-2 text-sm">
+                    <div className="flex flex-col gap-1">
+                      <span className="px-2 py-1 bg-blue-900/50 text-blue-300 rounded text-xs">
+                        {getCategoryFromTags(post.tags || [])}
+                      </span>
+                      {getClassFromTags(post.tags || []) && (
+                        <span className="px-2 py-1 bg-purple-900/50 text-purple-300 rounded text-xs flex items-center gap-1">
+                          <span>{CLASS_EMOJIS[getClassFromTags(post.tags || [])!]}</span>
+                          <span>{getClassFromTags(post.tags || [])}</span>
+                        </span>
+                      )}
+                    </div>
+                  </td>
                   <td className="px-2 py-2 text-sm text-gray-300">{post.author || '-'}</td>
                   <td className="px-2 py-2 text-xs text-gray-400">{new Date(post.created_at).toLocaleDateString('ko-KR')}</td>
                   <td className="px-2 py-2">
-                    <button
-                      onClick={() => handleDelete(post.id)}
-                      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm font-semibold"
-                    >
-                      삭제
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => router.push(`/admin/tip-board/${post.id}/edit`)}
+                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm font-semibold"
+                      >
+                        수정
+                      </button>
+                      <button
+                        onClick={() => handleDelete(post.id)}
+                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm font-semibold"
+                      >
+                        삭제
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

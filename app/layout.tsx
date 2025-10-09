@@ -11,6 +11,7 @@ import { Providers } from './providers'
 import { ReactNode } from 'react'
 import TrafficTracker from './components/TrafficTracker'
 import StructuredData from './components/StructuredData'
+import Script from 'next/script'
 // import PageTracker from './components/PageTracker'
 
 
@@ -34,11 +35,11 @@ export const metadata: Metadata = {
     apple: '/ponyang/ponyang-1.png',
   },
   title: {
-    default: "포냥이 - 검은사막 정보 사이트",
+    default: "포냥이 - 검은사막 PVP 정보 사이트",
     template: "%s | 포냥이"
   },
-  description: "검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트. 월드보스, 거점전, 솔라레의 창, 길드 리그 등 모든 정보를 한눈에 확인하세요.",
-  keywords: ["검은사막", "BDO", "월드보스", "거점전", "솔라레의 창", "길드 리그", "포냥이", "게임 정보"],
+  description: "검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트. PvP, 거점전, 점령전, 공성전, 솔라레의 창, 길드 리그 등 모든 정보를 한눈에 확인하세요.",
+  keywords: ["검은사막", "BDO", "월드보스", "bdopvp", "거점전", "점령전", "공성전", "솔라레의 창", "길드 리그", "포냥이", "게임 정보", "PVP", "PVE", "포냥이", "포냥이 사이트", "검은사막 PVP", "검은사막 PVE","pvp 콤보"],
   authors: [{ name: "포냥이" }],
   creator: "포냥이",
   publisher: "포냥이",
@@ -55,8 +56,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'ko_KR',
     url: 'https://bdopvp.com',
-    title: '포냥이 - 검은사막 정보 사이트',
-    description: '검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트. 월드보스, 거점전, 솔라레의 창, 길드 리그 등 모든 정보를 한눈에 확인하세요.',
+    title: '포냥이 - 검은사막 PVP 정보 사이트"',
+    description: '검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트. PvP, 거점전, 점령전, 공성전, 솔라레의 창, 길드 리그 등 모든 정보를 한눈에 확인하세요.',
     siteName: '포냥이',
     images: [
       {
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '포냥이 - 검은사막 정보 사이트',
+    title: '포냥이 - 검은사막 PVP 정보 사이트"',
     description: '검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트',
     images: ['/logo.png'],
   },
@@ -91,40 +92,64 @@ export default function RootLayout({
 }: {
   children: ReactNode
 }) {
-  // 앱 시작 시 인덱스 생성
-  if (typeof window === 'undefined') {
-    createIndexes().catch(console.error)
-  }
+  // 앱 시작 시 인덱스 생성 (서버에서만 실행)
+  createIndexes().catch(console.error)
 
   return (
     <html lang="ko" className="dark">
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GK1BTTBNEF" />
+        {/* Google AdSense - head에 직접 배치 */}
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-GK1BTTBNEF');
-            `,
-          }}
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7268080263912053"
+          crossOrigin="anonymous"
         />
-        {/* Google Tag Manager */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-PTQT3NFW');`,
-          }}
-        />
+        
+        
         <StructuredData type="website" />
         <StructuredData type="organization" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white dark`}>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-GK1BTTBNEF"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-GK1BTTBNEF');
+          `}
+        </Script>
+
+        {/* Naver Analytics */}
+        <Script
+          src="//wcs.pstatic.net/wcslog.js"
+          strategy="afterInteractive"
+        />
+        <Script id="naver-analytics" strategy="afterInteractive">
+          {`
+            if(!wcs_add) var wcs_add = {};
+            wcs_add["wa"] = "128e48db43f3f40";
+            if(window.wcs) {
+              wcs_do();
+            }
+          `}
+        </Script>
+
+        {/* Google Tag Manager */}
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-PTQT3NFW');
+          `}
+        </Script>
+
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe

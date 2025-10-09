@@ -3,10 +3,11 @@
 import { db } from '@/lib/db'
 
 export async function getAllGuildLeague() {
-  // 활성 시즌 확인
-  const activeSeason = await db.query(`
-    SELECT id, is_active FROM guild_league_seasons WHERE is_active = TRUE LIMIT 1
-  `)
+  try {
+    // 활성 시즌 확인
+    const activeSeason = await db.query(`
+      SELECT id, is_active FROM guild_league_seasons WHERE is_active = TRUE LIMIT 1
+    `)
   
   const isSeasonActive = activeSeason.rows.length > 0
 
@@ -108,4 +109,8 @@ export async function getAllGuildLeague() {
       score_diff,
     }
   })
+  } catch (error) {
+    console.error('getAllGuildLeague 오류:', error)
+    return []
+  }
 }

@@ -55,9 +55,12 @@ export async function GET(req: Request) {
             CASE 
               WHEN fr.war_date < '2025-06-25' THEN
                 CASE fr.region
-                  WHEN '칼페온' THEN '무제한'
-                  WHEN '메디아' THEN '2단'
+                  WHEN '칼페온' THEN '2단'
+                  WHEN '메디아' THEN '1단'
                   WHEN '발렌시아' THEN '1단'
+                  WHEN '발레노스' THEN '무제한'
+                  WHEN '세렌디아' THEN '무제한'
+                  WHEN '카마실비아' THEN '2단'
                   ELSE NULL
                 END
               ELSE
@@ -72,16 +75,24 @@ export async function GET(req: Request) {
                 END
             END as calculated_tier
           FROM filtered_records fr
+        ),
+        alliance_stats AS (
+          SELECT
+            rwt.alliance_id,
+            COUNT(DISTINCT rwt.id) FILTER (WHERE rwt.result = '점령성공') AS count,
+            COUNT(DISTINCT rwt.id) AS participated
+          FROM records_with_tier rwt
+          WHERE rwt.calculated_tier = $2
+          GROUP BY rwt.alliance_id
         )
         SELECT
           a.name AS alliance_name,
-          COUNT(DISTINCT rwt.id) FILTER (WHERE rwt.result = '점령성공') AS count,
-          COUNT(DISTINCT rwt.id) AS participated
-        FROM records_with_tier rwt
-        JOIN alliances a ON rwt.alliance_id = a.id
-        WHERE rwt.calculated_tier = $2
-        GROUP BY a.id, a.name
-        ORDER BY count DESC
+          COALESCE(stats.count, 0) AS count,
+          COALESCE(stats.participated, 0) AS participated
+        FROM alliances a
+        LEFT JOIN alliance_stats stats ON a.id = stats.alliance_id
+        WHERE a.is_active = TRUE
+        ORDER BY COALESCE(stats.count, 0) DESC
       `
 
       // 쿼리 실행

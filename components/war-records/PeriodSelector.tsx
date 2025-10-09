@@ -33,11 +33,14 @@ export default function PeriodSelector({ selected, onChange }: Props) {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="inline-flex w-full justify-between px-4 md:px-20 py-2 text-sm font-medium text-black bg-white rounded-md md:rounded-none border border-gray-300 shadow-sm overflow-hidden text-ellipsis whitespace-nowrap"
+          className="inline-flex w-full justify-between items-center px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-slate-700/80 to-slate-800/80 backdrop-blur-sm rounded-xl border border-slate-600/30 shadow-xl hover:from-slate-600/80 hover:to-slate-700/80 transition-all duration-200 overflow-hidden text-ellipsis whitespace-nowrap"
         >
-          {selectedLabel}
+          <span className="flex items-center gap-2">
+            <span className="text-lg">📅</span>
+            {selectedLabel}
+          </span>
           <svg
-            className="w-5 h-5 ml-2 -mr-1"
+            className={`w-5 h-5 ml-2 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -53,15 +56,25 @@ export default function PeriodSelector({ selected, onChange }: Props) {
       </div>
 
       {isOpen && (
-        <div className="absolute right-0 md:right-0 left-0 md:left-auto z-50 origin-top-right rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-          <div className="py-2 flex flex-col items-center">
-            {options.map((label) => (
+        <div className="absolute z-[99999] top-0 left-full ml-2 w-48 origin-top-left bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-sm rounded-xl border border-slate-600/30 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-2">
+            {options.map((label, index) => (
               <button
                 key={label}
                 onClick={() => handleClick(label)}
-                className="text-gray-700 block w-full px-4 md:px-20 py-3 text-sm rounded-none md:rounded-none hover:bg-gray-100 min-h-[44px] flex items-center justify-center"
+                className={`w-full px-6 py-3 text-sm font-medium transition-all duration-200 flex items-center gap-3 ${
+                  label === selectedLabel 
+                    ? 'text-blue-300 bg-blue-600/20 border-r-2 border-blue-400' 
+                    : 'text-gray-300 hover:text-white hover:bg-slate-700/50'
+                }`}
               >
+                <span className="text-base">
+                  {index === 0 ? '📊' : index === 1 ? '📈' : '📋'}
+                </span>
                 {label}
+                {label === selectedLabel && (
+                  <span className="ml-auto text-blue-400">✓</span>
+                )}
               </button>
             ))}
           </div>

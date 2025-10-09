@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { trackGuildSearch } from '@/lib/analytics'
 
 type SearchResult = {
-  type: 'guild'
+  type: 'guild' | 'alliance'
   name: string
 }
 
@@ -31,7 +31,11 @@ function SearchContent() {
         
         // 검색 결과가 정확히 하나이고, 검색어와 정확히 일치하는 경우 바로 리다이렉트
         if (data.length === 1 && data[0].name.toLowerCase() === query.toLowerCase()) {
-          router.replace(`/guild/${encodeURIComponent(data[0].name)}`)
+          if (data[0].type === 'guild') {
+            router.replace(`/guild/${encodeURIComponent(data[0].name)}`)
+          } else if (data[0].type === 'alliance') {
+            router.replace(`/alliance/${encodeURIComponent(data[0].name)}`)
+          }
           return
         }
         
@@ -64,13 +68,18 @@ function SearchContent() {
         {results.map((item) => (
           <Link
             key={`${item.type}-${item.name}`}
-            href={`/${item.type}/${encodeURIComponent(item.name)}`}
+            href={item.type === 'guild' 
+              ? `/guild/${encodeURIComponent(item.name)}` 
+              : `/alliance/${encodeURIComponent(item.name)}`
+            }
             className="bg-zinc-900 p-4 rounded-lg shadow hover:bg-zinc-800 transition block border border-zinc-700"
           >
             <h2 className="text-xl font-bold mb-2 text-white">
-              🏰 길드 {item.name}
+              {item.type === 'guild' ? '🏰' : '⚔️'} {item.type === 'guild' ? '길드' : '연맹'} {item.name}
             </h2>
-            <p className="text-sm text-zinc-400">클릭하여 상세 페이지로 이동</p>
+            <p className="text-sm text-zinc-400">
+              클릭하여 {item.type === 'guild' ? '길드' : '연맹'} 상세 페이지로 이동
+            </p>
           </Link>
         ))}
       </div>

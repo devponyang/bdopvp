@@ -3,6 +3,13 @@
 import { db } from '@/lib/db'
 import { NextResponse } from 'next/server'
 import { REGION_TIERS } from '@/lib/constants/war-tiers'
+import { chzzkNotifier } from '@/lib/notifications/chzzk-notifier'
+
+// 전역 캐시 공유
+declare global {
+  var latestNotification: any
+}
+
 
 export async function POST(req: Request) {
   const { date, region, war_type, records } = await req.json()
@@ -18,6 +25,12 @@ export async function POST(req: Request) {
   try {
     await client.query('BEGIN')
 
+    // 기존 기록 조회 (삭제 전에 백업)
+    const existingRecords = await client.query(
+      'SELECT alliance_id, fort_stage, occupied_area, result FROM war_records WHERE war_date = $1 AND region = $2 AND war_type = $3',
+      [utcDateString, region, war_type]
+    )
+    
     // 기존 기록 삭제 (KST 기준 날짜 사용)
     await client.query(
       'DELETE FROM war_records WHERE war_date = $1 AND region = $2 AND war_type = $3',
@@ -67,7 +80,68 @@ export async function POST(req: Request) {
     }
 
     await client.query('COMMIT')
-    return NextResponse.json({ success: true })
+
+    // 기존 기록과 비교하여 새로 추가된 점령만 알림 전송
+    const notifications = []
+    for (const r of records) {
+      if (r.alliance_name?.trim() && r.fort_stage) {
+        // 연맹 ID 찾기
+        let allianceId = null
+        const cleanedName = r.alliance_name.trim()
+        const found = await client.query(
+          `SELECT id FROM alliances WHERE LOWER(TRIM(name)) = LOWER(TRIM($1))`,
+          [cleanedName]
+        )
+        if (found.rows.length > 0) {
+          allianceId = found.rows[0].id
+        }
+        
+        // 기존 기록에 동일한 점령이 있는지 확인
+        const isExisting = existingRecords.rows.some(existing => 
+          existing.alliance_id === allianceId && 
+          existing.fort_stage === r.fort_stage &&
+          existing.occupied_area === (r.occupied_area || '') &&
+          existing.result === r.result
+        )
+        
+        
+        // 새로 추가된 점령만 알림 전송 (중복 방지)
+        if (!isExisting && r.result === '점령성공' && allianceId) {
+          const tier = REGION_TIERS[region as keyof typeof REGION_TIERS] ?? '무제한'
+          
+          try {
+            const notification = {
+              alliance_name: r.alliance_name.trim(),
+              region,
+              occupied_area: r.occupied_area || '',
+              fort_stage: r.fort_stage,
+              war_type,
+              war_date: utcDateString,
+              tier
+            }
+            
+            // 기존 Discord 알림도 유지
+            chzzkNotifier.sendNotification(notification).catch(() => {})
+            
+            // 실시간 알림 업데이트 (서버 내부 직접 호출)
+            try {
+              global.latestNotification = notification
+            } catch (error) {
+              // 알림 업데이트 실패 무시
+            }
+            
+            notifications.push(notification)
+          } catch (error) {
+            // 알림 생성 실패 무시
+          }
+        }
+      }
+    }
+
+    return NextResponse.json({ 
+      success: true, 
+      notifications_sent: notifications.length 
+    })
   } catch (err) {
     await client.query('ROLLBACK')
     console.error('[SAVE WAR RECORDS ERROR]', JSON.stringify(err, null, 2))

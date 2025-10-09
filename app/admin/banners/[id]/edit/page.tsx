@@ -93,6 +93,11 @@ export default function EditBanner() {
     }))
   }
 
+  // 필수 필드가 모두 채워졌는지 확인하는 함수 (이미지 URL만 필수)
+  const isFormValid = () => {
+    return formData.image_url.trim() !== ''
+  }
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -254,7 +259,7 @@ export default function EditBanner() {
             {/* 제목 */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                배너 제목 *
+                배너 제목
               </label>
               <input
                 type="text"
@@ -269,7 +274,7 @@ export default function EditBanner() {
             {/* 설명 */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                배너 설명 *
+                배너 설명
               </label>
               <textarea
                 name="description"
@@ -349,7 +354,7 @@ export default function EditBanner() {
             {/* 링크 URL */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                링크 URL *
+                링크 URL
               </label>
               <input
                 type="url"
@@ -364,7 +369,7 @@ export default function EditBanner() {
             {/* 버튼 텍스트 */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                버튼 텍스트 *
+                버튼 텍스트
               </label>
               <input
                 type="text"
@@ -415,7 +420,7 @@ export default function EditBanner() {
         <div className="flex gap-4">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || !isFormValid()}
             className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
           >
             {saving ? (

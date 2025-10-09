@@ -24,10 +24,10 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 export async function PUT(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const { title, content, tags, image_urls, author, source } = await _req.json()
+    const { title, content, tags, image_urls, author, source, is_notice } = await _req.json()
     const result = await db.query(
-      'UPDATE tip_posts SET title = $1, content = $2, tags = $3, image_urls = $4, author = $5, source = $6, updated_at = CURRENT_TIMESTAMP WHERE id = $7 RETURNING *',
-      [title, content, tags || [], image_urls || [], author || '', source || '', id]
+      'UPDATE tip_posts SET title = $1, content = $2, tags = $3, image_urls = $4, author = $5, source = $6, is_notice = $7, updated_at = CURRENT_TIMESTAMP WHERE id = $8 RETURNING *',
+      [title, content, tags || [], image_urls || [], author || '', source || '', is_notice || false, id]
     )
     if (result.rows.length === 0) return NextResponse.json({ error: 'Not found' }, { status: 404 })
     return NextResponse.json(result.rows[0])

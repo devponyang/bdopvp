@@ -27,31 +27,24 @@ export default function AdminLoginPage() {
     // 비밀번호 검증 (환경변수에서 가져오는 것이 더 안전하지만, 현재는 하드코딩)
     const correctPassword = 'gortkdxks1@'
     
-    console.log('입력된 비밀번호:', password)
-    console.log('올바른 비밀번호:', correctPassword)
-    console.log('비밀번호 길이 비교:', password.length, 'vs', correctPassword.length)
     
     // 타이밍 공격 방지를 위한 상수 시간 비교
     let isValid = true
     if (password.length !== correctPassword.length) {
       isValid = false
-      console.log('비밀번호 길이가 다름')
     } else {
       for (let i = 0; i < password.length; i++) {
         if (password[i] !== correctPassword[i]) {
           isValid = false
-          console.log(`비밀번호 ${i}번째 문자가 다름:`, password[i], 'vs', correctPassword[i])
           break
         }
       }
     }
     
-    console.log('비밀번호 검증 결과:', isValid)
 
     if (isValid) {
       // 쿠키 설정 (HTTPS 환경 고려)
       document.cookie = `isAdmin=true; path=/; max-age=86400; SameSite=Lax`
-      console.log('쿠키 설정 완료:', document.cookie)
       router.push('/admin/dashboard')
     } else {
       setError('비밀번호가 올바르지 않습니다.')

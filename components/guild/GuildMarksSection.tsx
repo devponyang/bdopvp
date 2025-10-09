@@ -89,6 +89,7 @@ export default function GuildMarksSection() {
                   const target = e.target as HTMLImageElement
                   target.src = '/guild-icons/default.png'
                 }}
+                unoptimized
               />
             </div>
             
@@ -124,6 +125,16 @@ export default function GuildMarksSection() {
     </Card>
   )
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

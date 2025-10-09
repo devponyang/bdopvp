@@ -69,13 +69,13 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { title, description, imageUrl, linkUrl, buttonText, isActive, priority, bannerType, position } = body
 
-    // 입력 검증
-    if (!title || !description || !imageUrl || !linkUrl || !buttonText) {
-      return NextResponse.json(
-        { error: '필수 필드가 누락되었습니다' },
-        { status: 400 }
-      )
-    }
+    // 입력 검증 (선택적)
+    // if (!title || !description || !imageUrl || !linkUrl || !buttonText) {
+    //   return NextResponse.json(
+    //     { error: '필수 필드가 누락되었습니다' },
+    //     { status: 400 }
+    //   )
+    // }
 
     // 배너 타입 검증
     const validBannerTypes = ['main', 'sidebar', 'card', 'inline']

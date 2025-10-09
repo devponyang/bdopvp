@@ -14,6 +14,7 @@ export async function GET() {
     `)
 
     const correspondents = correspondentsResult.rows
+    
     if (correspondents.length === 0) {
       return NextResponse.json([])
     }
@@ -28,7 +29,9 @@ export async function GET() {
         liveStreamers = await chzzkRes.json()
       }
     } catch (error) {
-      console.log('치지직 API 호출 실패, 오프라인 상태로 표시')
+      if (process.env.NODE_ENV === 'development') {
+        console.log('치지직 API 호출 실패, 오프라인 상태로 표시')
+      }
     }
 
     // 종군기자와 라이브 스트리머 매칭

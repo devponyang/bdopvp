@@ -231,7 +231,6 @@ export async function GET(req: Request) {
         }
       }
     } catch (searchError) {
-      console.log('Search logs table not found, skipping popularity achievements')
     }
 
     client.release()

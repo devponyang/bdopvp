@@ -45,6 +45,7 @@ export default function GuildMarksAdmin() {
       // 1. 이미지 업로드
       const formData = new FormData()
       formData.append('file', newMarkFile)
+      formData.append('folderType', 'guild-icons')
 
       const uploadResponse = await fetch('/api/upload', {
         method: 'POST',

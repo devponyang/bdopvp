@@ -17,18 +17,22 @@ export default function NodeWarScheduleCard() {
       const now = new Date()
       const today = now.getDay() // 0=일요일, 1=월요일, ..., 6=토요일
       
-      // 토요일(6)이면 다음 월요일(1)로, 그 외에는 오늘 또는 내일
+      // 거점전 시간표 로직과 동일하게 수정
       let targetDate = new Date(now)
-      if (today === 6) { // 토요일
-        targetDate.setDate(now.getDate() + 2) // 월요일
-      } else if (today === 0) { // 일요일
-        targetDate.setDate(now.getDate() + 1) // 월요일
+      
+      // 토요일이면 바로 일요일로 넘어감
+      if (today === 6) {
+        targetDate.setDate(now.getDate() + 1) // 일요일로
       } else {
-        // 월~금: 오늘 22:00이 지났으면 내일, 아니면 오늘
+        // 22시 이후면 다음날로
         const today22 = new Date(now)
         today22.setHours(22, 0, 0, 0)
         if (now > today22) {
           targetDate.setDate(now.getDate() + 1)
+          // 만약 다음날이 토요일이면 하루 더 넘어가서 일요일로
+          if (targetDate.getDay() === 6) {
+            targetDate.setDate(targetDate.getDate() + 1)
+          }
         }
       }
       
@@ -58,12 +62,19 @@ export default function NodeWarScheduleCard() {
     let targetDate = new Date(now)
     const dayOfWeek = now.getDay()
     
-    // 22시 이후면 다음날로
-    if (dayOfWeek !== 6) { // 토요일이 아닌 경우
+    // 토요일이면 바로 일요일로 넘어감
+    if (dayOfWeek === 6) {
+      targetDate.setDate(now.getDate() + 1) // 일요일로
+    } else {
+      // 22시 이후면 다음날로
       const today22 = new Date(now)
       today22.setHours(22, 0, 0, 0)
       if (now > today22) {
         targetDate.setDate(now.getDate() + 1)
+        // 만약 다음날이 토요일이면 하루 더 넘어가서 일요일로
+        if (targetDate.getDay() === 6) {
+          targetDate.setDate(targetDate.getDate() + 1)
+        }
       }
     }
     
@@ -94,7 +105,7 @@ export default function NodeWarScheduleCard() {
           { stage: '3단 거점전', players: '75인 거점전' }
         ]
       }
-    } else { // 토요일
+    } else { // 이제 토요일은 여기 도달하지 않음
       return {
         dayType: fullDate,
         stages: []
@@ -122,7 +133,7 @@ export default function NodeWarScheduleCard() {
               <span className="text-white md:hidden">📅 {new Date().getMonth() + 1}/{new Date().getDate()} 거점전</span>
             </div>
           </div>
-          {nodeWarInfo.stages.length > 0 ? (
+          {nodeWarInfo.stages.length > 0 && (
             <div className="grid grid-cols-1 gap-2 md:gap-3 max-w-lg mx-auto">
               {nodeWarInfo.stages.map((stage, index) => (
                 <div key={index} className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-2 md:p-4 border border-slate-700 dark:border-slate-600 shadow-md">
@@ -223,10 +234,6 @@ export default function NodeWarScheduleCard() {
                   </div>
                 </div>
               ))}
-            </div>
-          ) : (
-            <div className="inline-block px-6 py-4 bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-xl border border-gray-600/50">
-              <div className="text-gray-400 text-sm">😴 거점전이 없는 날입니다</div>
             </div>
           )}
         </div>

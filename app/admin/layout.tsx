@@ -96,6 +96,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               >
                 시즌 관리
               </Link>
+              <Link 
+                href="/admin/solare/specializations" 
+                className={`px-3 py-2 rounded ${pathname === '/admin/solare/specializations' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
+              >
+                특화 관리
+              </Link>
+              <Link 
+                href="/admin/master-class" 
+                className={`px-3 py-2 rounded ${pathname === '/admin/master-class' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
+              >
+                마스터 클래스
+              </Link>
+              <Link 
+                href="/admin/alliances" 
+                className={`px-3 py-2 rounded ${pathname === '/admin/alliances' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
+              >
+                연맹마크 관리
+              </Link>
             </div>
           </div>
           <div className="flex items-center space-x-4">

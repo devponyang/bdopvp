@@ -1,15 +1,28 @@
 "use client"
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import RichTextEditor from '@/components/RichTextEditor'
+import { TIP_CATEGORIES, CLASS_GUIDE_CLASSES, CLASS_EMOJIS, type TipCategory, type ClassGuideClass } from '@/lib/constants/tip-categories'
+
+interface UploadedImage {
+  id: string
+  url: string
+  name: string
+}
 
 export default function AdminTipWritePage() {
   const router = useRouter()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
+  const [source, setSource] = useState('')
   const [isNotice, setIsNotice] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState<TipCategory>(TIP_CATEGORIES.GENERAL)
+  const [selectedClass, setSelectedClass] = useState<ClassGuideClass | 'all'>('all')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([])
+  const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -23,6 +36,12 @@ export default function AdminTipWritePage() {
     setLoading(true)
     setError('')
     try {
+      // 태그 생성
+      const tags: string[] = [selectedCategory]
+      if (selectedCategory === TIP_CATEGORIES.CLASS_GUIDE && selectedClass !== 'all') {
+        tags.push(selectedClass as string)
+      }
+
       const res = await fetch('/api/tip-board', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -31,6 +50,8 @@ export default function AdminTipWritePage() {
           content,
           is_notice: isNotice,
           author,
+          source,
+          tags,
         })
       })
       if (!res.ok) throw new Error('등록 실패')
@@ -43,51 +64,347 @@ export default function AdminTipWritePage() {
   }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const formData = new FormData()
-    formData.append('file', file)
-    const res = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    })
-    if (res.ok) {
-      const { url } = await res.json()
-      setContent(content + `\n<img src=\"${url}\" alt=\"업로드 이미지\" />`)
-    } else {
-      alert('이미지 업로드 실패')
+    const files = e.target.files
+    if (!files || files.length === 0) return
+    
+    // 최대 20개 이미지 제한
+    const maxImages = 20
+    if (uploadedImages.length + files.length > maxImages) {
+      alert(`최대 ${maxImages}개의 이미지만 업로드할 수 있습니다. (현재: ${uploadedImages.length}개, 선택: ${files.length}개)`)
+      return
+    }
+    
+    // 파일 크기 사전 검증 (30MB 제한)
+    const maxFileSize = 30 * 1024 * 1024 // 30MB
+    const oversizedFiles = Array.from(files).filter(file => file.size > maxFileSize)
+    if (oversizedFiles.length > 0) {
+      const fileInfo = oversizedFiles.map(f => `${f.name} (${(f.size / 1024 / 1024).toFixed(2)}MB)`).join(', ')
+      alert(`다음 파일들의 크기가 너무 큽니다 (30MB 제한):\n${fileInfo}`)
+      return
+    }
+    
+    setUploading(true)
+    
+    try {
+      console.log(`${files.length}개 이미지 업로드 시작...`)
+      
+      const uploadPromises = Array.from(files).map(async (file, index) => {
+        console.log(`업로드 중: ${file.name} (${index + 1}/${files.length})`)
+        
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('folderType', 'tip-images')
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
+        
+        if (res.ok) {
+          const { url } = await res.json()
+          return {
+            id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+            url,
+            name: file.name
+          }
+        } else {
+          const errorData = await res.json().catch(() => ({}))
+          const errorMessage = errorData.error || `HTTP ${res.status} 오류`
+          throw new Error(`${file.name} 업로드 실패: ${errorMessage}`)
+        }
+      })
+      
+      const uploadedFiles = await Promise.all(uploadPromises)
+      setUploadedImages(prev => {
+        const newImages = [...prev, ...uploadedFiles]
+        console.log(`업로드 완료! 총 ${newImages.length}개 이미지`)
+        return newImages
+      })
+      
+      // 파일 입력 초기화
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+      
+      alert(`${uploadedFiles.length}개 이미지가 성공적으로 업로드되었습니다!`)
+      
+    } catch (err: any) {
+      console.error('업로드 오류:', err)
+      alert(err.message || '이미지 업로드 실패')
+    } finally {
+      setUploading(false)
     }
   }
 
+  const removeImage = (id: string) => {
+    setUploadedImages(prev => prev.filter(img => img.id !== id))
+  }
+
+  const insertImageToContent = (imageUrl: string) => {
+    // 비디오 파일인지 확인
+    const isVideo = /\.(mp4|webm|ogg|mov|avi)$/i.test(imageUrl)
+    
+    if (isVideo) {
+      // 비디오 파일인 경우 insertVideoToEditor 함수 호출
+      if ((window as any).insertVideoToEditor) {
+        (window as any).insertVideoToEditor(imageUrl)
+      } else {
+        // RichTextEditor가 아직 로드되지 않은 경우, 직접 content에 추가
+        setContent(prev => prev + `\n<video controls autoplay loop muted style="max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; max-height: 400px; border: 1px solid #374151; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); background-color: #1f2937;"><source src="${imageUrl}">브라우저가 비디오 재생을 지원하지 않습니다.</video>`)
+      }
+    } else {
+      // 이미지 파일인 경우 insertImageToEditor 함수 호출
+      if ((window as any).insertImageToEditor) {
+        (window as any).insertImageToEditor(imageUrl)
+      } else {
+        // RichTextEditor가 아직 로드되지 않은 경우, 직접 content에 추가
+        setContent(prev => prev + `\n<img src="${imageUrl}" alt="업로드 이미지" style="max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; max-height: 400px; border: 1px solid #374151; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); background-color: #1f2937;" />`)
+      }
+    }
+  }
+
+  const insertAllImages = () => {
+    // RichTextEditor의 insertImage/insertVideo 함수를 사용하여 모든 미디어 삽입
+    uploadedImages.forEach((img, index) => {
+      setTimeout(() => {
+        insertImageToContent(img.url)
+      }, index * 100) // 각 미디어 사이에 100ms 지연
+    })
+  }
+
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">팁 게시판 글쓰기 (운영자)</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
+      {/* 헤더 섹션 */}
+      <div className="relative overflow-hidden mb-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 via-blue-500/20 to-purple-500/20 rounded-3xl blur-sm"></div>
+        <div className="relative bg-gradient-to-r from-slate-800/80 to-blue-900/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-2xl border border-white/10">
+          <div className="flex flex-col space-y-4">
+            <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+              📝 팁 게시판 글쓰기 (운영자)
+            </h1>
+            <p className="text-gray-300 text-sm md:text-base">
+              유용한 팁이나 가이드를 작성해주세요.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* 기본 정보 섹션 */}
+        <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-xl p-6 border border-blue-400/30 shadow-lg">
+          <h3 className="text-lg font-semibold text-blue-300 mb-4 flex items-center gap-2">
+            📋 기본 정보
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-2 font-semibold text-white">제목</label>
+              <input 
+                value={title} 
+                onChange={e => setTitle(e.target.value)} 
+                className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-600 text-white focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all" 
+                required 
+              />
+            </div>
+            <div>
+              <label className="block mb-2 font-semibold text-white">작성자</label>
+              <input 
+                value={author} 
+                onChange={e => setAuthor(e.target.value)} 
+                className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-600 text-white focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all" 
+                required 
+              />
+            </div>
+          </div>
+          <div className="mt-4">
+            <label className="block mb-2 font-semibold text-white">출처 (선택사항)</label>
+            <input 
+              value={source} 
+              onChange={e => setSource(e.target.value)} 
+              placeholder="예: 게임 공식 사이트, 커뮤니티, 유튜브 등"
+              className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-600 text-white focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all" 
+            />
+            <div className="text-xs text-gray-400 mt-2">
+              정보의 출처나 참고 자료가 있다면 입력해주세요.
+            </div>
+          </div>
+        </div>
+        
+        {/* 카테고리 선택 */}
         <div>
-          <label className="block mb-1 font-semibold">제목</label>
-          <input value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 rounded bg-zinc-800 border border-zinc-700 text-white" required />
+          <label className="block mb-1 font-semibold">카테고리</label>
+          <div className="grid grid-cols-2 gap-2 mb-3">
+            {Object.values(TIP_CATEGORIES).map(category => (
+              <button
+                key={category}
+                type="button"
+                onClick={() => {
+                  setSelectedCategory(category)
+                  if (category !== TIP_CATEGORIES.CLASS_GUIDE) {
+                    setSelectedClass('all')
+                  }
+                }}
+                className={`p-3 rounded-lg border text-sm font-medium transition ${
+                  selectedCategory === category
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-zinc-800 text-gray-300 border-zinc-700 hover:bg-zinc-700'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          
+          {/* 클래스 가이드 서브카테고리 */}
+          {selectedCategory === TIP_CATEGORIES.CLASS_GUIDE && (
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-300">클래스 선택</label>
+              <select
+                value={selectedClass}
+                onChange={(e) => setSelectedClass(e.target.value as ClassGuideClass | 'all')}
+                className="w-full p-2 rounded bg-zinc-800 border border-zinc-700 text-white"
+              >
+                <option value="all">전체 클래스</option>
+                {CLASS_GUIDE_CLASSES.map(cls => (
+                  <option key={cls} value={cls}>
+                    {CLASS_EMOJIS[cls]} {cls}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          
+          {/* 공지사항 여부 */}
+          <div className="mt-4 flex items-center gap-3">
+            <input 
+              type="checkbox" 
+              id="isNotice" 
+              checked={isNotice} 
+              onChange={e => setIsNotice(e.target.checked)}
+              className="w-5 h-5 text-green-600 bg-zinc-800 border-zinc-600 rounded focus:ring-green-500 focus:ring-2"
+            />
+            <label htmlFor="isNotice" className="text-white font-medium">📢 공지사항으로 설정</label>
+          </div>
         </div>
         <div>
-          <label className="block mb-1 font-semibold">작성자</label>
-          <input value={author} onChange={e => setAuthor(e.target.value)} className="w-full p-2 rounded bg-zinc-800 border border-zinc-700 text-white" required />
+          <label className="block mb-1 font-semibold">내용</label>
+          <RichTextEditor
+            value={content}
+            onChange={(value) => setContent(value)}
+            placeholder="팁 내용을 자세히 적어주세요..."
+          />
+          <div className="mt-2 text-xs text-gray-500 space-y-1">
+            <div>💡 <strong>서식:</strong> 툴바 버튼을 사용하거나 Ctrl+B(굵게), Ctrl+I(기울임), Ctrl+U(밑줄) 단축키 사용</div>
+            <div>🎨 <strong>스타일:</strong> 텍스트 색상, 배경색, 폰트 크기, 정렬 등을 자유롭게 설정</div>
+            <div>📷 <strong>이미지:</strong> 툴바의 '📷 이미지' 버튼 클릭 또는 <strong>Ctrl+V로 복사한 이미지 붙여넣기</strong></div>
+          </div>
         </div>
-        <div>
-          <label className="block mb-1 font-semibold">내용 (HTML 가능)</label>
-          <textarea value={content} onChange={e => setContent(e.target.value)} className="w-full p-2 rounded bg-zinc-800 border border-zinc-700 text-white min-h-[120px]" required />
+        {/* 이미지 업로드 섹션 */}
+        <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-xl p-6 border border-purple-400/30 shadow-lg">
+          <h3 className="text-lg font-semibold text-purple-300 mb-4 flex items-center gap-2">
+            📷 미디어 업로드
+          </h3>
+          <div className="mb-4">
+            <label className="block mb-2 font-semibold text-white">
+              이미지/비디오 업로드 (여러 개 선택 가능)
+              <span className="text-sm text-gray-400 ml-2">
+                (최대 20개, 현재 {uploadedImages.length}개)
+              </span>
+            </label>
+            <input 
+              type="file" 
+              accept="image/*,video/*" 
+              multiple
+              ref={fileInputRef} 
+              onChange={handleImageUpload} 
+              className="block w-full text-sm text-gray-400 file:mr-4 file:py-3 file:px-6 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gradient-to-r file:from-purple-600 file:to-pink-600 file:text-white hover:file:from-purple-500 hover:file:to-pink-500 file:transition-all file:duration-200 file:shadow-lg hover:file:shadow-xl" 
+            />
+            <div className="text-xs text-gray-400 mt-2">
+              {uploading ? '⏳ 업로드 중...' : '여러 이미지/비디오를 선택하여 업로드할 수 있습니다. (최대 20개, 30MB 제한)'}
+            </div>
+          </div>
+          
+          {/* 업로드된 이미지 미리보기 */}
+          {uploadedImages.length > 0 && (
+            <div className="mt-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-md font-semibold text-white">업로드된 미디어 ({uploadedImages.length}개)</span>
+                <button
+                  type="button"
+                  onClick={insertAllImages}
+                  className="px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 text-sm"
+                >
+                  📎 모든 미디어 삽입
+                </button>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {uploadedImages.map((img) => (
+                  <div key={img.id} className="relative border border-zinc-600 rounded p-2">
+                    <div className="aspect-square relative mb-2 bg-zinc-900 rounded overflow-hidden">
+                      {/* 비디오 파일인지 확인 */}
+                      {img.url.match(/\.(mp4|webm|ogg|mov|avi)$/i) ? (
+                        <video 
+                          src={img.url}
+                          className="w-full h-full object-cover"
+                          muted
+                          loop
+                          autoPlay
+                          playsInline
+                        />
+                      ) : (
+                        <img
+                          src={img.url}
+                          alt={img.name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-400 truncate mb-2">{img.name}</div>
+                    <div className="flex gap-1">
+                      <button
+                        type="button"
+                        onClick={() => insertImageToContent(img.url)}
+                        className="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 flex-1"
+                      >
+                        삽입
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeImage(img.id)}
+                        className="text-xs bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700"
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-        <div>
-          <label className="block mb-1 font-semibold">이미지 업로드</label>
-          <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageUpload} className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
-          <div className="text-xs text-gray-400 mt-1">업로드 후 본문에 이미지 태그가 자동 삽입됩니다.</div>
+        {/* 제출 버튼 */}
+        <div className="bg-gradient-to-r from-indigo-500/20 to-blue-500/20 backdrop-blur-sm rounded-xl p-6 border border-indigo-400/30 shadow-lg">
+          {error && (
+            <div className="mb-4 p-3 bg-red-900/30 border border-red-500/30 rounded-lg text-red-300 text-sm">
+              ❌ {error}
+            </div>
+          )}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+            >
+              {loading ? '⏳ 등록 중...' : '💾 등록하기'}
+            </button>
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="px-8 py-3 bg-gradient-to-r from-zinc-700 to-zinc-800 hover:from-zinc-600 hover:to-zinc-700 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+            >
+              ❌ 취소
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <input type="checkbox" id="isNotice" checked={isNotice} onChange={e => setIsNotice(e.target.checked)} />
-          <label htmlFor="isNotice" className="font-semibold">공지로 등록</label>
-        </div>
-        {error && <div className="text-red-400">{error}</div>}
-        <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700" disabled={loading}>
-          {loading ? '등록 중...' : '등록하기'}
-        </button>
       </form>
     </div>
   )

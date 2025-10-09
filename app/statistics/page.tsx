@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Card } from '@/components/card'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { filterProfanity, filterProfanityStrings } from 'lib/profanity-filter'
 
 interface Statistics {
   totalGuilds: number
@@ -38,9 +39,15 @@ export default function StatisticsPage() {
       const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`)
       const data = await res.json()
       
-      // 검색 결과가 정확히 하나이고, 검색어와 정확히 일치하는 경우 바로 길드 페이지로 이동
+      // 검색 결과가 정확히 하나이고, 검색어와 정확히 일치하는 경우 바로 해당 페이지로 이동
       if (data.length === 1 && data[0].name.toLowerCase() === query.toLowerCase()) {
-        router.push(`/guild/${encodeURIComponent(data[0].name)}`)
+        if (data[0].type === 'guild') {
+          router.push(`/guild/${encodeURIComponent(data[0].name)}`)
+        } else if (data[0].type === 'alliance') {
+          router.push(`/alliance/${encodeURIComponent(data[0].name)}`)
+        } else {
+          router.push(`/search?q=${encodeURIComponent(query)}`)
+        }
       } else {
         // 그렇지 않으면 검색 페이지로 이동
         router.push(`/search?q=${encodeURIComponent(query)}`)
@@ -132,7 +139,7 @@ export default function StatisticsPage() {
             </h3>
             {stats?.searchStats?.popularQueries && stats.searchStats.popularQueries.length > 0 ? (
               <div className="space-y-3">
-                {stats?.searchStats?.popularQueries?.slice(0, 10).map((item, index) => (
+                {filterProfanity(stats.searchStats.popularQueries).slice(0, 10).map((item, index) => (
                   <div 
                     key={item.query} 
                     className={`flex items-center justify-between p-2 rounded cursor-pointer transition-colors ${
@@ -169,7 +176,7 @@ export default function StatisticsPage() {
             </h3>
             {stats?.searchStats?.recentSearches && stats.searchStats.recentSearches.length > 0 ? (
               <div className="space-y-2">
-                {stats?.searchStats?.recentSearches?.slice(0, 10).map((query, index) => (
+                {filterProfanityStrings(stats.searchStats.recentSearches).slice(0, 10).map((query, index) => (
                   <div 
                     key={index} 
                     className={`flex items-center gap-3 p-2 rounded cursor-pointer transition-colors ${

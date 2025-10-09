@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react"
 import { Card } from "@/components/card"
 import Image from "next/image"
+import Link from "next/link"
 import { FaTrophy } from "react-icons/fa"
 import MemberTrendChart from "@/components/charts/MemberTrendChart"
 import RankTrendChart from "@/components/charts/RankTrendChart"
 import GuildAchievementsSection from "@/components/guild/GuildAchievementsSection"
+import FavoriteButton from "@/components/FavoriteButton"
 
 interface GuildMark {
   id: number
@@ -68,10 +70,36 @@ export default function GuildDetailClient({ guild }: { guild: GuildDetail }) {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10 space-y-8">
+      {/* 고사리 길드 추모 공지 */}
+      {guild.name === '고사리' && (
+        <Card className="p-6 bg-gradient-to-r from-gray-800 to-gray-900 border-gray-700">
+          <div className="text-center space-y-4">
+            <h2 className="text-2xl font-bold text-white flex items-center justify-center gap-2">
+              <span className="text-3xl">🕊️</span>
+              Explorer님을 추모하며
+            </h2>
+            <div className="text-gray-300 leading-relaxed space-y-2">
+              <p>고사리 길드의 Explorer님의 갑작스러운 별세 소식을 전해드립니다.</p>
+              <p>검은사막이라는 게임을 통해 만난 동료를 잃은 것은 정말 가슴 아픈 일입니다.</p>
+              <p>Explorer님의 명복을 빌며 추모의 마음을 전합니다.</p>
+              <p>게임 속에서도, 현실에서도 소중한 사람들이 건강하고 행복하기를 바랍니다.</p>
+              <p>작은 인연이라도 소중히 여기며 살아가시길 바랍니다.</p>
+              <div className="pt-4">
+                <p className="text-lg font-semibold">🕊️ 삼가 고인의 명복을 빕니다.</p>
+                <p className="text-sm text-gray-400 mt-2">- BDOPVP-포냥이 개발자 -</p>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {/* 길드 기본 정보 */}
       <Card className="p-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <h1 className="text-3xl font-extrabold text-left">{guild.name}</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-extrabold text-left">{guild.name}</h1>
+            <FavoriteButton guildName={guild.name} />
+          </div>
           {guildMark && (
             <div className="flex items-center gap-2">
               <span className="sponsor-badge flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white text-sm font-medium rounded-full shadow-lg">
@@ -121,7 +149,20 @@ export default function GuildDetailClient({ guild }: { guild: GuildDetail }) {
             <p><strong>인원 수 :</strong> {guild.member_count}명</p>
             <p><strong>길드리그 순위 :</strong> {guild.rank ?? "-"}위 {renderTrophy()}</p>
             <p><strong>대장 :</strong> {guild.leader}</p>
-            <p><strong>연맹 :</strong> {guild.alliance_name || "소속 연맹 없음"}</p>
+            <p>
+              <strong>연맹 :</strong> {
+                guild.alliance_name ? (
+                  <Link 
+                    href={`/alliance/${encodeURIComponent(guild.alliance_name)}`}
+                    className="text-blue-400 hover:text-blue-300 transition-colors underline hover:no-underline"
+                  >
+                    {guild.alliance_name}
+                  </Link>
+                ) : (
+                  "소속 연맹 없음"
+                )
+              }
+            </p>
             <p><strong>길드리그 전적 :</strong> {guild.wins}승 / {guild.losses}패 ({guild.winRate.toFixed(1)}%)
               {guild.winRate >= 70 && (
                 <span className="ml-2 px-2 py-0.5 text-xs bg-rose-600 text-white rounded-full">고승률🔥</span>

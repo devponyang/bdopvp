@@ -49,6 +49,11 @@ export default function NewBanner() {
     }))
   }
 
+  // 필수 필드가 모두 채워졌는지 확인하는 함수 (이미지 URL만 필수)
+  const isFormValid = () => {
+    return formData.image_url.trim() !== ''
+  }
+
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
@@ -87,6 +92,7 @@ export default function NewBanner() {
     try {
       const formData = new FormData()
       formData.append('file', file)
+      formData.append('folderType', 'banner-images')
 
       const response = await fetch('/api/upload', {
         method: 'POST',
@@ -99,12 +105,16 @@ export default function NewBanner() {
       }
 
       const result = await response.json()
-      setFormData(prev => ({
-        ...prev,
-        image_url: result.url
-      }))
       
-      alert('이미지가 성공적으로 업로드되었습니다!')
+      setFormData(prev => {
+        const newData = {
+          ...prev,
+          image_url: result.url
+        }
+        return newData
+      })
+      
+      alert(`이미지가 성공적으로 업로드되었습니다!\nURL: ${result.url}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : '업로드 중 오류가 발생했습니다')
     } finally {
@@ -116,6 +126,8 @@ export default function NewBanner() {
     e.preventDefault()
     setLoading(true)
     setError('')
+
+
 
     try {
       const response = await fetch('/api/admin/banners', {
@@ -197,7 +209,7 @@ export default function NewBanner() {
       </div>
 
       {/* 배너 생성 폼 */}
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         <div className="bg-zinc-900 rounded-lg p-6 border border-zinc-700">
           <h2 className="text-xl font-bold mb-4 text-blue-300">📝 배너 정보</h2>
           
@@ -208,39 +220,7 @@ export default function NewBanner() {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* 제목 */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                배너 제목 *
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                placeholder="예: 🎮 검은사막 정보 포털"
-                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              />
-            </div>
-
-            {/* 설명 */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                배너 설명 *
-              </label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="예: 길드 리그, 솔라레의 창, 거점전 정보를 한 곳에서!"
-                rows={3}
-                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              />
-            </div>
-
-            {/* 이미지 업로드 */}
+            {/* 이미지 업로드 - 맨 위로 이동 */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 배너 이미지 *
@@ -261,19 +241,29 @@ export default function NewBanner() {
                     업로드 중...
                   </div>
                 )}
+                {formData.image_url && !uploading && (
+                  <div className="flex items-center gap-2 mt-2 text-green-400">
+                    <span>✅</span>
+                    <span>이미지가 업로드되었습니다</span>
+                  </div>
+                )}
               </div>
 
               {/* 수동 URL 입력 */}
               <div className="relative">
                 <input
-                  type="url"
+                  type="text"
                   name="image_url"
                   value={formData.image_url}
                   onChange={handleInputChange}
                   placeholder="또는 이미지 URL을 직접 입력하세요 (예: /logo.png, https://example.com/image.jpg)"
                   className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
                 />
+                {formData.image_url && (
+                  <div className="mt-2 text-xs text-green-400">
+                    현재 URL: {formData.image_url}
+                  </div>
+                )}
                 {formData.image_url && (
                   <div className="mt-2">
                     <p className="text-xs text-gray-500 mb-2">이미지 미리보기:</p>
@@ -337,23 +327,22 @@ export default function NewBanner() {
             {/* 링크 URL */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                링크 URL *
+                링크 URL
               </label>
               <input
-                type="url"
+                type="text"
                 name="link_url"
                 value={formData.link_url}
                 onChange={handleInputChange}
                 placeholder="예: /support 또는 https://example.com"
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
               />
             </div>
 
             {/* 버튼 텍스트 */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                버튼 텍스트 *
+                버튼 텍스트
               </label>
               <input
                 type="text"
@@ -362,21 +351,49 @@ export default function NewBanner() {
                 onChange={handleInputChange}
                 placeholder="예: 둘러보기"
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
+              />
+            </div>
+
+            {/* 제목 */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                배너 제목
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                placeholder="예: 🎮 검은사막 정보 포털"
+                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            {/* 설명 */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                배너 설명
+              </label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="예: 길드 리그, 솔라레의 창, 거점전 정보를 한 곳에서!"
+                rows={3}
+                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             {/* 배너 타입 */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                배너 타입 *
+                배너 타입
               </label>
               <select
                 name="banner_type"
                 value={formData.banner_type}
                 onChange={handleSelectChange}
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
               >
                 <option value="main">메인 배너 (홈페이지 상단)</option>
                 <option value="sidebar">사이드바 배너 (300x250)</option>
@@ -389,14 +406,13 @@ export default function NewBanner() {
             {/* 배너 위치 */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                배너 위치 *
+                배너 위치
               </label>
               <select
                 name="position"
                 value={formData.position}
                 onChange={handleSelectChange}
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
               >
                 <option value="home">홈페이지</option>
                 <option value="home-right">홈페이지 (우측)</option>
@@ -447,7 +463,7 @@ export default function NewBanner() {
         <div className="flex gap-4">
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !isFormValid()}
             className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
           >
             {loading ? (

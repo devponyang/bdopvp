@@ -22,7 +22,13 @@ const ChzzkCard = () => {
       const res = await fetch('/api/chzzk')
       if (!res.ok) throw new Error('Failed to fetch streamers')
       const data = await res.json()
-      return data.sort((a: Streamer, b: Streamer) => {
+      // 특정 스트리머 필터링 (숨기고 싶은 스트리머들)
+      const hiddenStreamers = ['아이온2']
+      const filteredData = data.filter((streamer: Streamer) => 
+        !hiddenStreamers.includes(streamer.nickname)
+      )
+      
+      return filteredData.sort((a: Streamer, b: Streamer) => {
         if (!a.isLive && b.isLive) return 1
         if (a.isLive && !b.isLive) return -1
         return (b.viewerCount || 0) - (a.viewerCount || 0)

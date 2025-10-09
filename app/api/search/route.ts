@@ -24,28 +24,59 @@ export async function GET(req: Request) {
       console.error('Failed to log search:', logError)
       // 로깅 실패해도 검색은 계속 진행
     }
-    // 정확히 일치하는 우선 검색 (길드만)
+    // 정확히 일치하는 우선 검색 (길드만, 멤버가 있는 길드만)
     const exactGuilds = await client.query(
-      `SELECT name FROM guilds WHERE name = $1`,
+      `SELECT DISTINCT g.name 
+       FROM guilds g
+       INNER JOIN guild_members gm ON g.id = gm.guild_id
+       WHERE g.name = $1`,
       [q]
     )
 
-    // 포함 검색 (길드만, 한글 정규화 고려)
+    // 포함 검색 (길드만, 한글 정규화 고려, 멤버가 있는 길드만)
     const partialGuilds = await client.query(
-      `SELECT name FROM guilds WHERE name ILIKE $1`,
+      `SELECT DISTINCT g.name 
+       FROM guilds g
+       INNER JOIN guild_members gm ON g.id = gm.guild_id
+       WHERE g.name ILIKE $1`,
       [`%${q}%`]
     )
 
-    const guildMap = new Map<string, { type: 'guild'; name: string }>()
+    // 정확히 일치하는 연맹 검색 (활성 연맹만)
+    const exactAlliances = await client.query(
+      `SELECT DISTINCT a.name 
+       FROM alliances a
+       WHERE a.name = $1 AND a.is_active = true`,
+      [q]
+    )
 
+    // 포함 검색 (연맹만, 활성 연맹만)
+    const partialAlliances = await client.query(
+      `SELECT DISTINCT a.name 
+       FROM alliances a
+       WHERE a.name ILIKE $1 AND a.is_active = true`,
+      [`%${q}%`]
+    )
+
+    const resultMap = new Map<string, { type: 'guild' | 'alliance'; name: string }>()
+
+    // 길드 결과 추가
     exactGuilds.rows.forEach(row =>
-      guildMap.set(row.name, { type: 'guild', name: row.name })
+      resultMap.set(`guild-${row.name}`, { type: 'guild', name: row.name })
     )
     partialGuilds.rows.forEach(row =>
-      guildMap.set(row.name, { type: 'guild', name: row.name })
+      resultMap.set(`guild-${row.name}`, { type: 'guild', name: row.name })
     )
 
-    const combined = [...guildMap.values()].slice(0, 5)
+    // 연맹 결과 추가
+    exactAlliances.rows.forEach(row =>
+      resultMap.set(`alliance-${row.name}`, { type: 'alliance', name: row.name })
+    )
+    partialAlliances.rows.forEach(row =>
+      resultMap.set(`alliance-${row.name}`, { type: 'alliance', name: row.name })
+    )
+
+    const combined = [...resultMap.values()].slice(0, 5)
     return NextResponse.json(combined)
   } catch (err) {
     console.error('Search API Error:', err)

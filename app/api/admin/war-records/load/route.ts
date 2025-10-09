@@ -21,7 +21,8 @@ export async function GET(req: Request) {
          COALESCE(a.name, '[해체된 연맹]') AS alliance_name,  -- ✅ 해체된 연맹은 해체 표시
          w.occupied_area,
          w.fort_stage,
-         w.result
+         w.result,
+         w.region
        FROM war_records w
        LEFT JOIN alliances a ON w.alliance_id = a.id
        WHERE w.war_date = $1

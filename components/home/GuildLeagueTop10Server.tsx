@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { getGuildLeagueTop10 } from '@/lib/queries/guild-league'
 
 export default async function GuildLeagueTop10Server() {
@@ -38,12 +39,32 @@ export default async function GuildLeagueTop10Server() {
             const rate = total > 0 ? Math.round((g.wins / total) * 100) : 0
             const rankChange = g.rankChange ?? "-"
             const changeColor = getRankChangeStyle(rankChange)
+            const rank = i + 1
 
             return (
-              <tr key={g.guild_name} className="h-[42px] border-b border-gray-500">
+              <tr 
+                key={g.guild_name} 
+                className="h-[42px] border-b border-gray-500"
+                style={rank <= 3 ? {
+                  backgroundImage: `url('/ponyang/${rank}st-bg.png')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                } : {}}
+              >
                 <td className="px-2 py-2">
                   <div className="flex items-center justify-center gap-1">
-                    <span className="w-6 text-right">{i + 1}</span>
+                    {rank <= 3 ? (
+                      <Image
+                        src={`/ponyang/${rank}st.png`}
+                        alt={`${rank}등`}
+                        width={36}
+                        height={36}
+                        className="inline relative top-1"
+                      />
+                    ) : (
+                      <span className="w-6 text-right">{rank}</span>
+                    )}
                     <span className={`w-6 text-left text-xs ${changeColor}`}>{rankChange}</span>
                   </div>
                 </td>
