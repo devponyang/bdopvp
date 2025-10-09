@@ -86,15 +86,57 @@ export default function TipBoardPage() {
   if (loading) return <PonyangLoading />
 
   return (
-    <div className="max-w-6xl mx-auto p-3 sm:p-6">
-      {/* 헤더 섹션 */}
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 sm:mb-4 text-blue-200 drop-shadow">
-          📝 팁 게시판
-        </h1>
-        <p className="text-gray-400 text-sm sm:text-base md:text-lg">
-          검은사막 유저들이 공유하는 유용한 팁과 정보를 확인해보세요
-        </p>
+    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+      {/* 메인 헤더 */}
+      <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 mb-8">
+        {/* 배경 이미지 */}
+        <div 
+          className="absolute inset-0 bg-no-repeat opacity-50"
+          style={{
+            backgroundImage: "url('/ponyang/tip-bg.png')",
+            backgroundSize: "100% auto",
+            backgroundPosition: "center 35%"
+          }}
+        />
+        
+        {/* 콘텐츠 */}
+        <div className="relative p-3 md:p-8">
+          {/* 데스크톱 레이아웃 */}
+          <div className="hidden md:flex items-center gap-6">
+            {/* 왼쪽: 아이콘과 제목 */}
+            <div className="flex items-center gap-4">
+              {/* 아이콘 */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/30 to-purple-400/30 rounded-xl blur-sm"></div>
+                <div className="relative w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="text-3xl">📝</div>
+                </div>
+              </div>
+              
+              {/* 제목 블록 */}
+              <div className="px-4 py-3">
+                <h1 className="text-4xl font-bold text-white">
+                  팁 게시판
+                </h1>
+                <div className="text-lg text-white font-medium">
+                  검은사막 유저들이 공유하는 유용한 팁과 정보
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 모바일 레이아웃 */}
+          <div className="md:hidden flex flex-col items-center text-center">
+            <div>
+              <h1 className="text-xl font-bold text-white">
+                팁 게시판
+              </h1>
+              <div className="text-sm text-white font-medium mt-1">
+                유용한 팁과 정보
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 검색 및 필터 섹션 */}

@@ -346,6 +346,7 @@ export default async function GuildLeaguePage() {
             >
               {/* 순위, 길드마크, 길드명 */}
               <div className="flex items-center justify-between mb-3">
+                {/* 순위와 변화 - 왼쪽 */}
                 <div className="flex items-center gap-2">
                   {guild.rank <= 3 ? (
                     <Image
@@ -360,7 +361,9 @@ export default async function GuildLeaguePage() {
                   )}
                   <span className={`text-sm ${changeColor}`}>{rankChange}</span>
                 </div>
-                <div className="flex items-center gap-3">
+                
+                {/* 길드마크와 길드명 - 가운데 */}
+                <div className="flex items-center gap-3 absolute left-1/2 transform -translate-x-1/2">
                   {/* 길드마크 */}
                   <div className="w-8 h-8 flex items-center justify-center">
                     {guildMark ? (
@@ -381,7 +384,7 @@ export default async function GuildLeaguePage() {
                   {/* 길드명 */}
                   <Link 
                     href={`/guild/${encodeURIComponent(guild.name)}`}
-                    className="text-xl md:text-lg font-semibold text-white hover:text-blue-400 truncate max-w-[200px]"
+                    className="text-xl md:text-lg font-semibold text-white hover:text-blue-400"
                   >
                     {guild.name}
                   </Link>

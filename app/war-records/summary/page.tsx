@@ -180,7 +180,7 @@ export default function WarSummaryPage() {
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
               <span className="text-white text-lg">🏰</span>
             </div>
-            <h2 className="text-2xl font-bold text-white">{tier} 연맹</h2>
+            <h2 className="text-2xl font-bold text-white">{tier}</h2>
           </div>
           {/* 데스크톱 테이블 */}
           <table className="w-full text-sm text-left hidden md:table" style={{ tableLayout: 'fixed' }}>

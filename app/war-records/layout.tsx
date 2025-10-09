@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 
 export default function WarRecordsLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="max-w-screen-xl mx-auto p-4">
+    <div className="max-w-screen-xl mx-auto p-4 mt-6">
       {/* 메인 헤더 */}
       <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 mb-8">
         {/* 배경 이미지 */}

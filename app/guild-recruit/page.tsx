@@ -74,15 +74,57 @@ export default function GuildRecruitPage() {
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-8 space-y-6">
-      {/* 헤더 */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-white">
-          🏰 길드 모집 게시판
-        </h1>
-        <p className="text-gray-400 text-lg">
-          새로운 길드원을 찾고 계신가요? 함께할 길드를 찾고 계신가요?
-        </p>
+    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+      {/* 메인 헤더 */}
+      <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 mb-8">
+        {/* 배경 이미지 */}
+        <div 
+          className="absolute inset-0 bg-no-repeat opacity-50"
+          style={{
+            backgroundImage: "url('/ponyang/rec.png')",
+            backgroundSize: "100% auto",
+            backgroundPosition: "center 43%"
+          }}
+        />
+        
+        {/* 콘텐츠 */}
+        <div className="relative p-3 md:p-8">
+          {/* 데스크톱 레이아웃 */}
+          <div className="hidden md:flex items-center gap-6">
+            {/* 왼쪽: 아이콘과 제목 */}
+            <div className="flex items-center gap-4">
+              {/* 아이콘 */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-xl blur-sm"></div>
+                <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="text-3xl">🏰</div>
+                </div>
+              </div>
+              
+              {/* 제목 블록 */}
+              <div className="px-4 py-3">
+                <h1 className="text-4xl font-bold text-white">
+                  길드 모집 게시판
+                </h1>
+                <div className="text-lg text-white font-medium">
+                  새로운 길드원을 찾고 계신가요? 함께할 길드를 찾고 계신가요?
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 모바일 레이아웃 */}
+          <div className="md:hidden flex flex-col items-center text-center">
+            <div>
+              <h1 className="text-xl font-bold text-white">
+                길드 모집 게시판
+              </h1>
+              <div className="text-sm text-white font-medium mt-1">
+                함께할 길드를 찾아보세요
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
 

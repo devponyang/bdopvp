@@ -7,6 +7,11 @@ import { ko } from 'date-fns/locale'
 import Link from 'next/link'
 import PonyangLoading from '../../components/PonyangLoading'
 import { renderMarkdown } from '@/lib/markdown'
+import MaeguGuide from '../components/MaeguGuide'
+import WitchGuide from '../components/WitchGuide'
+import DarkKnightGuide from '../components/DarkKnightGuide'
+import RangerGuide from '../components/RangerGuide'
+import DeadEyeGuide from '../components/DeadEyeGuide'
 
 interface TipPost {
   id: number
@@ -30,6 +35,7 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   const [liked, setLiked] = useState(false)
   const [liking, setLiking] = useState(false)
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
+  const [postId, setPostId] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -37,6 +43,38 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
         const { id } = await params
         if (!id) {
           notFound()
+          return
+        }
+
+        setPostId(id)
+
+        // 매구 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '12') {
+          setLoading(false)
+          return
+        }
+
+        // 각성 위치 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '13') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 다크나이트 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '14') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 레인저 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '15') {
+          setLoading(false)
+          return
+        }
+
+        // 데드아이 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '16') {
+          setLoading(false)
           return
         }
 
@@ -141,6 +179,32 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   }, [])
 
   if (loading) return <PonyangLoading />
+  
+  // 매구 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '12') {
+    return <MaeguGuide />
+  }
+  
+  // 각성 위치 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '13') {
+    return <WitchGuide />
+  }
+  
+  // 전승 다크나이트 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '14') {
+    return <DarkKnightGuide />
+  }
+  
+  // 전승 레인저 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '15') {
+    return <RangerGuide />
+  }
+
+  // 데드아이 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '16') {
+    return <DeadEyeGuide />
+  }
+  
   if (!post) return notFound()
 
   return (
@@ -184,16 +248,17 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
         <div className="mb-6">
           <Link 
             href="/tip-board"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-800/50 hover:bg-zinc-700/50 text-blue-400 hover:text-blue-300 rounded-lg transition-all duration-200 border border-zinc-700"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-zinc-800/60 to-zinc-700/60 hover:from-zinc-700/70 hover:to-zinc-600/70 text-blue-400 hover:text-blue-300 rounded-xl transition-all duration-300 border border-zinc-600/40 hover:border-zinc-500/60 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
           >
             ← 팁게시판으로 돌아가기
           </Link>
         </div>
 
         {/* 헤더 섹션 */}
-        <div className="relative overflow-hidden mb-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-red-500/20 rounded-3xl blur-sm"></div>
-          <div className="relative bg-gradient-to-r from-slate-800/80 to-blue-900/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-2xl border border-white/10">
+        <div className="relative overflow-hidden mb-8 group">
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-orange-500/30 to-red-500/30 rounded-3xl blur-sm group-hover:blur-md transition-all duration-500"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-cyan-600/20 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-700"></div>
+          <div className="relative bg-gradient-to-r from-slate-800/90 to-blue-900/90 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-2xl border border-white/20 group-hover:border-white/30 transition-all duration-300">
             <div className="flex flex-col space-y-4">
               {/* 공지 배지와 제목 */}
               <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
@@ -202,27 +267,27 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
                     📢 공지
                   </span>
                 )}
-                <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent break-words">
+                <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent break-words hover:from-yellow-300 hover:via-orange-300 hover:to-red-300 transition-all duration-300 drop-shadow-lg">
                   {post.title}
                 </h1>
               </div>
 
               {/* 메타 정보 */}
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-300">
-                <span className="flex items-center gap-1 px-3 py-1 bg-blue-600/30 rounded-full border border-blue-400/30">
+                <span className="flex items-center gap-1 px-3 py-1 bg-blue-600/40 rounded-full border border-blue-400/40 hover:bg-blue-600/60 hover:border-blue-400/60 transition-all duration-200 shadow-lg hover:shadow-blue-500/20">
                   👤 {post.author || '익명'}
                 </span>
-                <span className="flex items-center gap-1 px-3 py-1 bg-purple-600/30 rounded-full border border-purple-400/30">
+                <span className="flex items-center gap-1 px-3 py-1 bg-purple-600/40 rounded-full border border-purple-400/40 hover:bg-purple-600/60 hover:border-purple-400/60 transition-all duration-200 shadow-lg hover:shadow-purple-500/20">
                   📅 {format(new Date(post.created_at), 'yyyy년 MM월 dd일 HH:mm', { locale: ko })}
                 </span>
-                <span className="flex items-center gap-1 px-3 py-1 bg-green-600/30 rounded-full border border-green-400/30">
+                <span className="flex items-center gap-1 px-3 py-1 bg-green-600/40 rounded-full border border-green-400/40 hover:bg-green-600/60 hover:border-green-400/60 transition-all duration-200 shadow-lg hover:shadow-green-500/20">
                   👀 {post.view_count || 0} 조회
                 </span>
-                <span className="flex items-center gap-1 px-3 py-1 bg-pink-600/30 rounded-full border border-pink-400/30">
+                <span className="flex items-center gap-1 px-3 py-1 bg-pink-600/40 rounded-full border border-pink-400/40 hover:bg-pink-600/60 hover:border-pink-400/60 transition-all duration-200 shadow-lg hover:shadow-pink-500/20">
                   👍 {post.like_count || 0} 추천
                 </span>
                 {post.updated_at !== post.created_at && (
-                  <span className="flex items-center gap-1 px-3 py-1 bg-orange-600/30 rounded-full border border-orange-400/30 text-xs">
+                  <span className="flex items-center gap-1 px-3 py-1 bg-orange-600/40 rounded-full border border-orange-400/40 hover:bg-orange-600/60 hover:border-orange-400/60 transition-all duration-200 shadow-lg hover:shadow-orange-500/20 text-xs">
                     ✏️ 수정: {format(new Date(post.updated_at), 'MM/dd HH:mm', { locale: ko })}
                   </span>
                 )}
@@ -232,7 +297,7 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
               {post.tags && post.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map(tag => (
-                    <span key={tag} className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm border border-blue-400/30">
+                    <span key={tag} className="px-3 py-1 bg-gradient-to-r from-blue-500/30 to-purple-500/30 text-blue-200 rounded-full text-sm border border-blue-400/40 hover:from-blue-500/50 hover:to-purple-500/50 hover:border-blue-400/60 transition-all duration-200 shadow-lg hover:shadow-blue-500/20 hover:scale-105">
                       #{tag}
                     </span>
                   ))}
@@ -317,8 +382,9 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
         )}
 
         {/* 본문 내용 */}
-        <div className="relative bg-slate-800/40 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/10 overflow-hidden">
-          <div className="bg-zinc-800/50 rounded-xl p-6 md:p-8 overflow-visible">
+        <div className="relative bg-gradient-to-br from-slate-800/50 via-blue-900/30 to-purple-900/30 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+          <div className="bg-zinc-800/60 rounded-xl p-6 md:p-8 overflow-visible relative">
           <div 
             className="prose prose-invert max-w-none prose-headings:text-white prose-headings:font-bold prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-4 prose-strong:text-white prose-strong:font-semibold prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-ul:text-gray-300 prose-ol:text-gray-300 prose-li:text-gray-300 prose-blockquote:border-l-blue-500 prose-blockquote:bg-zinc-800/30 prose-blockquote:px-4 prose-blockquote:py-2 prose-blockquote:rounded-r-lg prose-code:text-blue-300 prose-code:bg-zinc-900 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-700 prose-pre:rounded-lg prose-table:text-gray-300 prose-th:bg-zinc-800 prose-td:border-t prose-td:border-zinc-700 prose-hr:border-zinc-600"
             dangerouslySetInnerHTML={{ 
@@ -465,10 +531,10 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
             <button
               onClick={handleLike}
               disabled={liked || liking}
-              className={`px-8 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg ${
+              className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg transform hover:scale-105 active:scale-95 ${
                 liked 
-                  ? 'bg-green-600 text-white scale-105' 
-                  : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500 hover:scale-105'
+                  ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-green-500/30 hover:shadow-green-500/50' 
+                  : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white hover:from-blue-500 hover:via-purple-500 hover:to-pink-500 hover:shadow-purple-500/30'
               } ${liking ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {liking ? '⏳ 처리 중...' : liked ? '✅ 추천됨' : '👍 추천하기'}
@@ -480,13 +546,13 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
             href="/tip-board"
-            className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+            className="px-8 py-3 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-500 hover:via-blue-600 hover:to-indigo-600 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-blue-500/30 hover:border-blue-400/50"
           >
             📝 다른 팁 보기
           </Link>
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="px-8 py-3 bg-gradient-to-r from-zinc-700 to-zinc-800 hover:from-zinc-600 hover:to-zinc-700 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+            className="px-8 py-3 bg-gradient-to-r from-zinc-700 via-zinc-800 to-gray-800 hover:from-zinc-600 hover:via-zinc-700 hover:to-gray-700 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-zinc-600/30 hover:border-zinc-500/50"
           >
             ⬆️ 맨 위로
           </button>
