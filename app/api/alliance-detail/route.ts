@@ -39,12 +39,14 @@ export async function GET(req: Request) {
         `SELECT ag.guild_name, 
                 COALESCE(g.member_count, 0) AS member_count, 
                 COALESCE(g.leader, '정보 없음') AS leader, 
+                gm.mark_url AS icon_url,
                 COALESCE(l.rank, NULL) AS rank, 
                 COALESCE(l.wins, 0) AS wins, 
                 COALESCE(l.losses, 0) AS losses
          FROM alliance_guilds ag
          LEFT JOIN guilds g ON LOWER(g.name) = LOWER(ag.guild_name) AND g.is_deleted = FALSE
          LEFT JOIN guild_league l ON LOWER(g.name) = LOWER(l.guild_name)
+         LEFT JOIN guild_marks gm ON gm.guild_name = ag.guild_name
          WHERE ag.alliance_id = (
            SELECT id FROM alliances WHERE name = $1
          )
@@ -108,6 +110,7 @@ export async function GET(req: Request) {
           name: guild.guild_name,
           memberCount: Number(guild.member_count) || 0,
           leader: guild.leader || '정보 없음',
+          iconUrl: guild.icon_url || '',
           rank: guild.rank ? Number(guild.rank) : null,
           wins: wins,
           losses: losses,

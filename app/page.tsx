@@ -34,6 +34,7 @@ async function getInitialData() {
           description,
           start_date,
           end_date,
+          created_at,
           CASE 
             WHEN end_date < CURRENT_DATE THEN 'expired'
             ELSE 'active'
@@ -44,7 +45,7 @@ async function getInitialData() {
             WHEN end_date < CURRENT_DATE THEN 1
             ELSE 0
           END,
-          end_date DESC
+          created_at DESC
       `)
     ])
 
@@ -82,8 +83,8 @@ export default async function Home() {
             {/* 모바일/태블릿: 좌측 사이드바 */}
             <aside className="space-y-3 sm:space-y-4 md:space-y-6 lg:col-span-1 order-1 lg:order-1">
               {/* 디스코드 배너 */}
-              <a href="https://discord.com/invite/mD37c4GEby" target="_blank" rel="noopener noreferrer" className="block bg-zinc-800 text-white font-bold text-base sm:text-lg md:text-xl rounded-lg border border-zinc-600 shadow-sm py-2 sm:py-3 md:py-4 px-2 text-center hover:bg-zinc-600 transition-all">
-                포냥이 디스코드
+              <a href="https://discord.com/invite/mD37c4GEby" target="_blank" rel="noopener noreferrer" className="block bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm text-white font-bold text-base sm:text-lg md:text-xl rounded-2xl border border-white/10 shadow-xl py-2 sm:py-3 md:py-4 px-2 text-center hover:bg-white/5 transition-all">
+                💬 포냥이 디스코드
               </a>
               
               {/* 사이드바 광고 배너 */}

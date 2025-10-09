@@ -52,20 +52,20 @@ export default function PvPScheduleCard() {
   }
 
   return (
-    <div className="pvp-schedule-card bg-white dark:bg-gradient-to-br dark:from-zinc-800 dark:via-zinc-700 dark:to-zinc-800 border border-zinc-600 rounded-xl shadow-xl overflow-hidden relative">
-      <div className="bg-zinc-800 dark:bg-zinc-800 px-3 md:px-6 py-2 md:py-4 border-b border-zinc-600">
-        <h2 className="text-lg md:text-2xl font-bold text-white dark:text-white text-gray-800 dark:text-white flex items-center justify-center gap-2">
+    <div className="pvp-schedule-card bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm border border-white/10 rounded-2xl shadow-xl overflow-hidden relative">
+      <div className="px-3 md:px-6 py-3 md:py-4 border-b border-white/10">
+        <h2 className="text-lg md:text-2xl font-bold text-white flex items-center justify-center gap-2">
           <span className="text-lg md:text-2xl">🏆</span>
           <span>공성(점령)전 결과</span>
         </h2>
       </div>
 
-      <div className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 backdrop-blur-sm px-3 md:px-6 py-3 md:py-6">
+      <div className="px-3 md:px-6 py-3 md:py-6">
         {/* 공성전 결과 날짜 표시 */}
         <div className="text-center mb-3 md:mb-6">
-          <div className="inline-block px-2 md:px-4 py-1 md:py-2 bg-white dark:bg-zinc-800 rounded-full border-2 border-black dark:border-zinc-600">
+          <div className="inline-block px-2 md:px-4 py-1 md:py-2 bg-white/10 rounded-full border-2 border-white/20">
             <div className="text-white font-bold text-sm md:text-lg">
-              <span className="text-white hidden md:inline">📅 {(() => {
+              <span className="hidden md:inline">📅 {(() => {
                 const today = new Date()
                 const dayOfWeek = today.getDay() // 0=일요일, 1=월요일, ..., 6=토요일
                 
@@ -87,7 +87,7 @@ export default function PvPScheduleCard() {
                   weekday: 'long'
                 })
               })()} 공성전 결과</span>
-              <span className="text-white md:hidden">📅 지난 공성전 결과</span>
+              <span className="md:hidden">📅 지난 공성전 결과</span>
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function PvPScheduleCard() {
               .filter(v => v.region === region)
               .sort((a, b) => new Date(b.war_date).getTime() - new Date(a.war_date).getTime())[0]
             return (
-              <div key={region} className="flex flex-row md:flex-col items-center justify-center bg-gradient-to-br from-zinc-800 via-zinc-700 to-zinc-800 rounded-2xl p-3 md:p-6 w-full md:w-64 min-h-[80px] md:min-h-[220px] overflow-hidden border border-zinc-600 shadow-lg">
+              <div key={region} className="flex flex-row md:flex-col items-center justify-center bg-white/5 rounded-2xl p-3 md:p-6 w-full md:w-64 min-h-[80px] md:min-h-[220px] overflow-hidden border border-white/10 shadow-lg">
                 <div className="relative w-16 h-16 md:w-[140px] md:h-[160px] mb-0 md:mb-3 mr-3 md:mr-0 flex-shrink-0">
                   <Image
                     src={imageMap[region]}

@@ -12,8 +12,12 @@ export default function FavoriteButton({ guildName, className = '' }: FavoriteBu
 
   if (!isLoaded) {
     return (
-      <button className={`opacity-50 cursor-not-allowed ${className}`} disabled>
-        <span className="text-gray-500">⭐</span>
+      <button 
+        className={`opacity-50 cursor-not-allowed flex items-center gap-1.5 px-3 py-2 rounded-lg border-2 bg-slate-700/40 text-gray-400 border-slate-600/40 ${className}`} 
+        disabled
+      >
+        <span className="text-lg">☆</span>
+        <span className="text-sm font-semibold">즐겨찾기</span>
       </button>
     )
   }
@@ -26,17 +30,17 @@ export default function FavoriteButton({ guildName, className = '' }: FavoriteBu
         e.stopPropagation() // 부모 클릭 이벤트 방지
         toggleFavorite(guildName)
       }}
-      className={`transition-all duration-200 hover:scale-105 flex items-center gap-1 px-2 py-1 rounded ${
+      className={`transition-all duration-200 hover:scale-105 flex items-center gap-1.5 px-3 py-2 rounded-lg border-2 ${
         favorite 
-          ? 'bg-yellow-600/20 text-yellow-400 hover:bg-yellow-600/30' 
-          : 'bg-gray-600/20 text-gray-400 hover:bg-gray-600/30 hover:text-yellow-300'
+          ? 'bg-yellow-500/30 text-yellow-300 border-yellow-500/50 hover:bg-yellow-500/40 hover:border-yellow-400/60' 
+          : 'bg-slate-700/60 text-gray-300 border-slate-600/60 hover:bg-slate-600/70 hover:border-yellow-500/40 hover:text-yellow-300'
       } ${className}`}
       title={favorite ? '즐겨찾기에서 제거' : '즐겨찾기에 추가'}
     >
-      <span>
+      <span className="text-lg">
         {favorite ? '⭐' : '☆'}
       </span>
-      <span className="text-sm font-medium">
+      <span className="text-sm font-semibold">
         즐겨찾기
       </span>
     </button>

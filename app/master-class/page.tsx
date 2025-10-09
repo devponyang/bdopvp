@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import { Card } from '@/components/card'
 
 export const metadata: Metadata = {
   title: '2025 마스터 클래스 - 검은사막 클래스 최강자 대회',
@@ -9,37 +8,75 @@ export const metadata: Metadata = {
 
 export default function MasterClassPage() {
   return (
-    <div className="min-h-screen bg-zinc-900 text-white">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* 헤더 */}
-        <div className="text-center mb-4">
-          <div className="flex justify-center mb-6">
-            <img 
-              src="/ponyang/masterclass.gif" 
-              alt="마스터클래스 아이콘" 
-              className="w-full max-w-4xl h-40 md:h-75 object-cover object-center"
-            />
+    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+      {/* 메인 헤더 */}
+      <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 mb-8">
+        {/* 배경 이미지 */}
+        <div 
+          className="absolute inset-0 bg-no-repeat opacity-50"
+          style={{
+            backgroundImage: "url('/ponyang/masterclass.gif')",
+            backgroundSize: "100% auto",
+            backgroundPosition: "center 48%"
+          }}
+        ></div>
+        
+        {/* 콘텐츠 */}
+        <div className="relative p-3 md:p-8">
+          {/* 데스크톱 레이아웃 */}
+          <div className="hidden md:flex items-center gap-6">
+            {/* 왼쪽: 아이콘과 제목 */}
+            <div className="flex items-center gap-4">
+              {/* 아이콘 */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/30 to-orange-400/30 rounded-xl blur-sm"></div>
+                <div className="relative w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg p-2">
+                  <img 
+                    src="/ponyang/masterclass.png" 
+                    alt="마스터클래스 아이콘" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+              
+              {/* 제목 블록 */}
+              <div className="px-4 py-3">
+                <h1 className="text-4xl font-bold text-white">
+                  2025 마스터 클래스
+                </h1>
+                <div className="text-lg text-white font-medium">
+                  클래스 최강자 대회
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-            2025 Black Desert Master Class
-          </h1>
-          <p className="text-xl text-gray-300">
-            클래스 최강자를 가리는 2025 마스터 클래스
-          </p>
-        </div>
 
-        {/* 메인 소개 */}
-        <Card className="p-6 md:p-8 mb-8">
+          {/* 모바일 레이아웃 */}
+          <div className="md:hidden">
+            {/* 제목 */}
+            <div className="flex flex-col items-center text-center">
+              <div>
+                <h1 className="text-xl font-bold text-white">
+                  2025 마스터 클래스
+                </h1>
+                <div className="text-xs text-white font-medium">
+                  클래스 최강자 대회
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 메인 소개 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
+          <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <span className="text-2xl">🏆</span>
+            대회 소개
+          </h2>
           <div className="space-y-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center justify-center gap-2">
-                <img 
-                  src="/ponyang/masterclass.png" 
-                  alt="마스터클래스 마크" 
-                  className="w-6 h-6 object-contain"
-                />
-                검은사막 각 클래스의 최강자를 뽑는 명예로운 PvP 대회
-              </h2>
+            <div className="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 rounded-xl p-4 border border-yellow-500/30">
+              <p className="text-yellow-200 font-semibold text-center mb-2">검은사막 각 클래스의 최강자를 뽑는 명예로운 PvP 대회</p>
             </div>
 
             <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-lg p-6 border border-blue-500/30">
@@ -124,14 +161,14 @@ export default function MasterClassPage() {
               </p>
             </div>
           </div>
-        </Card>
+      </div>
 
-        {/* 대회 일정 및 정보 */}
-        <div className="space-y-6 mb-8">
-          <Card className="p-6 bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border border-yellow-500/30">
-            <h3 className="text-xl font-semibold mb-4 text-yellow-300 text-center">
-              📅 신청 및 대회 일정
-            </h3>
+      {/* 대회 일정 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">📅</span>
+          신청 및 대회 일정
+        </h2>
             <div className="space-y-3 text-gray-300">
               <div className="flex justify-between">
                 <span>참가 신청:</span>
@@ -158,12 +195,14 @@ export default function MasterClassPage() {
                 <span className="text-white">2025.11.22(토) ~ 11.23(일)</span>
               </div>
             </div>
-          </Card>
+      </div>
 
-          <Card className="p-6 bg-gradient-to-r from-purple-900/30 to-indigo-900/30 border border-purple-500/30">
-            <h3 className="text-xl font-semibold mb-4 text-purple-300 text-center">
-              📋 상세 일정 안내
-            </h3>
+      {/* 상세 일정 안내 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">📋</span>
+          상세 일정 안내
+        </h2>
             <div className="space-y-4">
               <div className="bg-purple-800/30 rounded-lg p-4 border border-purple-600/30">
                 <h4 className="font-semibold text-purple-200 mb-2">본선 ~ 준결승전 그룹별 일정</h4>
@@ -194,17 +233,14 @@ export default function MasterClassPage() {
                 </div>
               </div>
             </div>
-          </Card>
+      </div>
 
-          <Card className="p-6 bg-gradient-to-r from-blue-900/30 to-cyan-900/30 border border-blue-500/30">
-            <h3 className="text-xl font-semibold mb-4 text-blue-300 text-center flex items-center justify-center gap-2">
-              <img 
-                src="/ponyang/masterclass.png" 
-                alt="마스터클래스 마크" 
-                className="w-5 h-5 object-contain"
-              />
-              대회 보상
-            </h3>
+      {/* 대회 보상 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">💎</span>
+          대회 보상
+        </h2>
             <div className="space-y-4">
               <p className="text-gray-300 text-sm">
                 검은사막 각 클래스의 최고를 뽑는 명예로운 대회에 참가하여 승리를 쟁취한 모험가님들께는 아래 보상이 지급됩니다.
@@ -333,24 +369,17 @@ export default function MasterClassPage() {
                 </div>
               </div>
             </div>
-          </Card>
-        </div>
+      </div>
 
-        {/* 참가 신청 방법 */}
-        <Card className="p-6 bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-500/30">
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold mb-4 text-purple-300 flex items-center justify-center gap-2">
-              <img 
-                src="/ponyang/masterclass.png" 
-                alt="마스터클래스 마크" 
-                className="w-6 h-6 object-contain"
-              />
-              참가 신청 방법
-            </h3>
-            <p className="text-gray-300">
-              참가 자격을 모두 충족했다면, 아래 신청 방법을 확인해 주세요.
-            </p>
-          </div>
+      {/* 참가 신청 방법 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">📝</span>
+          참가 신청 방법
+        </h2>
+        <p className="text-gray-300 mb-6 text-center">
+          참가 자격을 모두 충족했다면, 아래 신청 방법을 확인해 주세요.
+        </p>
           
           <div className="space-y-6">
             {/* 1단계 */}
@@ -426,18 +455,14 @@ export default function MasterClassPage() {
               </div>
             </div>
           </div>
-        </Card>
+      </div>
 
-        {/* 대회 진행 방식 */}
-        <Card className="p-6 bg-gradient-to-r from-purple-900/30 to-indigo-900/30 border border-purple-500/30">
-          <h3 className="text-xl font-semibold mb-4 text-purple-300 flex items-center justify-center gap-2">
-            <img 
-              src="/ponyang/masterclass.png" 
-              alt="마스터클래스 마크" 
-              className="w-5 h-5 object-contain"
-            />
-            대회 진행 방식
-          </h3>
+      {/* 대회 진행 방식 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">⚔️</span>
+          대회 진행 방식
+        </h2>
           <div className="space-y-4">
             <p className="text-gray-300 text-sm">
               2025 마스터 클래스는 본 공지사항 및 대회 규약에 따라 진행됩니다.
@@ -485,18 +510,14 @@ export default function MasterClassPage() {
               </div>
             </div>
           </div>
-        </Card>
+      </div>
 
-        {/* 대회 규약 및 준수사항 */}
-        <Card className="p-6 bg-gradient-to-r from-red-900/30 to-orange-900/30 border border-red-500/30 mb-4">
-          <h3 className="text-xl font-semibold mb-4 text-red-300 flex items-center justify-center gap-2">
-            <img 
-              src="/ponyang/masterclass.png" 
-              alt="마스터클래스 마크" 
-              className="w-5 h-5 object-contain"
-            />
-            대회 규약 및 준수사항
-          </h3>
+      {/* 대회 규약 및 준수사항 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">⚠️</span>
+          대회 규약 및 준수사항
+        </h2>
           <div className="space-y-4">
             <div className="bg-red-800/30 rounded-lg p-4 border border-red-600/30">
               <p className="text-red-200 font-semibold mb-3">⚠️ 아래에 해당하는 경우, 참가 자격 박탈 및 운영정책에 따라 조치될 수 있습니다.</p>
@@ -527,15 +548,15 @@ export default function MasterClassPage() {
               </div>
             </div>
           </div>
-        </Card>
+      </div>
 
-
-        {/* 하단 안내 */}
-        <div className="text-center mt-8 text-gray-400">
-          <p className="text-sm">
+      {/* 하단 안내 */}
+      <div className="text-center mt-8">
+        <div className="inline-block bg-white/5 px-6 py-4 rounded-lg border border-white/10">
+          <p className="text-sm text-gray-300 mb-2">
             더 자세한 정보는 <a href="https://www.kr.playblackdesert.com/ko-KR/News/Detail?groupContentNo=14606&countryType=ko-KR" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline">공식 공지사항</a>을 확인해주세요.
           </p>
-          <p className="text-xs mt-2">
+          <p className="text-xs text-gray-400">
             * 이 페이지는 팬사이트에서 제공하는 정보입니다.
           </p>
         </div>

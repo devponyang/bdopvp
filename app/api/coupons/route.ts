@@ -7,6 +7,7 @@ interface Coupon {
   description: string
   start_date: string
   end_date: string
+  created_at?: string
   status: 'active' | 'expired'
 }
 
@@ -24,6 +25,7 @@ export async function GET() {
           description,
           start_date,
           end_date,
+          created_at,
           CASE 
             WHEN end_date < CURRENT_DATE THEN 'expired'
             ELSE 'active'
@@ -34,7 +36,7 @@ export async function GET() {
             WHEN end_date < CURRENT_DATE THEN 1
             ELSE 0
           END,
-          end_date DESC
+          created_at DESC
       `)
 
       const coupons: Coupon[] = result.rows.map(row => ({
@@ -43,6 +45,7 @@ export async function GET() {
         description: row.description,
         start_date: row.start_date,
         end_date: row.end_date,
+        created_at: row.created_at,
         status: row.status
       }))
 

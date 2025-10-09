@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect } from "react"
-import { Card } from "@/components/card"
 import Link from "next/link"
 import { FaTrophy, FaUsers, FaFistRaised } from "react-icons/fa"
 import { getRegionTier } from "@/lib/constants/war-tiers"
@@ -10,6 +9,7 @@ interface AllianceGuild {
   name: string
   memberCount: number
   leader: string
+  iconUrl?: string
   rank: number | null
   wins: number
   losses: number
@@ -76,117 +76,247 @@ export default function AllianceDetailClient({ alliance }: { alliance: AllianceD
 
 
   return (
-    <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-8">
-      {/* 연맹 기본 정보 */}
-      <Card className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-2xl sm:text-3xl overflow-hidden">
+    <div className="max-w-screen-xl mx-auto px-4 py-6 md:py-10 space-y-6 md:space-y-8">
+      {/* 메인 헤더 */}
+      <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10">
+        {/* 배경 이미지 */}
+        <div 
+          className="absolute inset-0 bg-no-repeat opacity-50"
+          style={{
+            backgroundImage: "url('/ponyang/all-bg.jpg')",
+            backgroundSize: "100% auto",
+            backgroundPosition: "center 40%"
+          }}
+        ></div>
+        
+        {/* 콘텐츠 */}
+        <div className="relative p-6 md:p-8">
+          {/* 데스크톱 레이아웃 */}
+          <div className="hidden md:flex items-center justify-between gap-6">
+            {/* 왼쪽: 연맹 아이콘과 제목 */}
+            <div className="flex items-center gap-6">
+              {/* 연맹 아이콘 */}
               <img 
                 src={alliance.markUrl || '/alliance-icons/default.png'} 
                 alt={`${alliance.name} 마크`}
-                className="w-full h-full object-contain"
+                className="w-28 h-28 object-contain"
                 loading="lazy"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement
                   target.src = '/alliance-icons/default.png'
                 }}
               />
+              
+              {/* 제목 블록 */}
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <h1 className="text-4xl md:text-5xl font-bold text-white">
+                    {alliance.name}
+                  </h1>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {alliance.tiers.map(tier => (
+                    <span key={tier} className={`px-3 py-1.5 rounded-lg text-sm font-bold border-2 ${tierColors[tier as keyof typeof tierColors] || 'text-gray-400 border-gray-600'}`}>
+                      {tier}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-2">{alliance.name}</h1>
-              <div className="flex items-center gap-2 flex-wrap">
-                {alliance.tiers.map(tier => (
-                  <span key={tier} className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold border ${tierColors[tier as keyof typeof tierColors] || 'text-gray-400 border-gray-600'}`}>
-                    {tier}
-                  </span>
-                ))}
+            
+            {/* 오른쪽: 주요 정보 */}
+            <div className="flex flex-col gap-2 min-w-[200px]">
+              {/* 거점전 승률 */}
+              <div className="bg-gradient-to-r from-slate-800/90 to-blue-900/90 rounded-xl px-4 py-3 border border-white/20">
+                <div className="text-white/70 text-sm">거점전 승률</div>
+                <div className={`text-2xl font-bold ${alliance.totalWinRate >= 70 ? 'text-yellow-400' : 'text-white'}`}>
+                  {alliance.totalWinRate}%
+                </div>
+              </div>
+              
+              {/* 전적 */}
+              <div className="bg-gradient-to-r from-slate-800/90 to-purple-900/90 rounded-xl px-4 py-3 border border-white/20">
+                <div className="text-white/70 text-sm">전체 전적</div>
+                <div className="text-lg font-bold">
+                  <span className="text-green-300">{alliance.totalWins}승</span>
+                  <span className="text-gray-400 mx-1">/</span>
+                  <span className="text-red-300">{alliance.totalLosses}패</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 모바일 레이아웃 */}
+          <div className="md:hidden space-y-4">
+            {/* 상단: 연맹 아이콘과 제목 */}
+            <div className="flex items-center gap-4">
+              <img 
+                src={alliance.markUrl || '/alliance-icons/default.png'} 
+                alt={`${alliance.name} 마크`}
+                className="w-20 h-20 object-contain"
+                loading="lazy"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement
+                  target.src = '/alliance-icons/default.png'
+                }}
+              />
+              
+              <div className="flex-1">
+                <h1 className="text-2xl font-bold text-white mb-2">
+                  {alliance.name}
+                </h1>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {alliance.tiers.map(tier => (
+                    <span key={tier} className={`px-2 py-1 rounded-lg text-xs font-bold border ${tierColors[tier as keyof typeof tierColors] || 'text-gray-400 border-gray-600'}`}>
+                      {tier}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* 하단: 정보 */}
+            <div className="grid grid-cols-2 gap-2">
+              <div className="bg-gradient-to-r from-slate-800/90 to-blue-900/90 rounded-lg px-3 py-2 border border-white/20">
+                <div className="text-white/70 text-xs">소속 길드</div>
+                <div className="text-white text-xl font-bold">{alliance.totalGuilds}개</div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-slate-800/90 to-purple-900/90 rounded-lg px-3 py-2 border border-white/20">
+                <div className="text-white/70 text-xs">총 인원</div>
+                <div className="text-white text-xl font-bold">{alliance.totalMembers.toLocaleString()}명</div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-slate-800/90 to-pink-900/90 rounded-lg px-3 py-2 border border-white/20">
+                <div className="text-white/70 text-xs">승률</div>
+                <div className={`text-xl font-bold ${alliance.totalWinRate >= 70 ? 'text-yellow-400' : 'text-white'}`}>
+                  {alliance.totalWinRate}%
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-slate-800/90 to-indigo-900/90 rounded-lg px-3 py-2 border border-white/20">
+                <div className="text-white/70 text-xs">전적</div>
+                <div className="text-sm font-bold">
+                  <span className="text-green-300">{alliance.totalWins}승</span>
+                  <span className="text-gray-400 mx-1">/</span>
+                  <span className="text-red-300">{alliance.totalLosses}패</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-          <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-600">
-            <div className="flex items-center gap-2 sm:gap-3 mb-2">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <FaUsers className="text-blue-400 text-sm sm:text-lg" />
+      </div>
+
+      {/* 상세 정보 카드 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">📊</span>
+          연맹 통계
+        </h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="relative overflow-hidden bg-gradient-to-br from-blue-900/30 to-cyan-900/30 rounded-xl p-4 sm:p-5 border border-blue-500/30 hover:border-blue-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/10 rounded-full -mr-10 -mt-10"></div>
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                  <FaUsers className="text-blue-300 text-lg" />
+                </div>
+                <span className="text-xs sm:text-sm text-blue-300 font-semibold">소속 길드</span>
               </div>
-              <span className="text-xs sm:text-sm text-gray-400">소속 길드</span>
-            </div>
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{alliance.totalGuilds}개</div>
-          </div>
-          
-          <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-600">
-            <div className="flex items-center gap-2 sm:gap-3 mb-2">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <FaUsers className="text-green-400 text-sm sm:text-lg" />
-              </div>
-              <span className="text-xs sm:text-sm text-gray-400">총 인원</span>
-            </div>
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{alliance.totalMembers.toLocaleString()}명</div>
-          </div>
-          
-          <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-600">
-            <div className="flex items-center gap-2 sm:gap-3 mb-2">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
-                <FaFistRaised className="text-red-400 text-sm sm:text-lg" />
-              </div>
-              <span className="text-xs sm:text-sm text-gray-400">전체 전적</span>
-            </div>
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
-              <span className="text-green-400">{alliance.totalWins}승</span>
-              <span className="text-gray-400 mx-1">/</span>
-              <span className="text-red-400">{alliance.totalLosses}패</span>
-            </div>
-            <div className="text-xs text-gray-400 mt-1">
-              승률 {alliance.totalWinRate}%
+              <div className="text-base sm:text-2xl font-bold text-white">{alliance.totalGuilds}개</div>
             </div>
           </div>
           
-          <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-600">
-            <div className="flex items-center gap-2 sm:gap-3 mb-2">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                <FaTrophy className="text-yellow-400 text-sm sm:text-lg" />
+          <div className="relative overflow-hidden bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-xl p-4 sm:p-5 border border-green-500/30 hover:border-green-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-green-500/10 rounded-full -mr-10 -mt-10"></div>
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                  <FaUsers className="text-green-300 text-lg" />
+                </div>
+                <span className="text-xs sm:text-sm text-green-300 font-semibold">총 인원</span>
               </div>
-              <span className="text-xs sm:text-sm text-gray-400">거점전 승률</span>
+              <div className="text-base sm:text-2xl font-bold text-white">{alliance.totalMembers.toLocaleString()}명</div>
             </div>
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
-              <span className={alliance.totalWinRate >= 70 ? 'text-yellow-400' : 'text-white'}>
+          </div>
+          
+          <div className="relative overflow-hidden bg-gradient-to-br from-red-900/30 to-orange-900/30 rounded-xl p-4 sm:p-5 border border-red-500/30 hover:border-red-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/10 rounded-full -mr-10 -mt-10"></div>
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
+                  <FaFistRaised className="text-red-300 text-lg" />
+                </div>
+                <span className="text-xs sm:text-sm text-red-300 font-semibold">전체 전적</span>
+              </div>
+              <div className="space-y-1">
+                <div className="text-base sm:text-lg font-bold">
+                  <span className="text-green-300">{alliance.totalWins}승</span>
+                  <span className="text-gray-400 mx-1">/</span>
+                  <span className="text-red-300">{alliance.totalLosses}패</span>
+                </div>
+                <div className="text-xs text-gray-400">
+                  승률 {alliance.totalWinRate}%
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="relative overflow-hidden bg-gradient-to-br from-yellow-900/30 to-amber-900/30 rounded-xl p-4 sm:p-5 border border-yellow-500/30 hover:border-yellow-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/20">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-500/10 rounded-full -mr-10 -mt-10"></div>
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                  <FaTrophy className="text-yellow-300 text-lg" />
+                </div>
+                <span className="text-xs sm:text-sm text-yellow-300 font-semibold">거점전 승률</span>
+              </div>
+              <div className={`text-base sm:text-2xl font-bold ${alliance.totalWinRate >= 70 ? 'text-yellow-300' : 'text-white'}`}>
                 {alliance.totalWinRate}%
-              </span>
+              </div>
             </div>
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* 소속 길드 목록 */}
-      <Card className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700">
-        <div className="flex items-center gap-3 mb-6 sm:mb-8">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
-            <FaUsers className="text-blue-400 text-lg sm:text-xl" />
-          </div>
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">소속 길드</h2>
-            <p className="text-sm sm:text-base text-gray-400">총 {alliance.totalGuilds}개 길드</p>
-          </div>
-        </div>
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">🏰</span>
+          소속 길드
+          <span className="text-base font-normal text-gray-300 ml-2">({alliance.totalGuilds}개)</span>
+        </h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
           {alliance.guilds.map((guild) => (
             <div key={guild.name} className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-600 hover:border-blue-500/50 transition-all duration-300 hover:bg-slate-700/50 group">
-              <div className="flex items-start justify-between mb-2 sm:mb-3">
-                <Link 
-                  href={`/guild/${encodeURIComponent(guild.name)}`}
-                  className="text-base sm:text-lg font-bold text-blue-400 hover:text-blue-300 transition-colors group-hover:text-blue-300 truncate flex-1"
-                >
-                  {guild.name}
-                </Link>
-                {guild.rank && (
-                  <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/30 ml-2 flex-shrink-0">
-                    {guild.rank}위
-                  </span>
+              <div className="flex items-start gap-2 mb-2 sm:mb-3">
+                {guild.iconUrl && (
+                  <img 
+                    src={guild.iconUrl}
+                    alt={`${guild.name} 마크`}
+                    className="w-8 h-8 object-contain flex-shrink-0"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.style.display = 'none'
+                    }}
+                  />
                 )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between mb-1">
+                    <Link 
+                      href={`/guild/${encodeURIComponent(guild.name)}`}
+                      className="text-base sm:text-lg font-bold text-blue-400 hover:text-blue-300 transition-colors group-hover:text-blue-300 truncate"
+                    >
+                      {guild.name}
+                    </Link>
+                    {guild.rank && (
+                      <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/30 ml-2 flex-shrink-0">
+                        {guild.rank}위
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
               
               <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
@@ -214,19 +344,14 @@ export default function AllianceDetailClient({ alliance }: { alliance: AllianceD
             </div>
           ))}
         </div>
-      </Card>
+      </div>
 
       {/* 최근 전투 기록 */}
-      <Card className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700">
-        <div className="flex items-center gap-3 mb-6 sm:mb-8">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
-            <FaFistRaised className="text-red-400 text-lg sm:text-xl" />
-          </div>
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">최근 거점전 기록</h2>
-            <p className="text-sm sm:text-base text-gray-400">연맹의 최근 거점전 기록</p>
-          </div>
-        </div>
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">⚔️</span>
+          최근 거점전 기록
+        </h2>
         
         {alliance.recentWarRecords.length === 0 ? (
           <div className="text-center py-8 sm:py-12">
@@ -271,20 +396,15 @@ export default function AllianceDetailClient({ alliance }: { alliance: AllianceD
             ))}
           </div>
         )}
-      </Card>
+      </div>
 
       {/* 최근 승리 기록 */}
       {alliance.recentVictories.length > 0 && (
-        <Card className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700">
-          <div className="flex items-center gap-3 mb-6 sm:mb-8">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-              <FaTrophy className="text-yellow-400 text-lg sm:text-xl" />
-            </div>
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">최근 승리 기록</h2>
-            <p className="text-sm sm:text-base text-gray-400">연맹의 최근 거점전 승리 기록</p>
-          </div>
-          </div>
+        <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6">
+          <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <span className="text-2xl">🏆</span>
+            최근 승리 기록
+          </h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {alliance.recentVictories.map((victory, index) => (
@@ -319,7 +439,7 @@ export default function AllianceDetailClient({ alliance }: { alliance: AllianceD
               </div>
             ))}
           </div>
-        </Card>
+        </div>
       )}
 
     </div>

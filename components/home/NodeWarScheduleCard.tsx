@@ -116,27 +116,27 @@ export default function NodeWarScheduleCard() {
   const nodeWarInfo = getNodeWarInfo()
 
   return (
-    <div className="node-war-card bg-white dark:bg-gradient-to-br dark:from-zinc-800 dark:via-zinc-700 dark:to-zinc-800 border border-zinc-600 rounded-xl shadow-xl overflow-hidden relative">
-      <div className="bg-zinc-800 dark:bg-zinc-800 px-3 md:px-6 py-2 md:py-4 border-b border-zinc-600">
-        <h2 className="text-lg md:text-2xl font-bold text-white dark:text-white text-gray-800 dark:text-white flex items-center justify-center gap-2">
+    <div className="node-war-card bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm border border-white/10 rounded-2xl shadow-xl overflow-hidden relative">
+      <div className="px-3 md:px-6 py-3 md:py-4 border-b border-white/10">
+        <h2 className="text-lg md:text-2xl font-bold text-white flex items-center justify-center gap-2">
           <span className="text-lg md:text-2xl">🌍</span>
           <span>거점전 시간표</span>
         </h2>
       </div>
 
-      <div className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 backdrop-blur-sm px-3 md:px-6 py-3 md:py-6">
+      <div className="px-3 md:px-6 py-3 md:py-6">
         {/* 오늘의 거점전 정보 */}
         <div className="text-center mb-3 md:mb-6">
-          <div className="inline-block px-2 md:px-4 py-1 md:py-2 bg-white dark:bg-zinc-800 rounded-full border-2 border-black dark:border-zinc-600 mb-2 md:mb-4">
+          <div className="inline-block px-2 md:px-4 py-1 md:py-2 bg-white/10 rounded-full border-2 border-white/20 mb-2 md:mb-4">
             <div className="text-white font-bold text-sm md:text-lg">
-              <span className="text-white hidden md:inline">📅 {nodeWarInfo.dayType} 거점전 안내</span>
-              <span className="text-white md:hidden">📅 {new Date().getMonth() + 1}/{new Date().getDate()} 거점전</span>
+              <span className="hidden md:inline">📅 {nodeWarInfo.dayType} 거점전 안내</span>
+              <span className="md:hidden">📅 {new Date().getMonth() + 1}/{new Date().getDate()} 거점전</span>
             </div>
           </div>
           {nodeWarInfo.stages.length > 0 && (
             <div className="grid grid-cols-1 gap-2 md:gap-3 max-w-lg mx-auto">
               {nodeWarInfo.stages.map((stage, index) => (
-                <div key={index} className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-2 md:p-4 border border-slate-700 dark:border-slate-600 shadow-md">
+                <div key={index} className="bg-white/5 rounded-xl p-2 md:p-4 border border-white/10 shadow-md">
                   <div className="text-white text-center">
                     {index === 0 && (
                       <div className="flex items-center justify-center gap-2 md:gap-6 mt-1 md:mt-3">
@@ -152,9 +152,9 @@ export default function NodeWarScheduleCard() {
                           </div>
                         </div>
                         <div className="flex flex-col items-center px-1 md:px-2 rounded-lg py-1 md:py-3">
-                          <div className="text-sm md:text-lg font-bold text-white dark:text-white text-gray-800 mb-1">발레노스 & 세렌디아</div>
+                          <div className="text-sm md:text-lg font-bold text-white mb-1">발레노스 & 세렌디아</div>
                           <div className="text-lg md:text-xl font-bold text-yellow-300">1단</div>
-                          <div className="text-xs md:text-sm text-white dark:text-gray-200 text-gray-800">{stage.players}</div>
+                          <div className="text-xs md:text-sm text-gray-200">{stage.players}</div>
                         </div>
                         <div className="flex flex-col items-center">
                           <div className="relative w-12 h-12 md:w-24 md:h-24">
@@ -183,9 +183,9 @@ export default function NodeWarScheduleCard() {
                           </div>
                         </div>
                         <div className="flex flex-col items-center px-1 md:px-2 rounded-lg py-1 md:py-3">
-                          <div className="text-sm md:text-lg font-bold text-white dark:text-white text-gray-800 mb-1">메디아 & 발렌시아</div>
+                          <div className="text-sm md:text-lg font-bold text-white mb-1">메디아 & 발렌시아</div>
                           <div className="text-lg md:text-xl font-bold text-yellow-300">2단</div>
-                          <div className="text-xs md:text-sm text-white dark:text-gray-200 text-gray-800">{stage.players}</div>
+                          <div className="text-xs md:text-sm text-gray-200">{stage.players}</div>
                         </div>
                         <div className="flex flex-col items-center">
                           <div className="relative w-12 h-12 md:w-24 md:h-24">
@@ -214,9 +214,9 @@ export default function NodeWarScheduleCard() {
                           </div>
                         </div>
                         <div className="flex flex-col items-center px-1 md:px-2 rounded-lg py-1 md:py-3">
-                          <div className="text-sm md:text-lg font-bold text-white dark:text-white text-gray-800 mb-1">칼페온 & 카마실비아</div>
+                          <div className="text-sm md:text-lg font-bold text-white mb-1">칼페온 & 카마실비아</div>
                           <div className="text-lg md:text-xl font-bold text-yellow-300">3단</div>
-                          <div className="text-xs md:text-sm text-white dark:text-gray-200 text-gray-800">{stage.players}</div>
+                          <div className="text-xs md:text-sm text-gray-200">{stage.players}</div>
                         </div>
                         <div className="flex flex-col items-center">
                           <div className="relative w-12 h-12 md:w-24 md:h-24">
@@ -241,7 +241,7 @@ export default function NodeWarScheduleCard() {
         {/* 남은 시간 */}
         {nodeWarInfo.stages.length > 0 && (
           <div className="text-center mb-2 md:mb-4">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 text-white dark:text-white text-gray-800 dark:text-white">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 text-white">
               <span className="text-sm md:text-lg font-bold">⏰ 다음 거점전까지</span>
               <span className="text-sm md:text-lg font-bold">
                 {(() => {

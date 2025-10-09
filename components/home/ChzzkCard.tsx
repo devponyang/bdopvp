@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
 
 interface Streamer {
   nickname: string
@@ -40,29 +41,41 @@ const ChzzkCard = () => {
 
   if (isLoading) {
     return (
-      <div className="p-3">
-        <div className="h-3 bg-slate-700/50 rounded w-3/4 mb-3 animate-pulse"></div>
-        <div className="h-3 bg-slate-700/50 rounded w-1/2 animate-pulse"></div>
+      <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
+        <div className="animate-pulse">
+          <div className="bg-white/10 rounded h-6 w-3/4 mb-4"></div>
+          <div className="space-y-2">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="bg-white/5 rounded-lg h-16"></div>
+            ))}
+          </div>
+        </div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="p-3 text-red-200 text-sm">
-        스트리머 정보를 불러오는데 실패했습니다.
+      <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
+        <div className="text-red-300 text-center py-4">
+          스트리머 정보를 불러오는데 실패했습니다.
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="bg-zinc-800 rounded-xl border border-black dark:border-zinc-700 shadow px-4 py-5 w-full max-w-[400px]">
-      <div className="px-3 py-2 border-b border-slate-700/50 rounded-t-xl -mx-4 -mt-5 mb-4">
-        <h2 className="flex items-center justify-center gap-1.5 text-[16px] text-slate-300 font-bold tracking-wide">
-          <span className="text-purple-500 text-[18px]">🎮</span>
-          검은사막 LIVE in Chzzk
-        </h2>
-      </div>
+    <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
+      <h2 className="text-lg font-bold text-white mb-4 flex items-center justify-center gap-2">
+        <Image 
+          src="/tip-images/chzzk.png" 
+          alt="치지직" 
+          width={24} 
+          height={24}
+          className="object-contain"
+        />
+        검은사막 LIVE in Chzzk
+      </h2>
       <div className="grid grid-cols-2 gap-2">
         <div className="space-y-1">
           {streamers.filter((_, i) => i % 2 === 0).map((streamer) => (
@@ -88,11 +101,11 @@ const StreamerItem = ({ streamer }: { streamer: Streamer }) => {
       href={streamer.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block"
+      className="group block bg-white/5 hover:bg-white/10 rounded-lg p-2 border border-white/10 hover:border-purple-500/50 transition-all"
     >
       <div className="flex flex-col gap-1">
         {streamer.isLive && (
-          <div className="relative w-full aspect-video rounded-md overflow-hidden bg-gray-700">
+          <div className="relative w-full aspect-video rounded-md overflow-hidden bg-gray-700/50">
             {!imageError && streamer.broadcastThumbnail && 
              streamer.broadcastThumbnail !== DEFAULT_THUMBNAIL && 
              streamer.broadcastThumbnail.startsWith('http') && 
@@ -109,13 +122,13 @@ const StreamerItem = ({ streamer }: { streamer: Streamer }) => {
               </div>
             )}
             <div className="absolute top-1 left-1">
-              <span className="bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">
+              <span className="bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded font-medium shadow-lg">
                 LIVE
               </span>
             </div>
           </div>
         )}
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2">
           <div className="relative flex-shrink-0">
             {!profileImageError && streamer.thumbnailUrl && streamer.thumbnailUrl !== DEFAULT_THUMBNAIL ? (
               <img
@@ -132,7 +145,7 @@ const StreamerItem = ({ streamer }: { streamer: Streamer }) => {
               </div>
             )}
           </div>
-          <p className="text-[11px] font-medium text-slate-200 tracking-wide group-hover:text-purple-400 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
+          <p className="text-[11px] font-medium text-gray-200 group-hover:text-purple-300 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
             {streamer.nickname}
           </p>
         </div>

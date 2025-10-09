@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ListSkeleton } from '../../app/components/SkeletonLoader'
 
 export interface UpdateItem {
   id: number
@@ -27,46 +26,45 @@ export default function UpdateCard({ data }: UpdateCardProps) {
   }, [data])
 
   if (loading) return (
-    <div className="bg-zinc-800 rounded-lg shadow p-4">
+    <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
       <div className="animate-pulse">
-        <div className="bg-gray-700 rounded h-6 w-3/4 mx-auto mb-4"></div>
-        <div className="border-b border-gray-600 mb-4"></div>
+        <div className="bg-white/10 rounded h-6 w-3/4 mb-4"></div>
+        <div className="space-y-2">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="bg-white/5 rounded-lg h-12"></div>
+          ))}
+        </div>
       </div>
-      <ListSkeleton items={3} />
     </div>
   )
 
   return (
-    <div className="bg-zinc-800 rounded-xl border border-black dark:border-zinc-700 shadow px-3 md:px-4 py-3 md:py-5 w-full max-w-[400px]">
-      <div className="bg-zinc-800 dark:bg-zinc-800 px-3 md:px-4 py-2 md:py-3 rounded-t-xl -mx-3 md:-mx-4 -mt-3 md:-mt-5 mb-3 md:mb-4">
-        <h2 className="text-base md:text-lg font-bold text-white flex items-center justify-center gap-2">
-          <span className="text-lg md:text-xl">🛠️</span>
-          <span>검은사막 업데이트</span>
-        </h2>
-      </div>
-      <div className="border-b border-slate-700/50 mb-2 md:mb-3"></div>
-      <ul className="space-y-2 md:space-y-3">
+    <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
+      <h2 className="text-lg font-bold text-white mb-4 flex items-center justify-center gap-2">
+        <span className="text-xl">🛠️</span>
+        검은사막 업데이트
+      </h2>
+      <div className="space-y-2">
         {updates.map((item, idx) => (
-          <li key={item.id || idx}>
-            <Link
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block p-2 md:p-4 rounded-lg bg-transparent dark:bg-zinc-800/50 hover:bg-gray-100 dark:hover:bg-zinc-700/50 hover:shadow-lg transition-all duration-200 group"
-              title={item.title}
-            >
-              <div className="flex items-center gap-1 md:gap-2">
-                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-400 px-2 md:px-3 py-1 md:py-2 rounded-lg text-xs font-bold shrink-0 border border-blue-500/30">
-                  {formatDate(item.date)}
-                </div>
-                <span className="font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-200 update-text text-xs md:text-[13px] leading-tight">
-                  {stripTitle(item.title)}
-                </span>
+          <Link
+            key={item.id || idx}
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 transition-all duration-200 group"
+            title={item.title}
+          >
+            <div className="flex items-center gap-2">
+              <div className="bg-gradient-to-r from-blue-500/30 to-purple-500/30 text-blue-300 px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 border border-blue-500/40">
+                {formatDate(item.date)}
               </div>
-            </Link>
-          </li>
+              <span className="font-medium text-gray-200 group-hover:text-blue-300 transition-colors text-xs leading-tight line-clamp-2">
+                {stripTitle(item.title)}
+              </span>
+            </div>
+          </Link>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

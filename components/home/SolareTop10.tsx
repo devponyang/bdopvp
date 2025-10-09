@@ -26,29 +26,32 @@ export default async function SolareTop10() {
   }
 
   return (
-    <div className="bg-zinc-800 rounded-xl border border-black dark:border-zinc-700 shadow px-4 py-5 w-full max-w-[400px] overflow-x-auto">
-      <div className="flex flex-col items-center mb-4">
-        <h2 className="text-xl font-semibold text-center">🌟 솔라레의 창 TOP 10</h2>
+    <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px] overflow-x-auto">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-bold text-white flex items-center justify-center gap-2 flex-1">
+          <span className="text-xl">🌟</span>
+          솔라레의 창 TOP 10
+        </h2>
         <Link
           href="/solare-league"
-          className="self-end text-sm text-white hover:underline mt-1"
+          className="text-xs text-gray-300 hover:text-white transition-colors whitespace-nowrap"
         >
-          랭킹 바로가기
+          랭킹 →
         </Link>
       </div>
 
       <table className="w-full text-sm table-auto">
         <thead>
-          <tr className="text-white text-center bg-gray-800 border-gray-700">
-            <th className="px-2 py-2">순위</th>
-            <th className="px-2 py-2">티어</th>
-            <th className="px-2 py-2">가문명</th>
-            <th className="px-2 py-2">클래스</th>
-            <th className="px-2 py-2">승률</th>
-            <th className="px-2 py-2">점수</th>
+          <tr className="text-white text-center bg-white/5 border-b border-white/10">
+            <th className="px-2 py-2 text-xs font-medium">순위</th>
+            <th className="px-2 py-2 text-xs font-medium">티어</th>
+            <th className="px-2 py-2 text-xs font-medium">가문명</th>
+            <th className="px-2 py-2 text-xs font-medium">클래스</th>
+            <th className="px-2 py-2 text-xs font-medium">승률</th>
+            <th className="px-2 py-2 text-xs font-medium">점수</th>
           </tr>
         </thead>
-        <tbody className="text-center text-white ">
+        <tbody className="text-center text-white">
           {entries.map((e: Entry) => {
             const total = e.wins + e.draws + e.losses
             const winRate = total > 0 ? Math.round((e.wins / total) * 100) : 0
@@ -58,7 +61,7 @@ export default async function SolareTop10() {
             return (
               <tr 
                 key={`${e.name}-${e.rank}`} 
-                className="h-[42px] border-b border-gray-500"
+                className="h-[42px] border-b border-white/5 hover:bg-white/5 transition-colors"
                 style={e.rank <= 3 ? {
                   backgroundImage: `url('/ponyang/${e.rank}st-bg.png')`,
                   backgroundSize: 'cover',
@@ -93,8 +96,8 @@ export default async function SolareTop10() {
                   />
                 </td>
 
-                <td className="px-2 py-1 whitespace-nowrap text-white-300">{e.name}</td>
-                <td className="px-2 py-1 whitespace-nowrap">
+                <td className="px-2 py-1 whitespace-nowrap text-gray-200">{e.name}</td>
+                <td className="px-2 py-1 whitespace-nowrap text-gray-300">
                   <div className="flex items-center justify-center gap-1">
                     {e.subclass === '전승' && (
                       <Image
@@ -166,8 +169,8 @@ export default async function SolareTop10() {
                     <span>{e.class}</span>
                   </div>
                 </td>
-                <td className="px-2 py-1 whitespace-nowrap">{winRate}%</td>
-                <td className="px-2 py-1 whitespace-nowrap">{e.score}</td>
+                <td className="px-2 py-1 whitespace-nowrap text-gray-300">{winRate}%</td>
+                <td className="px-2 py-1 whitespace-nowrap text-gray-300">{e.score}</td>
               </tr>
             )
           })}

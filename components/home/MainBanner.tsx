@@ -25,6 +25,7 @@ async function fetchBanners(): Promise<BannerData[]> {
 
 export default function MainBanner() {
   const [currentBanner, setCurrentBanner] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   
   const { data: banners = [], isLoading, error } = useQuery<BannerData[]>({
     queryKey: ['banners'],
@@ -36,20 +37,35 @@ export default function MainBanner() {
   // 자동 슬라이드 (5초마다)
   useEffect(() => {
     const activeBanners = banners.filter(banner => banner.is_active)
-    if (activeBanners.length > 1) {
+    if (activeBanners.length > 1 && !isPaused) {
       const interval = setInterval(() => {
         setCurrentBanner((prev) => (prev + 1) % activeBanners.length)
       }, 5000)
 
       return () => clearInterval(interval)
     }
-  }, [banners])
+  }, [banners, isPaused])
 
   // 배너 클릭 핸들러
   const handleBannerClick = (banner: BannerData) => {
     if (banner.link_url) {
-      window.open(banner.link_url, '_self')
+      window.open(banner.link_url, '_blank')
     }
+  }
+
+  // 네비게이션 핸들러
+  const goToPrevious = () => {
+    const activeBanners = banners.filter(banner => banner.is_active)
+    setCurrentBanner((prev) => (prev - 1 + activeBanners.length) % activeBanners.length)
+  }
+
+  const goToNext = () => {
+    const activeBanners = banners.filter(banner => banner.is_active)
+    setCurrentBanner((prev) => (prev + 1) % activeBanners.length)
+  }
+
+  const togglePause = () => {
+    setIsPaused(!isPaused)
   }
 
   // 로딩 상태
@@ -98,7 +114,7 @@ export default function MainBanner() {
             src={currentBannerData.image_url}
             alt={currentBannerData.title}
             fill
-            className="object-contain md:object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-contain md:object-cover"
             priority={currentBanner === 0}
           />
         )}
@@ -127,41 +143,44 @@ export default function MainBanner() {
         )}
 
         {/* 오버레이 효과 */}
-        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+        <div className="absolute inset-0 bg-black/10" />
       </div>
 
-      {/* 배너 인디케이터 (여러 배너가 있을 때만) */}
+      {/* 배너 컨트롤 (여러 배너가 있을 때만) */}
       {activeBanners.length > 1 && (
-        <>
-          {/* 점 인디케이터 */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
-            {activeBanners.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentBanner(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === safeCurrentBanner 
-                    ? 'bg-yellow-400 w-6' 
-                    : 'bg-white/50 hover:bg-white/70'
-                }`}
-              />
-            ))}
+        <div className="absolute bottom-4 right-4 z-30">
+          {/* 슬라이더 컨트롤 */}
+          <div className="bg-black/20 backdrop-blur-sm rounded-2xl px-4 py-2 flex items-center gap-3 shadow-lg border border-white/10">
+            {/* 이전 버튼 */}
+            <button
+              onClick={goToPrevious}
+              className="text-white hover:text-purple-200 transition-colors text-lg font-bold"
+            >
+              &lt;
+            </button>
+            
+            {/* 페이지 번호 */}
+            <div className="text-white text-sm font-medium">
+              {safeCurrentBanner + 1}/{activeBanners.length}
+            </div>
+            
+            {/* 일시정지/재생 버튼 */}
+            <button
+              onClick={togglePause}
+              className="text-white hover:text-purple-200 transition-colors text-sm font-bold"
+            >
+              {isPaused ? '▶' : '||'}
+            </button>
+            
+            {/* 다음 버튼 */}
+            <button
+              onClick={goToNext}
+              className="text-white hover:text-purple-200 transition-colors text-lg font-bold"
+            >
+              &gt;
+            </button>
           </div>
-
-          {/* 화살표 네비게이션 */}
-          <button
-            onClick={() => setCurrentBanner((prev) => (prev - 1 + activeBanners.length) % activeBanners.length)}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 z-30"
-          >
-            ←
-          </button>
-          <button
-            onClick={() => setCurrentBanner((prev) => (prev + 1) % activeBanners.length)}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 z-30"
-          >
-            →
-          </button>
-        </>
+        </div>
       )}
     </div>
   )

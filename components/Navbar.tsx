@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 // import Tooltip from '../app/components/Tooltip' // 더 이상 사용하지 않음
-import ThemeToggle from '../app/components/ThemeToggle'
 import FavoriteMenu from './FavoriteMenu'
 import { TIP_CATEGORIES } from '@/lib/constants/tip-categories'
 
@@ -18,6 +17,7 @@ export default function Navbar() {
   const [showMobileSearch, setShowMobileSearch] = useState(false)
   const [showTipDropdown, setShowTipDropdown] = useState(false)
   const [tipDropdownTimeout, setTipDropdownTimeout] = useState<NodeJS.Timeout | null>(null)
+  const [showNoticeModal, setShowNoticeModal] = useState(false)
   const router = useRouter()
 
   // 컴포넌트 언마운트 시 타이머 정리
@@ -75,7 +75,7 @@ export default function Navbar() {
 
   return (
     <div className="w-full sticky top-0 z-50 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 shadow-xl border-b border-zinc-700">
-      <div className="flex items-center justify-between max-w-full md:max-w-[1490px] mx-auto px-4 md:px-8 py-4">
+      <div className="flex items-center max-w-full md:max-w-[1490px] mx-auto px-4 md:px-8 py-4">
         {/* 로고 */}
         <a href="/" className="flex items-center gap-2 md:gap-3 shrink-0 group">
           <div className="relative">
@@ -90,12 +90,12 @@ export default function Navbar() {
             <div className="absolute inset-0 rounded-lg bg-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
           </div>
           <span className="text-xl md:text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors duration-200">
-            포냥이
+            BDOPVP-포냥이
           </span>
         </a>
 
         {/* 검색창 - 데스크톱에서만 표시 */}
-        <div className="relative flex-grow mx-2 md:mx-12 max-w-2xl hidden md:block">
+        <div className="relative flex-1 mx-8 md:mx-12 max-w-2xl hidden md:block">
           <form onSubmit={handleSearch} className="relative">
             <div className="relative">
               <input
@@ -117,8 +117,20 @@ export default function Navbar() {
           </form>
         </div>
 
+        {/* 알림 아이콘 */}
+        <div className="hidden md:block">
+          <button 
+            onClick={() => setShowNoticeModal(true)}
+            className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-600 text-yellow-400 hover:text-yellow-300 hover:bg-zinc-700/50 transition-all duration-200 relative"
+          >
+            🔔
+            {/* 새 공지가 있을 때 빨간 점 표시 */}
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+          </button>
+        </div>
+
         {/* 모바일 검색 아이콘 */}
-        <div className="md:hidden block">
+        <div className="md:hidden block ml-auto">
           <button 
             onClick={() => setShowMobileSearch(!showMobileSearch)}
             className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-600 text-yellow-400 hover:text-yellow-300 hover:bg-zinc-700/50 transition-all duration-200"
@@ -127,10 +139,6 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* 우측 아이콘 */}
-        <div className="flex items-center gap-2 md:gap-4 text-white text-lg md:text-xl shrink-0">
-          <ThemeToggle />
-        </div>
       </div>
 
       {/* 모바일 검색창 - 메뉴바 위에 표시 */}
@@ -296,6 +304,117 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* 공지사항 모달 */}
+      {showNoticeModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl border border-gray-600/30 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            {/* 모달 헤더 */}
+            <div className="flex items-center justify-between p-6 border-b border-slate-700/50">
+              <div className="flex items-center gap-3">
+                <div className="w-16 h-16 flex items-center justify-center">
+                  <img 
+                    src="/ponyang/ponyang-1.png" 
+                    alt="포냥이" 
+                    className="w-16 h-16 object-contain"
+                  />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-300">포냥이 업데이트 소식</h2>
+              </div>
+              <button
+                onClick={() => setShowNoticeModal(false)}
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-slate-700/50 rounded-lg"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* 모달 내용 */}
+            <div className="p-6 space-y-6">
+              <div className="text-gray-300 leading-relaxed">
+                {/* 제목 */}
+                <div className="text-xl font-bold text-yellow-400 text-center mb-6">
+                  📝 클래스 가이드 업데이트 예정
+                </div>
+                
+                {/* 메인 내용 */}
+                <div className="space-y-4">
+                  <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-yellow-400">
+                    <h3 className="font-semibold text-gray-200 mb-2">🎯 업데이트 계획</h3>
+                    <p className="text-sm leading-relaxed">
+                      각 클래스별로 고수분들께 인터뷰를 통해 PVP 가이드 최신화를 할 계획을 가지고 있습니다.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-blue-400">
+                    <p className="text-sm leading-relaxed">
+                      최대한 빠른 시일 내에 인터뷰 후 업데이트를 진행하고 싶으나, 
+                      개인적으로 연락 하여서 답변을 받아야 하기 때문에 시간이 다소 걸릴 수 있습니다.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-green-400">
+                    <p className="text-sm leading-relaxed">
+                      혹시 클래스별 가이드를 작성 하고 싶으신 분들은 포냥이 디스코드로 티켓 생성해서 연락주시면 감사하겠습니다.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-lg p-4 border-l-4 border-purple-400">
+                    <h3 className="font-semibold text-purple-300 mb-2">🎨 디자인 도움 주실 분 찾습니다!</h3>
+                    <p className="text-sm leading-relaxed text-gray-300">
+                      포냥이 사이트의 <strong>길드리그, 솔라레 배너</strong> 등 다양한 디자인 작업을 도와주실 분들을 찾고 있습니다. 
+                      UI/UX 디자인이나 그래픽 작업에 관심이 있으시다면 디스코드로 연락주세요!
+                    </p>
+                  </div>
+                </div>
+                
+                {/* 디스코드 링크 */}
+                <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 mt-6">
+                  <a 
+                    href="https://discord.com/invite/mD37c4GEby" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-300 font-medium mb-2 hover:text-blue-200 transition-colors block text-center"
+                  >
+                    💬 포냥이 디스코드 참여하기
+                  </a>
+                  <p className="text-sm text-center text-gray-400">
+                    공지사항 및 업데이트 내역을 확인하실 수 있습니다
+                  </p>
+                </div>
+                
+                {/* 하단 메시지 */}
+                <div className="pt-4 text-center">
+                  <p className="text-lg font-semibold text-gray-200">🎮 함께 만들어가는 포냥이</p>
+                  <p className="text-sm text-gray-400 mt-2">- BDOPVP-포냥이 개발자 디움 -</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 모달 버튼들 */}
+            <div className="flex gap-3 p-6 border-t border-slate-700/50">
+              <button
+                onClick={() => {
+                  const today = new Date().toDateString();
+                  localStorage.setItem('noticeDismissed', today);
+                  setShowNoticeModal(false);
+                }}
+                className="flex-1 px-4 py-3 text-sm font-medium text-gray-300 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition-colors"
+              >
+                오늘 하루 보지 않기
+              </button>
+              <button
+                onClick={() => setShowNoticeModal(false)}
+                className="flex-1 px-4 py-3 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

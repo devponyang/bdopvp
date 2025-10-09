@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card } from '@/components/card'
 
 interface Achievement {
   type: 'rank' | 'stability' | 'nodewar' | 'size' | 'popularity'
@@ -69,101 +68,90 @@ export default function GuildAchievementsSection({ guildName }: Props) {
 
   if (isLoading) {
     return (
-      <Card className="p-6 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700">
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6">
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="h-8 bg-white/10 rounded w-1/3 mb-6"></div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="h-20 bg-gray-300 dark:bg-gray-700 rounded"></div>
+              <div key={i} className="h-32 bg-white/5 rounded-lg"></div>
             ))}
           </div>
         </div>
-      </Card>
+      </div>
     )
   }
 
   if (!achievements || achievements.achievements.length === 0) {
     return (
-      <Card 
-        className="guild-achievements-container p-4 md:p-6 bg-sky-50 dark:bg-zinc-800 border border-sky-200 dark:border-zinc-700"
-        style={{
-          backgroundColor: document.documentElement.classList.contains('dark') ? '#27272a' : '#f0f9ff',
-          borderColor: document.documentElement.classList.contains('dark') ? '#3f3f46' : '#e0f2fe'
-        }}
-      >
-        <h3 className="text-lg font-bold text-gray-800 dark:!text-white mb-4 flex items-center gap-2">
-          <span>🏅</span>
-          <span className="dark:!text-white">길드 특징</span>
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6">
+        <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-2xl">🏅</span>
+          길드 특징
         </h3>
-        <p className="text-gray-600 dark:text-gray-400 text-center py-8">
+        <p className="text-gray-300 text-center py-8">
           아직 특별한 특징이 없습니다.
         </p>
-      </Card>
+      </div>
     )
   }
 
   const displayedAchievements = showAll ? achievements.achievements : achievements.achievements.slice(0, 4)
 
   return (
-    <Card 
-      className="guild-achievements-container p-4 md:p-6 bg-sky-50 dark:bg-zinc-800 border border-sky-200 dark:border-zinc-700"
-      style={{
-        backgroundColor: document.documentElement.classList.contains('dark') ? '#27272a' : '#f0f9ff',
-        borderColor: document.documentElement.classList.contains('dark') ? '#3f3f46' : '#e0f2fe'
-      }}
-    >
-      <div className="flex items-center justify-between mb-4 md:mb-6">
-        <h3 className="text-xl font-bold !text-gray-800 dark:!text-white flex items-center gap-2">
-          <span>🏅</span>
-          <span>길드 특징</span>
+    <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-white flex items-center gap-2">
+          <span className="text-2xl">🏅</span>
+          길드 특징
+          <span className="text-base font-normal text-gray-300 ml-2">({achievements.achievements.length}개)</span>
         </h3>
       </div>
 
       {/* 특징 목록 */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {displayedAchievements.map((achievement, index) => (
           <div
             key={index}
-            className={`p-2 md:p-3 rounded-lg border transition-all hover:scale-[1.02] ${getTypeColor(achievement.type)}`}
+            className={`p-3 md:p-4 rounded-xl border-2 transition-all hover:scale-[1.02] ${getTypeColor(achievement.type)}`}
           >
-            <div className="flex items-start justify-between mb-1 md:mb-2">
-              <h5 className="font-bold text-xs leading-tight">{achievement.title}</h5>
-              <span className="text-xs opacity-60 font-semibold hidden md:block">
+            <div className="flex items-start justify-between mb-2">
+              <h5 className="font-bold text-sm leading-tight">{achievement.title}</h5>
+              <span className="text-xs opacity-70 font-semibold hidden md:block ml-2 whitespace-nowrap">
                 {getCategoryName(achievement.type)}
               </span>
             </div>
-            <p className="text-xs opacity-90 leading-tight line-clamp-2 md:line-clamp-3">
+            <p className="text-xs opacity-90 leading-tight line-clamp-2 md:line-clamp-3 mb-2">
               {achievement.description}
             </p>
             
             {(achievement.type === 'rank' || achievement.type === 'nodewar') && achievement.value && typeof achievement.value === 'object' && (
-              <div className="mt-1 md:mt-2 pt-1 md:pt-2 border-t border-current/20">
-                <div className="text-xs space-y-0.5 md:space-y-1 opacity-75">
+              <div className="mt-2 pt-2 border-t border-current/20">
+                <div className="text-xs space-y-1 opacity-80">
                   {achievement.type === 'rank' ? (
                     <>
                       <div className="flex justify-between">
-                        <span>순위:</span><span>{achievement.value.rank}위</span>
+                        <span>순위:</span><span className="font-semibold">{achievement.value.rank}위</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>점수:</span><span>{achievement.value.score?.toLocaleString()}점</span>
+                        <span>점수:</span><span className="font-semibold">{achievement.value.score?.toLocaleString()}점</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>승률:</span><span>{achievement.value.winRate}%</span>
+                        <span>승률:</span><span className="font-semibold">{achievement.value.winRate}%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>전적:</span><span>{achievement.value.wins}승 {achievement.value.losses}패</span>
+                        <span>전적:</span><span className="font-semibold">{achievement.value.wins}승 {achievement.value.losses}패</span>
                       </div>
                     </>
                   ) : (
                     <>
                       <div className="flex justify-between">
-                        <span>연맹:</span><span>{achievement.value.alliance}</span>
+                        <span>연맹:</span><span className="font-semibold">{achievement.value.alliance}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>승률:</span><span>{achievement.value.winRate}%</span>
+                        <span>승률:</span><span className="font-semibold">{achievement.value.winRate}%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>전적:</span><span>{achievement.value.wins}승 {achievement.value.losses}패</span>
+                        <span>전적:</span><span className="font-semibold">{achievement.value.wins}승 {achievement.value.losses}패</span>
                       </div>
                     </>
                   )}
@@ -175,16 +163,16 @@ export default function GuildAchievementsSection({ guildName }: Props) {
       </div>
 
       {achievements.achievements.length > 4 && (
-        <div className="mt-4 md:mt-6 text-center">
+        <div className="mt-6 text-center">
           <button
             onClick={() => setShowAll(!showAll)}
-            className="px-4 md:px-6 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all text-xs md:text-sm font-semibold"
+            className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all text-sm font-semibold border border-white/20"
           >
-            {showAll ? '접기' : `+${achievements.achievements.length - 4}개 더 보기`}
+            {showAll ? '접기 ▲' : `+${achievements.achievements.length - 4}개 더 보기 ▼`}
           </button>
         </div>
       )}
 
-    </Card>
+    </div>
   )
 }

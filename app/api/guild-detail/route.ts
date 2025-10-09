@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     const historyRes = await db.query(
       `SELECT change_date, status FROM guild_history
        WHERE guild_id = $1
-         AND change_date >= NOW() - INTERVAL '1 month'
+         AND change_date >= DATE_TRUNC('month', NOW()) - INTERVAL '2 months'
        ORDER BY change_date ASC`,
       [guild.id]
     )

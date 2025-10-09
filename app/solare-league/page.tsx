@@ -151,10 +151,10 @@ export default function SolareOverallPage() {
           
           {/* 콘텐츠 */}
           <div className="relative p-3 md:p-8">
-            {/* 데스크톱 레이아웃 */}
-            <div className="hidden md:flex items-center justify-between gap-6">
-              {/* 왼쪽: 아이콘과 제목 */}
-              <div className="flex items-center gap-4">
+          {/* 데스크톱 레이아웃 */}
+          <div className="hidden md:flex items-center justify-between gap-6">
+            {/* 왼쪽: 아이콘과 제목 */}
+            <div className="flex items-center gap-4">
                 {/* 아이콘 */}
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-blue-400/30 rounded-xl blur-sm"></div>

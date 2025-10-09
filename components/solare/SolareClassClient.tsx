@@ -298,29 +298,89 @@ export default function SolareClassClient() {
   return (
     <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
       {/* 메인 헤더 */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-red-500/20 rounded-3xl blur-sm"></div>
-        <div className="relative bg-gradient-to-r from-slate-800/80 to-blue-900/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-2xl border border-white/10">
-          <div className="flex flex-col items-center text-center space-y-4">
+      <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10">
+        {/* 배경 이미지 */}
+        <div 
+          className="absolute inset-0 bg-no-repeat opacity-50"
+          style={{
+            backgroundImage: "url('/ponyang/sorare-bg.png')",
+            backgroundSize: "100% auto",
+            backgroundPosition: "center 30%"
+          }}
+        ></div>
+        
+        {/* 콘텐츠 */}
+        <div className="relative p-3 md:p-8">
+          {/* 데스크톱 레이아웃 */}
+          <div className="hidden md:flex items-center justify-between gap-6">
+            {/* 왼쪽: 아이콘과 제목 */}
             <div className="flex items-center gap-4">
-              <div className="text-4xl md:text-6xl animate-pulse">⚔️</div>
-              <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
-                솔라레의 창 - {className}
-              </h1>
-              <div className="text-4xl md:text-6xl">🏆</div>
+              {/* 아이콘 */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-blue-400/30 rounded-xl blur-sm"></div>
+                <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="text-3xl">⚔️</div>
+                </div>
+              </div>
+              
+              {/* 제목 블록 */}
+              <div className="px-4 py-3">
+                <h1 className="text-4xl font-bold text-white">
+                  솔라레의 창
+                </h1>
+                <div className="text-lg text-white font-medium">
+                  {className} 클래스 순위
+                </div>
+              </div>
             </div>
-            <div className="text-lg md:text-xl text-blue-300 font-medium">
-              {className} 클래스 순위
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-300">
-              <span className="px-3 py-1 bg-blue-600/30 rounded-full border border-blue-400/30">
-                ⏰ 매일 오전 업데이트
-              </span>
+            
+            {/* 오른쪽: 날짜와 업데이트 정보 */}
+            <div className="flex flex-col gap-2">
+              {/* 날짜 */}
               {updateDate && (
-                <span className="px-3 py-1 bg-purple-600/30 rounded-full border border-purple-400/30">
-                  📅 {updateDate} {lastUpdateTime && `(${lastUpdateTime})`}
-                </span>
+                <div className="bg-gradient-to-r from-slate-800/90 to-blue-900/90 rounded-xl px-4 py-2 border border-white/20 flex items-center gap-2">
+                  <div className="text-white/70">📅</div>
+                  <span className="text-white text-base font-medium">{updateDate}</span>
+                </div>
               )}
+              
+              {/* 업데이트 알림 */}
+              <div className="bg-gradient-to-r from-slate-800/90 to-blue-900/90 rounded-xl px-4 py-2 border border-white/20 flex items-center gap-2">
+                <div className="text-white/70">⏰</div>
+                <span className="text-white text-base font-medium">매일 오전 업데이트</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 모바일 레이아웃 */}
+          <div className="md:hidden space-y-2">
+            {/* 상단: 제목만 */}
+            <div className="flex flex-col items-center text-center">
+              <div>
+                <h1 className="text-xl font-bold text-white">
+                  솔라레의 창
+                </h1>
+                <div className="text-xs text-white font-medium">
+                  {className} 클래스 순위
+                </div>
+              </div>
+            </div>
+            
+            {/* 하단: 날짜와 업데이트 정보 */}
+            <div className="flex flex-col gap-1">
+              {/* 날짜 */}
+              {updateDate && (
+                <div className="bg-gradient-to-r from-slate-800/90 to-blue-900/90 rounded-lg px-3 py-1 border border-white/20 flex items-center justify-center gap-2">
+                  <div className="text-white/70 text-xs">📅</div>
+                  <span className="text-white text-xs font-medium">{updateDate}</span>
+                </div>
+              )}
+              
+              {/* 업데이트 알림 */}
+              <div className="bg-gradient-to-r from-slate-800/90 to-blue-900/90 rounded-lg px-3 py-1 border border-white/20 flex items-center justify-center gap-2">
+                <div className="text-white/70 text-xs">⏰</div>
+                <span className="text-white text-xs font-medium">매일 오전 업데이트</span>
+              </div>
             </div>
           </div>
         </div>
