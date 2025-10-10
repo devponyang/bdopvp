@@ -432,7 +432,7 @@ export default function WarriorGuide() {
               <p className="text-slate-200 leading-relaxed">
                 <strong className="text-blue-300">편전</strong> (경직) → 
                 <strong className="text-yellow-300"> 역극</strong> (기절) → 
-                <strong className="text-purple-300"> 빽추 후</strong> → 
+                <strong className="text-purple-300"> 빽추 </strong> → 
                 <strong className="text-orange-300"> 격풍</strong> → 
                 <strong className="text-cyan-300"> 개화</strong> → 
                 <strong className="text-orange-300"> 격풍</strong> → 
@@ -447,9 +447,12 @@ export default function WarriorGuide() {
             <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-yellow-500 font-mono text-sm mb-3">
               <p className="text-slate-200 leading-relaxed">
                 <strong className="text-yellow-300">역극</strong> (기절) → 
+                <strong className="text-blue-300"> 빽추 </strong> → 
                 <strong className="text-cyan-300"> 개화</strong> → 
                 <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-blue-300"> 빽추</strong> → 
                 <strong className="text-green-300"> 장님찌르기</strong> (경직) → 
+                <strong className="text-orange-300"> 격풍</strong> → 
                 <strong className="text-blue-300"> 용오름</strong> (용오름화 X) → 
                 <strong className="text-purple-300"> 돌아차기</strong> (넉다운) 후 위 콤보와 동일
               </p>
@@ -651,8 +654,8 @@ export default function WarriorGuide() {
             <h4 className="text-yellow-300 text-xl font-bold mb-3">🎯 필수 연습 콤보</h4>
             <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-yellow-500 font-mono text-center mb-3">
               <p className="text-slate-200 text-lg">
-                <strong className="text-yellow-300">옆장찌, 초열보</strong> → 
-                <strong className="text-orange-300"> 옆장찌, 초열보</strong> → 
+                <strong className="text-yellow-300">옆장찌, 초열보</strong> +
+                <strong className="text-orange-300"> 옆장찌, 초열보</strong> + 
                 <strong className="text-cyan-300"> 각수</strong>
               </p>
             </div>

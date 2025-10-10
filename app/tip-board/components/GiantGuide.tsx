@@ -275,10 +275,20 @@ export default function GiantGuide() {
               <strong className="text-red-300"> 거암</strong>
             </p>
           </div>
+        </div>
+
+        {/* 핵심 스킬 */}
+        <div className="bg-slate-700/50 p-6 rounded-xl mb-6 shadow-lg border border-slate-600">
+          <h3 className="text-cyan-400 text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3">💡</span> 핵심 스킬
+          </h3>
           
-          <div className="bg-slate-700 p-4 rounded-lg border-l-4 border-yellow-400">
+          <div className="bg-slate-600/50 p-4 rounded-lg border-l-4 border-cyan-400">
+            <p className="text-slate-200 text-lg mb-3">
+              자이언트는 <strong className="text-cyan-300">뿌리치기가 핵심 스킬</strong>입니다. 거의 <strong className="text-yellow-300">쿨 돌 때마다</strong> 쓰면 됩니다.
+            </p>
             <p className="text-slate-200 text-lg">
-              <strong className="text-yellow-400">💡 참고:</strong> <strong className="text-yellow-300">공포의 군림자(공군)</strong>은 상황 봐서 우겨넣기
+              <strong className="text-yellow-300">공포의 군림자(공군)</strong>은 상황 봐서 우겨넣기
             </p>
           </div>
         </div>
