@@ -122,7 +122,7 @@ export default function WarriorGuide() {
       {/* 이미지 */}
       <div className="mb-8 flex justify-center">
         <img 
-          src="/tip-images/musapick.jpg" 
+          src="/tip-images/musapick.JPG" 
           alt="전승 무사" 
           className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
         />
@@ -528,7 +528,7 @@ export default function WarriorGuide() {
           <h3 className="text-2xl font-bold text-purple-300 mb-4">⚡ 특화</h3>
           <div className="flex justify-center">
             <img 
-              src="/tip-images/musa.jpg" 
+              src="/tip-images/musa.JPG" 
               alt="특화" 
               className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
             />
@@ -544,7 +544,7 @@ export default function WarriorGuide() {
               <h4 className="text-blue-300 text-xl font-bold mb-3 text-center">인추 세팅</h4>
               <div className="flex justify-center">
                 <img 
-                  src="/tip-images/musacri1.jpg" 
+                  src="/tip-images/musacri1.JPG" 
                   alt="인추 세팅" 
                   className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
                 />
@@ -556,7 +556,7 @@ export default function WarriorGuide() {
               <h4 className="text-green-300 text-xl font-bold mb-3 text-center">회피 밸런스 세팅</h4>
               <div className="flex justify-center">
                 <img 
-                  src="/tip-images/musacri2.jpg" 
+                  src="/tip-images/musacri2.JPG" 
                   alt="회피 밸런스 세팅" 
                   className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
                 />
@@ -599,10 +599,32 @@ export default function WarriorGuide() {
           <h3 className="text-pink-300 text-2xl font-bold mb-4">✨ 라밤</h3>
           <div className="flex justify-center">
             <img 
-              src="/tip-images/labam.jpg" 
+              src="/tip-images/labam.JPG" 
               alt="라밤" 
               className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
             />
+          </div>
+        </div>
+
+        {/* 재련석 */}
+        <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 p-6 rounded-xl border border-red-600/40 mt-6">
+          <h4 className="text-red-300 text-xl font-bold mb-3">⚔️ 군왕 재련석</h4>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-3">
+            <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+              <p className="text-red-400 font-bold">모든 공격력</p>
+            </div>
+            <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+              <p className="text-blue-400 font-bold">모든 피해 감소</p>
+            </div>
+            <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+              <p className="text-green-400 font-bold">최대 생명력</p>
+            </div>
+            <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+              <p className="text-purple-400 font-bold">다운어택 피해량 증가</p>
+            </div>
+            <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+              <p className="text-yellow-400 font-bold">백어택 피해량 증가</p>
+            </div>
           </div>
         </div>
       </div>

@@ -548,6 +548,28 @@ export default function DarkKnightGuide() {
               </p>
             </div>
           </div>
+          
+          {/* 군왕 재련석 */}
+          <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 p-6 rounded-xl border border-red-600/40 mt-6">
+            <h4 className="text-red-300 text-xl font-bold mb-3">⚔️ 군왕 재련석</h4>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-3">
+              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+                <p className="text-red-400 font-bold">모든 공격력</p>
+              </div>
+              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+                <p className="text-red-400 font-bold">백어택</p>
+              </div>
+              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+                <p className="text-red-400 font-bold">치명타 확률</p>
+              </div>
+              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+                <p className="text-red-400 font-bold">모든 피해 감소</p>
+              </div>
+              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
+                <p className="text-red-400 font-bold">다운어택 피해량</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -602,27 +624,6 @@ export default function DarkKnightGuide() {
             <p className="text-slate-200 text-lg">
               상대방 옆으로 공습을 쓰는데 <strong className="text-purple-400">올려칠 때 화면을 돌려서 상대방 옆을 칩니다</strong>..
             </p>
-          </div>
-          
-          <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 p-6 rounded-xl border border-red-600/40">
-            <h4 className="text-red-300 text-xl font-bold mb-3">⚔️ 군왕 재련</h4>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-3">
-              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
-                <p className="text-red-400 font-bold">모든 공격력</p>
-              </div>
-              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
-                <p className="text-red-400 font-bold">백어택</p>
-              </div>
-              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
-                <p className="text-red-400 font-bold">치명타 확률</p>
-              </div>
-              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
-                <p className="text-red-400 font-bold">모든 피해 감소</p>
-              </div>
-              <div className="bg-slate-800/60 p-3 rounded-lg text-center">
-                <p className="text-red-400 font-bold">다운어택 피해량</p>
-              </div>
-            </div>
           </div>
         </div>
         
