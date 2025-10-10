@@ -12,6 +12,8 @@ import { ReactNode } from 'react'
 import TrafficTracker from './components/TrafficTracker'
 import StructuredData from './components/StructuredData'
 import Script from 'next/script'
+import SidebarAd from '@/components/SidebarAd'
+import FooterAd from '@/components/FooterAd'
 // import PageTracker from './components/PageTracker'
 
 
@@ -163,9 +165,18 @@ export default function RootLayout({
           <TrafficTracker />
           {/* <PageTracker /> */}
           <Navbar />
+          
+          {/* 좌우 사이드바 광고 - 큰 화면에서만 표시 */}
+          <SidebarAd position="left" />
+          <SidebarAd position="right" />
+          
           <main className="min-h-screen pb-24">
             {children}
           </main>
+          
+          {/* 푸터 위 광고 */}
+          <FooterAd />
+          
           <footer className="bg-zinc-900 border-t border-zinc-800 py-3 px-4 text-center text-xs text-zinc-400">
             <div className="flex flex-col items-center gap-1">
               <div className="flex flex-wrap justify-center gap-2 text-[13px] text-zinc-300">

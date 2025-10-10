@@ -90,6 +90,15 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
                       UI/UX 디자인이나 그래픽 작업에 관심이 있으시다면 디스코드로 연락주세요!
                     </p>
                   </div>
+                  
+                  <div className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 rounded-lg p-4 border-l-4 border-amber-400">
+                    <h3 className="font-semibold text-amber-300 mb-2">💰 구글 애드센스 광고 시작 안내</h3>
+                    <p className="text-sm leading-relaxed text-gray-300">
+                      BDOPVP-포냥이 사이트의 <strong>서버 비용 충당</strong>을 위해 구글 애드센스 광고를 시작하게 되었습니다. 
+                      사이트를 유지를 위해, 광고 수익을 서버 유지비에 사용할 예정입니다. 
+                      애드블록 쓰셔도 컨텐츠는 정상적으로 표시 될 예정입니다. 양해 부탁드립니다! 🙏
+                    </p>
+                  </div>
                 </div>
                 
                 {/* 디스코드 링크 */}
