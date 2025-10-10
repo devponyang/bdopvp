@@ -157,15 +157,7 @@ export default function WarHistoryPage() {
     const kstToday = now.toISOString().split('T')[0]
     const selectedDateStr = selectedDate.toISOString().split('T')[0]
     
-    console.log('날짜 비교 디버그:', {
-      현재시간: now.toString(),
-      오늘날짜: kstToday,
-      선택날짜: selectedDateStr,
-      미래여부: selectedDateStr > kstToday
-    })
-    
     if (selectedDateStr > kstToday) {
-      console.log('미래 날짜로 판단하여 데이터 로드 중단')
       setRecords([])
       return
     }
@@ -219,17 +211,14 @@ export default function WarHistoryPage() {
         
         // 일반적인 경우: 완료된 전투 기록 가져오기
         const apiUrl = `/api/war-records/history?${query}`
-        console.log('API 요청 URL:', apiUrl)
         
         const res = await fetch(apiUrl)
-        console.log('API 응답 상태:', res.status, res.statusText)
         
         if (!res.ok) {
           throw new Error(`API 요청 실패: ${res.status} ${res.statusText}`)
         }
         
         const json = await res.json()
-        console.log('API 응답 데이터:', json, '타입:', typeof json, '배열여부:', Array.isArray(json))
         
         setRecords(Array.isArray(json) ? json : [])
       } catch (error) {
@@ -300,10 +289,6 @@ export default function WarHistoryPage() {
   
   const hasActualData = records.length > 0;
   const isFutureDate = selectedDateStr > kstToday;
-  
-  // 디버깅 로그
-  console.log('Debug - hasActualData:', hasActualData, 'records.length:', records.length)
-  console.log('Debug - isFutureDate:', isFutureDate, 'selectedDateStr:', selectedDateStr, 'kstToday:', kstToday)
   
   // 실제 데이터가 있으면 항상 표시, 미래 날짜만 숨김
   const isHideTable = isFutureDate;

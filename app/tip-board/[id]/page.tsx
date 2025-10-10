@@ -15,6 +15,7 @@ import DeadEyeGuide from '../components/DeadEyeGuide'
 import GiantGuide from '../components/GiantGuide'
 import WarriorGuide from '../components/WarriorGuide'
 import MaeguSuccessionGuide from '../components/MaeguSuccessionGuide'
+import AwakenedWizardGuide from '../components/AwakenedWizardGuide'
 
 interface TipPost {
   id: number
@@ -95,6 +96,12 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 전승 매구 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '19') {
+          setLoading(false)
+          return
+        }
+
+        // 각성 위자드 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '20') {
           setLoading(false)
           return
         }
@@ -239,6 +246,11 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 전승 매구 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '19') {
     return <MaeguSuccessionGuide />
+  }
+
+  // 각성 위자드 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '20') {
+    return <AwakenedWizardGuide />
   }
   
   if (!post) return notFound()

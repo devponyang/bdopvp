@@ -62,7 +62,7 @@ export default function StatisticsPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-6 md:py-10">
+      <div className="max-w-[1490px] mx-auto px-4 py-6 md:py-10">
         <PonyangLoading message="통계 데이터를 불러오는 중..." />
       </div>
     )
@@ -70,7 +70,7 @@ export default function StatisticsPage() {
 
   if (error) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-6 md:py-10">
+      <div className="max-w-[1490px] mx-auto px-4 py-6 md:py-10">
         <div className="text-center text-red-400 py-20">
           통계 데이터를 불러오는데 실패했습니다.
         </div>
@@ -79,7 +79,7 @@ export default function StatisticsPage() {
   }
 
   return (
-    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+    <div className="p-3 md:p-6 max-w-full md:max-w-[1490px] mx-auto mt-6">
       {/* 메인 헤더 */}
       <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10">
         {/* 배경 이미지 */}
@@ -99,9 +99,9 @@ export default function StatisticsPage() {
             {/* 왼쪽: 아이콘과 제목 */}
             <div className="flex items-center gap-4">
               {/* 아이콘 */}
-              <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
-                <div className="text-3xl">📊</div>
-              </div>
+        <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg p-2">
+          <img src="/icons/tong-tip.png" alt="통계" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+        </div>
               
               {/* 제목 블록 */}
               <div className="px-4 py-3">

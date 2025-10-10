@@ -15,7 +15,7 @@ export default async function GuildLeagueTop10Server() {
     <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px] overflow-x-auto">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-white flex items-center justify-center gap-2 flex-1">
-          <span className="text-xl">🏆</span>
+          <img src="/icons/guild-league-icon.png" alt="길드 리그" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
           길드 리그 TOP 10
         </h2>
         <Link

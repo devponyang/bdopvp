@@ -175,7 +175,7 @@ export default function Navbar() {
         {/* 데스크톱 메뉴 */}
         <div className="hidden md:flex justify-between max-w-[1490px] mx-auto px-6 py-3 text-base font-semibold text-white">
           <Link href="/" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <span className="text-lg">🏠</span>
+            <img src="/icons/home-icon.png" alt="홈" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>홈</span>
           </Link>
           <div 
@@ -195,7 +195,7 @@ export default function Navbar() {
             }}
           >
             <Link href="/tip-board" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-              <span className="text-lg">📝</span>
+              <img src="/icons/tip-icon.png" alt="팁게시판" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <span>팁게시판</span>
               <span className="text-xs">▼</span>
             </Link>
@@ -241,27 +241,27 @@ export default function Navbar() {
             )}
           </div>
           <Link href="/guild-recruit" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <span className="text-lg">🏰</span>
+            <img src="/icons/guild-icon.png" alt="길드모집" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>길드모집</span>
           </Link>
           <Link href="/war-records" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <span className="text-lg">⚔️</span>
+            <img src="/icons/war-icon.png" alt="거점/점령전" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>거점/점령전</span>
           </Link>
           <Link href="/guild-league" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <span className="text-lg">🏆</span>
+            <img src="/icons/guild-league-icon.png" alt="길드 리그" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>길드 리그</span>
           </Link>
           <Link href="/solare-league" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <span className="text-lg">🌟</span>
+            <img src="/icons/rank1.png" alt="솔라레의 창" className="w-6 h-6 object-contain" />
             <span>솔라레의 창</span>
           </Link>
           <Link href="/master-class" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <span className="text-lg">👑</span>
+            <img src="/icons/masterclass-icon.png" alt="마스터 클래스" className="w-6 h-6 object-contain" />
             <span>마스터 클래스</span>
           </Link>
           <Link href="/statistics" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <span className="text-lg">📊</span>
+            <img src="/icons/tong-tip.png" alt="통계" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>통계</span>
           </Link>
         </div>
@@ -270,35 +270,35 @@ export default function Navbar() {
         <div className="md:hidden">
           <div className="grid grid-cols-3 gap-1 px-2 py-2 text-xs font-semibold text-white">
             <Link href="/" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <span className="text-base">🏠</span>
+              <img src="/icons/home-icon.png" alt="홈" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <span className="leading-tight">홈</span>
             </Link>
             <Link href="/tip-board" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <span className="text-base">📝</span>
+              <img src="/icons/tip-icon.png" alt="팁게시판" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <span className="leading-tight">팁게시판</span>
             </Link>
             <Link href="/guild-recruit" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <span className="text-base">🏰</span>
+              <img src="/icons/guild-icon.png" alt="길드모집" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <span className="leading-tight">길드모집</span>
             </Link>
             <Link href="/war-records" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <span className="text-base">⚔️</span>
+              <img src="/icons/war-icon.png" alt="거점/점령전" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <span className="leading-tight">거점/점령전</span>
             </Link>
             <Link href="/guild-league" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <span className="text-base">🏆</span>
+              <img src="/icons/guild-league-icon.png" alt="길드리그" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <span className="leading-tight">길드리그</span>
             </Link>
             <Link href="/solare-league" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <span className="text-base">🌟</span>
+              <img src="/icons/rank1.png" alt="솔라레의 창" className="w-6 h-6 object-contain" />
               <span className="leading-tight">솔라레의 창</span>
             </Link>
             <Link href="/master-class" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <span className="text-base">👑</span>
+              <img src="/icons/masterclass-icon.png" alt="마스터클래스" className="w-6 h-6 object-contain" />
               <span className="leading-tight">마스터클래스</span>
             </Link>
             <Link href="/statistics" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <span className="text-base">📊</span>
+              <img src="/icons/tong-tip.png" alt="통계" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <span className="leading-tight">통계</span>
             </Link>
           </div>

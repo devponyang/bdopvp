@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function MasterClassPage() {
   return (
-    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+    <div className="p-3 md:p-6 max-w-full md:max-w-[1490px] mx-auto mt-6">
       {/* 메인 헤더 */}
       <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 mb-8">
         {/* 배경 이미지 */}

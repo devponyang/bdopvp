@@ -71,7 +71,7 @@ export default async function GuildLeaguePage() {
 
   if (!data || data.length === 0) {
     return (
-      <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+      <div className="p-3 md:p-6 max-w-full md:max-w-[1490px] mx-auto mt-6">
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-red-500/20 rounded-3xl blur-sm"></div>
           <div className="relative bg-gradient-to-r from-slate-800/80 to-blue-900/80 backdrop-blur-sm p-12 rounded-3xl shadow-2xl border border-white/10">
@@ -108,7 +108,7 @@ export default async function GuildLeaguePage() {
   }
 
   return (
-    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+    <div className="p-3 md:p-6 max-w-full md:max-w-[1490px] mx-auto mt-6">
       {/* 메인 헤더 */}
       <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10">
         {/* 배경 이미지 */}
@@ -130,9 +130,9 @@ export default async function GuildLeaguePage() {
               {/* 아이콘 */}
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/30 to-orange-400/30 rounded-xl blur-sm"></div>
-                <div className="relative w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <div className="text-3xl">⚔️</div>
-                </div>
+        <div className="relative w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg p-2">
+          <img src="/icons/guild-league-icon.png" alt="길드 리그" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+        </div>
               </div>
               
               {/* 제목 블록 */}

@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 
 export default function WarRecordsLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="max-w-screen-xl mx-auto p-4 mt-6">
+    <div className="max-w-[1490px] mx-auto p-4 mt-6">
       {/* 메인 헤더 */}
       <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 mb-8">
         {/* 배경 이미지 */}
@@ -26,9 +26,9 @@ export default function WarRecordsLayout({ children }: { children: ReactNode }) 
               {/* 아이콘 */}
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-red-400/30 to-orange-400/30 rounded-xl blur-sm"></div>
-                <div className="relative w-20 h-20 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <div className="text-3xl">⚔️</div>
-                </div>
+        <div className="relative w-20 h-20 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg p-2">
+          <img src="/icons/war-icon.png" alt="거점/점령전" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+        </div>
               </div>
               
               {/* 제목 블록 */}

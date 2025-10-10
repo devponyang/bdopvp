@@ -41,7 +41,7 @@ export default function UpdateCard({ data }: UpdateCardProps) {
   return (
     <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
       <h2 className="text-lg font-bold text-white mb-4 flex items-center justify-center gap-2">
-        <span className="text-xl">🛠️</span>
+        <img src="/icons/home-icon.png" alt="검은사막 업데이트" className="w-5 h-5 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
         검은사막 업데이트
       </h2>
       <div className="space-y-2">

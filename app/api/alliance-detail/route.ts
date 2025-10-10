@@ -135,11 +135,13 @@ export async function GET(req: Request) {
 
     return NextResponse.json(response)
   } catch (err: any) {
-    console.error('Alliance detail API Error:', err)
-    
+    // Alliance not found는 정상적인 경우이므로 로그 출력 안함
     if (err.message === 'Alliance not found') {
       return NextResponse.json({ error: 'Alliance not found' }, { status: 404 })
     }
+    
+    // 실제 에러만 로그 출력
+    console.error('Alliance detail API Error:', err)
     
     if (err.message === 'Request timeout') {
       return NextResponse.json({ error: 'Request timeout' }, { status: 504 })

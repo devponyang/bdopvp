@@ -29,7 +29,7 @@ export default async function SolareTop10() {
     <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px] overflow-x-auto">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-white flex items-center justify-center gap-2 flex-1">
-          <span className="text-xl">🌟</span>
+          <img src="/icons/rank1.png" alt="솔라레의 창" className="w-6 h-6 object-contain" />
           솔라레의 창 TOP 10
         </h2>
         <Link
