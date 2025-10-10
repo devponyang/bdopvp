@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { useSearchParams } from 'next/navigation'
 import PonyangLoading from '../components/PonyangLoading'
-import { TIP_CATEGORIES, CLASS_GUIDE_CLASSES, CLASS_EMOJIS, getCategoryFromTags, getClassFromTags, type TipCategory, type ClassGuideClass } from '@/lib/constants/tip-categories'
+import { TIP_CATEGORIES, CLASS_GUIDE_CLASSES, CLASS_EMOJIS, CLASS_ICONS, getCategoryFromTags, getClassFromTags, type TipCategory, type ClassGuideClass } from '@/lib/constants/tip-categories'
 
 interface TipPost {
   id: number
@@ -192,7 +192,14 @@ export default function TipBoardPage() {
                 onClick={() => setShowClassDropdown(!showClassDropdown)}
                 className="px-3 sm:px-4 py-2 sm:py-3 bg-zinc-700 text-gray-300 hover:bg-zinc-600 rounded-lg font-medium transition text-sm sm:text-base flex items-center gap-2"
               >
-                {selectedClass === 'all' ? '전체 클래스' : `${CLASS_EMOJIS[selectedClass]} ${selectedClass}`}
+                {selectedClass === 'all' ? (
+                  '전체 클래스'
+                ) : (
+                  <>
+                    <img src={CLASS_ICONS[selectedClass]} alt={selectedClass} className="w-5 h-5 object-contain" />
+                    {selectedClass}
+                  </>
+                )}
                 <span className="text-xs">▼</span>
               </button>
               
@@ -220,7 +227,7 @@ export default function TipBoardPage() {
                         selectedClass === cls ? 'bg-blue-600 text-white' : 'text-gray-300'
                       }`}
                     >
-                      <span>{CLASS_EMOJIS[cls]}</span>
+                      <img src={CLASS_ICONS[cls]} alt={cls} className="w-5 h-5 object-contain" />
                       <span>{cls}</span>
                     </button>
                   ))}
@@ -270,7 +277,7 @@ export default function TipBoardPage() {
                     </span>
                     {getClassFromTags(post.tags || []) && (
                       <span className="px-2 py-1 bg-purple-900/50 text-purple-300 rounded text-xs flex items-center gap-1">
-                        <span>{CLASS_EMOJIS[getClassFromTags(post.tags || [])!]}</span>
+                        <img src={CLASS_ICONS[getClassFromTags(post.tags || [])!]} alt={getClassFromTags(post.tags || [])!} className="w-4 h-4 object-contain" />
                         <span>{getClassFromTags(post.tags || [])}</span>
                       </span>
                     )}
@@ -310,7 +317,11 @@ export default function TipBoardPage() {
           <span> • {selectedCategory} 카테고리: {filteredPosts.length}개</span>
         )}
         {selectedClass !== 'all' && (
-          <span> • {CLASS_EMOJIS[selectedClass]} {selectedClass} 클래스: {filteredPosts.length}개</span>
+          <span className="flex items-center gap-1">
+            <span> • </span>
+            <img src={CLASS_ICONS[selectedClass]} alt={selectedClass} className="w-4 h-4 object-contain inline-block" />
+            <span>{selectedClass} 클래스: {filteredPosts.length}개</span>
+          </span>
         )}
       </div>
     </div>

@@ -90,34 +90,559 @@ export default function WarriorGuide() {
         />
         {/* 텍스트 레이어 (100% 불투명도) */}
         <div className="relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            ⚔️ 전승 무사 클래스 가이드
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <img src="/class-icons/musa.png" alt="무사" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+            <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
+              전승 무사 클래스 가이드
+            </h1>
+          </div>
           <p className="text-xl text-slate-200">
-            “한 줄기 바람이 되어, 칼끝으로 세계를 가른다.”
+            "한 줄기 바람이 되어, 칼끝으로 세계를 가른다."
           </p>
         </div>
       </div>
 
-      {/* 업데이트 예정 안내 */}
+      {/* 클래스 가이드 안내 */}
       <div className="mb-8">
-        <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-xl p-8 border border-blue-400/30 shadow-lg">
-          <div className="text-center">
-            <div className="text-6xl mb-6">🚧</div>
-            <h2 className="text-3xl font-bold text-white mb-4">업데이트 예정</h2>
-            <p className="text-gray-300 text-lg leading-relaxed mb-4">
-              전승 무사 클래스 가이드는 현재 작성 중입니다.
-            </p>
-            <p className="text-gray-400 text-base mb-6">
-              곧 상세한 가이드를 만나보실 수 있습니다. 조금만 기다려주세요! 🙏
-            </p>
-            
-            {/* 작성자 정보 */}
-            <div className="mt-8 pt-6 border-t border-blue-400/30">
-              <p className="text-gray-300 text-lg">
-                <span className="text-blue-400 font-semibold">작성 예정:</span> Ctrl 길드 <strong className="text-white">분야</strong> 님
+        <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-sm rounded-xl p-6 border border-amber-400/30 shadow-lg">
+          <div className="flex items-start gap-3">
+            <div className="text-2xl">⚠️</div>
+            <div>
+              <h4 className="text-amber-300 font-semibold mb-2">클래스 가이드 안내</h4>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                이 글은 <strong>클래스 가이드</strong>로, 작성자의 <strong>개인적인 경험과 주관적인 의견</strong>이 포함되어 있습니다. 
+                작성자만의 <strong>스타일과 팁</strong>을 공유하는 글이므로, 다른 플레이어들과는 다를 수 있습니다. 
+                참고용으로 활용하시고, 자신에게 맞는 방식으로 적용해보세요.
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 작성자 정보 */}
+      <div className="relative bg-gradient-to-r from-slate-800 via-slate-800 to-cyan-900/50 p-6 rounded-2xl mb-8 shadow-2xl border border-cyan-500/30 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent"></div>
+        <div className="relative flex items-center gap-4">
+          <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-xl border border-cyan-400/30">
+            <span className="text-4xl">✍️</span>
+          </div>
+          <div>
+            <p className="text-white text-xl font-semibold mb-2">
+              <span className="text-gray-300">작성자:</span> <Link href="/guild/Ctrl" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">Ctrl</Link> 길드 <span className="text-blue-400 font-bold">분야</span> 님
+            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/40 rounded-lg shadow-lg">
+              <span className="text-xl">🏆</span>
+              <p className="text-yellow-300 font-bold text-sm">
+                솔라레의 창 - 무사 랭킹 1위
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 1. 소개 */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-blue-500">
+        <h2 className="text-white text-3xl font-bold mb-4 flex items-center">
+          <span className="mr-3 text-4xl">👋</span> 소개
+        </h2>
+        <p className="text-slate-200 text-lg">
+          안녕하세요 무제한 공거점 <strong>Ctrl</strong> 길드에서 전승 무사를 주력으로 플레이하고 있는 <strong>분야</strong>입니다.
+        </p>
+      </div>
+
+      {/* 1.5 전승무사의 메커니즘 */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-cyan-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">⚙️</span> 전승 무사의 메커니즘
+        </h2>
+        
+        <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600">
+          <h3 className="text-cyan-400 text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3">✨</span> "고요한 정신" (패시브)
+          </h3>
+          
+          <div className="flex justify-center mb-4">
+            <img 
+              src="/tip-images/goyo.JPG" 
+              alt="고요한 정신" 
+              className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+            />
+          </div>
+          
+          <div className="bg-slate-600/50 p-4 rounded-lg border-l-4 border-cyan-400 mb-4">
+            <p className="text-slate-200 text-lg mb-3">
+              <strong className="text-cyan-300">획득:</strong> 고요한 정신을 획득하는 스킬 사용
+            </p>
+            <p className="text-slate-200 text-lg">
+              <strong className="text-cyan-300">효과:</strong> 고요한 정신으로 <strong className="text-yellow-300">개화, 격풍, 용오름화, 용염진</strong>을 쿨타임 중 사용 가능 (무쿨기)
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 p-6 rounded-xl border border-red-600/40">
+            <h4 className="text-red-300 text-xl font-bold mb-3">🔥 사냥 겸 무지성 딜링 콤보</h4>
+            <p className="text-gray-300 text-sm mb-3">
+              (짱쿠 장인초대석 전승무사편 흉살 참조)
+            </p>
+            <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-red-500 font-mono text-sm leading-relaxed mb-4">
+              <p className="text-slate-200">
+                <strong className="text-blue-300">각수</strong> → <strong className="text-green-300">태풍</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-yellow-300">파훼</strong> → <strong className="text-pink-300">참수</strong> → <strong className="text-cyan-300">개화</strong> → <strong className="text-orange-300">격풍</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-red-300">용오름</strong> → <strong className="text-blue-300">태산가르기</strong> → <strong className="text-orange-300">격풍</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-yellow-300">역극</strong> → <strong className="text-orange-300">격풍</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-pink-300">장님가르기</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-cyan-300">개화</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-green-300">장님찌르기</strong> → <strong className="text-orange-300">격풍</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-yellow-300">강가름 1타</strong> (두번 베는 모션) → <strong className="text-cyan-300">개화</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-yellow-300">역극</strong> → <strong className="text-orange-300">격풍</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-blue-300">후퇴베기</strong> → <strong className="text-orange-300">격풍</strong> → <strong className="text-purple-300">선풍참</strong> → <strong className="text-blue-300">각수</strong> → <strong className="text-green-300">태풍</strong> → <strong className="text-cyan-300">개화</strong> → <strong className="text-purple-300">선풍참</strong> → (파훼부터 반복)
+              </p>
+            </div>
+            
+            <div className="bg-slate-700 p-4 rounded-lg border-l-4 border-yellow-400">
+              <p className="text-slate-200 text-lg mb-2">
+                <strong className="text-yellow-400">💡 중요:</strong> 전승 무사로 PVP하기 이전에 <strong className="text-yellow-300">무지성 딜링 콤보를 자유결투장 허수아비로 연습</strong>하셔야 합니다.
+              </p>
+              <p className="text-slate-200 text-lg mb-2">
+                <strong className="text-red-400">"머슬메모리 장착 필수"</strong>
+              </p>
+              <p className="text-slate-200 text-lg">
+                귀찮아도 머슬메모리로 익히셔야 어떤 상황에서든 딜을 욱여넣고 콤보를 이어나갈 수 있습니다.
+                <br/><span className="text-white">(저도 이 콤보로 자유결투장에서 1시간씩 연습했습니다.)</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. 장단점 */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-purple-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">⚖️</span> 전승 무사 클래스의 장/단점
+        </h2>
+        
+        {/* 장점 */}
+        <div className="bg-slate-700/50 p-6 rounded-xl mb-6 border border-slate-600">
+          <h3 className="text-white text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3 text-3xl">✅</span> 장점
+          </h3>
+          <ul className="space-y-3 text-slate-200 text-lg">
+            <li className="flex items-start gap-3">
+              <span className="text-green-400 text-xl mt-1">▸</span>
+              <span><strong className="text-green-400">2.7cc 기반</strong>으로 콤보를 길게 가져갈 수 있습니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-green-400 text-xl mt-1">▸</span>
+              <span><strong className="text-green-400">DPS가 높습니다.</strong></span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-green-400 text-xl mt-1">▸</span>
+              <span><strong className="text-green-400">기동성이 좋습니다.</strong> 무사의 이동스킬인 <strong>추격</strong>으로 진입/이탈이 좋고 포지션도 다양하게 잡을 수 있습니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-green-400 text-xl mt-1">▸</span>
+              <span>스킬들이 <strong className="text-green-400">스피디해서 짧은 시간 안에 강한 누킹딜</strong>을 넣을 수 있습니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-green-400 text-xl mt-1">▸</span>
+              <span>스킬들의 <strong className="text-green-400">선딜이 짧은 편</strong>이라 상대의 노림수를 카운터치기 좋습니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-green-400 text-xl mt-1">▸</span>
+              <span><strong className="text-green-400">고점이 높습니다.</strong></span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 단점 */}
+        <div className="bg-slate-700/50 p-6 rounded-xl mb-6 border border-slate-600">
+          <h3 className="text-white text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3 text-3xl">❌</span> 단점
+          </h3>
+          <ul className="space-y-3 text-slate-200 text-lg">
+            <li className="flex items-start gap-3">
+              <span className="text-red-400 text-xl mt-1">▸</span>
+              <span><strong className="text-red-400">몸이 약하고</strong> 슈아 기반 캐릭터로 <strong className="text-red-400">비비기 싸움에 취약</strong>합니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-red-400 text-xl mt-1">▸</span>
+              <span><strong className="text-red-400">슈아 CC기가 없습니다.</strong></span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-red-400 text-xl mt-1">▸</span>
+              <span>슈아 CC기가 없고 <strong className="text-red-400">잡기가 없어 플레이메이킹이 힘듭니다.</strong></span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-red-400 text-xl mt-1">▸</span>
+              <span><strong className="text-red-400">상대하는 직업의 이해도가 있어야</strong> 전승 무사의 성능이 나옵니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-red-400 text-xl mt-1">▸</span>
+              <span><strong className="text-red-400">유틸기와 무적스킬이 빈약</strong>하여 안정성이 떨어집니다.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-red-400 text-xl mt-1">▸</span>
+              <span><strong className="text-red-400">저점이 낮습니다.</strong></span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 전승무사 핵심 */}
+        <div className="bg-gradient-to-r from-yellow-900/50 to-orange-900/50 p-6 rounded-xl shadow-xl border-2 border-yellow-500">
+          <div className="flex items-start gap-3">
+            <div className="text-3xl">💡</div>
+            <div>
+              <h3 className="text-yellow-300 text-2xl font-bold mb-3">전승 무사 핵심!</h3>
+              <p className="text-slate-200 text-lg leading-relaxed">
+                좋은 기동력과 강한 딜로 상대를 압박하고 빈틈을 유도하는 플레이를 하시면 캐릭터의 고점을 뽑을 수 있습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. 운영법 */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-green-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">🎯</span> 거점(RVR) / 솔라레 / 길드리그 운영법
+        </h2>
+        
+        {/* 거점 */}
+        <div className="bg-slate-700/50 p-6 rounded-xl mb-6 shadow-lg border border-slate-600">
+          <h3 className="text-red-400 text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3">⚔️</span> 거점(RVR)
+          </h3>
+          <p className="text-slate-200 text-lg leading-relaxed mb-4">
+            본대와 떨어져 <strong className="text-yellow-300">사이드에서 상대 딜러들 암살</strong>하는 게 좋습니다.
+            <br/><span className="text-gray-400">(꼬장조 가시는 게 좋습니다.)</span>
+          </p>
+          
+          <div className="bg-slate-600/50 p-4 rounded-lg border-l-4 border-red-400">
+            <h4 className="text-red-300 text-xl font-bold mb-2">핵심 운영</h4>
+            <p className="text-slate-200 text-lg">
+              <strong className="text-cyan-300">Q가드로 간을 보다</strong> 상태이상이 걸린 적 또는 무방비한 적에게 
+              <strong className="text-red-300"> 빠르게 딜을 욱여넣어 암살</strong>하는 플레이를 반복하면 됩니다.
+            </p>
+          </div>
+        </div>
+
+        {/* 솔라레 */}
+        <div className="bg-slate-700/50 p-6 rounded-xl mb-6 shadow-lg border border-slate-600">
+          <h3 className="text-cyan-400 text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3">⚡</span> 솔라레의 창 (소수전)
+          </h3>
+          
+          <div className="bg-slate-600/50 p-4 rounded-lg border-l-4 border-cyan-400 mb-4">
+            <h4 className="text-cyan-300 text-xl font-bold mb-2">핵심 운영</h4>
+            <p className="text-slate-200 text-lg">
+              상대의 <strong className="text-yellow-300">빈틈을 유도해 카운터치고</strong> 
+              <strong className="text-red-300"> 강한 누킹딜로 압박</strong>하시면 좋습니다.
+            </p>
+          </div>
+          
+          <p className="text-slate-200 text-lg mb-4">
+            대략적인 운영은 아래 영상을 참고하세요.
+          </p>
+          <div className="aspect-video">
+            <iframe
+              src="https://www.youtube.com/embed/ptQIeGnRs4A"
+              title="전승 무사 솔라레 플레이"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full rounded-lg"
+            ></iframe>
+          </div>
+        </div>
+
+        {/* 길드리그 */}
+        <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600">
+          <h3 className="text-purple-400 text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3">🛡️</span> 길드리그
+          </h3>
+          
+          <div className="bg-slate-600/50 p-4 rounded-lg border-l-4 border-purple-400 mb-4">
+            <h4 className="text-purple-300 text-xl font-bold mb-2">핵심 운영</h4>
+            <p className="text-slate-200 text-lg">
+              길드 전략에 맞춰 <strong className="text-yellow-300">언제든지 딜 지원이 가능한 포지션</strong>에 있어야 합니다.
+            </p>
+          </div>
+          
+          <p className="text-slate-200 text-lg mb-4">
+            대략적인 운영은 아래 영상을 참고하세요.
+          </p>
+          <div className="aspect-video">
+            <iframe
+              src="https://www.youtube.com/embed/pJqJ3aJsXQA"
+              title="전승 무사 길드리그 플레이"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full rounded-lg"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. PVP 콤보 */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-red-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">⚔️</span> PVP 콤보
+        </h2>
+        
+        <div className="bg-slate-700/50 p-6 rounded-xl mb-6 shadow-lg border border-slate-600">
+          <div className="bg-gradient-to-r from-blue-900/30 to-cyan-900/30 p-6 rounded-xl border border-blue-600/40 mb-6">
+            <p className="text-slate-200 text-xl font-bold text-center mb-2">
+              전승 무사는 콤보랄 게 딱히 없습니다.
+            </p>
+            <p className="text-cyan-300 text-lg text-center">
+              그때그때 <strong>"상황에 맞춰 스킬을 욱여넣는 게 중요합니다."</strong>
+            </p>
+          </div>
+
+          <h3 className="text-red-400 text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3">🔥</span> 대표 콤보
+          </h3>
+          
+          {/* 2.7cc 콤보 1 */}
+          <div className="bg-slate-600/50 p-5 rounded-xl mb-4 border-l-4 border-red-500">
+            <h4 className="text-red-300 text-xl font-bold mb-3">2.7cc - 편전 시작</h4>
+            <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-red-500 font-mono text-sm mb-3">
+              <p className="text-slate-200 leading-relaxed">
+                <strong className="text-blue-300">편전</strong> (경직) → 
+                <strong className="text-green-300"> 각수</strong> (띄우기) → 
+                <strong className="text-cyan-300"> 개화</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-yellow-300"> 용오름화</strong> → 
+                <strong className="text-purple-300"> 돌아차기</strong> (넉다운) → 
+                <strong className="text-pink-300"> 장님가르기</strong> → 
+                <strong className="text-blue-300"> 선풍참</strong> → 
+                <strong className="text-cyan-300"> 개화</strong> → 
+                <strong className="text-blue-300"> 선풍참</strong> → 
+                <strong className="text-yellow-300"> 역극</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-green-300"> 태산가르기</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-blue-300"> 선풍참</strong>
+              </p>
+            </div>
+          </div>
+
+          {/* 2.7cc 콤보 2 */}
+          <div className="bg-slate-600/50 p-5 rounded-xl mb-4 border-l-4 border-orange-500">
+            <h4 className="text-orange-300 text-xl font-bold mb-3">2.7cc - 편전 + 역극</h4>
+            <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-orange-500 font-mono text-sm mb-3">
+              <p className="text-slate-200 leading-relaxed">
+                <strong className="text-blue-300">편전</strong> (경직) → 
+                <strong className="text-yellow-300"> 역극</strong> (기절) → 
+                <strong className="text-purple-300"> 빽추 후</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-cyan-300"> 개화</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-purple-300"> 돌아차기</strong> (넉다운) 후 위 콤보와 동일
+              </p>
+            </div>
+          </div>
+
+          {/* 2.7cc 콤보 3 */}
+          <div className="bg-slate-600/50 p-5 rounded-xl mb-4 border-l-4 border-yellow-500">
+            <h4 className="text-yellow-300 text-xl font-bold mb-3">2.7cc - 역극 시작</h4>
+            <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-yellow-500 font-mono text-sm mb-3">
+              <p className="text-slate-200 leading-relaxed">
+                <strong className="text-yellow-300">역극</strong> (기절) → 
+                <strong className="text-cyan-300"> 개화</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-green-300"> 장님찌르기</strong> (경직) → 
+                <strong className="text-blue-300"> 용오름</strong> (용오름화 X) → 
+                <strong className="text-purple-300"> 돌아차기</strong> (넉다운) 후 위 콤보와 동일
+              </p>
+            </div>
+          </div>
+
+          {/* 슈아 콤보 */}
+          <div className="bg-slate-600/50 p-5 rounded-xl border-l-4 border-cyan-500">
+            <h4 className="text-cyan-300 text-xl font-bold mb-3">슈아 콤보 (짤딜용)</h4>
+            
+            <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-cyan-500 font-mono text-sm mb-3">
+              <p className="text-slate-200 leading-relaxed mb-2">
+                <strong className="text-yellow-300">역극</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-green-300"> 태산</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-blue-300"> 용오름화 or 후퇴베기</strong> → 
+                <strong className="text-orange-300"> 격풍</strong>
+              </p>
+            </div>
+            
+            <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-cyan-500 font-mono text-sm">
+              <p className="text-slate-200 leading-relaxed">
+                <strong className="text-blue-300">각수</strong> → 
+                <strong className="text-cyan-300"> 개화</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-green-300"> 태산가르기</strong> → 
+                <strong className="text-orange-300"> 격풍</strong> → 
+                <strong className="text-blue-300"> 용오름화 or 후퇴베기</strong> → 
+                <strong className="text-orange-300"> 격풍</strong>
+              </p>
+            </div>
+            
+            <div className="bg-slate-700 p-3 rounded-lg border-l-4 border-cyan-400 mt-4">
+              <p className="text-slate-200 text-base">
+                <strong className="text-cyan-400">💡 참고:</strong> 용오름화는 후딜이 긴 스킬이기 때문에 상황을 보고 쓰시는 게 좋습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 4.5 진입기/시동기 활용법 */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-indigo-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">🚀</span> 진입기 / 1cc 시동기 활용법
+        </h2>
+        
+        <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600">
+          <h3 className="text-indigo-400 text-2xl font-bold mb-4 flex items-center">
+            <span className="mr-3">⚡</span> 주요 진입기 및 1cc 시동기
+          </h3>
+          
+          <div className="space-y-4">
+            <div className="bg-slate-600/50 p-4 rounded-lg border-l-4 border-indigo-400">
+              <p className="text-slate-200 text-lg mb-3">
+                진입기 및 1cc 시동기: <strong className="text-cyan-300">파훼</strong>, <strong className="text-yellow-300">역극</strong>, <strong className="text-blue-300">각수</strong>
+              </p>
+              <p className="text-slate-200 text-lg">
+                <strong className="text-red-400">각수는 맨몸</strong>이기에 
+                <strong className="text-cyan-300"> 각수 → 개화 → 격풍</strong>으로 맨몸을 가려주는 게 좋습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 5. 특화 및 수정 */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-purple-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">💎</span> PvP 특화 및 수정
+        </h2>
+        
+        {/* 특화 이미지 */}
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-purple-300 mb-4">⚡ 특화</h3>
+          <div className="flex justify-center">
+            <img 
+              src="/tip-images/musa.jpg" 
+              alt="특화" 
+              className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+            />
+          </div>
+        </div>
+        
+        <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600">
+          <h3 className="text-blue-300 text-2xl font-bold mb-4">💠 수정</h3>
+          
+          <div className="space-y-6">
+            {/* 수정 1 */}
+            <div className="bg-slate-600/50 p-4 rounded-lg border-l-4 border-blue-400">
+              <h4 className="text-blue-300 text-xl font-bold mb-3 text-center">인추 세팅</h4>
+              <div className="flex justify-center">
+                <img 
+                  src="/tip-images/musacri1.jpg" 
+                  alt="인추 세팅" 
+                  className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+                />
+              </div>
+            </div>
+            
+            {/* 수정 2 */}
+            <div className="bg-slate-600/50 p-4 rounded-lg border-l-4 border-green-400">
+              <h4 className="text-green-300 text-xl font-bold mb-3 text-center">회피 밸런스 세팅</h4>
+              <div className="flex justify-center">
+                <img 
+                  src="/tip-images/musacri2.jpg" 
+                  alt="회피 밸런스 세팅" 
+                  className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+                />
+              </div>
+            </div>
+
+            {/* 유물 3개 */}
+            <div className="bg-slate-600/50 p-5 rounded-lg border-2 border-yellow-500">
+              <h4 className="text-yellow-300 text-xl font-bold mb-4 text-center">참고</h4>
+              <div className="space-y-3">
+                <div className="bg-slate-700/50 p-3 rounded-lg">
+                  <p className="text-slate-200 text-lg text-center">
+                    • 유물: <strong className="text-blue-400">모든 피해 감소</strong> + 광명석 <strong className="text-cyan-400">서리방패</strong>
+                  </p>
+                </div>
+                <div className="bg-slate-700/50 p-3 rounded-lg">
+                  <p className="text-slate-200 text-lg text-center">
+                    • 유물: <strong className="text-blue-400">모든 피해 감소</strong> + 광명석 <strong className="text-purple-400">부패</strong>
+                  </p>
+                </div>
+                <div className="bg-slate-700/50 p-3 rounded-lg">
+                  <p className="text-slate-200 text-lg text-center">
+                    • 유물: <strong className="text-green-400">모든 회피력</strong> + 광명석 <strong className="text-yellow-400">켄타우로스</strong>
+                  </p>
+                </div>
+                <p className="text-gray-400 text-base text-center italic">상황에 맞게 선택</p>
+                <div className="border-t border-slate-600 my-3"></div>
+                <div className="bg-slate-700/50 p-3 rounded-lg">
+                  <p className="text-slate-200 text-lg text-center">
+                    적중 필요시 <strong className="text-yellow-400">2적중 ~ 3적중</strong> 착용
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 라밤 */}
+        <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600 mt-6">
+          <h3 className="text-pink-300 text-2xl font-bold mb-4">✨ 라밤</h3>
+          <div className="flex justify-center">
+            <img 
+              src="/tip-images/labam.jpg" 
+              alt="라밤" 
+              className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 6. 하고 싶은 말 / 팁 */}
+      <div className="bg-slate-800 p-8 rounded-2xl shadow-2xl border-l-4 border-yellow-500 mb-8">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">💬</span> 하고 싶은 말 / 팁
+        </h2>
+        
+        <div className="bg-slate-700/50 p-6 rounded-xl mb-6 border border-slate-600">
+          <p className="text-slate-200 text-lg mb-4 leading-relaxed">
+            솔직히 요새 전승 무사보다 DPS 좋고 무매보다도 짧은 거리를 순식간에 이동하는 직업들이 많지만 
+            <strong className="text-yellow-400"> 전승 무사만의 매력과 장점</strong>이 있으니까
+          </p>
+          <p className="text-slate-200 text-xl font-bold leading-relaxed" style={{ color: '#7dd3fc' }}>
+            전승 무사 플레이하는 거에 망설이고 계시다면 해보는 걸 추천드립니다.
+          </p>
+        </div>
+        
+        {/* 꿀팁들 */}
+        <div className="space-y-4">
+          <div className="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 p-6 rounded-xl border border-yellow-600/40">
+            <h4 className="text-yellow-300 text-xl font-bold mb-3">🎯 필수 연습 콤보</h4>
+            <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-yellow-500 font-mono text-center mb-3">
+              <p className="text-slate-200 text-lg">
+                <strong className="text-yellow-300">옆장찌, 초열보</strong> → 
+                <strong className="text-orange-300"> 옆장찌, 초열보</strong> → 
+                <strong className="text-cyan-300"> 각수</strong>
+              </p>
+            </div>
+            <p className="text-slate-200 text-lg">
+              <strong className="text-red-400">이거는 무조건 연습.</strong>
+            </p>
+          </div>
+          
+          <div className="bg-gradient-to-r from-blue-900/30 to-cyan-900/30 p-6 rounded-xl border border-blue-600/40">
+            <h4 className="text-blue-300 text-xl font-bold mb-3">⚡ 슈아 끌기</h4>
+            <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-cyan-500 font-mono text-center">
+              <p className="text-slate-200 text-lg">
+                <strong className="text-orange-300">격풍</strong>, 
+                <strong className="text-cyan-300"> 추격</strong>, 
+                <strong className="text-yellow-300"> 용오름화</strong>, 
+                <strong className="text-blue-300"> 후퇴베기</strong>
+              </p>
+            </div>
+            <p className="text-gray-400 text-base mt-3 text-center">
+              이 스킬들로 슈아를 끌어주시면 됩니다.
+            </p>
           </div>
         </div>
       </div>
@@ -167,7 +692,6 @@ export default function WarriorGuide() {
     </div>
   )
 }
-
 
 
 

@@ -90,11 +90,14 @@ export default function WitchGuide() {
         />
         {/* 텍스트 레이어 (100% 불투명도) */}
         <div className="relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            🔮 각성 위치 클래스 가이드
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <img src="/class-icons/witch.png" alt="위치" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+            <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
+              각성 위치 클래스 가이드
+            </h1>
+          </div>
           <p className="text-xl text-slate-200">
-            “대지를 품고, 원소의 노래를 부르는 자.”
+            "대지를 품고, 원소의 노래를 부르는 자."
           </p>
         </div>
       </div>
@@ -110,6 +113,27 @@ export default function WitchGuide() {
                 이 글은 <strong>클래스 가이드</strong>로, 작성자의 <strong>개인적인 경험과 주관적인 의견</strong>이 포함되어 있습니다. 
                 작성자만의 <strong>스타일과 팁</strong>을 공유하는 글이므로, 다른 플레이어들과는 다를 수 있습니다. 
                 참고용으로 활용하시고, 자신에게 맞는 방식으로 적용해보세요.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 작성자 정보 */}
+      <div className="relative bg-gradient-to-r from-slate-800 via-slate-800 to-purple-900/50 p-6 rounded-2xl mb-8 shadow-2xl border border-purple-500/30 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/5 to-transparent"></div>
+        <div className="relative flex items-center gap-4">
+          <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-400/30">
+            <span className="text-4xl">✍️</span>
+          </div>
+          <div>
+            <p className="text-white text-xl font-semibold mb-2">
+              <span className="text-gray-300">작성자:</span> <a href="https://chzzk.naver.com/9cc4bda5d0387d211f9b2123895db58b" target="_blank" rel="noopener noreferrer" className="text-green-400 hover:text-green-300 underline hover:no-underline transition-colors">스트리머</a> <span className="text-blue-400 font-bold">사다새</span> 님
+            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/40 rounded-lg shadow-lg">
+              <span className="text-xl">🏆</span>
+              <p className="text-yellow-300 font-bold text-sm">
+                솔라레의 창 위치 랭킹 1위
               </p>
             </div>
           </div>
@@ -260,7 +284,7 @@ export default function WitchGuide() {
       {/* 5. 특화 */}
       <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-purple-500">
         <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
-          <span className="mr-3 text-4xl">💎</span> 특화
+          <span className="mr-3 text-4xl">💎</span> PvP 특화 및 수정
         </h2>
         
         {/* 특화 이미지 */}

@@ -90,12 +90,28 @@ export default function RangerGuide() {
         />
         {/* 텍스트 레이어 (100% 불투명도) */}
         <div className="relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            🏹 전승 레인저 클래스 가이드
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <img src="/class-icons/ranger.png" alt="레인저" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+            <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
+              전승 레인저 클래스 가이드
+            </h1>
+          </div>
           <p className="text-xl text-slate-200">
-            “자연과 하나 되어, 바람의 화살을 쏘다.”
+            "자연과 하나 되어, 바람의 화살을 쏘다."
           </p>
+        </div>
+      </div>
+
+      {/* 작성자 정보 */}
+      <div className="bg-slate-800 p-6 rounded-2xl mb-8 shadow-xl border border-slate-600">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl">✍️</span>
+          <div>
+            <p className="text-white text-lg">
+              <strong>작성 예정:</strong> <Link href="/guild/아지다하카" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">아지다하카</Link> 길드 <span className="text-blue-400 font-bold">홍줭</span> 님
+            </p>
+            <p className="text-gray-400 text-sm mt-1">전승 레인저 장인</p>
+          </div>
         </div>
       </div>
 
@@ -111,13 +127,6 @@ export default function RangerGuide() {
             <p className="text-gray-400 text-base mb-6">
               곧 상세한 가이드를 만나보실 수 있습니다. 조금만 기다려주세요! 🙏
             </p>
-            
-            {/* 작성자 정보 */}
-            <div className="mt-8 pt-6 border-t border-blue-400/30">
-              <p className="text-gray-300 text-lg">
-                <span className="text-blue-400 font-semibold">작성 예정:</span> 아지다하카 <strong className="text-white">홍줭</strong> 님
-              </p>
-            </div>
           </div>
         </div>
       </div>

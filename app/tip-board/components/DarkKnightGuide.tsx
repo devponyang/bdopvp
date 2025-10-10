@@ -90,11 +90,14 @@ export default function DarkKnightGuide() {
         />
         {/* 텍스트 레이어 (100% 불투명도) */}
         <div className="relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            🌑 전승 다크나이트 클래스 가이드
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <img src="/class-icons/darknight.png" alt="다크나이트" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+            <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
+              전승 다크나이트 클래스 가이드
+            </h1>
+          </div>
           <p className="text-xl text-slate-200">
-            “빛의 끝에서 춤추는 그림자.”
+            "빛의 끝에서 춤추는 그림자."
           </p>
         </div>
       </div>
@@ -123,6 +126,27 @@ export default function DarkKnightGuide() {
           alt="전승 다크나이트" 
           className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
         />
+      </div>
+
+      {/* 작성자 정보 */}
+      <div className="relative bg-gradient-to-r from-slate-800 via-slate-800 to-indigo-900/50 p-6 rounded-2xl mb-8 shadow-2xl border border-indigo-500/30 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-500/5 to-transparent"></div>
+        <div className="relative flex items-center gap-4">
+          <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl border border-indigo-400/30">
+            <span className="text-4xl">✍️</span>
+          </div>
+          <div>
+            <p className="text-white text-xl font-semibold mb-2">
+              <span className="text-gray-300">작성자:</span> <Link href="/guild/Ctrl" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">Ctrl</Link> 길드 <span className="text-blue-400 font-bold">iframe</span> 님
+            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/40 rounded-lg shadow-lg">
+              <span className="text-xl">🏆</span>
+              <p className="text-yellow-300 font-bold text-sm">
+                솔라레의 창 다크나이트 랭킹 1위
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 1. 소개 */}
@@ -468,7 +492,7 @@ export default function DarkKnightGuide() {
       {/* 6. 특화 및 수정 */}
       <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-purple-500">
         <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
-          <span className="mr-3 text-4xl">💎</span> 솔라레 특화 / 거점·길드리그 무제한 특화 및 수정
+          <span className="mr-3 text-4xl">💎</span> PvP 특화 및 수정
         </h2>
         
         {/* 특화 이미지 */}
