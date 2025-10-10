@@ -291,7 +291,7 @@ export default function RangerGuide() {
                 <p className="text-slate-200 text-sm">미리 거리 벌리기, 아군쪽으로 드리블하기, 구조물 올라가기, 화탑이나 코끼리 주변에 있기 등</p>
               </div>
               <p className="text-slate-200 text-base mb-2">
-                거점을 예로들자면 나무 있는 지형은 중간부터 비어있는 공간이 있어 대포를 쏘거나, 행동이 가능한 나무들 알아두기와 상대방이 공격하기 어려운 바위 등을 파악해두시면 좋습니다!
+                거점을 예로들자면 나무 위에서 공격할수 있는 포인트들과, 상대방이 공격하기 어려운 바위 등을 파악해두고 사거리가 어디까지 닿는지도 확인해두시면 좋습니다!
               </p>
               <p className="text-amber-300 text-sm italic">
                 💡 연맹 혹은 길드마다 조합과 스타일이 다르기때문에, 여러 시도를 통해 적절한 포지션을 찾아가셔야 합니다!
@@ -948,7 +948,7 @@ export default function RangerGuide() {
               />
             </div>
             <p className="text-slate-200 text-base text-center">
-              무제한에서는 길여바에 <strong className="text-red-300">회피 감소20, 다운어택 5%</strong>
+              제한에서는 길여바에 <strong className="text-red-300">회피 감소20, 다운어택 5%</strong>
             </p>
           </div>
 
@@ -1005,7 +1005,7 @@ export default function RangerGuide() {
               <p className="text-red-400 font-bold">치명타 확률</p>
             </div>
             <div className="bg-slate-800/60 p-3 rounded-lg text-center">
-              <p className="text-red-400 font-bold">치명타 피해량</p>
+              <p className="text-red-400 font-bold">치명타 or 다운어택 <br></br>피해량</p>
             </div>
             <div className="bg-slate-800/60 p-3 rounded-lg text-center">
               <p className="text-red-400 font-bold">백어택 피해량</p>
