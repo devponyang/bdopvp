@@ -119,6 +119,15 @@ export default function WarriorGuide() {
         </div>
       </div>
 
+      {/* 이미지 */}
+      <div className="mb-8 flex justify-center">
+        <img 
+          src="/tip-images/musapick.jpg" 
+          alt="전승 무사" 
+          className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+        />
+      </div>
+
       {/* 작성자 정보 */}
       <div className="relative bg-gradient-to-r from-slate-800 via-slate-800 to-cyan-900/50 p-6 rounded-2xl mb-8 shadow-2xl border border-cyan-500/30 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent"></div>
