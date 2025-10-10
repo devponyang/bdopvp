@@ -464,7 +464,106 @@ export default function DarkKnightGuide() {
         </div>
       </div>
 
-      {/* 5. 드리블 */}
+      {/* 4.5 베디르의 독선 */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-purple-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">⚡</span> 베디르의 독선
+        </h2>
+        
+        {/* 독선 이미지 */}
+        <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600 mb-6">
+          <div className="flex justify-center">
+            <img 
+              src="/tip-images/독선.png" 
+              alt="베디르의 독선" 
+              className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+            />
+          </div>
+        </div>
+
+        <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600">
+          <div className="space-y-4">
+            <p className="text-slate-200 text-base">
+              베디르의 독선이 이번에 버프 받았는데요,
+            </p>
+            <p className="text-slate-200 text-base">
+              활성화시 <strong className="text-green-300">운명의 수레바퀴, 베디르의 광기, 칠흑의 잿더미, 집행 스킬들의 데미지가 10% 증폭</strong>되지만 <strong className="text-red-300">2초당 정신력 소모 200</strong>이라는 큰 리스크를 가지고 있습니다.
+            </p>
+            <p className="text-slate-200 text-base">
+              소모할 정신력이 없을 경우엔 첫 시전시와 같은 캔슬할 수 없는 모션이 나오는데 <strong className="text-blue-300">시전시는 슈퍼아머</strong>이지만 <strong className="text-red-300">꺼질 때는 맨몸</strong>입니다.
+            </p>
+            <p className="text-red-300 text-base font-semibold">
+              ⚠️ 매우 하이리스크 로우리턴이죠.
+            </p>
+
+            <div className="bg-slate-600/50 p-5 rounded-lg border-l-4 border-yellow-400 mt-4">
+              <h4 className="text-yellow-300 text-xl font-bold mb-3">💡 연구 결과</h4>
+              <p className="text-slate-200 text-base mb-3">
+                독선은 <strong className="text-yellow-300">거점전에서는 좀 유용</strong>하고 그나마 <strong className="text-yellow-300">제한에서 더욱 빛을 발할 것</strong>이라고 생각하는데요,
+              </p>
+              <p className="text-slate-200 text-base mb-3">
+                그 이유는 <strong className="text-cyan-300">타격당 정신력 회복 수정을 2개 채용</strong>할 수 있고(무제한에서는 피감또는 인추 수정을 낍니다)
+              </p>
+              
+              <div className="bg-slate-700/50 p-4 rounded-lg mt-3">
+                <h5 className="text-green-300 font-bold mb-4 text-center">정신력 회복 스킬</h5>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* 어스름 */}
+                  <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+                    <div className="flex items-center justify-center mb-3">
+                      <img 
+                        src="/tip-images/어스름.png" 
+                        alt="어스름" 
+                        className="rounded-lg max-w-full h-auto border border-slate-400"
+                      />
+                    </div>
+                    <p className="text-green-300 text-base font-bold mb-1">어스름</p>
+                    <p className="text-slate-200 text-sm">정신력 회복 60</p>
+                  </div>
+                  
+                  {/* 연 어스름 */}
+                  <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+                    <div className="flex items-center justify-center mb-3">
+                      <img 
+                        src="/tip-images/연어스름.png" 
+                        alt="연 어스름" 
+                        className="rounded-lg max-w-full h-auto border border-slate-400"
+                      />
+                    </div>
+                    <p className="text-cyan-300 text-base font-bold mb-1">연 : 어스름</p>
+                    <p className="text-slate-200 text-sm">정신력 회복 40</p>
+                  </div>
+                  
+                  {/* 스며드는 어둠 */}
+                  <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+                    <div className="flex items-center justify-center mb-3">
+                      <img 
+                        src="/tip-images/강스둠.png" 
+                        alt="스며드는 어둠" 
+                        className="rounded-lg max-w-full h-auto border border-slate-400"
+                      />
+                    </div>
+                    <p className="text-purple-300 text-base font-bold mb-1">강 : 스며드는 어둠</p>
+                    <p className="text-slate-200 text-sm">사용시 160 + 타격시 160</p>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-slate-200 text-base mt-4">
+                <strong className="text-green-300">독선을 키고 위 스킬들을 쿨마다 사용하시면 계속해서 유지 가능</strong>합니다.
+              </p>
+              <p className="text-slate-200 text-base mt-2">
+                하지만 <strong className="text-red-300">스며드는 어둠에도 지구력이 닳아서 결국 지구력이 먼저 말라 유지하질 못하는데요</strong>.
+              </p>
+              <p className="text-yellow-300 text-base mt-2 font-semibold">
+                💡 독선을 키고 들어가서 스킬 굴리고 다시 꺼주는 식으로 플레이 하셔야합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 6. 드리블 */}
       <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-indigo-500">
         <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
           <span className="mr-3 text-4xl">🌪️</span> 드리블
@@ -489,7 +588,7 @@ export default function DarkKnightGuide() {
         </div>
       </div>
 
-      {/* 6. 특화 및 수정 */}
+      {/* 7. 특화 및 수정 */}
       <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-purple-500">
         <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
           <span className="mr-3 text-4xl">💎</span> PvP 특화 및 수정
@@ -573,10 +672,10 @@ export default function DarkKnightGuide() {
         </div>
       </div>
 
-      {/* 7. 하고 싶은 말 / 꿀팁 */}
+      {/* 8. 하고 싶은 말 / 꿀팁 */}
       <div className="bg-slate-800 p-8 rounded-2xl shadow-2xl border-l-4 border-yellow-500">
         <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
-          <span className="mr-3 text-4xl">💬</span> 하고 싶은 말 / 꿀팁
+          <span className="mr-3 text-4xl">💬</span> 8. 하고 싶은 말 / 꿀팁
         </h2>
         
         <div className="bg-slate-700/50 p-6 rounded-xl mb-6 border border-slate-600">

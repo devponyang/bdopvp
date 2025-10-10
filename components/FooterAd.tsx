@@ -8,8 +8,8 @@ export default function FooterAd() {
       <div className="max-w-[1490px] mx-auto px-3 md:px-6">
         <div className="max-h-[100px] overflow-hidden">
           <AdSense 
-            adSlot="2507510429"
-            adFormat="horizontal"
+            adSlot="9663628480"
+            adFormat="auto"
             fullWidthResponsive={true}
             style={{
               display: 'block',

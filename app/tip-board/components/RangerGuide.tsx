@@ -756,7 +756,7 @@ export default function RangerGuide() {
                 <p className="text-slate-200">• <strong>숨찢질:</strong> SHIFT+X에서 SHIFT 누른채로 우클만 추가</p>
                 <p className="text-slate-200">• <strong>회피착지:</strong> 공중에서 내려오기전에 좌우클</p>
               </div>
-              <p className="text-cyan-300 text-base mt-3">이후 숨을 찢는 질풍과 연계!</p>
+              <p className="text-cyan-300 text-base mt-3">이후 숨을 찢는 화살과 연계!</p>
             </div>
           </div>
 
@@ -849,12 +849,34 @@ export default function RangerGuide() {
               <p className="text-green-300 text-base">
                 💎 PVP 계수가 무려 <strong>17867%로 제일 높지만 치확이 20%</strong>라 스킬버프와 재련석, 특화등을 잘 챙겨주면 그만큼 리턴값이 높아져요.
               </p>
+              <p className="text-slate-200 text-base">
+                <strong className="text-cyan-300">퀵슬롯 등록하고 사용하면 맨몸으로 달리다가도 바로 무기꺼내고 우직 모션 발동 가능</strong>해요.
+              </p>
             </div>
           </div>
 
-          {/* 4.6 초바모 */}
+          {/* 4.6 강 극 단명 */}
           <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
-            <h3 className="text-green-400 text-xl font-bold mb-3">4.6 초 바람 모아쏘기</h3>
+            <h3 className="text-purple-400 text-xl font-bold mb-3">4.6 강 극 단명</h3>
+            <div className="space-y-3">
+              <p className="text-slate-200 text-base">
+                퀵슬롯으로 사용하면 <strong className="text-blue-300">선행스킬없이 바로 발동</strong>되요.
+              </p>
+              <p className="text-slate-200 text-base">
+                얘도 <strong className="text-red-300">고저차 쥐약</strong>에, 범위가 아처 만개의 50%도 안나와요.
+              </p>
+              <p className="text-slate-200 text-base">
+                장점은 <strong className="text-green-300">다운어택+치확100%+계수 9500%로 높은편</strong> + 전가유지 딜링 가능해서 근접 한정으로 활용 하면 좋아요.
+              </p>
+              <p className="text-slate-200 text-base">
+                막타 이후 <strong className="text-blue-300">캔슬길여바로 연계</strong>도 가능해요.
+              </p>
+            </div>
+          </div>
+
+          {/* 4.7 초바모 */}
+          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+            <h3 className="text-green-400 text-xl font-bold mb-3">4.7 초 바람 모아쏘기</h3>
             <div className="space-y-3">
               <p className="text-red-300 text-base font-semibold">
                 ⚠️ 바모 특화 안묻어요! 특화 발동이 안되는 스킬이에요.
@@ -868,9 +890,9 @@ export default function RangerGuide() {
             </div>
           </div>
 
-          {/* 4.7 옭아매는화살 */}
+          {/* 4.8 옭아매는화살 */}
           <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
-            <h3 className="text-emerald-400 text-xl font-bold mb-3">4.7 옭아매는화살</h3>
+            <h3 className="text-emerald-400 text-xl font-bold mb-3">4.8 옭아매는화살</h3>
             <div className="space-y-3">
               <p className="text-slate-200 text-base">
                 계수가 덩굴 추가 피해까지 4200% 정도로 딜량은 낮아서 주로 <strong className="text-emerald-300">초바모 후딜 캔슬용으로 써요</strong>.
@@ -881,9 +903,9 @@ export default function RangerGuide() {
             </div>
           </div>
 
-          {/* 4.8 바람을 타는 의지 */}
+          {/* 4.9 바람을 타는 의지 */}
           <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
-            <h3 className="text-indigo-400 text-xl font-bold mb-3">4.8 바람을 타는 의지(3차라밤)</h3>
+            <h3 className="text-indigo-400 text-xl font-bold mb-3">4.9 바람을 타는 의지(3차라밤)</h3>
             <div className="space-y-3">
               <p className="text-slate-200 text-base">
                 <strong className="text-indigo-300">전가+넉다+스킬방깎으로 활용 가능</strong>해요.
@@ -894,9 +916,9 @@ export default function RangerGuide() {
             </div>
           </div>
 
-          {/* 4.9 바람의 의지 */}
+          {/* 4.10 바람의 의지 */}
           <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
-            <h3 className="text-teal-400 text-xl font-bold mb-3">4.9 바람의 의지</h3>
+            <h3 className="text-teal-400 text-xl font-bold mb-3">4.10 바람의 의지</h3>
             <div className="space-y-3">
               <p className="text-slate-200 text-base">
                 근접상황+안전한 딜각 에서는 콤보에 추가해도 괜찮아요. <strong className="text-teal-300">단명(1cc)-DF-우직 순으로 연계해서 스킬방깎까지 걸고 시작하는 방식</strong>. AF는 딜레이가 미세하게 조금 더 있어서 DF로 사용 추천.
@@ -973,24 +995,63 @@ export default function RangerGuide() {
         {/* 수정 */}
         <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600 mt-6">
           <h3 className="text-blue-300 text-2xl font-bold mb-4">💠 수정</h3>
-          <div className="flex justify-center">
-            <img 
-              src="/tip-images/홍줭수정.png" 
-              alt="수정" 
-              className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* 무제한 PvP 수정 */}
+            <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+              <div className="flex items-center justify-center mb-3">
+                <img 
+                  src="/tip-images/홍줭수정.png" 
+                  alt="무제한 PvP 수정" 
+                  className="rounded-lg max-w-full h-auto border border-slate-400"
+                />
+              </div>
+              <p className="text-blue-300 text-lg font-bold">무제한 수정</p>
+            </div>
+            
+            {/* 홍줭 제한 수정 */}
+            <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+              <div className="flex items-center justify-center mb-3">
+                <img 
+                  src="/tip-images/홍줭제한수정.png" 
+                  alt="홍줭 제한 수정" 
+                  className="rounded-lg max-w-full h-auto border border-slate-400"
+                />
+              </div>
+              <p className="text-cyan-300 text-lg font-bold">제한 수정</p>
+            </div>
           </div>
         </div>
 
         {/* 유물 */}
         <div className="bg-slate-700/50 p-6 rounded-xl shadow-lg border border-slate-600 mt-6">
           <h3 className="text-green-300 text-2xl font-bold mb-4">✨ 유물</h3>
-          <div className="flex justify-center">
-            <img 
-              src="/tip-images/홍줭유물.png" 
-              alt="유물" 
-              className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* 무제한 PvP 유물 */}
+            <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+              <div className="flex items-center justify-center mb-3">
+                <img 
+                  src="/tip-images/홍줭유물.png" 
+                  alt="무제한 PvP 유물" 
+                  className="rounded-lg max-w-full h-auto border border-slate-400"
+                />
+              </div>
+              <p className="text-green-300 text-lg font-bold">무제한 유물</p>
+            </div>
+            
+            {/* 홍줭 제한 유물 */}
+            <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+              <div className="flex items-center justify-center mb-3">
+                <img 
+                  src="/tip-images/홍줭제한유물.png" 
+                  alt="홍줭 제한 유물" 
+                  className="rounded-lg max-w-full h-auto border border-slate-400"
+                />
+              </div>
+              <p className="text-amber-300 text-lg font-bold mb-2">제한 유물</p>
+              <p className="text-slate-200 text-sm">
+                악어의 이빨 or 약점 공략보다 <strong className="text-yellow-300">기술의 달인이 기댓값이 높음</strong>
+              </p>
+            </div>
           </div>
         </div>
 
