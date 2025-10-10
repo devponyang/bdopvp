@@ -94,7 +94,7 @@ export default function DeadEyeGuide() {
             🔫 데드아이 클래스 가이드
           </h1>
           <p className="text-xl text-slate-200">
-            정확한 사격, 완벽한 컨트롤
+            “조준은 짧고, 죽음은 즉발이다.”
           </p>
         </div>
       </div>
@@ -167,6 +167,7 @@ export default function DeadEyeGuide() {
     </div>
   )
 }
+
 
 
 

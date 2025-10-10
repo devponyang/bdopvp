@@ -94,7 +94,7 @@ export default function RangerGuide() {
             🏹 전승 레인저 클래스 가이드
           </h1>
           <p className="text-xl text-slate-200">
-            정확한 조준, 치명적인 일격
+            “자연과 하나 되어, 바람의 화살을 쏘다.”
           </p>
         </div>
       </div>

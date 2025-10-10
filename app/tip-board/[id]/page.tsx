@@ -12,6 +12,9 @@ import WitchGuide from '../components/WitchGuide'
 import DarkKnightGuide from '../components/DarkKnightGuide'
 import RangerGuide from '../components/RangerGuide'
 import DeadEyeGuide from '../components/DeadEyeGuide'
+import GiantGuide from '../components/GiantGuide'
+import WarriorGuide from '../components/WarriorGuide'
+import MaeguSuccessionGuide from '../components/MaeguSuccessionGuide'
 
 interface TipPost {
   id: number
@@ -74,6 +77,24 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 데드아이 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '16') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 자이언트 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '17') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 무사 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '18') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 매구 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '19') {
           setLoading(false)
           return
         }
@@ -203,6 +224,21 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 데드아이 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '16') {
     return <DeadEyeGuide />
+  }
+
+  // 전승 자이언트 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '17') {
+    return <GiantGuide />
+  }
+
+  // 전승 무사 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '18') {
+    return <WarriorGuide />
+  }
+
+  // 전승 매구 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '19') {
+    return <MaeguSuccessionGuide />
   }
   
   if (!post) return notFound()

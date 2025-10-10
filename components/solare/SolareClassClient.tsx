@@ -30,7 +30,6 @@ export default function SolareClassClient() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [updateDate, setUpdateDate] = useState('')
-  const [lastUpdateTime, setLastUpdateTime] = useState('')
   const [selectedSeasonId, setSelectedSeasonId] = useState<number | null>(null)
 
   useEffect(() => {
@@ -76,11 +75,6 @@ export default function SolareClassClient() {
             const updateTime = new Date(result.lastUpdated)
             const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
             setUpdateDate(kstDate.toISOString().split('T')[0])
-            setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
-              timeZone: 'Asia/Seoul',
-              hour: '2-digit',
-              minute: '2-digit'
-            }))
           }
         }
       } catch (err) {
@@ -117,11 +111,6 @@ export default function SolareClassClient() {
                 const updateTime = new Date(result.lastUpdated)
                 const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
                 setUpdateDate(kstDate.toISOString().split('T')[0])
-                setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
-                  timeZone: 'Asia/Seoul',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                }))
               }
             }
           } else {
@@ -152,11 +141,6 @@ export default function SolareClassClient() {
                       const updateTime = new Date(result.lastUpdated)
                       const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
                       setUpdateDate(kstDate.toISOString().split('T')[0])
-                      setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
-                        timeZone: 'Asia/Seoul',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      }))
                     }
                   }
                 } else {
@@ -190,11 +174,6 @@ export default function SolareClassClient() {
                         const updateTime = new Date(result.lastUpdated)
                         const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
                         setUpdateDate(kstDate.toISOString().split('T')[0])
-                        setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
-                          timeZone: 'Asia/Seoul',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        }))
                       }
                     }
                   } else {
@@ -256,11 +235,6 @@ export default function SolareClassClient() {
           const updateTime = new Date(result.lastUpdated)
           const kstDate = new Date(updateTime.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
           setUpdateDate(kstDate.toISOString().split('T')[0])
-          setLastUpdateTime(kstDate.toLocaleTimeString('ko-KR', { 
-            timeZone: 'Asia/Seoul',
-            hour: '2-digit',
-            minute: '2-digit'
-          }))
         }
       }
     } catch (err) {

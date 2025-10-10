@@ -94,7 +94,7 @@ export default function WitchGuide() {
             🔮 각성 위치 클래스 가이드
           </h1>
           <p className="text-xl text-slate-200">
-          폭풍의 심장, 대지를 울리다
+            “대지를 품고, 원소의 노래를 부르는 자.”
           </p>
         </div>
       </div>

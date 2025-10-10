@@ -94,7 +94,7 @@ export default function DarkKnightGuide() {
             🌑 전승 다크나이트 클래스 가이드
           </h1>
           <p className="text-xl text-slate-200">
-            어둠의 무도, 죽음의 그림자
+            “빛의 끝에서 춤추는 그림자.”
           </p>
         </div>
       </div>

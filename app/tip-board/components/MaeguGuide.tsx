@@ -94,7 +94,7 @@ export default function MaeguGuide() {
             ⚔️ 각성 매구 클래스 가이드
           </h1>
           <p className="text-xl text-slate-200">
-            푸른 폭풍, 여우의 춤
+            “푸른 폭풍 속에서 춤추는 여우.”
           </p>
         </div>
       </div>
