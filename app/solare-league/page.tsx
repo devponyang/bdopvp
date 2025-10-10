@@ -136,7 +136,7 @@ export default function SolareOverallPage() {
   if (loading) return <PonyangLoading />
 
   return (
-    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+    <div className="p-3 md:p-6 max-w-full md:max-w-[1490px] mx-auto mt-6">
         {/* 메인 헤더 */}
         <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10">
           {/* 배경 이미지 */}
@@ -157,9 +157,8 @@ export default function SolareOverallPage() {
             <div className="flex items-center gap-4">
                 {/* 아이콘 */}
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-blue-400/30 rounded-xl blur-sm"></div>
-                  <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
-                    <div className="text-3xl">⚔️</div>
+                  <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg p-3">
+                    <img src="/icons/rank1.png" alt="솔라레의 창" className="w-full h-full object-contain" />
                   </div>
                 </div>
                 

@@ -26,6 +26,43 @@ export default function SolareClassClient() {
   const params = useParams()
   const searchParams = useSearchParams()
   const className = decodeURIComponent(params?.class as string || '')
+  
+  // 클래스명을 영문 파일명으로 매핑
+  const getClassIconName = (className: string) => {
+    const classMap: { [key: string]: string } = {
+      '워리어': 'warrior',
+      '하사신': 'hasasin',
+      '세이지': 'saji',
+      '레인저': 'ranger',
+      '가디언': 'gadi',
+      '스칼라': 'scara',
+      '드라카니아': 'draca',
+      '소서러': 'sor',
+      '노바': 'nova',
+      '커세어': 'cosair',
+      '란': 'lhan',
+      '자이언트': 'jai',
+      '매구': 'magu',
+      '금수랑': 'taimer',
+      '샤이': 'shai',
+      '격투가': 'fighter',
+      '무사': 'musa',
+      '매화': 'mahwa',
+      '미스틱': 'mistic',
+      '발키리': 'valc',
+      '쿠노이치': 'kuno',
+      '닌자': 'ninja',
+      '다크나이트': 'darknight',
+      '위자드': 'wizard',
+      '아처': 'archer',
+      '우사': 'usa',
+      '위치': 'witch',
+      '도사': 'dosa',
+      '데드아이': 'dead',
+      '오공': 'ukong'
+    }
+    return classMap[className] || className.toLowerCase()
+  }
   const [data, setData] = useState<Entry[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -270,7 +307,7 @@ export default function SolareClassClient() {
   )
 
   return (
-    <div className="p-3 md:p-6 max-w-full md:max-w-screen-xl mx-auto mt-6">
+    <div className="p-3 md:p-6 max-w-full md:max-w-[1490px] mx-auto mt-6">
       {/* 메인 헤더 */}
       <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10">
         {/* 배경 이미지 */}
@@ -291,9 +328,16 @@ export default function SolareClassClient() {
             <div className="flex items-center gap-4">
               {/* 아이콘 */}
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-blue-400/30 rounded-xl blur-sm"></div>
-                <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <div className="text-3xl">⚔️</div>
+                <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg p-3">
+                  <img 
+                    src={`/class-icons/${getClassIconName(className)}.png`} 
+                    alt={`${className} 아이콘`} 
+                    className="w-full h-full object-contain brightness-0 invert"
+                    onError={(e) => {
+                      // 아이콘이 없으면 기본 이모티콘으로 대체
+                      e.currentTarget.style.display = 'none'
+                    }}
+                  />
                 </div>
               </div>
               

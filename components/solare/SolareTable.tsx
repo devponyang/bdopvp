@@ -85,20 +85,71 @@ export default function SolareTable({ data }: Props) {
 
   // 상위 3등 배경 스타일
   const rankStyles = [
-    "text-white rank-header relative overflow-hidden", // 1위
-    "text-white rank-header relative overflow-hidden",   // 2위
-    "text-white rank-header relative overflow-hidden", // 3위
+    "text-white rank-header relative overflow-hidden py-16", // 1위 - 2배 높이
+    "text-white rank-header relative overflow-hidden py-12",   // 2위 - 2배 높이
+    "text-white rank-header relative overflow-hidden py-12", // 3위 - 2배 높이
   ]
+
+  // 클래스별 배경 이미지 매핑 함수
+  const getClassBackground = (className: string, _subclass: string) => {
+    // 모든 클래스를 클래스이름.png 형식으로 처리
+    const bgPath = `/class-bg/${className}.png`
+    return bgPath
+  }
 
   return (
     <div className="rounded-xl relative z-10">
+      <style jsx>{`
+        tr[data-class-bg]::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image: url(var(--class-bg));
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          opacity: 0.5;
+          z-index: -1;
+        }
+        tr[data-class-bg] {
+          position: relative;
+        }
+        tr[data-class-bg] > * {
+          position: relative;
+          z-index: 1;
+        }
+        div[data-class-bg]::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image: url(var(--class-bg));
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          opacity: 0.5;
+          z-index: -1;
+        }
+        div[data-class-bg] {
+          position: relative;
+        }
+        div[data-class-bg] > * {
+          position: relative;
+          z-index: 1;
+        }
+      `}</style>
       {/* 데스크톱 테이블 */}
       <div className="hidden md:block overflow-x-auto">
         <table className="min-w-full text-lg text-center solare-table">
         <thead className="bg-gradient-to-r from-slate-700/80 to-blue-800/80 backdrop-blur-sm border-b border-white/20">
           <tr>
-            <th className="px-6 py-4 font-bold text-lg text-white">순위</th>
-            <th className="px-6 py-4 font-bold text-lg text-white">티어</th>
+            <th className="pl-6 pr-2 py-4 font-bold text-lg text-white">순위</th>
+            <th className="pl-2 pr-6 py-4 font-bold text-lg text-white">티어</th>
             <th className="px-6 py-4 font-bold text-lg text-white">가문명</th>
             <th className="px-6 py-4 font-bold text-lg text-white">길드</th>
             <th className="px-6 py-4 font-bold text-lg text-white">전승/각성</th>
@@ -121,7 +172,7 @@ export default function SolareTable({ data }: Props) {
               <Fragment key={`${entry.name}-${entry.score}-${idx}`}>
                 <tr 
                   className={`border-b border-white/10 transition-all duration-300 hover:bg-white/5 ${
-                    idx < 3 ? rankStyles[idx] : "text-white hover:bg-slate-700/30"
+                    idx < 3 ? rankStyles[idx] + ' relative' : "text-white hover:bg-slate-700/30"
                   }`}
                   style={idx < 3 ? {
                     backgroundImage: `url('/ponyang/${idx + 1}st-bg.png')`,
@@ -130,71 +181,96 @@ export default function SolareTable({ data }: Props) {
                     backgroundRepeat: 'no-repeat'
                   } : {}}
                 >
-                  <td className="py-4 px-6 font-bold flex items-center justify-center gap-2">
-                    {idx < 3 ? (
-                      <Image
-                        src={`/ponyang/${idx + 1}st.png`}
-                        alt={`${idx + 1}등`}
-                        width={40}
-                        height={40}
-                        className="inline relative top-1"
+                  <td className={`${idx < 3 ? 'py-8 pl-6 pr-2' : 'py-4 pl-6 pr-2'} font-bold relative`}>
+                    {/* 클래스 배경 오버레이 - 테이블 전체 행을 덮음 */}
+                    {idx < 3 && getClassBackground(entry.class, entry.subclass || '') && (
+                      <div 
+                        className="absolute opacity-70 pointer-events-none"
+                        style={{
+                          backgroundImage: `url('${getClassBackground(entry.class, entry.subclass || '')}')`,
+                          backgroundSize: '350px auto',
+                          backgroundPosition: 'right 22%',
+                          backgroundRepeat: 'no-repeat',
+                          left: '-200%',
+                          right: '-190%',
+                          top: 0,
+                          bottom: 0,
+                          zIndex: 0
+                        }}
                       />
-                    ) : (
-                      <span>{idx + 1}</span>
                     )}
-                    <span className={`text-xs ${changeColor}`}>{change}</span>
+                    <div className="flex items-center justify-center gap-2 relative z-10">
+                      {idx < 3 ? (
+                        <Image
+                          src={`/ponyang/${idx + 1}st.png`}
+                          alt={`${idx + 1}등`}
+                          width={idx === 0 ? 80 : 60}
+                          height={idx === 0 ? 80 : 60}
+                          className="inline relative top-1"
+                        />
+                      ) : (
+                        <span className="text-xl">{idx + 1}</span>
+                      )}
+                      <span className={`text-sm ${changeColor}`}>{change}</span>
+                    </div>
                   </td>
-                  <td className="py-4 px-6">
+                  <td className={`${idx < 3 ? 'py-8 pl-2 pr-6' : 'py-4 pl-2 pr-6'} relative z-10`}>
                     <div className="flex justify-center">
                       <div className="relative">
                         <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-full blur-sm"></div>
                         <Image
-                          src={`/solare-icons/${tier}.png`}
-                          alt={`${tier} 티어 아이콘`}
-                          width={36}
-                          height={36}
+                          src={idx === 0 && entry.score >= 2401 ? `/solare-icons/rank1.png` : `/solare-icons/${tier}.png`}
+                          alt={idx === 0 && entry.score >= 2401 ? '1위 아이콘' : `${tier} 티어 아이콘`}
+                          width={idx < 3 ? 72 : 36}
+                          height={idx < 3 ? 72 : 36}
                           className="mx-auto relative z-10 drop-shadow-lg"
                         />
                       </div>
                     </div>
                   </td>
                   <td
-                    className="py-4 px-6 font-bold cursor-pointer hover:text-blue-400 transition-all duration-300 hover:scale-105"
+                    className={`${idx < 3 ? 'py-8 px-6' : 'py-4 px-6'} font-bold cursor-pointer hover:text-blue-400 transition-all duration-300 hover:scale-105 relative z-10`}
                     onClick={() => handleDesktopPlayerClick(entry.name, entry.class)}
                     title="클릭하여 특화 정보 보기"
                   >
-                    <span className="text-white">
+                    <span className={`text-white ${idx < 3 ? 'text-xl' : 'text-lg'}`}>
                       {entry.name}
                     </span>
                   </td>
-                  <td className="py-4 px-6 font-bold">
-                    {entry.guild_name ? (
-                      <Link href={`/guild/${encodeURIComponent(entry.guild_name)}`} className="text-blue-300 hover:text-blue-400 transition-colors">
+                  <td className={`${idx < 3 ? 'py-8 px-6' : 'py-4 px-6'} font-bold relative z-10`}>
+                        {entry.guild_name ? (
+                      <Link href={`/guild/${encodeURIComponent(entry.guild_name)}`} className={`text-blue-300 hover:text-blue-400 transition-colors ${idx < 3 ? 'text-xl' : 'text-lg'}`}>
                         {entry.guild_name}
                       </Link>
                     ) : (
                       <span className="text-gray-500">-</span>
                     )}
                   </td>
-                  <td className="py-4 px-6 font-bold">
-                    <div className="flex items-center justify-center">
+                  <td className={`${idx < 3 ? 'py-8 px-6' : 'py-4 px-6'} font-bold relative z-10`}>
+                    <div className="flex items-center justify-center gap-2">
                       {entry.subclass === '전승' && (
-                        <Image
-                          src="/ponyang/ac.png"
-                          alt="전승"
-                          width={28}
-                          height={28}
-                          className="inline drop-shadow-lg"
-                        />
+                        <>
+                          <Image
+                            src="/ponyang/ac.png"
+                            alt="전승"
+                            width={idx < 3 ? 40 : 28}
+                            height={idx < 3 ? 40 : 28}
+                            className="inline drop-shadow-lg"
+                          />
+                          <span className={`text-blue-300 ${idx < 3 ? 'text-xl' : 'text-lg'}`}>전승</span>
+                        </>
                       )}
                       {entry.subclass === '각성' && (
-                        <Image
-                          src="/ponyang/aw.png"
-                          alt="각성"
-                          width={28}
-                          height={28}
-                          className="inline drop-shadow-lg"
-                        />
+                        <>
+                          <Image
+                            src="/ponyang/aw.png"
+                            alt="각성"
+                            width={idx < 3 ? 40 : 28}
+                            height={idx < 3 ? 40 : 28}
+                            className="inline drop-shadow-lg"
+                          />
+                          <span className={`text-red-300 ${idx < 3 ? 'text-xl' : 'text-lg'}`}>각성</span>
+                        </>
                       )}
                       {(!entry.subclass || (entry.subclass !== '전승' && entry.subclass !== '각성')) && (
                         <>
@@ -202,8 +278,8 @@ export default function SolareTable({ data }: Props) {
                             <Image
                               src="/ponyang/shai.png"
                               alt="샤이"
-                              width={28}
-                              height={28}
+                              width={idx < 3 ? 40 : 28}
+                              height={idx < 3 ? 40 : 28}
                               className="inline drop-shadow-lg"
                             />
                           )}
@@ -211,8 +287,8 @@ export default function SolareTable({ data }: Props) {
                             <Image
                               src="/ponyang/scara.png"
                               alt="스칼라"
-                              width={28}
-                              height={28}
+                              width={idx < 3 ? 40 : 28}
+                              height={idx < 3 ? 40 : 28}
                               className="inline drop-shadow-lg"
                             />
                           )}
@@ -220,8 +296,8 @@ export default function SolareTable({ data }: Props) {
                             <Image
                               src="/ponyang/archer.png"
                               alt="아처"
-                              width={28}
-                              height={28}
+                              width={idx < 3 ? 40 : 28}
+                              height={idx < 3 ? 40 : 28}
                               className="inline drop-shadow-lg"
                             />
                           )}
@@ -229,8 +305,8 @@ export default function SolareTable({ data }: Props) {
                             <Image
                               src="/ponyang/ukong.png"
                               alt="오공"
-                              width={28}
-                              height={28}
+                              width={idx < 3 ? 40 : 28}
+                              height={idx < 3 ? 40 : 28}
                               className="inline drop-shadow-lg"
                             />
                           )}
@@ -238,8 +314,8 @@ export default function SolareTable({ data }: Props) {
                             <Image
                               src="/ponyang/dead.png"
                               alt="데드아이"
-                              width={28}
-                              height={28}
+                              width={idx < 3 ? 40 : 28}
+                              height={idx < 3 ? 40 : 28}
                               className="inline drop-shadow-lg"
                             />
                           )}
@@ -247,25 +323,25 @@ export default function SolareTable({ data }: Props) {
                       )}
                     </div>
                   </td>
-                  <td className="py-4 px-6 font-bold text-blue-300">{entry.class}</td>
-                  <td className="py-4 px-6 font-bold text-white">
+                  <td className={`${idx < 3 ? 'py-8 px-6' : 'py-4 px-6'} font-bold text-blue-300 ${idx < 3 ? 'text-xl' : 'text-lg'} relative z-10`}>{entry.class}</td>
+                  <td className={`${idx < 3 ? 'py-8 px-6' : 'py-4 px-6'} font-bold text-white ${idx < 3 ? 'text-xl' : 'text-lg'} relative z-10`}>
                     {entry.wins}/{entry.draws}/{entry.losses}
                   </td>
-                  <td className="py-4 px-6 font-bold">
+                  <td className={`${idx < 3 ? 'py-8 px-6' : 'py-4 px-6'} font-bold relative z-10`}>
                     {entry.wins + entry.draws + entry.losses > 0 ? (
                       (() => {
                         const winRate = Math.round((entry.wins / (entry.wins + entry.draws + entry.losses)) * 100)
                         if (winRate >= 80) {
-                          return <span className="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent font-bold text-xl">{winRate}%</span>
+                          return <span className={`bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent font-bold ${idx < 3 ? 'text-2xl' : 'text-xl'}`}>{winRate}%</span>
                         } else if (winRate >= 70) {
-                          return <span className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent font-bold">{winRate}%</span>
+                          return <span className={`bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent font-bold ${idx < 3 ? 'text-xl' : 'text-lg'}`}>{winRate}%</span>
                         } else {
-                          return <span className="text-white">{winRate}%</span>
+                          return <span className={`text-white ${idx < 3 ? 'text-xl' : 'text-lg'}`}>{winRate}%</span>
                         }
                       })()
                     ) : '-'}
                   </td>
-                  <td className="py-4 px-6 font-bold text-white text-xl">
+                  <td className={`${idx < 3 ? 'py-8 px-6' : 'py-4 px-6'} font-bold text-white ${idx < 3 ? 'text-2xl' : 'text-xl'} relative z-10`}>
                     {entry.score}
                   </td>
                 </tr>
@@ -338,18 +414,36 @@ export default function SolareTable({ data }: Props) {
             <div
               key={`mobile-${entry.name}-${entry.score}-${idx}`}
               className={`p-4 rounded-2xl border-2 shadow-xl transition-all duration-300 active:scale-95 ${
-                idx < 3 ? rankStyles[idx] : "bg-gradient-to-r from-slate-800/70 to-blue-900/70 border-white/20 text-white backdrop-blur-sm"
+                idx < 3 ? "text-white relative overflow-hidden" : "bg-gradient-to-r from-slate-800/70 to-blue-900/70 border-white/20 text-white backdrop-blur-sm"
               }`}
               style={idx < 3 ? {
                 backgroundImage: `url('/ponyang/${idx + 1}st-bg.png')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundRepeat: 'no-repeat',
+                position: 'relative'
               } : {}}
               onClick={() => handleMobilePlayerClick(entry.name, entry.class)}
             >
+              {/* 클래스 배경 오버레이 */}
+              {idx < 3 && getClassBackground(entry.class, entry.subclass || '') && (
+                <div 
+                  className="absolute opacity-70 pointer-events-none"
+                  style={{
+                    backgroundImage: `url('${getClassBackground(entry.class, entry.subclass || '')}')`,
+                    backgroundSize: '250px auto',
+                    backgroundPosition: 'right 20%',
+                    backgroundRepeat: 'no-repeat',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    zIndex: 0
+                  }}
+                />
+              )}
               {/* 상단: 순위, 가문명, 티어 */}
-              <div className="flex items-start justify-between mb-3">
+              <div className="flex items-start justify-between mb-3 relative z-10">
                 {/* 좌측: 순위 */}
                 <div className="flex flex-col items-center gap-1">
                   {idx < 3 ? (
@@ -384,8 +478,8 @@ export default function SolareTable({ data }: Props) {
                   <div className="relative w-10 h-10">
                     <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 to-orange-400/30 rounded-full blur-sm"></div>
                     <Image
-                      src={`/solare-icons/${tier}.png`}
-                      alt={`${tier} 티어`}
+                      src={idx === 0 && entry.score >= 2401 ? `/solare-icons/rank1.png` : `/solare-icons/${tier}.png`}
+                      alt={idx === 0 && entry.score >= 2401 ? '1위 아이콘' : `${tier} 티어`}
                       width={40}
                       height={40}
                       className="relative z-10 drop-shadow-lg"
@@ -395,7 +489,7 @@ export default function SolareTable({ data }: Props) {
               </div>
 
               {/* 중앙: 전승/각성 및 클래스 - 더 눈에 띄게 */}
-              <div className="mb-3 py-2 px-3 bg-black/30 rounded-xl border border-white/20">
+              <div className="mb-3 py-2 px-3 bg-black/30 rounded-xl border border-white/20 relative z-10">
                 <div className="flex items-center justify-center gap-2">
                   {/* 전승/각성 아이콘 - 크게 */}
                   <div className="flex flex-col items-center gap-1">
@@ -477,7 +571,7 @@ export default function SolareTable({ data }: Props) {
               </div>
 
               {/* 전적 정보 - 간격 조정 */}
-              <div className="grid grid-cols-3 gap-3 mb-3">
+              <div className="grid grid-cols-3 gap-3 mb-3 relative z-10">
                 <div className="bg-black/20 rounded-lg p-2 border border-white/10 text-center">
                   <div className="text-gray-400 text-xs mb-0.5">승/무/패</div>
                   <div className="text-white font-bold text-base">{entry.wins}/{entry.draws}/{entry.losses}</div>
@@ -507,7 +601,7 @@ export default function SolareTable({ data }: Props) {
               
               {/* 길드 정보 */}
               {entry.guild_name && (
-                <div className="text-center py-2 px-3 bg-black/20 rounded-lg border border-white/10">
+                <div className="text-center py-2 px-3 bg-black/20 rounded-lg border border-white/10 relative z-10">
                   <div className="text-gray-400 text-xs mb-0.5">길드</div>
                   <Link 
                     href={`/guild/${encodeURIComponent(entry.guild_name)}`} 
