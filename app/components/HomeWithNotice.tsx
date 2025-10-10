@@ -13,7 +13,7 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
     // 오늘 날짜 확인
     const today = new Date();
     const todayString = today.toDateString();
-    const dismissedDate = localStorage.getItem('noticeDismissed');
+    const dismissedDate = localStorage.getItem('noticeDismissed_v2'); // v2로 변경하여 새 공지로 인식
     
     // 공지사항 표시 (오늘 하루 보지 않기를 선택하지 않았으면)
     if (dismissedDate !== todayString) {
@@ -129,7 +129,7 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
               <button
                 onClick={() => {
                   const today = new Date().toDateString();
-                  localStorage.setItem('noticeDismissed', today);
+                  localStorage.setItem('noticeDismissed_v2', today);
                   handleCloseNotice();
                 }}
                 className="flex-1 px-4 py-3 text-sm font-medium text-gray-300 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition-colors"
