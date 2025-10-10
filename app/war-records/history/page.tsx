@@ -287,7 +287,6 @@ export default function WarHistoryPage() {
   const kstToday = now.toISOString().split('T')[0]
   const selectedDateStr = selectedDate ? selectedDate.toISOString().split('T')[0] : ''
   
-  const hasActualData = records.length > 0;
   const isFutureDate = selectedDateStr > kstToday;
   
   // 실제 데이터가 있으면 항상 표시, 미래 날짜만 숨김
