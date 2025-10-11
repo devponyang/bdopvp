@@ -810,6 +810,34 @@ export default function RangerGuide() {
               <p className="text-yellow-300 text-base">
                 ⚠️ 예전엔 쿨중딜감 적용이 없어서 DPS 1위 였지만 <strong>지금은 숨찢 반복이 오히려 딜로스</strong>에요!
               </p>
+
+              {/* 스플래시 데미지 내용 추가 */}
+              <div className="bg-gradient-to-r from-amber-900/30 to-yellow-900/30 p-5 rounded-lg border border-amber-400/30 mt-4">
+                <h4 className="text-amber-300 text-lg font-bold mb-3">💥 스플래시 데미지의 범위 파악하기</h4>
+                
+                <div className="bg-gradient-to-r from-red-900/40 to-purple-900/40 p-4 rounded-lg border border-red-400/40">
+                  <p className="text-red-300 font-semibold mb-3 text-base">📹 스플뎀 예시 영상:</p>
+                  <div className="relative w-full mb-4" style={{ paddingBottom: '56.25%' }}>
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full rounded-lg"
+                      src="https://www.youtube.com/embed/Lcyc9gvND7U"
+                      title="숨찢 스플뎀 예시 영상"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-600">
+                    <p className="text-slate-200 text-base mb-2">
+                      예시 영상에서 보시다시피 에임이 잡히지도 않은채로 벽에 쏘는데 히트 판정이 들어가는걸 보실 수 있어요. <strong className="text-amber-300">벽에서 터지는 스킬의 범위안에 적이 있다면 영상처럼 히트 판정이 들어갑니다!</strong>
+                    </p>
+                    <p className="text-slate-200 text-base">
+                      저런 난간벽 뒤가 아니더라도 높은 지붕위라서 사거리가 닿지 않아도, <strong className="text-amber-300">캐릭터의 발쪽 언저리에 에임을 두고 쏘면 스플래시로 히트 판정을 띄울 수 있어요!</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -852,6 +880,13 @@ export default function RangerGuide() {
               <p className="text-slate-200 text-base">
                 <strong className="text-cyan-300">퀵슬롯 등록하고 사용하면 맨몸으로 달리다가도 바로 무기꺼내고 우직 모션 발동 가능</strong>해요.
               </p>
+
+              {/* 스플뎀 내용 추가 */}
+              <div className="bg-blue-900/20 p-4 rounded-lg border-l-4 border-blue-400 mt-3">
+                <p className="text-blue-300 text-base">
+                  💥 <strong>우직도 숨찢처럼 스플뎀이 존재해요.</strong> 하지만 범위가 아주 좁다보니 <strong className="text-blue-300">써보시면서 감으로 익히는걸 추천드려요!</strong>
+                </p>
+              </div>
             </div>
           </div>
 
@@ -923,6 +958,61 @@ export default function RangerGuide() {
               <p className="text-slate-200 text-base">
                 근접상황+안전한 딜각 에서는 콤보에 추가해도 괜찮아요. <strong className="text-teal-300">단명(1cc)-DF-우직 순으로 연계해서 스킬방깎까지 걸고 시작하는 방식</strong>. AF는 딜레이가 미세하게 조금 더 있어서 DF로 사용 추천.
               </p>
+            </div>
+          </div>
+
+          {/* 4.11 회피사격 추가 */}
+          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+            <h3 className="text-pink-400 text-xl font-bold mb-3">4.11 회피사격</h3>
+            <div className="space-y-3">
+              <p className="text-slate-200 text-base">
+                <strong className="text-pink-300">하늘의 부름, 엇갈리는 바람, 바람타기 중에 A or D + 좌클릭 으로 방향을 틀 수 있어요.</strong>
+              </p>
+              <p className="text-slate-200 text-base">
+                포지션 잡거나 뒤잡기용으로 쓰이고 위치렉 유발(?)도 가능해요. <strong className="text-yellow-300">단, 맨몸이라 조심하셔야해요!</strong>
+              </p>
+
+              {/* 회피사격 예시 영상 */}
+              <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 p-5 rounded-lg border border-blue-400/40 shadow-lg mt-4">
+                <p className="text-blue-300 font-semibold mb-2 text-lg">📹 회피사격 실전영상 클립:</p>
+                <p className="text-yellow-300 text-sm mb-4 text-center">💡 클릭하시면 새 탭에서 YouTube 클립이 재생됩니다</p>
+                <a 
+                  href="https://youtube.com/clip/UgkxbdSCtqhRn3RyrCUqci6T4O3tKlaTZQTF?si=cC2nWCG4_FP61xJ6" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group relative overflow-hidden rounded-lg border-2 border-green-600 hover:border-green-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-2xl block"
+                >
+                  <div className="relative aspect-video bg-black">
+                    {/* 썸네일 이미지 배경 */}
+                    <img 
+                      src="/tip-images/ranger-clip4.png" 
+                      alt="회피사격 예시 클립"
+                      className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+                    />
+                    {/* 오버레이 */}
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-green-600/90 rounded-full p-4 group-hover:scale-125 transition-transform duration-300 shadow-2xl">
+                          <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    {/* CLIP 배지 */}
+                    <div className="absolute top-2 right-2 bg-green-600 px-3 py-1 rounded-full text-white text-xs font-bold shadow-lg">
+                      YouTube CLIP
+                    </div>
+                    {/* 하단 제목 */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-3">
+                      <p className="text-white font-bold text-sm">회피사격 예시</p>
+                    </div>
+                  </div>
+                </a>
+                <p className="text-slate-300 text-sm mt-3 leading-relaxed">
+                  회피 사격을 극단적으로 사용한 예시지만, <strong className="text-pink-300">회폭 카운터, 바모 카운터, 전가로 턴 벌기</strong> 등의 디테일도 있어서 마무리 복습의 느낌으로 추가했어요!
+                </p>
+              </div>
             </div>
           </div>
         </div>

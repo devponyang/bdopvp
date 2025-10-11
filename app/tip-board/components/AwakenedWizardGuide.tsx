@@ -137,12 +137,12 @@ export default function AwakenedWizardGuide() {
           </div>
           <div>
             <p className="text-white text-xl font-semibold mb-2">
-              <span className="text-gray-300">작성자:</span> <Link href="/guild/아지다하카" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">아지다하카</Link> 길드 <span className="text-blue-400 font-bold">88o</span> 님
+              <span className="text-gray-300">작성자:</span> <Link href="/guild/시바" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">시바</Link> 길드 <span className="text-blue-400 font-bold">88o</span> 님
             </p>
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/40 rounded-lg shadow-lg">
               <img src="/class-icons/wizard.png" alt="위자드" className="w-5 h-5 object-contain" />
               <p className="text-purple-300 font-bold text-sm">
-                솔라레의 창 - 각성 위자드 랭킹 1위
+                솔라레의 창 - 위자드 랭킹 1위
               </p>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function AwakenedWizardGuide() {
           <span className="mr-3 text-4xl">👋</span> 소개
         </h2>
         <p className="text-slate-200 text-lg leading-relaxed">
-          안녕하세요 <Link href="/guild/아지다하카" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors font-bold">아지다하카</Link> 길드의 <strong className="text-blue-400">88o</strong> 입니다.
+          안녕하세요 <Link href="/guild/시바" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors font-bold">시바</Link> 길드의 <strong className="text-blue-400">88o</strong> 입니다.
         </p>
       </div>
 
