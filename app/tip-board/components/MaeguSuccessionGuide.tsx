@@ -65,7 +65,7 @@ export default function MaeguSuccessionGuide() {
   }
 
   return (
-    <div className="max-w-full md:max-w-[1200px] mx-auto p-3 md:p-6">
+    <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
       {/* 뒤로가기 버튼 */}
       <div className="mb-6">
         <Link 

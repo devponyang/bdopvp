@@ -65,7 +65,7 @@ export default function RangerGuide() {
   }
 
   return (
-    <div className="max-w-full md:max-w-[1200px] mx-auto p-3 md:p-6">
+    <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
       {/* 뒤로가기 버튼 */}
       <div className="mb-6">
         <Link 
@@ -157,7 +157,7 @@ export default function RangerGuide() {
         <p className="text-slate-200 text-lg leading-relaxed">
           안녕하세요 <strong className="text-purple-400">아지다하카</strong> 길드의 <strong className="text-blue-400">홍줭</strong>입니다!
           <br />
-          저보다 잘 하시는 분들이 많은데도 이런 기회를 주셔서 감사하고, 알고있는 지식은 최대한 다 알려드리도록 노력할테니 도움이 되면 좋겠습니다!
+          저보다 잘 하시는 분들이 많은데도 이런 기회를 주셔서 감사하고, 알고 있는 지식은 최대한 다 알려드리도록 노력할테니 도움이 되면 좋겠습니다!
         </p>
       </div>
 
@@ -249,7 +249,7 @@ export default function RangerGuide() {
 
             {/* 텀벙이 입기 */}
             <div className="bg-slate-600/50 p-5 rounded-lg border-l-4 border-green-400">
-              <h4 className="text-green-300 text-xl font-bold mb-3">3.1.3 텀벙이 입기, 키(커스터 마이징) 키우기</h4>
+              <h4 className="text-green-300 text-xl font-bold mb-3">3.1.3 텀벙이 입기, 키(커스터마이징) 키우기</h4>
               <ul className="text-slate-200 text-base space-y-2 pl-4 mb-4">
                 <li>• 점프력 상승과 수영속도 증가 펄옷으로 지형 활용에 도움!</li>
                 <li>• <strong className="text-green-300">화살이 시작되는 z축이 올라가므로 상대 타격이 가능해져요!</strong></li>
@@ -274,7 +274,7 @@ export default function RangerGuide() {
           <div className="space-y-6">
             {/* 기본은 미니맵 */}
             <div className="bg-slate-600/50 p-5 rounded-lg border-l-4 border-yellow-400">
-              <h4 className="text-yellow-300 text-xl font-bold mb-3">3.2.1 기본은 모든 행동중에 미니맵 보기</h4>
+              <h4 className="text-yellow-300 text-xl font-bold mb-3">3.2.1 기본은 모든 행동 중에 미니맵 보기</h4>
               <p className="text-slate-200 text-base leading-relaxed">
                 주력 딜링기들 대부분이 맨몸이라, 툭 치면 드러눕는 경우가 허다하기때문에, <strong className="text-yellow-300">상대를 눕히고 딜을 하는 와중에도 미니맵 보고 냄새 맡기!</strong>
               </p>
@@ -291,7 +291,7 @@ export default function RangerGuide() {
                 <p className="text-slate-200 text-sm">미리 거리 벌리기, 아군쪽으로 드리블하기, 구조물 올라가기, 화탑이나 코끼리 주변에 있기 등</p>
               </div>
               <p className="text-slate-200 text-base mb-2">
-                거점을 예로들자면 나무 위에서 공격할수 있는 포인트들과, 상대방이 공격하기 어려운 바위 등을 파악해두고 사거리가 어디까지 닿는지도 확인해두시면 좋습니다!
+                거점을 예로 들자면 나무 위에서 공격할 수 있는 포인트들과, 상대방이 공격하기 어려운 바위 등을 파악해두고 사거리가 어디까지 닿는지도 확인해두시면 좋습니다!
               </p>
               <p className="text-amber-300 text-sm italic">
                 💡 연맹 혹은 길드마다 조합과 스타일이 다르기때문에, 여러 시도를 통해 적절한 포지션을 찾아가셔야 합니다!
@@ -412,7 +412,7 @@ export default function RangerGuide() {
         </div>
 
         {/* 3.3 생존 */}
-        <div className="bg-slate-700/50 p-6 rounded-xl mb-6 border border-slate-600">
+        <div id="survival-section" className="bg-slate-700/50 p-6 rounded-xl mb-6 border border-slate-600">
           <h3 className="text-green-400 text-2xl font-bold mb-4 flex items-center">
             <span className="mr-3">🛡️</span> 3.3 생존
           </h3>
@@ -548,14 +548,17 @@ export default function RangerGuide() {
               <h4 className="text-orange-300 text-xl font-bold mb-4">3.3.2 전방가드 스킬</h4>
               
               <p className="text-slate-200 text-base mb-4">
-                무적, 슈아 굴리면서 드리블중에 피가 적어 위험하거나, 스킬 쿨일때 <strong className="text-orange-300">전방가드로 턴 버는 식으로 사용</strong>.
+                무적, 슈아 굴리면서 드리블 중에 피가 적어 위험하거나, 스킬 쿨일때 <strong className="text-orange-300">전방가드로 턴 버는 식으로 사용</strong>.
               </p>
               <p className="text-yellow-300 text-sm mb-4">⚠️ 전가 뚫거나, 빠른 뒤잡 캐릭들 상대로는 전가로 대치하는 상황은 지양하기.</p>
 
               <div className="space-y-4">
                 {/* 1줄: 강극단명, 전율 */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+                  <button 
+                    onClick={() => document.getElementById('pvp-skill-danmyung')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                    className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500 hover:border-orange-400 hover:bg-slate-500 transition-all duration-300 cursor-pointer"
+                  >
                     <div className="h-[28rem] flex items-center justify-center mb-3">
                       <img 
                         src="/tip-images/단명.png" 
@@ -565,9 +568,9 @@ export default function RangerGuide() {
                     </div>
                     <p className="text-orange-300 text-lg font-bold mb-2">강극단명</p>
                     <p className="text-slate-200 text-sm">
-                      전가 유지 + 퀵 슬롯(필수!)에 두고 사용시 바로 사용가능
+                      👉 PVP 콤보에서 추가 설명 보기
                     </p>
-                  </div>
+                  </button>
                   
                   <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
                     <div className="h-[28rem] flex items-center justify-center mb-3">
@@ -631,7 +634,7 @@ export default function RangerGuide() {
                       </div>
                       <p className="text-indigo-300 text-base font-bold mb-2">바람을 타는 의지</p>
                       <p className="text-slate-200 text-sm text-center">
-                        전가 유지+ 넉다운<br />
+                        전가 유지 + 넉다운<br />
                         바깃이랑 모션이 똑같아 낚시용으로도 사용 가능
                       </p>
                     </div>
@@ -657,7 +660,10 @@ export default function RangerGuide() {
                 
                 {/* 4줄: 우직, 초바모 */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+                  <button 
+                    onClick={() => document.getElementById('pvp-skill-woojik')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                    className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500 hover:border-blue-400 hover:bg-slate-500 transition-all duration-300 cursor-pointer"
+                  >
                     <div className="h-[28rem] flex items-center justify-center mb-3">
                       <img 
                         src="/tip-images/우직.png" 
@@ -666,10 +672,13 @@ export default function RangerGuide() {
                       />
                     </div>
                     <p className="text-blue-300 text-lg font-bold mb-2">우직한 칼날바람</p>
-                    <p className="text-slate-200 text-sm">상시로 쿨 돌고있는 수준이라 추가 설명 없음.</p>
-                  </div>
+                    <p className="text-slate-200 text-sm">👉 PVP 콤보에서 추가 설명 보기</p>
+                  </button>
                   
-                  <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
+                  <button 
+                    onClick={() => document.getElementById('pvp-skill-chobamo')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                    className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500 hover:border-green-400 hover:bg-slate-500 transition-all duration-300 cursor-pointer"
+                  >
                     <div className="h-[28rem] flex items-center justify-center mb-3">
                       <img 
                         src="/tip-images/초바모.png" 
@@ -678,8 +687,8 @@ export default function RangerGuide() {
                       />
                     </div>
                     <p className="text-green-300 text-lg font-bold mb-2">강 : 초 바람 모아쏘기</p>
-                    <p className="text-slate-200 text-sm">상시로 쿨 돌고있는 수준이라 추가 설명 없음.</p>
-                  </div>
+                    <p className="text-slate-200 text-sm">👉 PVP 콤보에서 추가 설명 보기</p>
+                  </button>
                 </div>
               </div>
             </div>
@@ -713,13 +722,13 @@ export default function RangerGuide() {
 
           <div className="bg-amber-900/20 p-4 rounded-lg border border-amber-400/30">
             <p className="text-amber-300 text-base leading-relaxed">
-              ⚠️ 주 사용 풀콤을 먼저 알려드리긴 했지만, <strong>단명/우직/초바모 등은 스킬 쿨이 거의 상시로 돌아가기때문에</strong> 남아있는 길여바/숨찢/옭아 등의 스킬을 연계하기 위한 선행이 필요해요. 앞에서 말한대로 <strong>쿨 돌고있는 스킬을 쓰는거보다, 준비된 스킬 쓰는게 더 쎈 상황들이 많아요</strong>.
+              ⚠️ 주 사용 풀콤을 먼저 알려드리긴 했지만, <strong>단명/우직/초바모 등은 스킬 쿨이 거의 상시로 돌아가기 때문에</strong> 남아있는 길여바/숨찢/옭아 등의 스킬을 연계하기 위한 선행이 필요해요. 앞에서 말한대로 <strong>쿨 돌고있는 스킬을 쓰는거보다, 준비된 스킬 쓰는게 더 쎈 상황들이 많아요</strong>.
             </p>
           </div>
         </div>
 
         <p className="text-slate-300 text-lg mb-6">
-          이제 연계기들과 선행스킬들 어떻게 사용하는지와 스킬별 특징 설명드릴게요.
+          스킬별 특징과, 연계를 어떻게 하는지 설명드릴게요.
         </p>
 
         {/* 스킬별 특징 */}
@@ -798,7 +807,7 @@ export default function RangerGuide() {
                 앞서 선회때도 말씀드린 구조 <strong className="text-red-300">2+2+1타, 5타격째 뒤로 밀려요</strong>.
               </p>
               <p className="text-slate-200 text-base">
-                얘는 SE 누르는 타이밍이 조금만 늦어도 차징모션이 떠요. <strong className="text-red-300">일반과 풀차징의 딜차이가 약 2배 정도!</strong>
+                이 스킬은 SE 누르는 타이밍이 조금만 늦어도 차징모션이 떠요. <strong className="text-red-300">일반과 풀차징의 딜차이가 약 2배 정도!</strong>
                 따라서 항상 차징모션 스킵하기 위해 타이밍을 잘 잡아줘야해요.
               </p>
               <p className="text-slate-200 text-base">
@@ -832,8 +841,11 @@ export default function RangerGuide() {
                     <p className="text-slate-200 text-base mb-2">
                       예시 영상에서 보시다시피 에임이 잡히지도 않은채로 벽에 쏘는데 히트 판정이 들어가는걸 보실 수 있어요. <strong className="text-amber-300">벽에서 터지는 스킬의 범위안에 적이 있다면 영상처럼 히트 판정이 들어갑니다!</strong>
                     </p>
-                    <p className="text-slate-200 text-base">
+                    <p className="text-slate-200 text-base mb-2">
                       저런 난간벽 뒤가 아니더라도 높은 지붕위라서 사거리가 닿지 않아도, <strong className="text-amber-300">캐릭터의 발쪽 언저리에 에임을 두고 쏘면 스플래시로 히트 판정을 띄울 수 있어요!</strong>
+                    </p>
+                    <p className="text-slate-200 text-base">
+                      평지에서도 활용 할 수 있습니다! <strong className="text-amber-300">에임이 안잡히는 최대 사거리 밖이어도, 캐릭터의 발 앞쪽을 향해 쏘면 스플뎀으로 히트 판정이 들어가요!</strong>
                     </p>
                   </div>
                 </div>
@@ -846,7 +858,7 @@ export default function RangerGuide() {
             <h3 className="text-yellow-400 text-xl font-bold mb-3">4.4 바람을 타는 깃~강극바깃</h3>
             <div className="space-y-3">
               <p className="text-red-400 text-base font-semibold">
-                ⚠️ 얘는 손쉽게 킬하는게 가능한 스킬이면서 죽음과도 가까워지는 1순위 스킬.
+                ⚠️ 이 스킬들은 손쉽게 킬하는게 가능한 스킬이면서 죽음과도 가까워지는 1순위 스킬.
                 반드시 안전한 상태에서 사용하길 강요드립니다.
               </p>
               <p className="text-slate-200 text-base">
@@ -855,27 +867,30 @@ export default function RangerGuide() {
               <p className="text-slate-200 text-base">
                 개인적으로는 딜링보다 <strong className="text-yellow-300">디버프특화 묻히기용으로 써요</strong>.
               </p>
+              <p className="text-yellow-300 text-base">
+                ⚠️ <strong>바깃에만 바운드 CC 판정이 있고, 강극바깃에는 CC가 없어요!</strong> 암살자 탐지하려고 쓰는거면 강극바깃타이밍에 조심해야해요!
+              </p>
             </div>
           </div>
 
           {/* 4.5 우직한 칼날바람 */}
-          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+          <div id="pvp-skill-woojik" className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
             <h3 className="text-blue-400 text-xl font-bold mb-3">4.5 우직한 칼날바람</h3>
             <div className="space-y-3">
               <p className="text-slate-200 text-base">
                 공속과 상대방과의 거리따라 <strong className="text-blue-300">0~12 + 1타</strong>.
               </p>
               <p className="text-slate-200 text-base">
-                최대 사정거리에서 쓴다면 화살 날라가는 딜레이가 있어 CC연계 생각하기.
+                최대 사정거리에서 쓴다면 화살 날아가는 딜레이가 있어 CC연계 타이밍 생각하기.
               </p>
               <p className="text-slate-200 text-base">
-                우직이 12타까진 2타씩x6번 연달아 우다다다 나가지만, <strong className="text-blue-300">13타를 쏘면서 오른무릎을 일으키기 떄문에 후딜이 있습니다!</strong> 따라서 13타까지 쏘게되면 연계 속도가 느려지는거 생각하고 계셔야해요.
+                우직이 12타까진 2타씩x6번 연달아 우다다다 나가지만, <strong className="text-blue-300">13타를 쏘면서 오른무릎을 일으키기 때문에 후딜이 있습니다!</strong> 따라서 13타까지 쏘게되면 연계 속도가 느려지는거 생각하고 계셔야해요.
               </p>
               <p className="text-slate-200 text-base">
                 모션만 잡은채로 <strong className="text-blue-300">0타로 캔슬길여바가 가능</strong>해요.
               </p>
               <p className="text-green-300 text-base">
-                💎 PVP 계수가 무려 <strong>17867%로 제일 높지만 치확이 20%</strong>라 스킬버프와 재련석, 특화등을 잘 챙겨주면 그만큼 리턴값이 높아져요.
+                💎 PVP 계수가 무려 <strong>17867%로 제일 높지만 스킬 치명타 확률이 20%</strong>라 버프와 재련석, 특화등을 잘 챙겨줘야 리턴값이 높아져요.
               </p>
               <p className="text-slate-200 text-base">
                 <strong className="text-cyan-300">퀵슬롯 등록하고 사용하면 맨몸으로 달리다가도 바로 무기꺼내고 우직 모션 발동 가능</strong>해요.
@@ -891,7 +906,7 @@ export default function RangerGuide() {
           </div>
 
           {/* 4.6 강 극 단명 */}
-          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+          <div id="pvp-skill-danmyung" className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
             <h3 className="text-purple-400 text-xl font-bold mb-3">4.6 강 극 단명</h3>
             <div className="space-y-3">
               <p className="text-slate-200 text-base">
@@ -910,7 +925,7 @@ export default function RangerGuide() {
           </div>
 
           {/* 4.7 초바모 */}
-          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+          <div id="pvp-skill-chobamo" className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
             <h3 className="text-green-400 text-xl font-bold mb-3">4.7 초 바람 모아쏘기</h3>
             <div className="space-y-3">
               <p className="text-red-300 text-base font-semibold">
@@ -1021,7 +1036,7 @@ export default function RangerGuide() {
         <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-6 rounded-xl mt-8 border border-purple-400/30">
           <h3 className="text-purple-300 text-2xl font-bold mb-4">🔥 이론상 무호흡딜링 예시</h3>
           <p className="text-slate-300 text-base mb-4">
-            가만히 냅둘리 없겠지만 공격 안받길 기도하면서 써야기에 <strong>어떤식으로 모든 쿨 돌리는지 알아두시는 정도만!</strong>
+            가만히 냅둘리 없겠지만 공격 안받길 기도하면서 써야 하기에 <strong>어떤식으로 모든 쿨 돌리는지 알아두시는 정도만!</strong>
           </p>
           <div className="bg-slate-700/50 p-4 rounded-lg mb-4">
             <p className="text-white text-sm leading-relaxed break-words">
@@ -1032,7 +1047,7 @@ export default function RangerGuide() {
             이렇게 <strong className="text-purple-300">2사이클을 반복가능</strong>해요.
           </p>
           <p className="text-slate-300 text-sm mb-3">
-            쿨타임은 맞게돌지만, 샤이공속버프나 3분버프가 있다면 이마저도 쿨타임이 모자라요ㅠㅠ
+            쿨타임은 맞게 돌지만, 샤이공속버프나 3분버프가 있다면 이마저도 쿨타임이 모자라요ㅠㅠ
           </p>
           <p className="text-yellow-300 text-sm italic">
             ⚠️ 실전성이 엄청 낮으니 그냥 알아만 두기!
@@ -1168,7 +1183,138 @@ export default function RangerGuide() {
         </div>
       </div>
 
-      {/* 6. 하고 싶은 말 */}
+      {/* 6. Q&A */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-cyan-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">❓</span> Q&A. 자주 들어오는 질문 모음
+        </h2>
+        
+        <div className="bg-blue-900/20 p-4 rounded-lg mb-6 border border-blue-400/30">
+          <p className="text-blue-300 text-base">
+            거점은 <strong className="text-blue-400">삼파전 이상을 기준</strong>으로 답변드립니다.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          {/* Q. 성채 막타 */}
+          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+            <h3 className="text-green-400 text-xl font-bold mb-4">Q. 성채 막타 어떻게 먹나요?</h3>
+            <div className="space-y-3">
+              <p className="text-slate-200 text-base leading-relaxed">
+                무슈 굴리다가 타이밍 최대한 맞추는 느낌으로 엇갈~바람, 하부로 들어가면서 <strong className="text-cyan-300">"바모 차징/흑정궁/(우직모션)길여바-선회-숨찢(슈아유지로도 타이밍 재기)-초바모"</strong> 사용하여 노립니다. 버티는 타이밍에 전가를 거의 못쓸 수준으로 드러눕는 경우가 허다하긴해요.
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed">
+                정면은 방셋들, 사이드와 후방은 암살자들 견제가 심할거에요ㅠㅠ 아군 연맹을 제외한 A, B 길드가 있을때 A연맹이 성채 주인이라면 B연맹의 인원이 셋 이상일때부터 드리블 해서 <strong className="text-green-300">인원 교환비 좋아지는 상황으로 만들려는 편</strong>이에요. 많으면 많을수록 아군 연맹이 성채 막타먹을 확률이 높아진다고 생각해요.
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed">
+                위의 <button onClick={() => {
+                  const element = document.getElementById('survival-section');
+                  if (element) {
+                    const yOffset = -100;
+                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                  }
+                }} className="text-cyan-300 font-bold underline hover:text-cyan-200 transition-colors cursor-pointer">&lt;3.3 생존&gt;</button>의 예시 영상에서도 보여지는데요, "[와플] 연맹이 성채 주인이고 피가 얼마 안남은 상황인데 막타 안치러가고 뭐하냐?" 라고 보실 수도 있지만, [우린잃을게없다] 연맹 3명의 어그로를 의도적으로 끌고 있는 상황이에요. 이런 상황에서 무리해서 성채 막타 치러가면 오히려 <strong className="text-red-300">"뒷각 내주기 + 아군들의 딜로스"</strong>까지 유발 가능한 상황이 되어버려요.
+              </p>
+            </div>
+          </div>
+
+          {/* Q.2 성채 부활 */}
+          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+            <h3 className="text-purple-400 text-xl font-bold mb-4">Q. 거점전에서 아군 연맹이 성채 주인일때, 성채 부활해서 1~2명 이라도 잡고 죽는게 나은 선택일까요?</h3>
+            <div className="space-y-3">
+              <p className="text-slate-200 text-base leading-relaxed">
+                상황마다 다르지만 <strong className="text-purple-300">오더를 따르는게 최우선</strong>입니다. 하지만 오더와 다른행동을 하는게 더 낫다고 생각하는 확실한 근거와 판단이 있다면 시도해 보는걸 추천드려요. 그러면서 경험 쌓고 피드백하면서 더 나은 방향으로 자리 잡아가는거죠.
+              </p>
+              <div className="bg-slate-600/50 p-4 rounded-lg">
+                <p className="text-yellow-300 font-semibold mb-2">예시:</p>
+                <p className="text-slate-200 text-sm leading-relaxed mb-2">
+                  성채 부활 무적9초 중 로딩,도핑(단축키사용), 성채와 같이 딜 안맞게 약간떨어진 포지션 잡는데까지 약2~3초.
+                </p>
+                <p className="text-slate-200 text-sm leading-relaxed mb-2">
+                  남은 6초 안에 포지션잡고 상대 원거리나 물몸딜러들 위주로 <strong className="text-green-300">3명 이상 잡고 죽거나, 1~2명 잡고 무슈로 빠져나가기가 가능하다면 괜찮은 선택</strong>이라고 생각합니다만, 부활 대기 시간이 막 20초가 넘어간다면 약 30초 동안 2~3명을 잡는꼴.
+                </p>
+                <p className="text-slate-200 text-sm leading-relaxed mb-2">
+                  하지만 그 30초에 불퇴 부활하고 사이드로 빠져, 적군 딜러 3명 이상의 딜로스를 유발할 각이 충분히 보인다? → 시도해 볼 만한 가치가 있다고 판단됩니다.
+                </p>
+                <p className="text-slate-200 text-sm leading-relaxed">
+                  시간이 정해진 성채 기준은 <strong className="text-amber-300">초 단위로 조금이라도 더 버텨서 점령 성공할 가능성이 있다면, 부활 박치기가 낫다는 생각</strong>입니다. 킬뎃은 중요하지 않아요.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Q.3 암살자 대처 */}
+          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+            <h3 className="text-red-400 text-xl font-bold mb-4">Q. 암살자들 대처 어떻게 해야하나요?</h3>
+            <div className="space-y-3">
+              <p className="text-slate-200 text-base leading-relaxed">
+                저도 많이 부족하고 잘 죽어요ㅠㅠ 하지만 한가지 확실한건, 앞서 말씀드린 <strong className="text-red-300">"미니맵 보기"만 잘 되어도 생존율이 확 올라갑니다.</strong>
+              </p>
+              
+              <div className="bg-slate-600/50 p-4 rounded-lg space-y-3">
+                <div>
+                  <p className="text-cyan-300 font-semibold mb-1">예시 1: 은신 캐릭터 탐지</p>
+                  <p className="text-slate-200 text-sm leading-relaxed">
+                    후방쪽이나 사이드에 흰점 잠깐 보였다 사라졌다? → 대부분 은신 캐릭이에요. 거리가 멀었다면 접근중일 확률이 높으니 <strong className="text-cyan-300">바깃 한 번 날려줍니다.</strong>
+                  </p>
+                  <p className="text-slate-200 text-sm leading-relaxed">
+                    쿠닌이면 바운드 맞고 누워서 은신 풀려서 대처 가능한 상황이 나옵니다. <strong className="text-yellow-300">주의할 점은 바깃만 사용!</strong> 바깃에만 바운드 cc가 있고, 강극바깃 cc가 없어 오히려 상대방의 진입각을 만들어주는 상황이 돼요.
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-purple-300 font-semibold mb-1">예시 2: 하사신 대처</p>
+                  <p className="text-slate-200 text-sm leading-relaxed">
+                    하사신이라면 모래 이펙트가 보일텐데요, 이펙트 최적화를 꺼두어도 간혹 모래가 안보일 때가 있어요. 하지만 <strong className="text-purple-300">허공에 히트판정이 뜬다?</strong> → 바로 슈아 생존기 쓰거나 바모 차징해서 대응하기!
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-green-300 font-semibold mb-1">팁:</p>
+                  <p className="text-slate-200 text-sm leading-relaxed">
+                    암살자들 위치가 예상되거나 보였다면 <strong className="text-green-300">바로 파티핑이든 연맹핑이든 찍어주기!</strong>
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-slate-200 text-base leading-relaxed">
+                추가적으로 <strong className="text-cyan-300">연맹원 이름 끄기, 이펙트 최소화의 효과 체감이 가장 많이 되는 상황</strong>이에요. 적군에게 색깔 지정을 하더라도 아군 닉네임에 가려, 적군이 들어와있는지 구분이 어려울 때가 있어요. 심지어 방셋이랑 암살자랑 같이 들어온 상황이면 대처가 더 늦어지겠죠? <strong className="text-red-300">암살자부터 빠르게 포커싱해서 잡아줘야 합니다!</strong> 바로 옆에서 아군이 맞고 있는데도 구분이 늦어 눈앞에서 죽는게 보이면 슬픕니다ㅠㅠ
+              </p>
+            </div>
+          </div>
+
+          {/* Q.4 꿀자리 */}
+          <div className="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+            <h3 className="text-yellow-400 text-xl font-bold mb-4">Q. 꿀자리들 알려주세요!</h3>
+            <div className="space-y-3">
+              <p className="text-amber-300 text-base leading-relaxed font-semibold">
+                꿀통은 내 귀에 들어오는 순간 꿀통이 아니게 된다고 생각합니다!<br />
+                (절대 알려주기 싫어서 안알려주는거 아님! 그랬으면 영상들도 안올렸겠죠?)
+              </p>
+              
+              <div className="bg-slate-600/50 p-4 rounded-lg">
+                <p className="text-cyan-300 font-semibold mb-2">예시: 장미전쟁</p>
+                <p className="text-slate-200 text-sm leading-relaxed mb-2">
+                  카마실비아 진영 기준 → 오딜리타 공격할때, S9 칼크 위쪽 절벽자리. 여기서 원거리들 많이 보이는데 <strong className="text-cyan-300">휠컨도 가능한 자리라 킬할 상황이 많이 나오는 편</strong>이에요.
+                </p>
+                <p className="text-slate-200 text-sm leading-relaxed">
+                  예전엔 견제가 적었지만, 요즘은 아예 방셋분들이 대기하고 있을 정도로 견제가 심합니다.(내 꿀통 ㅠㅠ)
+                </p>
+              </div>
+
+              <p className="text-slate-200 text-base leading-relaxed">
+                그래서 위에서도 말씀드렸지만 <strong className="text-yellow-300">"지형 숙지"</strong>. 시간 투자해서라도 괜찮아 보이는 자리들을 미리 파악해 둘 만한 가치가 있어요.
+              </p>
+              <p className="text-green-300 text-base leading-relaxed">
+                "오, 이자리 괜찮아 보이는데?" 라고 생각이 들어서 토론하는건 언제든 환영이니 편하게 귓 주셔도 됩니다!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 7. 하고 싶은 말 */}
       <div className="bg-slate-800 p-8 rounded-2xl shadow-2xl border-l-4 border-yellow-500 mb-8">
         <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
           <span className="mr-3 text-4xl">💬</span> 하고 싶은 말

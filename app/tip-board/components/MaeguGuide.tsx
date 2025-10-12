@@ -65,7 +65,7 @@ export default function MaeguGuide() {
   }
 
   return (
-    <div className="max-w-full md:max-w-[1200px] mx-auto p-3 md:p-6">
+    <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
       {/* 뒤로가기 버튼 */}
       <div className="mb-6">
         <Link 
@@ -330,6 +330,11 @@ export default function MaeguGuide() {
               황천 → 맴체 or 나빌레라 → 마파람사위 → (인중치기 → 꾸지람) → 앞발찢기 → 으름 → 도리깨연풍 → 라밤 → 이탈
             </p>
           </div>
+          <div className="bg-slate-600/50 p-3 rounded-lg border-l-4 border-red-400">
+            <p className="text-red-300 text-base">
+              <strong>참고.</strong> RVR 에서는 앞발찢기-으름 이 맨몸 스킬이라 위험합니다. 상황에 맞게 적절하게 사용해야 합니다.
+            </p>
+          </div>
         </div>
         
         {/* 풀슈아 콤보 */}
@@ -342,11 +347,7 @@ export default function MaeguGuide() {
               황천 → 맴체 or 나빌레라 → 마파람사위 → 맴체 or 나빌레라 (쿨 도는것중에 하나) → 도리깨연풍 → 라밤 → 이탈
             </p>
           </div>
-          <div className="bg-slate-600/50 p-3 rounded-lg border-l-4 border-red-400">
-            <p className="text-red-300 text-base">
-              <strong>참고.</strong> RVR 에서는 앞발찢기-으름 이 맨몸 스킬이라 위험합니다. 상황에 맞게 적절하게 사용해야 합니다.
-            </p>
-          </div>
+          
         </div>
         
         {/* 시동기 */}

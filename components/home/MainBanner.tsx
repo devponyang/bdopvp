@@ -71,7 +71,7 @@ export default function MainBanner() {
   // 로딩 상태
   if (isLoading) {
     return (
-      <div className="relative w-full h-40 md:h-48 lg:h-56 mb-4 md:mb-6">
+      <div className="relative w-full h-20 md:h-48 lg:h-56 mb-2 md:mb-4">
         <div className="w-full h-full rounded-xl bg-gradient-to-r from-gray-700 to-gray-800 animate-pulse flex items-center justify-center">
           <div className="text-white text-lg">배너 로딩 중...</div>
         </div>
@@ -101,7 +101,7 @@ export default function MainBanner() {
   }
 
   return (
-    <div className="relative w-full h-40 md:h-48 lg:h-56 mb-4 md:mb-6">
+    <div className="relative w-full h-20 md:h-48 lg:h-56 mb-2 md:mb-4">
       {/* 메인 배너 */}
       <div 
         className="relative w-full h-full rounded-xl overflow-hidden cursor-pointer group"
@@ -110,13 +110,17 @@ export default function MainBanner() {
         
         {/* 배경 이미지 */}
         {currentBannerData.image_url && (
-          <Image
-            src={currentBannerData.image_url}
-            alt={currentBannerData.title}
-            fill
-            className="object-contain md:object-cover"
-            priority={currentBanner === 0}
-          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Image
+              src={currentBannerData.image_url}
+              alt={currentBannerData.title}
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-full object-contain md:object-cover scale-110 md:scale-100"
+              priority={currentBanner === 0}
+            />
+          </div>
         )}
         
         {/* 컨텐츠 - 제목이나 설명이 있을 때만 표시 */}
@@ -146,9 +150,9 @@ export default function MainBanner() {
         <div className="absolute inset-0 bg-black/10" />
       </div>
 
-      {/* 배너 컨트롤 (여러 배너가 있을 때만) */}
+      {/* 배너 컨트롤 (여러 배너가 있을 때만, 모바일에서는 숨김) */}
       {activeBanners.length > 1 && (
-        <div className="absolute bottom-4 right-4 z-30">
+        <div className="absolute bottom-4 right-4 z-30 hidden md:block">
           {/* 슬라이더 컨트롤 */}
           <div className="bg-black/20 backdrop-blur-sm rounded-2xl px-4 py-2 flex items-center gap-3 shadow-lg border border-white/10">
             {/* 이전 버튼 */}

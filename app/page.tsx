@@ -68,7 +68,7 @@ export default async function Home() {
     <HomeWithNotice>
       <main className="bg-zinc-900 text-white">
         {/* 메인 배너 */}
-        <div className="pt-4 sm:pt-6 md:pt-10">
+        <div className="pt-2 sm:pt-4 md:pt-8">
           <div className="max-w-full md:max-w-[1490px] mx-auto px-2 sm:px-4 md:px-5">
             <MainBanner />
           </div>

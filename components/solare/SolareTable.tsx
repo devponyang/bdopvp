@@ -185,14 +185,14 @@ export default function SolareTable({ data }: Props) {
                     {/* 클래스 배경 오버레이 - 테이블 전체 행을 덮음 */}
                     {idx < 3 && getClassBackground(entry.class, entry.subclass || '') && (
                       <div 
-                        className="absolute opacity-70 pointer-events-none"
+                        className="absolute opacity-100 pointer-events-none"
                         style={{
                           backgroundImage: `url('${getClassBackground(entry.class, entry.subclass || '')}')`,
-                          backgroundSize: '350px auto',
+                          backgroundSize: '460px auto',
                           backgroundPosition: 'right 22%',
                           backgroundRepeat: 'no-repeat',
                           left: '-200%',
-                          right: '-190%',
+                          right: '-220%',
                           top: 0,
                           bottom: 0,
                           zIndex: 0
@@ -229,7 +229,7 @@ export default function SolareTable({ data }: Props) {
                     </div>
                   </td>
                   <td
-                    className={`${idx < 3 ? 'py-8 px-6' : 'py-4 px-6'} font-bold cursor-pointer hover:text-blue-400 transition-all duration-300 hover:scale-105 relative z-10`}
+                    className={`${idx < 3 ? 'py-8 pl-12 pr-6' : 'py-4 pl-12 pr-6'} font-bold cursor-pointer hover:text-blue-400 transition-all duration-300 hover:scale-105 relative z-10`}
                     onClick={() => handleDesktopPlayerClick(entry.name, entry.class)}
                     title="클릭하여 특화 정보 보기"
                   >
@@ -425,14 +425,14 @@ export default function SolareTable({ data }: Props) {
               } : {}}
               onClick={() => handleMobilePlayerClick(entry.name, entry.class)}
             >
-              {/* 클래스 배경 오버레이 */}
-              {idx < 3 && getClassBackground(entry.class, entry.subclass || '') && (
+              {/* 클래스 배경 오버레이 - 모바일에서는 비활성화 */}
+              {/* {idx < 3 && getClassBackground(entry.class, entry.subclass || '') && (
                 <div 
-                  className="absolute opacity-70 pointer-events-none"
+                  className="absolute opacity-50 pointer-events-none"
                   style={{
                     backgroundImage: `url('${getClassBackground(entry.class, entry.subclass || '')}')`,
-                    backgroundSize: '250px auto',
-                    backgroundPosition: 'right 20%',
+                    backgroundSize: '320px auto',
+                    backgroundPosition: '200% bottom',
                     backgroundRepeat: 'no-repeat',
                     top: 0,
                     left: 0,
@@ -441,7 +441,7 @@ export default function SolareTable({ data }: Props) {
                     zIndex: 0
                   }}
                 />
-              )}
+              )} */}
               {/* 상단: 순위, 가문명, 티어 */}
               <div className="flex items-start justify-between mb-3 relative z-10">
                 {/* 좌측: 순위 */}
