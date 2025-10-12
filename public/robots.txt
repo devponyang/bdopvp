@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://bdopvp.com/sitemap.xml
+
+# 주요 페이지들
+Allow: /war-records/
+Allow: /guild-league/
+Allow: /solare-league/
+Allow: /tip-board/
+Allow: /search/
+
+# 관리자 페이지는 제외
+Disallow: /admin/
+
+# API 경로는 제외
+Disallow: /api/

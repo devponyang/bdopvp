@@ -31,17 +31,22 @@ export const metadata: Metadata = {
   verification: {
     google: 'GSkfBCQ-uXg_Dt1yM5NLV10CaFgvD-TxQ-qrJXHDoms',
   },
+  other: {
+    'google': 'notranslate',
+    'robots': 'index, follow',
+    'googlebot': 'index, follow',
+  },
   icons: {
     icon: '/ponyang/ponyang-1.png',
     shortcut: '/ponyang/ponyang-1.png',
     apple: '/ponyang/ponyang-1.png',
   },
   title: {
-    default: "포냥이 - 검은사막 PVP 정보 사이트",
-    template: "%s | 포냥이"
+    default: "포냥이 - 검은사막 PVP 정보 사이트 | BDO PVP 가이드",
+    template: "%s | 포냥이 - 검은사막 PVP 정보"
   },
-  description: "검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트. PvP, 거점전, 점령전, 공성전, 솔라레의 창, 길드 리그 등 모든 정보를 한눈에 확인하세요.",
-  keywords: ["검은사막", "BDO", "월드보스", "bdopvp", "거점전", "점령전", "공성전", "솔라레의 창", "길드 리그", "포냥이", "게임 정보", "PVP", "PVE", "포냥이", "포냥이 사이트", "검은사막 PVP", "검은사막 PVE","pvp 콤보"],
+  description: "검은사막 온라인 BDO PVP 정보 전문 사이트. 거점전, 점령전, 공성전, 솔라레의 창, 길드 리그, 클래스 가이드, PVP 콤보 등 최신 정보를 제공합니다.",
+  keywords: ["검은사막", "BDO", "검은사막 온라인", "bdopvp", "거점전", "점령전", "공성전", "솔라레의 창", "길드 리그", "포냥이", "BDO PVP", "BDO PVE", "검은사막 PVP", "검은사막 PVE", "pvp 콤보", "클래스 가이드", "검은사막 가이드", "BDO 가이드", "월드보스", "게임 정보", "검은사막 공략"],
   authors: [{ name: "포냥이" }],
   creator: "포냥이",
   publisher: "포냥이",

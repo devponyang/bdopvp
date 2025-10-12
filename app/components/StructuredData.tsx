@@ -22,7 +22,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
             "name": "포냥이",
             "alternateName": "BDOPonyang",
             "url": baseUrl,
-            "description": "검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트",
+            "description": "검은사막 온라인 BDO PVP 정보 전문 사이트. 거점전, 점령전, 공성전, 솔라레의 창, 길드 리그, 클래스 가이드, PVP 콤보 등 최신 정보를 제공합니다.",
             "potentialAction": {
               "@type": "SearchAction",
               "target": {
@@ -49,7 +49,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
             "alternateName": "BDOPonyang",
             "url": baseUrl,
             "logo": `${baseUrl}/logo.png`,
-            "description": "검은사막 온라인 게임 정보를 제공하는 커뮤니티 사이트",
+            "description": "검은사막 온라인 BDO PVP 정보 전문 사이트. 거점전, 점령전, 공성전, 솔라레의 창, 길드 리그, 클래스 가이드, PVP 콤보 등 최신 정보를 제공합니다.",
             "sameAs": [
               // 소셜 미디어 링크가 있다면 여기에 추가
             ]
