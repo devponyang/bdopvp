@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import bcrypt from 'bcryptjs'
 
 // GET: 특정 모집 글 조회
 export async function GET(
@@ -64,8 +65,40 @@ export async function PUT(
       content,
       requirements,
       contact_info,
-      is_active
+      is_active,
+      password
     } = await request.json()
+
+    // 비밀번호 확인
+    if (!password) {
+      return NextResponse.json(
+        { error: '비밀번호를 입력해주세요.' },
+        { status: 400 }
+      )
+    }
+
+    // 기존 글 조회 (비밀번호 포함)
+    const postResult = await db.query(
+      'SELECT password FROM guild_recruit_posts WHERE id = $1',
+      [id]
+    )
+
+    if (postResult.rows.length === 0) {
+      return NextResponse.json(
+        { error: '모집 글을 찾을 수 없습니다.' },
+        { status: 404 }
+      )
+    }
+
+    // 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(password, postResult.rows[0].password)
+    
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: '비밀번호가 일치하지 않습니다.' },
+        { status: 401 }
+      )
+    }
 
     const result = await db.query(`
       UPDATE guild_recruit_posts 
@@ -99,7 +132,7 @@ export async function PUT(
 
 // DELETE: 모집 글 삭제 (비활성화)
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -110,6 +143,39 @@ export async function DELETE(
       return NextResponse.json(
         { error: '유효하지 않은 ID입니다.' },
         { status: 400 }
+      )
+    }
+
+    const { password } = await request.json()
+
+    // 비밀번호 확인
+    if (!password) {
+      return NextResponse.json(
+        { error: '비밀번호를 입력해주세요.' },
+        { status: 400 }
+      )
+    }
+
+    // 기존 글 조회 (비밀번호 포함)
+    const postResult = await db.query(
+      'SELECT password FROM guild_recruit_posts WHERE id = $1',
+      [id]
+    )
+
+    if (postResult.rows.length === 0) {
+      return NextResponse.json(
+        { error: '모집 글을 찾을 수 없습니다.' },
+        { status: 404 }
+      )
+    }
+
+    // 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(password, postResult.rows[0].password)
+    
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: '비밀번호가 일치하지 않습니다.' },
+        { status: 401 }
       )
     }
 

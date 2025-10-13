@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import bcrypt from 'bcryptjs'
 
 // GET: 모집 글 목록 조회 (페이지네이션 지원)
 export async function GET(request: NextRequest) {
@@ -58,13 +59,22 @@ export async function POST(request: NextRequest) {
       content,
       requirements,
       contact_info,
-      author
+      author,
+      password
     } = await request.json()
 
     // 필수 필드 검증
-    if (!guild_name || !title || !content || !author) {
+    if (!guild_name || !title || !content || !author || !password) {
       return NextResponse.json(
         { error: '필수 항목을 모두 입력해주세요.' },
+        { status: 400 }
+      )
+    }
+
+    // 비밀번호 길이 검증
+    if (password.length < 4) {
+      return NextResponse.json(
+        { error: '비밀번호는 최소 4자 이상이어야 합니다.' },
         { status: 400 }
       )
     }
@@ -93,12 +103,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // 비밀번호 해시화
+    const hashedPassword = await bcrypt.hash(password, 10)
+
     const result = await db.query(`
       INSERT INTO guild_recruit_posts 
-      (guild_name, title, content, requirements, contact_info, author, is_active)
-      VALUES ($1, $2, $3, $4, $5, $6, true)
+      (guild_name, title, content, requirements, contact_info, author, password, is_active)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, true)
       RETURNING id
-    `, [guild_name, title, content, requirements, contact_info, author])
+    `, [guild_name, title, content, requirements, contact_info, author, hashedPassword])
 
     return NextResponse.json(
       { message: '모집 글이 성공적으로 등록되었습니다.', id: result.rows[0].id },
