@@ -26,12 +26,29 @@ export async function POST(req: NextRequest) {
       `, [seasonId, entry.name, entry.subclass, entry.class, entry.wins, entry.draws, entry.losses, entry.score, i + 1])
     }
     
-    // 클래스별 랭킹 보관
+    // 클래스별 랭킹 보관 (클래스별로 그룹화하여 순위 재계산)
+    const classGroups: { [key: string]: any[] } = {}
+    
+    // 클래스별로 그룹화
     for (const entry of currentClass.rows) {
-      await client.query(`
-        INSERT INTO solare_class_league_seasons (season_id, name, subclass, class, wins, draws, losses, score, rank)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-      `, [seasonId, entry.name, entry.subclass, entry.class, entry.wins, entry.draws, entry.losses, entry.score, entry.rank])
+      if (!classGroups[entry.class]) {
+        classGroups[entry.class] = []
+      }
+      classGroups[entry.class].push(entry)
+    }
+    
+    // 각 클래스별로 순위를 계산하여 저장
+    for (const [className, entries] of Object.entries(classGroups)) {
+      // 클래스 내에서 점수순으로 정렬
+      entries.sort((a, b) => b.score - a.score)
+      
+      for (let i = 0; i < entries.length; i++) {
+        const entry = entries[i]
+        await client.query(`
+          INSERT INTO solare_class_league_seasons (season_id, name, subclass, class, wins, draws, losses, score, rank)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        `, [seasonId, entry.name, entry.subclass, entry.class, entry.wins, entry.draws, entry.losses, entry.score, i + 1])
+      }
     }
     
     // 시즌 종료 처리

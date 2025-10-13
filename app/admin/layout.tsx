@@ -46,93 +46,124 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <nav className="bg-zinc-900 border-b border-zinc-700 px-4 py-3">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            <Link href="/admin/dashboard" className="text-xl font-bold text-blue-400">
-              관리자 패널
-            </Link>
-            <div className="hidden md:flex space-x-4">
-              <Link 
-                href="/admin/dashboard" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/dashboard' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                대시보드
+    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-black to-zinc-900 text-white">
+      <nav className="bg-gradient-to-br from-zinc-900/95 to-slate-900/95 backdrop-blur-sm border-b border-white/10 shadow-xl sticky top-0 z-50">
+        <div className="max-w-[1490px] mx-auto px-4 py-3">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-8">
+              <Link href="/admin/dashboard" className="flex items-center gap-3 group">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <span className="text-xl">⚙️</span>
+                </div>
+                <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  관리자 패널
+                </span>
               </Link>
-              <Link 
-                href="/admin/tip-board" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/tip-board' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                팁 게시판
-              </Link>
-              <Link 
-                href="/admin/war-records" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/war-records' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                전투 기록
-              </Link>
-              <Link 
-                href="/admin/guild-league" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/guild-league' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                길드 리그
-              </Link>
-              <Link 
-                href="/admin/guild-league/seasons" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/guild-league/seasons' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                길드리그 시즌
-              </Link>
-              <Link 
-                href="/admin/solare" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/solare' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                솔라레
-              </Link>
-              <Link 
-                href="/admin/solare/seasons" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/solare/seasons' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                시즌 관리
-              </Link>
-              <Link 
-                href="/admin/solare/specializations" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/solare/specializations' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                특화 관리
-              </Link>
-              <Link 
-                href="/admin/master-class" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/master-class' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                마스터 클래스
-              </Link>
-              <Link 
-                href="/admin/alliances" 
-                className={`px-3 py-2 rounded ${pathname === '/admin/alliances' ? 'bg-blue-600' : 'hover:bg-zinc-800'}`}
-              >
-                연맹마크 관리
-              </Link>
+              <div className="hidden lg:flex space-x-1">
+                <Link 
+                  href="/admin/dashboard" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname === '/admin/dashboard' 
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  🏠 대시보드
+                </Link>
+                <Link 
+                  href="/admin/tip-board" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname.startsWith('/admin/tip-board')
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  💡 팁
+                </Link>
+                <Link 
+                  href="/admin/war-records" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname === '/admin/war-records' 
+                      ? 'bg-gradient-to-r from-red-600 to-red-700 shadow-lg shadow-red-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  ⚔️ 전투기록
+                </Link>
+                <Link 
+                  href="/admin/guild-league" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname.startsWith('/admin/guild-league')
+                      ? 'bg-gradient-to-r from-yellow-600 to-yellow-700 shadow-lg shadow-yellow-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  🏆 길드리그
+                </Link>
+                <Link 
+                  href="/admin/solare" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname.startsWith('/admin/solare')
+                      ? 'bg-gradient-to-r from-purple-600 to-purple-700 shadow-lg shadow-purple-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  ⚡ 솔라레
+                </Link>
+                <Link 
+                  href="/admin/alliances" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname === '/admin/alliances' || pathname === '/admin/guild-marks'
+                      ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 shadow-lg shadow-indigo-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  🤝 동맹
+                </Link>
+                <Link 
+                  href="/admin/banners" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname.startsWith('/admin/banners') || pathname === '/admin/war-correspondents'
+                      ? 'bg-gradient-to-r from-pink-600 to-pink-700 shadow-lg shadow-pink-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  🎨 배너
+                </Link>
+                <Link 
+                  href="/admin/coupons" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname === '/admin/coupons' 
+                      ? 'bg-gradient-to-r from-green-600 to-green-700 shadow-lg shadow-green-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  🎫 쿠폰
+                </Link>
+                <Link 
+                  href="/admin/master-class" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname === '/admin/master-class' 
+                      ? 'bg-gradient-to-r from-orange-600 to-orange-700 shadow-lg shadow-orange-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  🎯 마스터
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Link 
-              href="/" 
-              className="px-3 py-2 rounded hover:bg-zinc-800"
-            >
-              홈으로
-            </Link>
-            <button 
-              onClick={handleLogout}
-              className="px-3 py-2 rounded bg-red-600 hover:bg-red-700"
-            >
-              로그아웃
-            </button>
+            <div className="flex items-center space-x-3">
+              <button 
+                onClick={handleLogout}
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-lg transition-all"
+              >
+                🚪 로그아웃
+              </button>
+            </div>
           </div>
         </div>
       </nav>
-      <main className="max-w-6xl mx-auto p-4">
+      <main className="max-w-[1490px] mx-auto px-4 py-6">
         {children}
       </main>
     </div>

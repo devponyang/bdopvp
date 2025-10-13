@@ -222,10 +222,15 @@ export default function AdminWarRecordsPage() {
   }, [rows])
 
   return (
-    <div className="p-6 max-w-screen-xl mx-auto space-y-8 bg-gray-900 rounded-2xl">
+    <div className="space-y-8">
       {/* 전투 기록 */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold">⚔️ 전투 기록</h2>
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
+            <span className="text-2xl">⚔️</span>
+          </div>
+          <h2 className="text-3xl font-bold text-white">전투 기록 관리</h2>
+        </div>
         <div className="flex flex-wrap gap-4 items-center">
           <div>
             <Popover>
@@ -262,37 +267,38 @@ export default function AdminWarRecordsPage() {
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-2xl p-4 shadow">
+        <div className="bg-gradient-to-br from-slate-700/40 to-slate-800/40 rounded-xl p-6 border border-white/10 shadow-lg overflow-x-auto">
           <table className="w-full text-center text-white text-sm">
-            <thead className="bg-muted">
+            <thead className="bg-gradient-to-r from-slate-700/60 to-slate-600/60">
               <tr>
-                <th className="border px-2 py-1 text-left">연맹명</th>
-                <th className="border px-2 py-1 text-left">성채단계</th>
-                <th className="border px-2 py-1 text-left">점령지역</th>
-                <th className="border px-2 py-1 text-left">결과</th>
+                <th className="border border-white/10 px-4 py-3 text-left font-bold text-blue-300">연맹명</th>
+                <th className="border border-white/10 px-4 py-3 text-left font-bold text-blue-300">성채단계</th>
+                <th className="border border-white/10 px-4 py-3 text-left font-bold text-blue-300">점령지역</th>
+                <th className="border border-white/10 px-4 py-3 text-left font-bold text-blue-300">결과</th>
               </tr>
             </thead>
             <tbody>
               {sortedRows.map((row) => (
-                <tr key={row.originalIndex}>
-                  <td className="border px-2 py-1 text-white font-semibold">
-                    <Input value={row.alliance_name} onChange={(e) => updateRecord(row.originalIndex, 'alliance_name', e.target.value)} />
+                <tr key={row.originalIndex} className="hover:bg-white/5 transition-colors">
+                  <td className="border border-white/10 px-3 py-2">
+                    <Input value={row.alliance_name} onChange={(e) => updateRecord(row.originalIndex, 'alliance_name', e.target.value)} className="bg-slate-700/50 border-white/20" />
                   </td>
-                  <td className="border px-2 py-1">
+                  <td className="border border-white/10 px-3 py-2">
                     <Input
                       type="number"
                       min={1}
                       max={5}
                       value={row.fort_stage ?? ''}
                       onChange={(e) => updateRecord(row.originalIndex, 'fort_stage', Number(e.target.value))}
+                      className="bg-slate-700/50 border-white/20"
                     />
                   </td>
-                  <td className="border px-2 py-1 text-white font-semibold">
-                    <Input value={row.occupied_area} onChange={(e) => updateRecord(row.originalIndex, 'occupied_area', e.target.value)} />
+                  <td className="border border-white/10 px-3 py-2">
+                    <Input value={row.occupied_area} onChange={(e) => updateRecord(row.originalIndex, 'occupied_area', e.target.value)} className="bg-slate-700/50 border-white/20" />
                   </td>
-                  <td className="border px-2 py-1 text-white font-semibold">
+                  <td className="border border-white/10 px-3 py-2">
                     <Select value={row.result} onValueChange={(val) => updateRecord(row.originalIndex, 'result', val)}>
-                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectTrigger className="bg-slate-700/50 border-white/20"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         {RESULTS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
                       </SelectContent>
@@ -303,35 +309,48 @@ export default function AdminWarRecordsPage() {
             </tbody>
           </table>
 
-          <div className="flex gap-2 mt-4">
-            <Button onClick={() => setRecords(prev => ({
-              ...prev,
-              [getKey()]: [...(records[getKey()] ?? []), {
-                alliance_name: '', fort_stage: null, occupied_area: '', result: '진행중'
-              }]
-            }))}>
+          <div className="flex gap-3 mt-6">
+            <Button 
+              onClick={() => setRecords(prev => ({
+                ...prev,
+                [getKey()]: [...(records[getKey()] ?? []), {
+                  alliance_name: '', fort_stage: null, occupied_area: '', result: '진행중'
+                }]
+              }))}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg"
+            >
               + 기록 추가
             </Button>
-            <Button onClick={saveRecords}>💾 전체 저장</Button>
+            <Button 
+              onClick={saveRecords}
+              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg"
+            >
+              💾 전체 저장
+            </Button>
           </div>
         </div>
       </div>
 
       {/* 연맹 등록 */}
-      <div className="mt-10 space-y-4">
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">⚔️ 연맹 등록</h2>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-2xl">🤝</span>
+            </div>
+            <h2 className="text-3xl font-bold text-white">연맹 등록</h2>
+          </div>
+          <div className="flex gap-3">
             <Button 
               variant="outline"
               onClick={() => setAlliances([...alliances, { name: '', guilds: [''], tiers: [], isActive: true }])}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 border-white/20 hover:bg-white/10"
             >
               <span>+ 연맹 추가</span>
             </Button>
             <Button 
               onClick={saveAlliances}
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+              className="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg"
             >
               <span>💾 연맹 저장</span>
             </Button>
@@ -339,60 +358,60 @@ export default function AdminWarRecordsPage() {
         </div>
 
         {/* 연맹 관리 탭 */}
-        <div className="space-y-4">
-          <div className="flex space-x-1 bg-gray-800 p-1 rounded-lg">
+        <div className="space-y-6">
+          <div className="flex space-x-2 bg-slate-700/40 p-1.5 rounded-xl border border-white/10">
             <button
               onClick={() => setActiveTab('active')}
-              className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
                 activeTab === 'active'
-                  ? 'bg-green-600 text-white'
-                  : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                  ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              활성 연맹
+              ✅ 활성 연맹
             </button>
             <button
               onClick={() => setActiveTab('inactive')}
-              className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
                 activeTab === 'inactive'
-                  ? 'bg-red-600 text-white'
-                  : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              해체 연맹
+              ❌ 해체 연맹
             </button>
           </div>
 
-          <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-br from-slate-700/40 to-slate-800/40 rounded-xl border border-white/10 shadow-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-muted/50">
+                <thead className="bg-gradient-to-r from-slate-700/60 to-slate-600/60">
                   <tr>
-                    <th className="px-4 py-3 text-left font-medium">연맹명</th>
-                    <th className="px-4 py-3 text-left font-medium" colSpan={4}>길드명</th>
-                    <th className="px-4 py-3 text-center font-medium w-20">+ 길드</th>
-                    <th className="px-4 py-3 text-center font-medium">단계</th>
+                    <th className="px-4 py-4 text-left font-bold text-blue-300 border-b border-white/10">연맹명</th>
+                    <th className="px-4 py-4 text-left font-bold text-blue-300 border-b border-white/10" colSpan={4}>길드명</th>
+                    <th className="px-4 py-4 text-center font-bold text-blue-300 border-b border-white/10 w-20">+ 길드</th>
+                    <th className="px-4 py-4 text-center font-bold text-blue-300 border-b border-white/10">단계</th>
                     {activeTab === 'active' && (
                       <>
-                        <th className="px-4 py-3 text-center font-medium w-20">해체</th>
-                        <th className="px-4 py-3 text-center font-medium w-20">삭제</th>
+                        <th className="px-4 py-4 text-center font-bold text-blue-300 border-b border-white/10 w-20">해체</th>
+                        <th className="px-4 py-4 text-center font-bold text-blue-300 border-b border-white/10 w-20">삭제</th>
                       </>
                     )}
                     {activeTab === 'inactive' && (
-                      <th className="px-4 py-3 text-center font-medium w-20">삭제</th>
+                      <th className="px-4 py-4 text-center font-bold text-blue-300 border-b border-white/10 w-20">삭제</th>
                     )}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-700">
+                <tbody className="divide-y divide-white/10">
                   {sortedAlliances
                     .filter(a => activeTab === 'active' ? a.isActive !== false : a.isActive === false)
                     .map((a) => (
-                      <tr key={a.name} className="hover:bg-muted/40 transition-colors">
+                      <tr key={a.name} className="hover:bg-white/5 transition-colors">
                         <td className="px-4 py-3">
                           <Input
                             value={a.name}
                             onChange={e => updateAlliance(a.name, 'name', e.target.value)}
-                            className="bg-transparent border-gray-600"
+                            className="bg-slate-700/50 border-white/20"
                             placeholder="연맹명 입력"
                           />
                         </td>
@@ -405,7 +424,7 @@ export default function AdminWarRecordsPage() {
                                 updated[gIdx] = e.target.value;
                                 updateAlliance(a.name, 'guilds', updated);
                               }}
-                              className="bg-transparent border-gray-600"
+                              className="bg-slate-700/50 border-white/20"
                               placeholder={`길드 ${gIdx + 1}`}
                             />
                           </td>
@@ -417,7 +436,7 @@ export default function AdminWarRecordsPage() {
                           <Button
                             variant="ghost"
                             onClick={() => updateAlliance(a.name, 'guilds', [...a.guilds, ''])}
-                            className="hover:bg-muted/60"
+                            className="hover:bg-white/10"
                           >
                             +
                           </Button>

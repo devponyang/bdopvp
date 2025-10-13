@@ -153,7 +153,7 @@ export default function NodeWarScheduleCard() {
                         </div>
                         <div className="flex flex-col items-center px-1 md:px-2 rounded-lg py-1 md:py-3">
                           <div className="text-sm md:text-lg font-bold text-white mb-1">발레노스 & 세렌디아</div>
-                          <div className="text-lg md:text-xl font-bold text-yellow-300">1단</div>
+                          <div className="text-lg md:text-xl font-bold text-yellow-300">1단계(제한)</div>
                           <div className="text-xs md:text-sm text-gray-200">{stage.players}</div>
                         </div>
                         <div className="flex flex-col items-center">
@@ -184,7 +184,7 @@ export default function NodeWarScheduleCard() {
                         </div>
                         <div className="flex flex-col items-center px-1 md:px-2 rounded-lg py-1 md:py-3">
                           <div className="text-sm md:text-lg font-bold text-white mb-1">메디아 & 발렌시아</div>
-                          <div className="text-lg md:text-xl font-bold text-yellow-300">2단</div>
+                          <div className="text-lg md:text-xl font-bold text-yellow-300">2단계(제한)</div>
                           <div className="text-xs md:text-sm text-gray-200">{stage.players}</div>
                         </div>
                         <div className="flex flex-col items-center">
@@ -215,7 +215,7 @@ export default function NodeWarScheduleCard() {
                         </div>
                         <div className="flex flex-col items-center px-1 md:px-2 rounded-lg py-1 md:py-3">
                           <div className="text-sm md:text-lg font-bold text-white mb-1">칼페온 & 카마실비아</div>
-                          <div className="text-lg md:text-xl font-bold text-yellow-300">3단</div>
+                          <div className="text-lg md:text-xl font-bold text-yellow-300">3단계(무제한)</div>
                           <div className="text-xs md:text-sm text-gray-200">{stage.players}</div>
                         </div>
                         <div className="flex flex-col items-center">

@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const playerName = searchParams.get('player')
   const className = searchParams.get('class')
+  const seasonId = searchParams.get('seasonId')
 
   const client = await db.connect()
   try {
@@ -21,6 +22,12 @@ export async function GET(req: NextRequest) {
     if (className) {
       conditions.push('class = $' + (params.length + 1))
       params.push(className)
+    }
+
+    // seasonId 필터링
+    if (seasonId) {
+      conditions.push('season_id = $' + (params.length + 1))
+      params.push(parseInt(seasonId))
     }
 
     if (conditions.length > 0) {
@@ -42,7 +49,7 @@ export async function GET(req: NextRequest) {
 // 특화 정보 저장/업데이트
 export async function POST(req: NextRequest) {
   try {
-    const { playerName, className, specializationImageUrl, description } = await req.json()
+    const { playerName, className, specializationImageUrl, description, seasonId } = await req.json()
 
     if (!playerName || !className) {
       return NextResponse.json({ error: '플레이어명과 클래스는 필수입니다.' }, { status: 400 })
@@ -52,15 +59,15 @@ export async function POST(req: NextRequest) {
     try {
       // UPSERT (INSERT OR UPDATE)
       const result = await client.query(`
-        INSERT INTO solare_specializations (player_name, class, specialization_image_url, description)
-        VALUES ($1, $2, $3, $4)
-        ON CONFLICT (player_name, class)
+        INSERT INTO solare_specializations (player_name, class, specialization_image_url, description, season_id)
+        VALUES ($1, $2, $3, $4, $5)
+        ON CONFLICT (player_name, class, season_id)
         DO UPDATE SET 
           specialization_image_url = EXCLUDED.specialization_image_url,
           description = EXCLUDED.description,
           updated_at = CURRENT_TIMESTAMP
         RETURNING *
-      `, [playerName, className, specializationImageUrl || null, description || null])
+      `, [playerName, className, specializationImageUrl || null, description || null, seasonId || null])
 
       return NextResponse.json(result.rows[0])
     } catch (err) {

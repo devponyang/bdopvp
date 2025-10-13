@@ -1,6 +1,8 @@
 "use client"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { CLASS_EMOJIS, getCategoryFromTags, getClassFromTags } from '@/lib/constants/tip-categories'
 
 interface TipPost {
@@ -53,68 +55,93 @@ export default function AdminTipBoardManagePage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">팁 게시글 관리</h1>
-        <a href="/admin/tip-board/write" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-semibold">+ 글쓰기</a>
+    <div className="space-y-8">
+      {/* 헤더 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-2xl">💡</span>
+            </div>
+            <h1 className="text-3xl font-bold text-white">팁 게시판 관리</h1>
+          </div>
+          <Button
+            onClick={() => router.push('/admin/tip-board/write')}
+            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all"
+          >
+            ✏️ 글쓰기
+          </Button>
+        </div>
       </div>
+
+      {/* 게시글 목록 */}
       {loading ? (
-        <div className="text-gray-400">불러오는 중...</div>
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="animate-spin w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full mb-3"></div>
+            <div className="text-gray-400">로딩 중...</div>
+          </div>
+        </div>
       ) : error ? (
-        <div className="text-red-400">{error}</div>
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+          <div className="text-center py-12">
+            <div className="text-5xl mb-4">⚠️</div>
+            <p className="text-red-400 text-lg">{error}</p>
+          </div>
+        </div>
       ) : posts.length === 0 ? (
-        <div className="text-gray-400">등록된 팁이 없습니다.</div>
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+          <div className="text-center py-12">
+            <div className="text-5xl mb-4">📝</div>
+            <p className="text-gray-400 text-lg">등록된 팁 게시글이 없습니다.</p>
+          </div>
+        </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-separate border-spacing-y-2">
-            <thead>
-              <tr className="text-blue-300 text-sm">
-                <th className="w-2/5 px-2">제목</th>
-                <th className="w-1/5 px-2">카테고리</th>
-                <th className="w-1/6 px-2">작성자</th>
-                <th className="w-1/6 px-2">작성일</th>
-                <th className="w-1/6 px-2">관리</th>
-              </tr>
-            </thead>
-            <tbody>
-              {posts.map(post => (
-                <tr key={post.id} className="bg-zinc-800 hover:bg-zinc-700 transition border-b border-zinc-700">
-                  <td className="px-2 py-2 font-semibold text-blue-200 truncate">{post.title}</td>
-                  <td className="px-2 py-2 text-sm">
-                    <div className="flex flex-col gap-1">
-                      <span className="px-2 py-1 bg-blue-900/50 text-blue-300 rounded text-xs">
-                        {getCategoryFromTags(post.tags || [])}
+        <div className="space-y-4">
+          {posts.map(post => (
+            <Card key={post.id} className="bg-gradient-to-br from-slate-700/60 to-slate-800/60 border border-white/10 p-6 shadow-lg hover:shadow-xl transition-all">
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h3 className="font-bold text-xl text-white mb-3">{post.title}</h3>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full text-sm font-medium">
+                      {getCategoryFromTags(post.tags || [])}
+                    </span>
+                    {getClassFromTags(post.tags || []) && (
+                      <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full text-sm font-medium flex items-center gap-1">
+                        <span>{CLASS_EMOJIS[getClassFromTags(post.tags || [])!]}</span>
+                        <span>{getClassFromTags(post.tags || [])}</span>
                       </span>
-                      {getClassFromTags(post.tags || []) && (
-                        <span className="px-2 py-1 bg-purple-900/50 text-purple-300 rounded text-xs flex items-center gap-1">
-                          <span>{CLASS_EMOJIS[getClassFromTags(post.tags || [])!]}</span>
-                          <span>{getClassFromTags(post.tags || [])}</span>
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-2 py-2 text-sm text-gray-300">{post.author || '-'}</td>
-                  <td className="px-2 py-2 text-xs text-gray-400">{new Date(post.created_at).toLocaleDateString('ko-KR')}</td>
-                  <td className="px-2 py-2">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => router.push(`/admin/tip-board/${post.id}/edit`)}
-                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm font-semibold"
-                      >
-                        수정
-                      </button>
-                      <button
-                        onClick={() => handleDelete(post.id)}
-                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm font-semibold"
-                      >
-                        삭제
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-gray-400">
+                    <span className="flex items-center gap-1">
+                      <span>👤</span>
+                      <span>{post.author || '익명'}</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span>📅</span>
+                      <span>{new Date(post.created_at).toLocaleDateString('ko-KR')}</span>
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-3 ml-6">
+                  <Button
+                    onClick={() => router.push(`/admin/tip-board/${post.id}/edit`)}
+                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-4 py-2 rounded-lg shadow-lg transition-all"
+                  >
+                    ✏️ 수정
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(post.id)}
+                    className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold px-4 py-2 rounded-lg shadow-lg transition-all"
+                  >
+                    🗑️ 삭제
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       )}
     </div>

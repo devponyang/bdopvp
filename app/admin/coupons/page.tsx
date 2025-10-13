@@ -1,6 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card } from '@/components/ui/card'
 
 interface Coupon {
   id: number
@@ -74,73 +77,99 @@ export default function CouponAdmin() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">쿠폰 관리</h1>
-      
-      <form onSubmit={handleSubmit} className="mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">쿠폰 코드</label>
-            <input
-              type="text"
-              value={newCoupon.code || ''}
-              onChange={(e) => setNewCoupon({ ...newCoupon, code: e.target.value })}
-              className="w-full p-2 border rounded"
-              required
-            />
+    <div className="space-y-8">
+      {/* 헤더 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+            <span className="text-2xl">🎫</span>
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">종료일</label>
-            <input
-              type="date"
-              value={newCoupon.end_date || ''}
-              onChange={(e) => setNewCoupon({ ...newCoupon, end_date: e.target.value })}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
+          <h1 className="text-3xl font-bold text-white">쿠폰 관리</h1>
         </div>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-        >
-          {isLoading ? '추가 중...' : '쿠폰 추가'}
-        </button>
-      </form>
+      </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-transparent">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">코드</th>
-              <th className="px-6 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">종료일</th>
-              <th className="px-6 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">상태</th>
-              <th className="px-6 py-3 border-b-2 border-gray-700 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">관리</th>
-            </tr>
-          </thead>
-          <tbody>
+      {/* 쿠폰 추가 폼 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+        <h2 className="text-xl font-bold text-white mb-6">새 쿠폰 추가</h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">쿠폰 코드</label>
+              <Input
+                type="text"
+                value={newCoupon.code || ''}
+                onChange={(e) => setNewCoupon({ ...newCoupon, code: e.target.value })}
+                placeholder="쿠폰 코드를 입력하세요"
+                className="bg-slate-700/50 border-slate-600 text-white placeholder-gray-400 focus:border-green-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">종료일</label>
+              <Input
+                type="date"
+                value={newCoupon.end_date || ''}
+                onChange={(e) => setNewCoupon({ ...newCoupon, end_date: e.target.value })}
+                className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
+                required
+              />
+            </div>
+          </div>
+          
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="w-full md:w-auto bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all disabled:opacity-50"
+          >
+            {isLoading ? '추가 중...' : '🎫 쿠폰 추가'}
+          </Button>
+        </form>
+      </div>
+
+      {/* 쿠폰 목록 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+        <h2 className="text-xl font-bold text-white mb-6">쿠폰 목록</h2>
+        
+        {coupons.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-5xl mb-4">🎫</div>
+            <p className="text-gray-400 text-lg">등록된 쿠폰이 없습니다.</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
             {coupons
               .sort((a, b) => new Date(a.end_date).getTime() - new Date(b.end_date).getTime())
               .map((coupon) => (
-              <tr key={coupon.id}>
-                <td className="px-6 py-4 border-b border-gray-700 text-gray-200 whitespace-nowrap overflow-hidden text-ellipsis max-w-[300px]">{coupon.code}</td>
-                <td className="px-6 py-4 border-b border-gray-700 text-gray-200">{coupon.end_date}</td>
-                <td className="px-6 py-4 border-b border-gray-700 text-gray-200">
-                  {new Date(coupon.end_date) < new Date() ? '만료' : '활성'}
-                </td>
-                <td className="px-6 py-4 border-b border-gray-700">
-                  <button
-                    onClick={() => handleDelete(coupon.id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    삭제
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                <Card key={coupon.id} className="bg-gradient-to-br from-slate-700/60 to-slate-800/60 border border-white/10 p-6 shadow-lg hover:shadow-xl transition-all">
+                  <div className="flex justify-between items-center">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-4 mb-3">
+                        <h3 className="font-bold text-xl text-white">{coupon.code}</h3>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          new Date(coupon.end_date) < new Date() 
+                            ? 'bg-red-500/20 text-red-300 border border-red-500/30'
+                            : 'bg-green-500/20 text-green-300 border border-green-500/30'
+                        }`}>
+                          {new Date(coupon.end_date) < new Date() ? '만료' : '활성'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-400">
+                        <span>📅</span>
+                        <span>종료일: {coupon.end_date}</span>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => handleDelete(coupon.id)}
+                      className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold px-4 py-2 rounded-lg shadow-lg transition-all"
+                    >
+                      🗑️ 삭제
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   )

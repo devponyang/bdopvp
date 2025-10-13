@@ -94,6 +94,16 @@ async function fetchAllianceMarks(): Promise<Record<string, string>> {
   }
 }
 
+// 티어 표시명 매핑 함수
+function getTierDisplayName(tier: '무제한' | '2단' | '1단'): string {
+  const tierMap = {
+    '무제한': '3단계(무제한)',
+    '2단': '2단계(제한)',
+    '1단': '1단계(제한)'
+  }
+  return tierMap[tier]
+}
+
 export default function WarSummaryPage() {
   const [selectedTab, setSelectedTab] = useState<'weekly' | 'monthly' | 'yearly'>('weekly')
   const [expandedAlliances, setExpandedAlliances] = useState<Record<string, GuildLeagueInfo[] | undefined>>({})
@@ -180,7 +190,7 @@ export default function WarSummaryPage() {
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
               <span className="text-white text-lg">🏰</span>
             </div>
-            <h2 className="text-2xl font-bold text-white">{tier}</h2>
+            <h2 className="text-2xl font-bold text-white">{getTierDisplayName(tier)}</h2>
           </div>
           {/* 데스크톱 테이블 */}
           <table className="w-full text-sm text-left hidden md:table" style={{ tableLayout: 'fixed' }}>
@@ -596,15 +606,15 @@ export default function WarSummaryPage() {
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-300">발레노스/세렌디아:</span>
-                        <span className="text-yellow-300 font-semibold">무제한</span>
+                        <span className="text-yellow-300 font-semibold">3단계(무제한)</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-300">메디아/발렌시아:</span>
-                        <span className="text-green-300 font-semibold">1단</span>
+                        <span className="text-green-300 font-semibold">1단계(제한)</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-300">칼페온/카마실비아:</span>
-                        <span className="text-orange-300 font-semibold">2단</span>
+                        <span className="text-orange-300 font-semibold">2단계(제한)</span>
                       </div>
                     </div>
                   </div>
@@ -617,15 +627,15 @@ export default function WarSummaryPage() {
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-300">발레노스/세렌디아:</span>
-                        <span className="text-green-300 font-semibold">1단</span>
+                        <span className="text-green-300 font-semibold">1단계(제한)</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-300">메디아/발렌시아:</span>
-                        <span className="text-orange-300 font-semibold">2단</span>
+                        <span className="text-orange-300 font-semibold">2단계(제한)</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-300">칼페온/카마실비아:</span>
-                        <span className="text-yellow-300 font-semibold">무제한</span>
+                        <span className="text-yellow-300 font-semibold">3단계(무제한)</span>
                       </div>
                     </div>
                   </div>
@@ -638,7 +648,7 @@ export default function WarSummaryPage() {
                   </div>
                   <p className="text-gray-300 text-sm">
                     이제 연간 통계에서 정확한 티어별 집계가 표시됩니다. 
-                    예를 들어 밤양갱의 경우 무제한에서 1/1, 2단에서 5/6으로 올바르게 표시됩니다.
+                    예를 들어 밤양갱의 경우 3단계(무제한)에서 1/1, 2단계(제한)에서 5/6으로 올바르게 표시됩니다.
                   </p>
                 </div>
 
