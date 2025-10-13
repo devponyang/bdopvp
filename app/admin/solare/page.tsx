@@ -431,10 +431,6 @@ export default function SolareAdminPage() {
     }
   }
 
-  const filteredPlayers = solarePlayers.filter(p => 
-    !playerSearch || p.name.toLowerCase().includes(playerSearch.toLowerCase())
-  )
-
   return (
     <div className="space-y-8">
       {/* 헤더 */}
