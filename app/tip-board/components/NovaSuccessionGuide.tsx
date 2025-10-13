@@ -108,7 +108,7 @@ export default function NovaSuccessionGuide() {
           <span className="text-3xl">✍️</span>
           <div>
             <p className="text-white text-lg">
-              <strong>작성 예정:</strong> <Link href="/guild/약주" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">약주</Link> 길드 <span className="text-blue-400 font-bold">ctrl</span> 님
+              <strong>작성 예정:</strong> <Link href="/guild/약주" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">ctrl</Link> 길드 <span className="text-blue-400 font-bold">약주</span> 님
             </p>
             <p className="text-gray-400 text-sm mt-1">솔라레의 창 - 노바 랭킹 2위</p>
           </div>
