@@ -431,31 +431,6 @@ export default function SolareAdminPage() {
     }
   }
 
-
-  const handleDeleteSpecialization = async (id: number) => {
-    if (!confirm('정말 이 특화 정보를 삭제하시겠습니까?')) return
-
-    try {
-      const response = await fetch(`/api/admin/solare/specializations`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
-      })
-
-      if (response.ok) {
-        alert('특화 정보가 삭제되었습니다.')
-        // 현재 시즌의 특화 정보 다시 로드
-        const players = await fetchSolarePlayers(selectedSeasonId)
-        fetchSpecializations(players, selectedSeasonId)
-      } else {
-        alert('특화 정보 삭제에 실패했습니다.')
-      }
-    } catch (error) {
-      console.error('특화 정보 삭제 오류:', error)
-      alert('특화 정보 삭제 중 오류가 발생했습니다.')
-    }
-  }
-
   const filteredPlayers = solarePlayers.filter(p => 
     !playerSearch || p.name.toLowerCase().includes(playerSearch.toLowerCase())
   )
