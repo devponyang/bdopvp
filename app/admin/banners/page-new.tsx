@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 interface Banner {
   id: number
@@ -28,7 +27,6 @@ interface WarCorrespondent {
 }
 
 export default function BannersAdmin() {
-  const router = useRouter()
   const [activeTab, setActiveTab] = useState<'banners' | 'correspondents'>('banners')
   
   // 배너 관리
