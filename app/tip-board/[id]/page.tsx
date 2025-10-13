@@ -17,6 +17,8 @@ import WarriorGuide from '../components/WarriorGuide'
 import MaeguSuccessionGuide from '../components/MaeguSuccessionGuide'
 import AwakenedWizardGuide from '../components/AwakenedWizardGuide'
 import NovaSuccessionGuide from '../components/NovaSuccessionGuide'
+import ScholarGuide from '../components/ScholarGuide'
+import RanSuccessionGuide from '../components/RanSuccessionGuide'
 
 interface TipPost {
   id: number
@@ -103,6 +105,24 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 각성 위자드 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '20') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 노바 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '21') {
+          setLoading(false)
+          return
+        }
+
+        // 스칼라 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '22') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 란 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '23') {
           setLoading(false)
           return
         }
@@ -257,6 +277,16 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 전승 노바 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '21') {
     return <NovaSuccessionGuide />
+  }
+
+  // 스칼라 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '22') {
+    return <ScholarGuide />
+  }
+
+  // 전승 란 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '23') {
+    return <RanSuccessionGuide />
   }
   
   if (!post) return notFound()
