@@ -175,7 +175,7 @@ export default function SolareAdminPage() {
       const data = await res.json()
       setSpecializations(data)
       
-      const playerSet = new Set(data.map((s: Specialization) => s.player_name))
+      const playerSet = new Set<string>(data.map((s: Specialization) => s.player_name))
       setPlayersWithSpecialization(playerSet)
     } catch (error) {
       console.error('특화 정보 로딩 오류:', error)
