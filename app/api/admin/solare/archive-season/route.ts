@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
     
     // 각 클래스별로 순위를 계산하여 저장
-    for (const [className, entries] of Object.entries(classGroups)) {
+    for (const [, entries] of Object.entries(classGroups)) {
       // 클래스 내에서 점수순으로 정렬
       entries.sort((a, b) => b.score - a.score)
       
