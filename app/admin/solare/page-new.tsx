@@ -7,7 +7,6 @@ import { Card } from '@/components/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
-import Link from 'next/link'
 
 export interface Entry {
   name: string
