@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Card } from '@/components/card'
 import { useRouter } from 'next/navigation'
 import RichTextEditor from '@/components/RichTextEditor'
 

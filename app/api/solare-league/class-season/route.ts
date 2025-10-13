@@ -10,9 +10,6 @@ export async function GET(req: NextRequest) {
   const classNameRaw = searchParams.get('class') || ''
   const className = decodeURIComponent(classNameRaw)
   
-  console.log(`[DEBUG] 원본 className: ${classNameRaw}`)
-  console.log(`[DEBUG] 디코딩된 className: ${className}`)
-  
   if (!className) {
     return new NextResponse('클래스명이 필요합니다', { status: 400 })
   }
@@ -60,8 +57,6 @@ export async function GET(req: NextRequest) {
   } else {
     // 비활성 시즌인 경우 시즌별 테이블에서 데이터 조회
     if (seasonId) {
-      console.log(`[DEBUG] 클래스별 시즌 데이터 조회: seasonId=${seasonId}, className=${className}`)
-      
       // 먼저 시즌별 클래스 테이블에서 조회 시도
       result = await client.query(`
         SELECT 
@@ -75,11 +70,8 @@ export async function GET(req: NextRequest) {
         LIMIT 100
       `, [seasonId, className])
       
-      console.log(`[DEBUG] 시즌별 클래스 테이블 조회 결과: ${result.rows.length}개 행`)
-      
       // 시즌별 클래스 테이블에 데이터가 없으면 전체 시즌 데이터에서 필터링
       if (result.rows.length === 0) {
-        console.log(`[DEBUG] 시즌별 클래스 테이블에 데이터 없음, 전체 데이터에서 필터링 시도`)
         const overallResult = await client.query(`
           SELECT 
             s.*,
@@ -94,7 +86,6 @@ export async function GET(req: NextRequest) {
         `, [seasonId, className])
         
         result = overallResult
-        console.log(`[DEBUG] 전체 시즌 데이터에서 필터링 결과: ${result.rows.length}개 행`)
       }
     } else {
       // seasonId가 없으면 빈 결과 반환

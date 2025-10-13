@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Card } from '@/components/card'
 import Link from 'next/link'
 import { renderMarkdown } from '@/lib/markdown'
 import ClickableContent from '@/components/ClickableContent'
