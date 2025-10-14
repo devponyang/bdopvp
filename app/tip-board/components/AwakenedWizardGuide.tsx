@@ -7,6 +7,8 @@ export default function AwakenedWizardGuide() {
   const [post, setPost] = useState<any>(null)
   const [liked, setLiked] = useState(false)
   const [liking, setLiking] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [imageScale, setImageScale] = useState(1)
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -64,8 +66,99 @@ export default function AwakenedWizardGuide() {
     }
   }
 
+  // ESC 키로 이미지 모달 닫기 및 마우스 휠로 확대/축소
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedImage) {
+        setSelectedImage(null)
+        setImageScale(1)
+      }
+    }
+
+    const handleWheel = (e: WheelEvent) => {
+      if (selectedImage) {
+        e.preventDefault()
+        const delta = e.deltaY * -0.001
+        setImageScale(prev => {
+          const newScale = prev + delta
+          // 최소 0.5배, 최대 3배로 제한
+          return Math.min(Math.max(0.5, newScale), 3)
+        })
+      }
+    }
+
+    if (selectedImage) {
+      document.addEventListener('keydown', handleKeyDown)
+      document.addEventListener('wheel', handleWheel, { passive: false })
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('wheel', handleWheel)
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedImage])
+
+  // 이미지 변경 시 스케일 초기화
+  useEffect(() => {
+    setImageScale(1)
+  }, [selectedImage])
+
   return (
-    <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
+    <>
+      {/* 이미지 모달 */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-auto"
+          onClick={() => {
+            setSelectedImage(null)
+            setImageScale(1)
+          }}
+        >
+          <div className="relative">
+            {/* 닫기 버튼 */}
+            <button
+              onClick={() => {
+                setSelectedImage(null)
+                setImageScale(1)
+              }}
+              className="fixed top-4 right-4 z-10 w-12 h-12 bg-black/70 hover:bg-black/90 text-white rounded-full flex items-center justify-center text-xl font-medium transition-all duration-200 border border-gray-500 hover:border-gray-400 shadow-lg"
+              title="닫기 (ESC)"
+            >
+              ×
+            </button>
+            
+            {/* 확대/축소 안내 */}
+            <div className="fixed top-4 left-4 z-10 bg-black/70 text-white px-4 py-2 rounded-lg text-sm border border-gray-500">
+              <div>🖱️ 마우스 휠: 확대/축소 ({Math.round(imageScale * 100)}%)</div>
+              <div>🔍 현재 배율: {imageScale.toFixed(1)}x</div>
+            </div>
+            
+            {/* 이미지 */}
+            <div className="relative min-h-screen flex items-center justify-center p-20">
+              <img 
+                src={selectedImage} 
+                alt="이미지 크게 보기" 
+                style={{
+                  transform: `scale(${imageScale})`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+                className="max-w-none h-auto rounded-lg shadow-2xl border border-gray-600 cursor-move"
+                onClick={(e) => e.stopPropagation()}
+                draggable={false}
+              />
+            </div>
+            
+            {/* 하단 안내 */}
+            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10 bg-black/70 text-white/70 px-6 py-3 rounded-lg text-sm border border-gray-500">
+              이미지를 클릭하거나 ESC 키를 눌러 닫을 수 있습니다 | 마우스 휠로 확대/축소
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
       {/* 뒤로가기 버튼 */}
       <div className="mb-6">
         <Link 
@@ -124,7 +217,8 @@ export default function AwakenedWizardGuide() {
           <img 
             src="/tip-images/wizardzzal.gif" 
             alt="wizardzzal" 
-            className="rounded-xl shadow-2xl max-w-2xl w-full h-auto border border-slate-600"
+            className="rounded-xl shadow-2xl max-w-2xl w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+            onClick={() => setSelectedImage('/tip-images/wizardzzal.gif')}
           />
         </div>
 
@@ -212,7 +306,8 @@ export default function AwakenedWizardGuide() {
             <img 
               src="/tip-images/위자드퀵슬롯.png" 
               alt="위자드 퀵슬롯" 
-              className="rounded-lg shadow-lg max-w-full h-auto border border-slate-500"
+              className="rounded-lg shadow-lg max-w-full h-auto border border-slate-500 cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={() => setSelectedImage('/tip-images/위자드퀵슬롯.png')}
             />
           </div>
           
@@ -293,7 +388,8 @@ export default function AwakenedWizardGuide() {
             <img 
               src="/tip-images/위자드텔포.png" 
               alt="위자드 텔포" 
-              className="rounded-lg shadow-lg max-w-full h-auto border border-slate-500"
+              className="rounded-lg shadow-lg max-w-full h-auto border border-slate-500 cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={() => setSelectedImage('/tip-images/위자드텔포.png')}
             />
           </div>
           
@@ -455,7 +551,8 @@ export default function AwakenedWizardGuide() {
                 <img 
                   src="/tip-images/위자드짤팁.png" 
                   alt="위자드 파불 사거리" 
-                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-500"
+                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-500 cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => setSelectedImage('/tip-images/위자드짤팁.png')}
                 />
               </div>
               <p className="text-gray-400 text-center text-sm mt-2">사거리 대충 이런 느낌</p>
@@ -504,7 +601,8 @@ export default function AwakenedWizardGuide() {
                 <img 
                   src="/tip-images/wwmove.png" 
                   alt="위자드 WW 이동" 
-                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-500"
+                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-500 cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => setSelectedImage('/tip-images/wwmove.png')}
                 />
               </div>
             </div>
@@ -532,7 +630,8 @@ export default function AwakenedWizardGuide() {
                 <img 
                   src="/tip-images/위자드특화.png" 
                   alt="위자드 특화" 
-                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600"
+                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => setSelectedImage('/tip-images/위자드특화.png')}
                 />
               </div>
             </div>
@@ -544,7 +643,8 @@ export default function AwakenedWizardGuide() {
                 <img 
                   src="/tip-images/위자드솔라레.png" 
                   alt="위자드 솔라레 특화" 
-                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600"
+                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => setSelectedImage('/tip-images/위자드솔라레.png')}
                 />
               </div>
             </div>
@@ -563,7 +663,8 @@ export default function AwakenedWizardGuide() {
                 <img 
                   src="/tip-images/위자드적중.png" 
                   alt="위자드 적중 세팅" 
-                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600"
+                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => setSelectedImage('/tip-images/위자드적중.png')}
                 />
               </div>
             </div>
@@ -575,7 +676,8 @@ export default function AwakenedWizardGuide() {
                 <img 
                   src="/tip-images/위자드국룰.png" 
                   alt="위자드 국룰 세팅" 
-                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600"
+                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => setSelectedImage('/tip-images/위자드국룰.png')}
                 />
               </div>
             </div>
@@ -587,7 +689,8 @@ export default function AwakenedWizardGuide() {
                 <img 
                   src="/tip-images/위자드극공.png" 
                   alt="위자드 극공 세팅" 
-                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600"
+                  className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => setSelectedImage('/tip-images/위자드극공.png')}
                 />
               </div>
             </div>
@@ -731,6 +834,7 @@ export default function AwakenedWizardGuide() {
           ⬆️ 맨 위로
         </button>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

@@ -7,6 +7,8 @@ export default function WitchGuide() {
   const [post, setPost] = useState<any>(null)
   const [liked, setLiked] = useState(false)
   const [liking, setLiking] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [imageScale, setImageScale] = useState(1)
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -64,8 +66,91 @@ export default function WitchGuide() {
     }
   }
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedImage) {
+        setSelectedImage(null)
+        setImageScale(1)
+      }
+    }
+
+    const handleWheel = (e: WheelEvent) => {
+      if (selectedImage) {
+        e.preventDefault()
+        const delta = e.deltaY * -0.001
+        setImageScale(prev => {
+          const newScale = prev + delta
+          return Math.min(Math.max(0.5, newScale), 3)
+        })
+      }
+    }
+
+    if (selectedImage) {
+      document.addEventListener('keydown', handleKeyDown)
+      document.addEventListener('wheel', handleWheel, { passive: false })
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('wheel', handleWheel)
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedImage])
+
+  useEffect(() => {
+    setImageScale(1)
+  }, [selectedImage])
+
   return (
-    <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
+    <>
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-auto"
+          onClick={() => {
+            setSelectedImage(null)
+            setImageScale(1)
+          }}
+        >
+          <div className="relative">
+            <button
+              onClick={() => {
+                setSelectedImage(null)
+                setImageScale(1)
+              }}
+              className="fixed top-4 right-4 z-10 w-12 h-12 bg-black/70 hover:bg-black/90 text-white rounded-full flex items-center justify-center text-xl font-medium transition-all duration-200 border border-gray-500 hover:border-gray-400 shadow-lg"
+              title="닫기 (ESC)"
+            >
+              ×
+            </button>
+            
+            <div className="fixed top-4 left-4 z-10 bg-black/70 text-white px-4 py-2 rounded-lg text-sm border border-gray-500">
+              <div>🖱️ 마우스 휠: 확대/축소 ({Math.round(imageScale * 100)}%)</div>
+              <div>🔍 현재 배율: {imageScale.toFixed(1)}x</div>
+            </div>
+            
+            <div className="relative min-h-screen flex items-center justify-center p-20">
+              <img 
+                src={selectedImage} 
+                alt="이미지 크게 보기" 
+                style={{
+                  transform: `scale(${imageScale})`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+                className="max-w-none h-auto rounded-lg shadow-2xl border border-gray-600 cursor-move"
+                onClick={(e) => e.stopPropagation()}
+                draggable={false}
+              />
+            </div>
+            
+            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10 bg-black/70 text-white/70 px-6 py-3 rounded-lg text-sm border border-gray-500">
+              이미지를 클릭하거나 ESC 키를 눌러 닫을 수 있습니다 | 마우스 휠로 확대/축소
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
       {/* 뒤로가기 버튼 */}
       <div className="mb-6">
         <Link 
@@ -292,7 +377,8 @@ export default function WitchGuide() {
           <img 
             src="/tip-images/sada.png" 
             alt="특화" 
-            className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+            className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+            onClick={() => setSelectedImage('/tip-images/sada.png')}
           />
         </div>
         
@@ -380,7 +466,8 @@ export default function WitchGuide() {
           ⬆️ 맨 위로
         </button>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
 

@@ -7,6 +7,8 @@ export default function RangerGuide() {
   const [post, setPost] = useState<any>(null)
   const [liked, setLiked] = useState(false)
   const [liking, setLiking] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [imageScale, setImageScale] = useState(1)
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -64,8 +66,91 @@ export default function RangerGuide() {
     }
   }
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedImage) {
+        setSelectedImage(null)
+        setImageScale(1)
+      }
+    }
+
+    const handleWheel = (e: WheelEvent) => {
+      if (selectedImage) {
+        e.preventDefault()
+        const delta = e.deltaY * -0.001
+        setImageScale(prev => {
+          const newScale = prev + delta
+          return Math.min(Math.max(0.5, newScale), 3)
+        })
+      }
+    }
+
+    if (selectedImage) {
+      document.addEventListener('keydown', handleKeyDown)
+      document.addEventListener('wheel', handleWheel, { passive: false })
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('wheel', handleWheel)
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedImage])
+
+  useEffect(() => {
+    setImageScale(1)
+  }, [selectedImage])
+
   return (
-    <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
+    <>
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-auto"
+          onClick={() => {
+            setSelectedImage(null)
+            setImageScale(1)
+          }}
+        >
+          <div className="relative">
+            <button
+              onClick={() => {
+                setSelectedImage(null)
+                setImageScale(1)
+              }}
+              className="fixed top-4 right-4 z-10 w-12 h-12 bg-black/70 hover:bg-black/90 text-white rounded-full flex items-center justify-center text-xl font-medium transition-all duration-200 border border-gray-500 hover:border-gray-400 shadow-lg"
+              title="닫기 (ESC)"
+            >
+              ×
+            </button>
+            
+            <div className="fixed top-4 left-4 z-10 bg-black/70 text-white px-4 py-2 rounded-lg text-sm border border-gray-500">
+              <div>🖱️ 마우스 휠: 확대/축소 ({Math.round(imageScale * 100)}%)</div>
+              <div>🔍 현재 배율: {imageScale.toFixed(1)}x</div>
+            </div>
+            
+            <div className="relative min-h-screen flex items-center justify-center p-20">
+              <img 
+                src={selectedImage} 
+                alt="이미지 크게 보기" 
+                style={{
+                  transform: `scale(${imageScale})`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+                className="max-w-none h-auto rounded-lg shadow-2xl border border-gray-600 cursor-move"
+                onClick={(e) => e.stopPropagation()}
+                draggable={false}
+              />
+            </div>
+            
+            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10 bg-black/70 text-white/70 px-6 py-3 rounded-lg text-sm border border-gray-500">
+              이미지를 클릭하거나 ESC 키를 눌러 닫을 수 있습니다 | 마우스 휠로 확대/축소
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-full md:max-w-[1490px] mx-auto p-3 md:p-6">
       {/* 뒤로가기 버튼 */}
       <div className="mb-6">
         <Link 
@@ -124,7 +209,8 @@ export default function RangerGuide() {
         <img 
           src="/tip-images/홍줭.png" 
           alt="홍줭" 
-          className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600"
+          className="rounded-xl shadow-2xl max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+          onClick={() => setSelectedImage('/tip-images/홍줭.png')}
         />
       </div>
 
@@ -1071,7 +1157,8 @@ export default function RangerGuide() {
               <img 
                 src="/tip-images/홍줭무제한.png" 
                 alt="무제한 특화" 
-                className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600"
+                className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => setSelectedImage('/tip-images/홍줭무제한.png')}
               />
             </div>
             <p className="text-slate-200 text-base text-center">
@@ -1088,7 +1175,8 @@ export default function RangerGuide() {
               <img 
                 src="/tip-images/홍줭소수전.png" 
                 alt="소수전 특화" 
-                className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600"
+                className="rounded-lg shadow-lg max-w-full h-auto border border-slate-600 cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => setSelectedImage('/tip-images/홍줭소수전.png')}
               />
             </div>
             <p className="text-slate-200 text-base text-center">
@@ -1103,11 +1191,11 @@ export default function RangerGuide() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 무제한 PvP 수정 */}
             <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
-              <div className="flex items-center justify-center mb-3">
+              <div className="flex items-center justify-center mb-3 cursor-pointer" onClick={() => setSelectedImage('/tip-images/홍줭수정.png')}>
                 <img 
                   src="/tip-images/홍줭수정.png" 
                   alt="무제한 PvP 수정" 
-                  className="rounded-lg max-w-full h-auto border border-slate-400"
+                  className="rounded-lg max-w-full h-auto border border-slate-400 hover:opacity-90 transition-opacity"
                 />
               </div>
               <p className="text-blue-300 text-lg font-bold">무제한 수정</p>
@@ -1115,11 +1203,11 @@ export default function RangerGuide() {
             
             {/* 홍줭 제한 수정 */}
             <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
-              <div className="flex items-center justify-center mb-3">
+              <div className="flex items-center justify-center mb-3 cursor-pointer" onClick={() => setSelectedImage('/tip-images/홍줭제한수정.png')}>
                 <img 
                   src="/tip-images/홍줭제한수정.png" 
                   alt="홍줭 제한 수정" 
-                  className="rounded-lg max-w-full h-auto border border-slate-400"
+                  className="rounded-lg max-w-full h-auto border border-slate-400 hover:opacity-90 transition-opacity"
                 />
               </div>
               <p className="text-cyan-300 text-lg font-bold">제한 수정</p>
@@ -1133,11 +1221,11 @@ export default function RangerGuide() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 무제한 PvP 유물 */}
             <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
-              <div className="flex items-center justify-center mb-3">
+              <div className="flex items-center justify-center mb-3 cursor-pointer" onClick={() => setSelectedImage('/tip-images/홍줭유물.png')}>
                 <img 
                   src="/tip-images/홍줭유물.png" 
                   alt="무제한 PvP 유물" 
-                  className="rounded-lg max-w-full h-auto border border-slate-400"
+                  className="rounded-lg max-w-full h-auto border border-slate-400 hover:opacity-90 transition-opacity"
                 />
               </div>
               <p className="text-green-300 text-lg font-bold">무제한 유물</p>
@@ -1145,11 +1233,11 @@ export default function RangerGuide() {
             
             {/* 홍줭 제한 유물 */}
             <div className="bg-slate-600 p-4 rounded-lg text-center shadow-lg border border-slate-500">
-              <div className="flex items-center justify-center mb-3">
+              <div className="flex items-center justify-center mb-3 cursor-pointer" onClick={() => setSelectedImage('/tip-images/홍줭제한유물.png')}>
                 <img 
                   src="/tip-images/홍줭제한유물.png" 
                   alt="홍줭 제한 유물" 
-                  className="rounded-lg max-w-full h-auto border border-slate-400"
+                  className="rounded-lg max-w-full h-auto border border-slate-400 hover:opacity-90 transition-opacity"
                 />
               </div>
               <p className="text-amber-300 text-lg font-bold mb-2">제한 유물</p>
@@ -1387,6 +1475,7 @@ export default function RangerGuide() {
           ⬆️ 맨 위로
         </button>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
