@@ -158,12 +158,12 @@ export default function RichTextEditor({
         const img = document.createElement('img')
         img.src = imageUrl
         img.alt = '업로드 이미지'
+        img.style.width = '900px'
         img.style.maxWidth = '100%'
         img.style.height = 'auto'
         img.style.display = 'block'
         img.style.margin = '10px auto'
         img.style.borderRadius = '8px'
-        img.style.maxHeight = '400px'
         img.style.border = '1px solid #374151'
         img.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
         img.style.backgroundColor = '#1f2937'
@@ -323,28 +323,37 @@ export default function RichTextEditor({
     const file = e.target.files?.[0]
     if (!file) return
 
-    // 파일 크기 미리 확인 (5MB)
-    const maxSize = 5 * 1024 * 1024
+    // GIF 파일은 압축하지 않음 (애니메이션 보존)
+    const isGif = file.type === 'image/gif'
+    
+    // 파일 크기 미리 확인 (15MB)
+    const maxSize = 15 * 1024 * 1024
     let fileToUpload = file
     
-    // 5MB 이상이면 압축 시도
-    if (file.size > maxSize) {
+    // GIF가 아니고 5MB 이상이면 압축 시도
+    if (!isGif && file.size > 5 * 1024 * 1024) {
       try {
         fileToUpload = await compressImage(file, 1920, 0.7)
         console.log(`이미지 압축: ${file.size} → ${fileToUpload.size} bytes`)
       } catch (error) {
         console.error('이미지 압축 실패:', error)
-        alert('파일 크기가 너무 큽니다. 5MB 이하의 파일을 선택해주세요.')
+        alert('파일 크기가 너무 큽니다. 15MB 이하의 파일을 선택해주세요.')
         return
       }
+    }
+
+    // 최종 파일 크기 확인
+    if (fileToUpload.size > maxSize) {
+      alert(`파일 크기가 너무 큽니다. 15MB 이하의 파일을 선택해주세요. (현재: ${(fileToUpload.size / 1024 / 1024).toFixed(2)}MB)`)
+      return
     }
 
     try {
       const formData = new FormData()
       formData.append('file', fileToUpload)
-      formData.append('folderType', 'tip-images')
 
-      const response = await fetch('/api/upload', {
+      // 길드 모집 전용 업로드 API 사용 (인증 불필요)
+      const response = await fetch('/api/guild-recruit/upload', {
         method: 'POST',
         body: formData,
       })
@@ -453,9 +462,9 @@ export default function RichTextEditor({
           // 파일을 서버에 업로드
           const formData = new FormData()
           formData.append('file', fileToUpload)
-          formData.append('folderType', 'tip-images')
 
-          const response = await fetch('/api/upload', {
+          // 길드 모집 전용 업로드 API 사용 (인증 불필요)
+          const response = await fetch('/api/guild-recruit/upload', {
             method: 'POST',
             body: formData,
           })
@@ -771,12 +780,12 @@ export default function RichTextEditor({
           font-style: italic;
         }
         [contenteditable] img {
+          width: 900px;
           max-width: 100%;
           height: auto;
           display: block;
           margin: 10px auto;
           border-radius: 8px;
-          max-height: 400px;
           border: 1px solid #374151;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           background-color: #1f2937;

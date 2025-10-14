@@ -237,6 +237,14 @@ export default function RecruitDetailPage() {
         </div>
       </div>
 
+      {/* 이미지 클릭 안내 */}
+      <div className="mb-6 p-4 bg-blue-500/20 border border-blue-400/30 rounded-xl">
+        <p className="text-blue-200 text-center flex items-center justify-center gap-2">
+          <span className="text-lg">💡</span>
+          이미지를 클릭하면 확대해서 보실 수 있습니다
+        </p>
+      </div>
+
       {/* 모집 내용 */}
       <div className="bg-slate-800 p-8 rounded-2xl mb-6 shadow-xl border-l-4 border-blue-500">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center">

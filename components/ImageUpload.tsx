@@ -16,10 +16,10 @@ export default function ImageUpload({ onImageInsert, className = '' }: ImageUplo
     const file = event.target.files?.[0]
     if (!file) return
 
-    // 파일 크기 사전 검증 (100MB 제한 - 비디오 파일 지원)
-    const maxFileSize = 100 * 1024 * 1024 // 100MB
+    // 파일 크기 사전 검증 (15MB 제한 - 길드 모집 이미지)
+    const maxFileSize = 15 * 1024 * 1024 // 15MB
     if (file.size > maxFileSize) {
-      setError(`파일 크기가 너무 큽니다 (100MB 제한). 현재 파일 크기: ${(file.size / 1024 / 1024).toFixed(2)}MB`)
+      setError(`파일 크기가 너무 큽니다 (15MB 제한). 현재 파일 크기: ${(file.size / 1024 / 1024).toFixed(2)}MB`)
       return
     }
 
@@ -29,9 +29,9 @@ export default function ImageUpload({ onImageInsert, className = '' }: ImageUplo
     try {
       const formData = new FormData()
       formData.append('file', file)
-      formData.append('folderType', 'guild-promotion-images')
 
-      const response = await fetch('/api/upload', {
+      // 길드 모집 전용 업로드 API 사용 (인증 불필요)
+      const response = await fetch('/api/guild-recruit/upload', {
         method: 'POST',
         body: formData,
       })

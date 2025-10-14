@@ -9,7 +9,7 @@ export function renderMarkdown(content: string): string {
   // 이미지 스타일 정리 (기존 마크다운 이미지가 있을 경우)
   html = html.replace(
     /!\[([^\]]*)\]\(([^)]+)\)/g,
-    '<img src="$2" alt="$1" class="max-w-full h-auto rounded-lg my-4 mx-auto block" style="max-height: 400px;" />'
+    '<img src="$2" alt="$1" class="h-auto rounded-lg my-4 mx-auto block" style="width: 900px; max-width: 100%;" />'
   )
 
   // 비디오 파일을 video 태그로 변환
