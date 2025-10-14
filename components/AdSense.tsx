@@ -47,10 +47,10 @@ export default function AdSense({
   }, [])
 
   return (
-    <div ref={adRef}>
+    <div ref={adRef} style={{ maxWidth: '100%', overflow: 'hidden' }}>
       <ins
         className="adsbygoogle"
-        style={style}
+        style={{ ...style, maxWidth: '100%' }}
         data-ad-client="ca-pub-7268080263912053"
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
@@ -59,4 +59,3 @@ export default function AdSense({
     </div>
   )
 }
-

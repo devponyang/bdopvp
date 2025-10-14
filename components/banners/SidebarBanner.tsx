@@ -89,7 +89,7 @@ export default function SidebarBanner({ position = 'home', className = '' }: Sid
   }
 
   return (
-    <div className={`w-full max-w-[300px] mx-auto ${className}`}>
+    <div className={`w-full max-w-[300px] mx-auto ${className}`} style={{ maxWidth: 'min(300px, 100%)' }}>
       {/* 사이드바 배너 (300x250 기본 사이즈) */}
       <div 
         className="relative w-full aspect-[6/5] rounded-lg overflow-hidden cursor-pointer group border border-zinc-700 hover:border-zinc-600 transition-all duration-300"

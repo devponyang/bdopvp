@@ -12,19 +12,20 @@ export default function SidebarAd({ position }: SidebarAdProps) {
   
   return (
     <div 
-      className={`hidden 2xl:block fixed top-40 ${position === 'left' ? 'left-4' : 'right-4'} w-[160px]`}
+      className={`sidebar-ad-container fixed top-40 ${position === 'left' ? 'left-4' : 'right-4'} z-10`}
     >
       <div className="sticky top-40">
         <AdSense 
           adSlot={adSlot}
           style={{ 
             display: 'block',
-            width: '160px',
-            height: '600px'
+            width: '100%',
+            maxWidth: '160px',
+            height: '600px',
+            overflow: 'hidden'
           }}
         />
       </div>
     </div>
   )
 }
-

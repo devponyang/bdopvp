@@ -78,7 +78,8 @@ export default async function Home() {
         <div className="pb-6 md:pb-10">
           <div className="max-w-full md:max-w-[1490px] mx-auto px-3 sm:px-4 md:px-5 grid gap-3 sm:gap-4 md:gap-5
                         grid-cols-1
-                        lg:grid-cols-[300px_1fr_440px]">
+                        lg:grid-cols-[300px_1fr_440px]"
+               style={{ maxWidth: 'min(1490px, 100vw - 2rem)' }}>
             
             {/* 모바일/태블릿: 좌측 사이드바 */}
             <aside className="space-y-3 sm:space-y-4 md:space-y-6 lg:col-span-1 order-1 lg:order-1">

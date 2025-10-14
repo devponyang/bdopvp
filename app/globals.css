@@ -802,6 +802,42 @@ body {
   }
 }
 
+/* 사이드바 광고 - 메인 컨텐츠를 침범하지 않도록 조건부 표시 */
+.sidebar-ad-container {
+  display: none;
+  /* 뷰포트 크기에 따라 동적으로 계산: (100vw - 1490px) / 2 - 32px (여백) */
+  max-width: min(160px, calc((100vw - 1490px) / 2 - 32px));
+  width: min(160px, calc((100vw - 1490px) / 2 - 32px));
+}
+
+/* 1920px 이상이고 메인 컨텐츠 + 광고를 모두 표시할 충분한 공간이 있을 때만 표시 */
+@media (min-width: 1920px) {
+  .sidebar-ad-container {
+    display: block;
+  }
+}
+
+/* 페이지 확대 시 광고가 메인 컨텐츠를 침범할 경우 숨김 */
+@media (min-width: 1920px) and (max-width: calc(1490px + 400px)) {
+  .sidebar-ad-container {
+    display: none;
+  }
+}
+
+/* 광고가 메인 컨텐츠를 침범하지 않도록 전역 설정 */
+.adsbygoogle {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+/* 페이지 확대 시 메인 컨텐츠 보호 */
+@media (max-width: 1920px) {
+  main {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
 @font-face {
     font-family: 'GongGothicMedium';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');

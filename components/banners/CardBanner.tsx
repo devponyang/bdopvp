@@ -95,7 +95,7 @@ export default function CardBanner({ position = 'home', className = '' }: CardBa
   }
 
   return (
-    <div className={`w-full max-w-[400px] mx-auto ${className}`}>
+    <div className={`w-full max-w-[400px] mx-auto ${className}`} style={{ maxWidth: 'min(400px, 100%)' }}>
       {/* 카드형 배너 (2:1 비율) */}
       <div 
         className="bg-zinc-800 rounded-lg border border-zinc-700 hover:border-zinc-600 transition-all duration-300 cursor-pointer group overflow-hidden"

@@ -13,7 +13,8 @@ export default function FooterAd() {
             fullWidthResponsive={true}
             style={{
               display: 'block',
-              maxHeight: '100px'
+              maxHeight: '100px',
+              maxWidth: '100%'
             }}
           />
         </div>
@@ -21,4 +22,3 @@ export default function FooterAd() {
     </div>
   )
 }
-
