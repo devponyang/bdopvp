@@ -379,6 +379,11 @@ export default function ScholarGuide() {
           {/* 풍차 돌리기 시작 */}
           <div className="bg-slate-600/50 p-5 rounded-xl border-l-4 border-orange-500">
             <h4 className="text-orange-300 text-xl font-bold mb-3">풍차 돌리기 적중 시</h4>
+            <div className="bg-slate-700 p-3 rounded-lg border-l-4 border-yellow-400 mb-3">
+              <p className="text-slate-200 text-base">
+                <strong className="text-yellow-400">📌 본:</strong> 풍차돌리기 습득시에만 가능한 콤보라서 본 스킬 찍어 주셔야 합니다.
+              </p>
+            </div>
             <div className="bg-slate-900/50 p-4 rounded-lg border-2 border-orange-500 font-mono text-sm mb-3">
               <p className="text-slate-200 leading-relaxed">
                 <strong className="text-orange-300">풍차 돌리기</strong> (적중) → 
@@ -671,12 +676,12 @@ export default function ScholarGuide() {
           </div>
 
           <div className="bg-gradient-to-r from-red-900/30 to-pink-900/30 p-6 rounded-xl border border-red-600/40">
-            <h4 className="text-red-300 text-xl font-bold mb-3">⚠️ 솔라레에서의 저점</h4>
+            <h4 className="text-red-300 text-xl font-bold mb-3">⚠️ 솔라레에서의 스칼라</h4>
             <p className="text-slate-200 text-lg leading-relaxed mb-3">
-              스칼라 자체는 <strong className="text-red-400">저점 자체는 매우 낮은 편</strong>에 속합니다. <strong className="text-yellow-300">잡기를 성공시키지 못하면</strong> 특히 솔라레에서는 정말 쓸 때가 없는 캐릭터로 변하고 팀에게나 적에게나 그냥 <strong className="text-gray-400">날아다니는 황금 파리</strong>입니다.
+              스칼라 저점 자체는 매우 높은 편에 속합니다. 대신 고점 자체는 너무 낮아서 상위큐에 가면 갈수록 힘듭니다. 잡기 직업들도 물론 잡기가 매우 중요하긴 하지만, 스칼라는 그냥 솔라레에서 <strong className="text-red-400">잡기 실패시에는 없는 캐릭이나 다름없습니다.</strong> (나머지 스킬은 선딜이 너무 길어서 얻어 걸리는 거 아니면 CC 적중이 불가능합니다.)
             </p>
             <p className="text-slate-200 text-lg leading-relaxed">
-              잡기 직업들도 물론 잡기가 매우 중요하긴 하지만 스칼라는 그냥 솔라레에서 <strong className="text-red-400">잡기 실패시에는 없는 캐릭이나 다름없습니다.</strong> (나머지 스킬은 선딜이 너무 길어서 얻어 걸리는 거 아니면 CC 적중이 불가능합니다.)
+              팀에게나 적에게나 그냥 <strong className="text-gray-400">날아다니는 황금 파리</strong>입니다.
             </p>
           </div>
         </div>

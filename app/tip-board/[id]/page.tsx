@@ -19,6 +19,7 @@ import AwakenedWizardGuide from '../components/AwakenedWizardGuide'
 import NovaSuccessionGuide from '../components/NovaSuccessionGuide'
 import ScholarGuide from '../components/ScholarGuide'
 import RanSuccessionGuide from '../components/RanSuccessionGuide'
+import WarriorSuccessionGuide from '../components/WarriorSuccessionGuide'
 
 interface TipPost {
   id: number
@@ -123,6 +124,12 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 전승 란 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '23') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 우사 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '24') {
           setLoading(false)
           return
         }
@@ -287,6 +294,11 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 전승 란 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '23') {
     return <RanSuccessionGuide />
+  }
+
+  // 전승 우사 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '24') {
+    return <WarriorSuccessionGuide />
   }
   
   if (!post) return notFound()
