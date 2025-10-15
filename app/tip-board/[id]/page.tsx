@@ -20,6 +20,9 @@ import NovaSuccessionGuide from '../components/NovaSuccessionGuide'
 import ScholarGuide from '../components/ScholarGuide'
 import RanSuccessionGuide from '../components/RanSuccessionGuide'
 import WarriorSuccessionGuide from '../components/WarriorSuccessionGuide'
+import KunoichiSuccessionGuide from '../components/KunoichiSuccessionGuide'
+import ArcherGuide from '../components/ArcherGuide'
+import ShaiGuide from '../components/ShaiGuide'
 
 interface TipPost {
   id: number
@@ -130,6 +133,24 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 전승 우사 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '24') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 쿠노이치 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '25') {
+          setLoading(false)
+          return
+        }
+
+        // 아처 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '26') {
+          setLoading(false)
+          return
+        }
+
+        // 샤이 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '27') {
           setLoading(false)
           return
         }
@@ -299,6 +320,21 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 전승 우사 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '24') {
     return <WarriorSuccessionGuide />
+  }
+
+  // 전승 쿠노이치 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '25') {
+    return <KunoichiSuccessionGuide />
+  }
+
+  // 아처 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '26') {
+    return <ArcherGuide />
+  }
+
+  // 샤이 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '27') {
+    return <ShaiGuide />
   }
   
   if (!post) return notFound()

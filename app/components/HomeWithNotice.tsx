@@ -58,28 +58,166 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
               <div className="text-gray-300 leading-relaxed">
                 {/* 제목 */}
                 <div className="text-xl font-bold text-yellow-400 text-center mb-6">
-                  📝 클래스 가이드 업데이트 예정
+                  📝 클래스 가이드 작성자 모집
                 </div>
                 
                 {/* 메인 내용 */}
                 <div className="space-y-4">
                   <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-yellow-400">
-                    <h3 className="font-semibold text-gray-200 mb-2">🎯 업데이트 계획</h3>
+                    <h3 className="font-semibold text-gray-200 mb-2">🎯 모집 안내</h3>
                     <p className="text-sm leading-relaxed">
-                      각 클래스별로 고수분들께 인터뷰를 통해 PVP 가이드 최신화를 할 계획을 가지고 있습니다.
+                      현재 각 클래스별 고수분들께 연락해서 PvP 가이드를 부탁 드리고 있으나 쉽지 않은 상황 입니다..
+                      그래서 혹시 클래스별 PvP 가이드 작성을 해주실 분들은 포냥이 디스코드 티켓을 열어서 문의 해주시면 감사하겠습니다!
                     </p>
                   </div>
                   
                   <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-blue-400">
-                    <p className="text-sm leading-relaxed">
-                      최대한 빠른 시일 내에 인터뷰 후 업데이트를 진행하고 싶으나, 
-                      개인적으로 연락 하여서 답변을 받아야 하기 때문에 시간이 다소 걸릴 수 있습니다.
-                    </p>
+                    <h3 className="font-semibold text-gray-200 mb-3">🎮 모집 클래스</h3>
+                    <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
+                      {/* 워리어 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/warrior.png" alt="워리어" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">워리어</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 발키리 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/valc.png" alt="발키리" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">발키리</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 하사신 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/hasasin.png" alt="하사신" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">하사신</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 세이지 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/saji.png" alt="세이지" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">세이지</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 레인저 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/ranger.png" alt="레인저" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">레인저</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
+                      </div>
+                      {/* 드라카니아 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/draca.png" alt="드라카니아" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">드라카니아</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 소서러 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/sor.png" alt="소서러" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">소서러</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 노바 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/nova.png" alt="노바" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">노바</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
+                      </div>
+                      {/* 란 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/lhan.png" alt="란" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">란</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
+                      </div>
+                      {/* 매구 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/magu.png" alt="매구" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">매구</span>
+                        <span className="text-xs text-center text-gray-400">전승</span>
+                      </div>
+                      {/* 금수랑 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/gadi.png" alt="금수랑" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">금수랑</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 격투가 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/fighter.png" alt="격투가" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">격투가</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 무사 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/musa.png" alt="무사" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">무사</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
+                      </div>
+                      {/* 매화 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/mahwa.png" alt="매화" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">매화</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 쿠노이치 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/kuno.png" alt="쿠노이치" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">쿠노이치</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
+                      </div>
+                      {/* 닌자 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/ninja.png" alt="닌자" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">닌자</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 미스틱 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/mistic.png" alt="미스틱" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">미스틱</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 다크나이트 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/darknight.png" alt="다크나이트" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">다크나이트</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
+                      </div>
+                      {/* 위치 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/witch.png" alt="위치" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">위치</span>
+                        <span className="text-xs text-center text-gray-400">전승</span>
+                      </div>
+                      {/* 위자드 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/wizard.png" alt="위자드" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">위자드</span>
+                        <span className="text-xs text-center text-gray-400">전승</span>
+                      </div>
+                      {/* 우사 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/usa.png" alt="우사" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">우사</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
+                      </div>
+                      {/* 도사 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/dosa.png" alt="도사" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">도사</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 오공 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/ukong.png" alt="오공" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">오공</span>
+                        <span className="text-xs text-center text-gray-400">-</span>
+                      </div>
+                    </div>
                   </div>
                   
                   <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-green-400">
                     <p className="text-sm leading-relaxed">
-                      혹시 클래스별 가이드를 작성 하고 싶으신 분들은 포냥이 디스코드로 티켓 생성해서 연락주시면 감사하겠습니다.
+                      💬 <strong>문의 방법:</strong> 포냥이 디스코드에서 티켓을 생성하여 연락주시면 감사하겠습니다!
                     </p>
                   </div>
                   
