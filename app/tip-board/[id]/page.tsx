@@ -19,11 +19,12 @@ import AwakenedWizardGuide from '../components/AwakenedWizardGuide'
 import NovaSuccessionGuide from '../components/NovaSuccessionGuide'
 import ScholarGuide from '../components/ScholarGuide'
 import RanSuccessionGuide from '../components/RanSuccessionGuide'
-import WarriorSuccessionGuide from '../components/WarriorSuccessionGuide'
+import UsaSuccessionGuide from '../components/UsaSuccessionGuide'
 import KunoichiSuccessionGuide from '../components/KunoichiSuccessionGuide'
 import ArcherGuide from '../components/ArcherGuide'
 import ShaiGuide from '../components/ShaiGuide'
 import AwakenedValkyrieGuide from '../components/AwakenedValkyrieGuide'
+import AwakenedCorsairGuide from '../components/AwakenedCorsairGuide'
 
 interface TipPost {
   id: number
@@ -158,6 +159,12 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 각성 발키리 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '28') {
+          setLoading(false)
+          return
+        }
+
+        // 각성 커세어 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '29') {
           setLoading(false)
           return
         }
@@ -326,7 +333,7 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
   // 전승 우사 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '24') {
-    return <WarriorSuccessionGuide />
+    return <UsaSuccessionGuide />
   }
 
   // 전승 쿠노이치 클래스 가이드는 전용 컴포넌트 렌더링
@@ -347,6 +354,11 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 각성 발키리 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '28') {
     return <AwakenedValkyrieGuide />
+  }
+
+  // 각성 커세어 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '29') {
+    return <AwakenedCorsairGuide />
   }
   
   if (!post) return notFound()

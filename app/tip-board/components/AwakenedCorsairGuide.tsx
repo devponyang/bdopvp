@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
-export default function WarriorSuccessionGuide() {
+export default function AwakenedCorsairGuide() {
   const [post, setPost] = useState<any>(null)
   const [liked, setLiked] = useState(false)
   const [liking, setLiking] = useState(false)
@@ -11,13 +11,13 @@ export default function WarriorSuccessionGuide() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch('/api/tip-board/24', { cache: 'no-store' })
+        const res = await fetch('/api/tip-board/29', { cache: 'no-store' })
         if (res.ok) {
           const data = await res.json()
           setPost(data)
           
           // 로컬 스토리지에서 추천 기록 확인
-          const likedBefore = localStorage.getItem('tip_liked_24')
+          const likedBefore = localStorage.getItem('tip_liked_29')
           if (likedBefore === 'true') {
             setLiked(true)
           }
@@ -33,7 +33,7 @@ export default function WarriorSuccessionGuide() {
   useEffect(() => {
     const incrementViewCount = async () => {
       try {
-        await fetch('/api/tip-board/24/view', { method: 'POST' })
+        await fetch('/api/tip-board/29/view', { method: 'POST' })
       } catch (error) {
         console.error('조회수 증가 실패:', error)
       }
@@ -46,7 +46,7 @@ export default function WarriorSuccessionGuide() {
     
     setLiking(true)
     try {
-      const res = await fetch('/api/tip-board/24/like', {
+      const res = await fetch('/api/tip-board/29/like', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       })
@@ -55,7 +55,7 @@ export default function WarriorSuccessionGuide() {
         const data = await res.json()
         setPost({ ...post, like_count: data.like_count })
         setLiked(true)
-        localStorage.setItem('tip_liked_24', 'true')
+        localStorage.setItem('tip_liked_29', 'true')
       }
     } catch (error) {
       console.error('추천 실패:', error)
@@ -91,13 +91,13 @@ export default function WarriorSuccessionGuide() {
         {/* 텍스트 레이어 (100% 불투명도) */}
         <div className="relative z-10">
           <div className="flex items-center justify-center gap-4 mb-4">
-            <img src="/class-icons/musa.png" alt="전승 우사" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+            <img src="/class-icons/cosair.png" alt="각성 커세어" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
             <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
-              전승 우사 클래스 가이드
+              각성 커세어 클래스 가이드
             </h1>
           </div>
           <p className="text-xl text-slate-200">
-            "검풍이 전장을 가른다."
+            "바다의 폭풍을 다루는 해적의 왕"
           </p>
         </div>
       </div>
@@ -108,8 +108,9 @@ export default function WarriorSuccessionGuide() {
           <span className="text-3xl">✍️</span>
           <div>
             <p className="text-white text-lg">
-              <strong>작성 예정:</strong> <Link href="/guild/너왜시비냐" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">너왜시비냐</Link> 길드 <span className="text-blue-400 font-bold">zrw</span> 님
+              <strong>작성자:</strong> <Link href="/guild/페페" className="text-purple-400 hover:text-purple-300 underline hover:no-underline transition-colors">페페</Link> 길드 <span className="text-blue-400 font-bold">빠야</span> 님
             </p>
+            <p className="text-gray-400 text-sm mt-1">끾끾끾끾끾끾끾끾끾</p>
           </div>
         </div>
       </div>
@@ -121,7 +122,7 @@ export default function WarriorSuccessionGuide() {
             <div className="text-6xl mb-6">🚧</div>
             <h2 className="text-3xl font-bold text-white mb-4">업데이트 예정</h2>
             <p className="text-gray-300 text-lg leading-relaxed mb-4">
-              전승 우사 클래스 가이드는 현재 작성 중입니다.
+              각성 커세어 클래스 가이드는 현재 작성 중입니다.
             </p>
             <p className="text-gray-400 text-base mb-6">
               곧 상세한 가이드를 만나보실 수 있습니다. 조금만 기다려주세요! 🙏
@@ -175,4 +176,3 @@ export default function WarriorSuccessionGuide() {
     </div>
   )
 }
-

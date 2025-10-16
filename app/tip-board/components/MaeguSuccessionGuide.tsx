@@ -91,7 +91,7 @@ export default function MaeguSuccessionGuide() {
         {/* 텍스트 레이어 (100% 불투명도) */}
         <div className="relative z-10">
           <div className="flex items-center justify-center gap-4 mb-4">
-            <img src="/class-icons/mahwa.png" alt="매화" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+            <img src="/class-icons/maegu.png" alt="전승 매구" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
             <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
               전승 매구 클래스 가이드
             </h1>
