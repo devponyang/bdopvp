@@ -23,6 +23,7 @@ import WarriorSuccessionGuide from '../components/WarriorSuccessionGuide'
 import KunoichiSuccessionGuide from '../components/KunoichiSuccessionGuide'
 import ArcherGuide from '../components/ArcherGuide'
 import ShaiGuide from '../components/ShaiGuide'
+import AwakenedValkyrieGuide from '../components/AwakenedValkyrieGuide'
 
 interface TipPost {
   id: number
@@ -151,6 +152,12 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 샤이 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '27') {
+          setLoading(false)
+          return
+        }
+
+        // 각성 발키리 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '28') {
           setLoading(false)
           return
         }
@@ -335,6 +342,11 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 샤이 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '27') {
     return <ShaiGuide />
+  }
+
+  // 각성 발키리 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '28') {
+    return <AwakenedValkyrieGuide />
   }
   
   if (!post) return notFound()

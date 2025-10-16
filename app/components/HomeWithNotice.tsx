@@ -84,7 +84,7 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
                       <div className="flex flex-col items-center">
                         <img src="/class-icons/valc.png" alt="발키리" className="w-8 h-8 mb-1" />
                         <span className="text-xs text-center text-gray-300">발키리</span>
-                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                        <span className="text-xs text-center text-gray-400">전승</span>
                       </div>
                       {/* 하사신 */}
                       <div className="flex flex-col items-center">
