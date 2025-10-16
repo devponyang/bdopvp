@@ -245,7 +245,7 @@ export default function UsaSuccessionGuide() {
             각종 단체 PvP 컨텐츠에서 오더도 진행하고, 개인컨텐츠인 붉전이나 솔라레에서 상위권을 기록했습니다.
           </p>
           <p>
-            가끔씩 치지직에서 <a href="https://chzzk.naver.com/57b66b6b7e84994f6b2cc78aa6ce4aca" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-yellow-300 underline font-bold inline-flex items-center gap-1"><img src="/tip-images/chzzk.png" alt="치지직" className="w-4 h-4 object-contain" />알떱</a>이라는 이름으로 방송도 진행하며, 최근에 영상을 올리고 있진 않지만 <a href="https://www.youtube.com/@0711zrw" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-red-300 underline font-bold inline-flex items-center gap-1"><img src="/tip-images/youtube11.png" alt="YouTube" className="w-4 h-4 object-contain" />유튜브</a>도 운영 중입니다.
+            가끔씩 치지직에서 <a href="https://chzzk.naver.com/57b66b6b7e84994f6b2cc78aa6ce4aca" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-yellow-300 underline font-bold inline-flex items-center gap-1"><img src="/tip-images/chzzk.png" alt="치지직" className="w-4 h-4 object-contain" />알떱</a>이라는 이름으로 방송도 진행하며, 최근에 영상을 올리고 있진 않지만 <a href="https://www.youtube.com/@0711zrw" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-red-300 underline font-bold inline-flex items-center gap-1"><img src="/tip-images/Youtube.png.png" alt="YouTube" className="w-4 h-4 object-contain" />유튜브</a>도 운영 중입니다.
           </p>
         </div>
       </div>
@@ -860,7 +860,7 @@ export default function UsaSuccessionGuide() {
               
               <div className="bg-slate-600/50 p-4 rounded-lg border border-slate-500 hover:border-red-400 transition-all duration-300 hover:shadow-lg">
                 <div className="flex items-center gap-3 mb-2">
-                  <img src="/tip-images/youtube11.png" alt="YouTube" className="w-8 h-8 object-contain" />
+                  <img src="/tip-images/Youtube.png.png" alt="YouTube" className="w-8 h-8 object-contain" />
                   <a href="https://youtu.be/_qMSAqzbhvU?si=hzmw6OeTuKnByyE8" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 font-bold text-lg transition-colors">
                     선대의 전승우사 pvp 가이드
                   </a>
@@ -870,7 +870,7 @@ export default function UsaSuccessionGuide() {
               
               <div className="bg-slate-600/50 p-4 rounded-lg border border-slate-500 hover:border-red-400 transition-all duration-300 hover:shadow-lg">
                 <div className="flex items-center gap-3 mb-2">
-                  <img src="/tip-images/youtube11.png" alt="YouTube" className="w-8 h-8 object-contain" />
+                  <img src="/tip-images/Youtube.png.png" alt="YouTube" className="w-8 h-8 object-contain" />
                   <a href="https://youtu.be/C5fOX9PnR9U?si=cTKZ3mBkayDBAbYr" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 font-bold text-lg transition-colors">
                     짱쿠의 전승우사 장인 초대석
                   </a>
@@ -880,7 +880,7 @@ export default function UsaSuccessionGuide() {
               
               <div className="bg-slate-600/50 p-4 rounded-lg border border-slate-500 hover:border-red-400 transition-all duration-300 hover:shadow-lg">
                 <div className="flex items-center gap-3 mb-2">
-                  <img src="/tip-images/youtube11.png" alt="YouTube" className="w-8 h-8 object-contain" />
+                  <img src="/tip-images/Youtube.png.png" alt="YouTube" className="w-8 h-8 object-contain" />
                   <a href="https://youtu.be/tYhoOznfJnU?si=-uXzRRrStGk4s0Xj" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 font-bold text-lg transition-colors">
                     REED의 전승우사 pvp 꿀팁
                   </a>

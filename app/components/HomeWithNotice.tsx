@@ -136,8 +136,14 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
                       </div>
                       {/* 금수랑 */}
                       <div className="flex flex-col items-center">
-                        <img src="/class-icons/gadi.png" alt="금수랑" className="w-8 h-8 mb-1" />
+                        <img src="/class-icons/taimer.png" alt="금수랑" className="w-8 h-8 mb-1" />
                         <span className="text-xs text-center text-gray-300">금수랑</span>
+                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                      </div>
+                      {/* 가디언 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/gadi.png" alt="가디언" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">가디언</span>
                         <span className="text-xs text-center text-gray-400">전승/각성</span>
                       </div>
                       {/* 격투가 */}
@@ -186,6 +192,12 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
                       <div className="flex flex-col items-center">
                         <img src="/class-icons/witch.png" alt="위치" className="w-8 h-8 mb-1" />
                         <span className="text-xs text-center text-gray-300">위치</span>
+                        <span className="text-xs text-center text-gray-400">전승</span>
+                      </div>
+                      {/* 위치 */}
+                      <div className="flex flex-col items-center">
+                        <img src="/class-icons/cosair.png" alt="커세어" className="w-8 h-8 mb-1" />
+                        <span className="text-xs text-center text-gray-300">커세어</span>
                         <span className="text-xs text-center text-gray-400">전승</span>
                       </div>
                       {/* 위자드 */}
