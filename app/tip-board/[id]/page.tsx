@@ -25,6 +25,8 @@ import ArcherGuide from '../components/ArcherGuide'
 import ShaiGuide from '../components/ShaiGuide'
 import AwakenedValkyrieGuide from '../components/AwakenedValkyrieGuide'
 import AwakenedCorsairGuide from '../components/AwakenedCorsairGuide'
+import HasasinSuccessionGuide from '../components/HasasinSuccessionGuide'
+import AwakenedDracaniaGuide from '../components/AwakenedDracaniaGuide'
 
 interface TipPost {
   id: number
@@ -165,6 +167,18 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 각성 커세어 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '29') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 하사신 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '30') {
+          setLoading(false)
+          return
+        }
+
+        // 각성 드라카니아 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '31') {
           setLoading(false)
           return
         }
@@ -359,6 +373,16 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 각성 커세어 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '29') {
     return <AwakenedCorsairGuide />
+  }
+
+  // 전승 하사신 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '30') {
+    return <HasasinSuccessionGuide />
+  }
+
+  // 각성 드라카니아 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '31') {
+    return <AwakenedDracaniaGuide />
   }
   
   if (!post) return notFound()
