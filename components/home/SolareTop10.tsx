@@ -40,15 +40,15 @@ export default async function SolareTop10() {
         </Link>
       </div>
 
-      <table className="w-full text-sm table-auto">
+      <table className="w-full text-sm table-fixed min-w-0">
         <thead>
           <tr className="text-white text-center bg-white/5 border-b border-white/10">
-            <th className="px-2 py-2 text-xs font-medium">순위</th>
-            <th className="px-2 py-2 text-xs font-medium">티어</th>
-            <th className="px-2 py-2 text-xs font-medium">가문명</th>
-            <th className="px-2 py-2 text-xs font-medium">클래스</th>
-            <th className="px-2 py-2 text-xs font-medium">승률</th>
-            <th className="px-2 py-2 text-xs font-medium">점수</th>
+            <th className="px-2 py-2 text-xs font-medium w-16">순위</th>
+            <th className="px-2 py-2 text-xs font-medium w-12">티어</th>
+            <th className="px-2 py-2 text-xs font-medium w-20">가문명</th>
+            <th className="px-2 py-2 text-xs font-medium w-16">클래스</th>
+            <th className="px-2 py-2 text-xs font-medium w-12">승률</th>
+            <th className="px-2 py-2 text-xs font-medium w-12">점수</th>
           </tr>
         </thead>
         <tbody className="text-center text-white">
@@ -96,81 +96,12 @@ export default async function SolareTop10() {
                   />
                 </td>
 
-                <td className="px-2 py-1 whitespace-nowrap text-gray-200">{e.name}</td>
-                <td className="px-2 py-1 whitespace-nowrap text-gray-300">
-                  <div className="flex items-center justify-center gap-1">
-                    {e.subclass === '전승' && (
-                      <Image
-                        src="/ponyang/ac.png"
-                        alt="전승"
-                        width={20}
-                        height={20}
-                        className="inline"
-                      />
-                    )}
-                    {e.subclass === '각성' && (
-                      <Image
-                        src="/ponyang/aw.png"
-                        alt="각성"
-                        width={20}
-                        height={20}
-                        className="inline"
-                      />
-                    )}
-                    {(!e.subclass || (e.subclass !== '전승' && e.subclass !== '각성')) && (
-                      <>
-                        {e.class === '샤이' && (
-                          <Image
-                            src="/ponyang/shai.png"
-                            alt="샤이"
-                            width={20}
-                            height={20}
-                            className="inline"
-                          />
-                        )}
-                        {e.class === '스칼라' && (
-                          <Image
-                            src="/ponyang/scara.png"
-                            alt="스칼라"
-                            width={20}
-                            height={20}
-                            className="inline"
-                          />
-                        )}
-                        {e.class === '아처' && (
-                          <Image
-                            src="/ponyang/archer.png"
-                            alt="아처"
-                            width={20}
-                            height={20}
-                            className="inline"
-                          />
-                        )}
-                        {e.class === '오공' && (
-                          <Image
-                            src="/ponyang/ukong.png"
-                            alt="오공"
-                            width={20}
-                            height={20}
-                            className="inline"
-                          />
-                        )}
-                        {e.class === '데드아이' && (
-                          <Image
-                            src="/ponyang/dead.png"
-                            alt="데드아이"
-                            width={20}
-                            height={20}
-                            className="inline"
-                          />
-                        )}
-                      </>
-                    )}
-                    <span>{e.class}</span>
-                  </div>
+                <td className="px-2 py-1 text-gray-200 max-w-[80px] truncate" title={e.name}>{e.name}</td>
+                <td className="px-2 py-1 text-gray-300 text-center">
+                  <span className="truncate" title={e.class}>{e.class}</span>
                 </td>
-                <td className="px-2 py-1 whitespace-nowrap text-gray-300">{winRate}%</td>
-                <td className="px-2 py-1 whitespace-nowrap text-gray-300">{e.score}</td>
+                <td className="px-2 py-1 text-gray-300 text-center">{winRate}%</td>
+                <td className="px-2 py-1 text-gray-300 text-center">{e.score}</td>
               </tr>
             )
           })}

@@ -24,7 +24,7 @@ export const useKeyboardNavigation = ({ rows, cols, disabled = false }: UseKeybo
       // 테이블 내의 input이 아니면 무시
       if (!tableRef.current?.contains(target)) return;
 
-      const inputs = Array.from(tableRef.current.querySelectorAll('input:not([disabled])')) as HTMLInputElement[];
+      const inputs = Array.from(tableRef.current.querySelectorAll('input')) as HTMLInputElement[];
       const currentIndex = inputs.indexOf(target);
       
       if (currentIndex === -1) return;

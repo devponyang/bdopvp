@@ -201,10 +201,10 @@ export default function SolareAdminForm({
                   ) : (
                     <td key={key} className="border p-1">
                       <input
-                        className={`w-full bg-transparent p-1 text-sm ${!isOverall && key === 'class' ? 'text-gray-500 cursor-not-allowed' : ''}`}
+                        className={`w-full bg-transparent p-1 text-sm ${!isOverall && key === 'class' ? 'text-gray-500 cursor-default' : ''}`}
                         value={entry[key] as string}
                         onChange={e => handleChange(i, key, e.target.value)}
-                        disabled={!isOverall && key === 'class'} // 클래스별 랭킹에서 클래스 필드 비활성화
+                        readOnly={!isOverall && key === 'class'} // 클래스별 랭킹에서 클래스 필드 읽기 전용
                         title={!isOverall && key === 'class' ? '클래스별 랭킹에서는 클래스가 자동으로 설정됩니다' : ''}
                       />
                     </td>
