@@ -70,16 +70,19 @@ export async function GET(request: NextRequest) {
       item.percentage = Math.round((item.count / totalPlayers) * 100)
     })
     
-    // 티어별 분포 계산
+    // 개수 기준으로 내림차순 정렬 (가장 많은 것이 첫 번째)
+    subclassDistribution.sort((a, b) => b.count - a.count)
+    
+    // 티어별 분포 계산 (전체 통계와 동일한 기준 사용)
     const tierDistribution = players.reduce((acc: any[], player) => {
       let tier = '언랭크'
-      if (player.score >= 2000) tier = '솔라레'
-      else if (player.score >= 1800) tier = '영광의 창'
-      else if (player.score >= 1600) tier = '여명의 창'
-      else if (player.score >= 1400) tier = '불꽃의 창'
-      else if (player.score >= 1200) tier = '노을의 창'
-      else if (player.score >= 1000) tier = '숙련된 병사'
-      else if (player.score >= 800) tier = '견습 병사'
+      if (player.score >= 2401) tier = '솔라레'
+      else if (player.score >= 2101) tier = '영광의 창'
+      else if (player.score >= 1801) tier = '여명의 창'
+      else if (player.score >= 1501) tier = '불꽃의 창'
+      else if (player.score >= 1201) tier = '노을의 창'
+      else if (player.score >= 801) tier = '숙련된 병사'
+      else if (player.score >= 401) tier = '견습 병사'
       
       const existing = acc.find(item => item.tier === tier)
       if (existing) {
@@ -99,9 +102,8 @@ export async function GET(request: NextRequest) {
       item.percentage = Math.round((item.count / totalPlayers) * 100)
     })
     
-    // 티어별로 정렬
-    const tierOrder = ['솔라레', '영광의 창', '여명의 창', '불꽃의 창', '노을의 창', '숙련된 병사', '견습 병사', '언랭크']
-    tierDistribution.sort((a, b) => tierOrder.indexOf(a.tier) - tierOrder.indexOf(b.tier))
+    // 개수 기준으로 내림차순 정렬 (가장 많은 것이 첫 번째)
+    tierDistribution.sort((a, b) => b.count - a.count)
 
     return NextResponse.json({
       classStats: {
