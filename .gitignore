@@ -45,3 +45,6 @@ next-env.d.ts
 # Large video files (too big for GitHub)
 public/tip-images/*.mp4
 public/tip-images/*.mov
+
+# Unused files
+traffic.json
