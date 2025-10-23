@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 interface OverallEntry {
   name: string
   rank: number
+  score: number
   [key: string]: any
 }
 

@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       uniqueClassData[className] = Array.from(uniqueEntries.values()).sort((a, b) => b.score - a.score)
     }
     
-    for (const [className, entries] of Object.entries(uniqueClassData)) {
+    for (const [, entries] of Object.entries(uniqueClassData)) {
       for (let i = 0; i < entries.length; i++) {
         const entry = entries[i]
         await client.query(
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
       }
 
       // 클래스별 랭킹 현재 테이블 업데이트 (중복 제거된 데이터 사용)
-      for (const [className, entries] of Object.entries(uniqueClassData)) {
+      for (const [, entries] of Object.entries(uniqueClassData)) {
         for (let i = 0; i < entries.length; i++) {
           const entry = entries[i]
           await client.query(

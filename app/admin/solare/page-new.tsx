@@ -56,6 +56,7 @@ export default function SolareAdminPage() {
   
   // 데이터 관리 탭
   const [selectedClass, setSelectedClass] = useState('전체')
+  const [selectedDate] = useState(new Date().toISOString().split('T')[0])
   const [overall, setOverall] = useState<Entry[]>([])
   const [classData, setClassData] = useState<Record<string, Entry[]>>({})
 
@@ -378,6 +379,7 @@ export default function SolareAdminPage() {
 
           <SolareAdminForm
             selectedClass={selectedClass}
+            selectedDate={selectedDate}
             overall={overall}
             classData={classData}
             setOverall={setOverall}
