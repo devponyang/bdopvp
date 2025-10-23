@@ -11,6 +11,9 @@ interface TipPost {
   tags: string[]
   author?: string
   created_at: string
+  is_new?: boolean
+  is_updated?: boolean
+  priority?: number
 }
 
 export default function AdminTipBoardManagePage() {
@@ -49,6 +52,39 @@ export default function AdminTipBoardManagePage() {
       const res = await fetch(`/api/tip-board/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('삭제 실패')
       setPosts(posts.filter(p => p.id !== id))
+    } catch (err: any) {
+      alert(err.message || '오류 발생')
+    }
+  }
+
+  const handleToggleFlag = async (id: number, flag: 'is_new' | 'is_updated', currentValue: boolean) => {
+    try {
+      const res = await fetch(`/api/tip-board/${id}/flags`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [flag]: !currentValue })
+      })
+      if (!res.ok) throw new Error('플래그 업데이트 실패')
+      
+      setPosts(posts.map(p => 
+        p.id === id ? { ...p, [flag]: !currentValue } : p
+      ))
+    } catch (err: any) {
+      alert(err.message || '오류 발생')
+    }
+  }
+
+  const handlePriorityUp = async (id: number) => {
+    try {
+      const res = await fetch(`/api/tip-board/${id}/priority`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'up' })
+      })
+      if (!res.ok) throw new Error('우선순위 업데이트 실패')
+      
+      // 목록 새로고침
+      fetchPosts()
     } catch (err: any) {
       alert(err.message || '오류 발생')
     }
@@ -125,19 +161,50 @@ export default function AdminTipBoardManagePage() {
                     </span>
                   </div>
                 </div>
-                <div className="flex gap-3 ml-6">
-                  <Button
-                    onClick={() => router.push(`/admin/tip-board/${post.id}/edit`)}
-                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-4 py-2 rounded-lg shadow-lg transition-all"
-                  >
-                    ✏️ 수정
-                  </Button>
-                  <Button
-                    onClick={() => handleDelete(post.id)}
-                    className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold px-4 py-2 rounded-lg shadow-lg transition-all"
-                  >
-                    🗑️ 삭제
-                  </Button>
+                <div className="flex flex-col gap-3 ml-6">
+                  {/* 플래그 체크박스들 */}
+                  <div className="flex gap-2">
+                    <label className="flex items-center gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        checked={post.is_new || false}
+                        onChange={() => handleToggleFlag(post.id, 'is_new', post.is_new || false)}
+                        className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+                      />
+                      <span className="text-green-400 font-medium">NEW</span>
+                    </label>
+                    <label className="flex items-center gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        checked={post.is_updated || false}
+                        onChange={() => handleToggleFlag(post.id, 'is_updated', post.is_updated || false)}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                      />
+                      <span className="text-blue-400 font-medium">UPDATE</span>
+                    </label>
+                  </div>
+                  
+                  {/* 액션 버튼들 */}
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => handlePriorityUp(post.id)}
+                      className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold px-3 py-1 rounded-lg shadow-lg transition-all text-sm"
+                    >
+                      ⬆️ 끌어올리기
+                    </Button>
+                    <Button
+                      onClick={() => router.push(`/admin/tip-board/${post.id}/edit`)}
+                      className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-3 py-1 rounded-lg shadow-lg transition-all text-sm"
+                    >
+                      ✏️ 수정
+                    </Button>
+                    <Button
+                      onClick={() => handleDelete(post.id)}
+                      className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold px-3 py-1 rounded-lg shadow-lg transition-all text-sm"
+                    >
+                      🗑️ 삭제
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>

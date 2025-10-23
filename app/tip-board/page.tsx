@@ -12,6 +12,9 @@ interface TipPost {
   id: number
   title: string
   is_notice?: boolean
+  is_new?: boolean
+  is_updated?: boolean
+  priority?: number
   author?: string
   source?: string
   created_at: string
@@ -257,6 +260,16 @@ export default function TipBoardPage() {
                       {post.is_notice && (
                         <span className="px-2 sm:px-3 py-1 bg-yellow-500 text-black rounded-full text-xs sm:text-sm font-bold self-start">
                           📢 공지
+                        </span>
+                      )}
+                      {post.is_new && (
+                        <span className="px-2 sm:px-3 py-1 bg-green-500 text-white rounded-full text-xs sm:text-sm font-bold self-start">
+                          🆕 NEW
+                        </span>
+                      )}
+                      {post.is_updated && (
+                        <span className="px-2 sm:px-3 py-1 bg-blue-500 text-white rounded-full text-xs sm:text-sm font-bold self-start">
+                          🔄 UPDATE
                         </span>
                       )}
                       <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-blue-300 transition leading-tight break-words">

@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // GET: 글 목록
 export async function GET() {
   try {
-    const result = await db.query('SELECT id, title, is_notice, author, source, created_at, view_count, like_count, tags FROM tip_posts ORDER BY is_notice DESC, created_at DESC')
+    const result = await db.query('SELECT id, title, is_notice, is_new, is_updated, priority, author, source, created_at, view_count, like_count, tags FROM tip_posts ORDER BY is_notice DESC, priority DESC, created_at DESC')
     return NextResponse.json(result.rows)
   } catch (err) {
     const error = err as Error & { stack?: string }

@@ -15,6 +15,7 @@ type SearchResult = {
 export default function Navbar() {
   const [query, setQuery] = useState('')
   const [showMobileSearch, setShowMobileSearch] = useState(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [showTipDropdown, setShowTipDropdown] = useState(false)
   const [tipDropdownTimeout, setTipDropdownTimeout] = useState<NodeJS.Timeout | null>(null)
   const [showNoticeModal, setShowNoticeModal] = useState(false)
@@ -28,6 +29,23 @@ export default function Navbar() {
       }
     }
   }, [tipDropdownTimeout])
+
+  // ESC 키로 메뉴 닫기
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showMobileMenu) {
+        setShowMobileMenu(false)
+      }
+    }
+
+    if (showMobileMenu) {
+      document.addEventListener('keydown', handleEscapeKey)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey)
+    }
+  }, [showMobileMenu])
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -129,13 +147,39 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* 모바일 검색 아이콘 */}
-        <div className="md:hidden block ml-auto">
+        {/* 모바일 검색 아이콘과 햄버거 메뉴 */}
+        <div className="md:hidden flex items-center gap-2 ml-auto">
           <button 
             onClick={() => setShowMobileSearch(!showMobileSearch)}
             className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-600 text-yellow-400 hover:text-yellow-300 hover:bg-zinc-700/50 transition-all duration-200"
           >
             🔍
+          </button>
+          <button
+            onClick={() => {
+              console.log('햄버거 메뉴 클릭됨, 현재 상태:', showMobileMenu)
+              setShowMobileMenu(!showMobileMenu)
+            }}
+            className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-600 hover:bg-zinc-700/50 transition-all duration-200"
+            aria-label="메뉴 열기/닫기"
+          >
+            <div className="flex flex-col justify-center items-center w-6 h-6 space-y-1">
+              <span
+                className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                  showMobileMenu ? 'rotate-45 translate-y-1.5' : ''
+                }`}
+              />
+              <span
+                className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                  showMobileMenu ? 'opacity-0' : ''
+                }`}
+              />
+              <span
+                className={`block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                  showMobileMenu ? '-rotate-45 -translate-y-1.5' : ''
+                }`}
+              />
+            </div>
           </button>
         </div>
 
@@ -266,43 +310,79 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* 모바일 메뉴 */}
-        <div className="md:hidden">
-          <div className="grid grid-cols-3 gap-1 px-2 py-2 text-xs font-semibold text-white">
-            <Link href="/" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <img src="/icons/home-icon.png" alt="홈" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              <span className="leading-tight">홈</span>
-            </Link>
-            <Link href="/tip-board" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <img src="/icons/tip-icon.png" alt="팁게시판" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              <span className="leading-tight">팁게시판</span>
-            </Link>
-            <Link href="/guild-recruit" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <img src="/icons/guild-icon.png" alt="길드모집" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              <span className="leading-tight">길드모집</span>
-            </Link>
-            <Link href="/war-records" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <img src="/icons/war-icon.png" alt="거점/점령전" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              <span className="leading-tight">거점/점령전</span>
-            </Link>
-            <Link href="/guild-league" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <img src="/icons/guild-league-icon.png" alt="길드리그" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              <span className="leading-tight">길드리그</span>
-            </Link>
-            <Link href="/solare-league" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <img src="/icons/rank1.png" alt="솔라레의 창" className="w-6 h-6 object-contain" />
-              <span className="leading-tight">솔라레의 창</span>
-            </Link>
-            <Link href="/master-class" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <img src="/icons/masterclass-icon.png" alt="마스터클래스" className="w-6 h-6 object-contain" />
-              <span className="leading-tight">마스터클래스</span>
-            </Link>
-            <Link href="/statistics" className="px-1 py-2 text-center rounded-lg hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 flex flex-col items-center gap-0.5 min-h-0">
-              <img src="/icons/tong-tip.png" alt="통계" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              <span className="leading-tight">통계</span>
-            </Link>
+        {/* 모바일 햄버거 메뉴 */}
+        {showMobileMenu && (
+          <div className="mobile-menu-container md:hidden bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800 border-t border-zinc-600 shadow-lg">
+            <div className="px-3 py-2">
+              <div className="grid grid-cols-2 gap-2">
+                <Link 
+                  href="/" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/icons/home-icon.png" alt="홈" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+                  <span className="text-sm font-medium">홈</span>
+                </Link>
+                <Link 
+                  href="/tip-board" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/icons/tip-icon.png" alt="팁게시판" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+                  <span className="text-sm font-medium">팁게시판</span>
+                </Link>
+                <Link 
+                  href="/guild-recruit" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/icons/guild-icon.png" alt="길드모집" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+                  <span className="text-sm font-medium">길드모집</span>
+                </Link>
+                <Link 
+                  href="/war-records" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/icons/war-icon.png" alt="거점/점령전" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+                  <span className="text-sm font-medium">거점/점령전</span>
+                </Link>
+                <Link 
+                  href="/guild-league" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/icons/guild-league-icon.png" alt="길드리그" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+                  <span className="text-sm font-medium">길드리그</span>
+                </Link>
+                <Link 
+                  href="/solare-league" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/icons/rank1.png" alt="솔라레의 창" className="w-4 h-4 object-contain" />
+                  <span className="text-sm font-medium">솔라레의 창</span>
+                </Link>
+                <Link 
+                  href="/master-class" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/icons/masterclass-icon.png" alt="마스터클래스" className="w-4 h-4 object-contain" />
+                  <span className="text-sm font-medium">마스터클래스</span>
+                </Link>
+                <Link 
+                  href="/statistics" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/icons/tong-tip.png" alt="통계" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+                  <span className="text-sm font-medium">통계</span>
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* 공지사항 모달 */}
