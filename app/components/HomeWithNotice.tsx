@@ -90,7 +90,7 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
                       <div className="flex flex-col items-center">
                         <img src="/class-icons/hasasin.png" alt="하사신" className="w-8 h-8 mb-1" />
                         <span className="text-xs text-center text-gray-300">하사신</span>
-                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
                       </div>
                       {/* 세이지 */}
                       <div className="flex flex-col items-center">
@@ -108,7 +108,7 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
                       <div className="flex flex-col items-center">
                         <img src="/class-icons/draca.png" alt="드라카니아" className="w-8 h-8 mb-1" />
                         <span className="text-xs text-center text-gray-300">드라카니아</span>
-                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                        <span className="text-xs text-center text-gray-400">전승</span>
                       </div>
                       {/* 소서러 */}
                       <div className="flex flex-col items-center">
