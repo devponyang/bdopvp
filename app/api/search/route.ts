@@ -24,21 +24,21 @@ export async function GET(req: Request) {
       console.error('Failed to log search:', logError)
       // 로깅 실패해도 검색은 계속 진행
     }
-    // 정확히 일치하는 우선 검색 (길드만, 멤버가 있는 길드만)
+    // 정확히 일치하는 우선 검색 (길드만, 멤버가 있는 길드만, 삭제되지 않은 길드만)
     const exactGuilds = await client.query(
       `SELECT DISTINCT g.name 
        FROM guilds g
        INNER JOIN guild_members gm ON g.id = gm.guild_id
-       WHERE g.name = $1`,
+       WHERE g.name = $1 AND g.is_deleted = false`,
       [q]
     )
 
-    // 포함 검색 (길드만, 한글 정규화 고려, 멤버가 있는 길드만)
+    // 포함 검색 (길드만, 한글 정규화 고려, 멤버가 있는 길드만, 삭제되지 않은 길드만)
     const partialGuilds = await client.query(
       `SELECT DISTINCT g.name 
        FROM guilds g
        INNER JOIN guild_members gm ON g.id = gm.guild_id
-       WHERE g.name ILIKE $1`,
+       WHERE g.name ILIKE $1 AND g.is_deleted = false`,
       [`%${q}%`]
     )
 
