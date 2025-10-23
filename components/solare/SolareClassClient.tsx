@@ -68,6 +68,41 @@ export default function SolareClassClient() {
   const [loading, setLoading] = useState(true)
   const [updateDate, setUpdateDate] = useState('')
   const [selectedSeasonId, setSelectedSeasonId] = useState<number | null>(null)
+  const [showStatistics, setShowStatistics] = useState(false)
+  const [statisticsData, setStatisticsData] = useState<any>(null)
+  const [statisticsLoading, setStatisticsLoading] = useState(false)
+
+  const fetchStatistics = useCallback(async () => {
+    if (statisticsData) return // 이미 데이터가 있으면 다시 가져오지 않음
+    
+    setStatisticsLoading(true)
+    try {
+      const response = await fetch(`/api/solare-league/class-statistics?class=${encodeURIComponent(className)}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        setStatisticsData(data)
+      }
+    } catch (error) {
+      console.error('통계 데이터 로딩 실패:', error)
+    } finally {
+      setStatisticsLoading(false)
+    }
+  }, [statisticsData, className])
+
+  const handleStatisticsToggle = useCallback(() => {
+    setShowStatistics(!showStatistics)
+    if (!showStatistics && !statisticsData) {
+      fetchStatistics()
+    }
+  }, [showStatistics, statisticsData, fetchStatistics])
 
   useEffect(() => {
     if (!classList.includes(className)) {
@@ -234,7 +269,10 @@ export default function SolareClassClient() {
     }
 
     loadInitialData()
-  }, [className, searchParams])
+    
+    // 통계 데이터도 자동으로 로드
+    fetchStatistics()
+  }, [className, searchParams, fetchStatistics])
 
   const handleSeasonChange = useCallback(async (seasonId: number | null) => {
     setSelectedSeasonId(seasonId)
@@ -413,6 +451,189 @@ export default function SolareClassClient() {
           </div>
         </div>
       </div>
+
+      {/* 통계 드롭다운 */}
+      <div className="mb-6">
+        <div className="bg-gradient-to-r from-slate-800/60 to-blue-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 overflow-hidden">
+            {statisticsLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin w-8 h-8 border-4 border-blue-400 border-t-transparent rounded-full"></div>
+                <span className="ml-3 text-white text-lg">통계 데이터 로딩 중...</span>
+              </div>
+            ) : statisticsData ? (
+              <div className="p-6">
+                <div className="mb-6">
+                  <div 
+                    className="text-2xl font-bold text-white flex items-center justify-between cursor-pointer hover:text-blue-300 transition-colors duration-300"
+                    onClick={handleStatisticsToggle}
+                  >
+                    <div className="flex items-center gap-3">
+                      <img src="/solare-icons/solare.png" alt="솔라레" className="w-8 h-8 object-contain" />
+                      <span>솔라레의 창 통계</span>
+                      <span className={`transition-transform duration-300 ${showStatistics ? 'rotate-180' : ''}`}>
+                        ▼
+                      </span>
+                    </div>
+                    <p className="text-base text-blue-300 font-semibold bg-blue-500/20 px-3 py-1 rounded-lg border border-blue-400/30">
+                      ▼ 버튼을 클릭하면 전체 통계를 확인할 수 있습니다
+                    </p>
+                  </div>
+                </div>
+                
+                {showStatistics && (
+                  <div>
+                    {/* 클래스별 분포 */}
+                <div className="mb-8">
+                  <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <span className="text-2xl">⚔️</span>
+                    {className} 전승/각성 분포
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {statisticsData.classStats.subclassDistribution.map((item: any) => (
+                      <div key={item.subclass} className="bg-slate-700/50 rounded-lg p-4 border border-white/10 hover:bg-slate-700/70 transition-all duration-300">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={item.subclass === '전승' ? '/ponyang/ac.png' : '/ponyang/aw.png'}
+                              alt={item.subclass}
+                              className="w-8 h-8 object-contain"
+                            />
+                            <div>
+                              <h5 className="text-lg font-bold text-white">{item.subclass}</h5>
+                              <p className="text-sm text-gray-300">{item.count}명 ({item.percentage}%)</p>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* 진행률 바 */}
+                        <div className="w-full bg-slate-600 rounded-full h-3">
+                          <div 
+                            className={`h-3 rounded-full transition-all duration-500 ${
+                              item.subclass === '전승' ? 'bg-gradient-to-r from-blue-500 to-blue-600' : 'bg-gradient-to-r from-purple-500 to-purple-600'
+                            }`}
+                            style={{ width: `${item.percentage}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 클래스 통계 요약 */}
+                <div className="mb-6">
+                  <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <span className="text-2xl">📈</span>
+                    {className} 클래스 통계
+                  </h4>
+                  
+                  {/* 기본 통계 카드들 */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 rounded-xl p-6 border border-yellow-400/30 hover:from-yellow-500/30 hover:to-yellow-600/30 transition-all duration-300">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="text-3xl">⭐</div>
+                        <h4 className="text-lg font-bold text-white">평균 점수</h4>
+                      </div>
+                      <p className="text-3xl font-bold text-yellow-300">{statisticsData.classStats.avgScore}</p>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-6 border border-green-400/30 hover:from-green-500/30 hover:to-green-600/30 transition-all duration-300">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="text-3xl">📊</div>
+                        <h4 className="text-lg font-bold text-white">평균 승률</h4>
+                      </div>
+                      <p className="text-3xl font-bold text-green-300">{statisticsData.classStats.avgWinRate}%</p>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-xl p-6 border border-blue-400/30 hover:from-blue-500/30 hover:to-blue-600/30 transition-all duration-300">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="text-3xl">👥</div>
+                        <h4 className="text-lg font-bold text-white">총 플레이어</h4>
+                      </div>
+                      <p className="text-3xl font-bold text-blue-300">{statisticsData.classStats.totalPlayers}명</p>
+                    </div>
+                  </div>
+
+                  {/* 티어별 분포 */}
+                  <div className="bg-slate-700/30 rounded-xl p-6 border border-white/10">
+                    <h5 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                      <span className="text-xl">🏆</span>
+                      {className} 티어별 분포
+                    </h5>
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+                      {statisticsData.tierDistribution.map((item: any) => (
+                        <div key={item.tier} className="bg-slate-700/50 rounded-lg p-3 border border-white/10 hover:bg-slate-700/70 transition-all duration-300">
+                          <div className="flex flex-col items-center gap-2 mb-2">
+                            <img
+                              src={`/solare-icons/${item.tier === '솔라레' ? 'solare' : 
+                                item.tier === '영광의 창' ? 'final' :
+                                item.tier === '여명의 창' ? 'dawn' :
+                                item.tier === '불꽃의 창' ? 'blood' :
+                                item.tier === '노을의 창' ? 'sunset' :
+                                item.tier === '숙련된 병사' ? 'expert' :
+                                item.tier === '견습 병사' ? 'apprentice' : 'null'}.png`}
+                              alt={item.tier}
+                              className="w-8 h-8 object-contain"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none'
+                              }}
+                            />
+                            <div className="text-center">
+                              <h5 className="text-xs font-bold text-white leading-tight">{item.tier}</h5>
+                              <p className="text-xs text-gray-300">{item.count}명</p>
+                              <p className="text-xs text-blue-300 font-semibold">{item.percentage}%</p>
+                            </div>
+                          </div>
+                          <div className="w-full bg-slate-600 rounded-full h-1.5">
+                            <div 
+                              className={`h-1.5 rounded-full transition-all duration-500 ${
+                                item.tier === '솔라레' ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' :
+                                item.tier === '영광의 창' ? 'bg-gradient-to-r from-blue-400 to-blue-600' :
+                                item.tier === '여명의 창' ? 'bg-gradient-to-r from-purple-400 to-purple-600' :
+                                item.tier === '불꽃의 창' ? 'bg-gradient-to-r from-red-400 to-red-600' :
+                                item.tier === '노을의 창' ? 'bg-gradient-to-r from-orange-400 to-orange-600' :
+                                item.tier === '숙련된 병사' ? 'bg-gradient-to-r from-green-400 to-green-600' :
+                                item.tier === '견습 병사' ? 'bg-gradient-to-r from-gray-400 to-gray-600' :
+                                'bg-gradient-to-r from-gray-500 to-gray-700'
+                              }`}
+                              style={{ width: `${item.percentage}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 인사이트 */}
+                {statisticsData.classStats.subclassDistribution.length > 0 && statisticsData.tierDistribution.length > 0 && (
+                  <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-xl p-6 border border-indigo-400/30">
+                    <h4 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                      <span className="text-xl">💡</span>
+                      {className} 클래스 인사이트
+                    </h4>
+                    <div className="space-y-2 text-gray-300">
+                      <p>• 총 플레이어 수: <span className="text-blue-400 font-bold">{statisticsData.classStats.totalPlayers}명</span></p>
+                      <p>• 평균 점수: <span className="text-yellow-400 font-bold">{statisticsData.classStats.avgScore}점</span></p>
+                      <p>• 평균 승률: <span className="text-green-400 font-bold">{statisticsData.classStats.avgWinRate}%</span></p>
+                      {statisticsData.classStats.subclassDistribution.length > 0 && (
+                        <p>• 가장 많은 전승/각성: <span className="text-purple-400 font-bold">{statisticsData.classStats.subclassDistribution[0]?.subclass}</span> ({statisticsData.classStats.subclassDistribution[0]?.percentage}%)</p>
+                      )}
+                      {statisticsData.tierDistribution.length > 0 && (
+                        <p>• 가장 많은 티어: <span className="text-orange-400 font-bold">{statisticsData.tierDistribution[0]?.tier}</span> ({statisticsData.tierDistribution[0]?.percentage}%)</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-gray-400 text-lg">통계 데이터를 불러올 수 없습니다.</p>
+              </div>
+            )}
+          </div>
+        </div>
 
       {/* 안내 문구 */}
       <div className="mb-6">

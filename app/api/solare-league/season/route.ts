@@ -1,6 +1,7 @@
 import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 import { getTier } from '@/lib/utils/tier'
+import { getSolareOverallRankChanges } from '@/lib/utils/solare-history'
 
 export const dynamic = 'force-dynamic'
 
@@ -53,19 +54,44 @@ export async function GET(req: NextRequest) {
     }
     
 
-    const withTier = result.rows.map((row) => ({
-      name: row.name,
-      subclass: row.subclass,
-      class: row.class,
-      wins: row.wins,
-      draws: row.draws,
-      losses: row.losses,
-      score: row.score,
-      rank: row.rank || row.row_number, // rank 또는 row_number 사용
-      tier: getTier(row.score),
-      rankChange: '-', // 시즌별 조회에서는 변동 표시하지 않음
-      guild_name: row.guild_name || null
-    }))
+    let withTier
+    
+    if (isActiveSeason) {
+      // 활성 시즌인 경우 순위변동 계산
+      const today = result.rows.map((row, index) => ({
+        name: row.name,
+        subclass: row.subclass,
+        class: row.class,
+        wins: row.wins,
+        draws: row.draws,
+        losses: row.losses,
+        score: row.score,
+        rank: row.rank || (index + 1),
+        guild_name: row.guild_name || null
+      }))
+      
+      const withRankChanges = await getSolareOverallRankChanges(today)
+      
+      withTier = withRankChanges.map((row) => ({
+        ...row,
+        tier: getTier(row.score)
+      }))
+    } else {
+      // 비활성 시즌인 경우 순위변동 없음
+      withTier = result.rows.map((row) => ({
+        name: row.name,
+        subclass: row.subclass,
+        class: row.class,
+        wins: row.wins,
+        draws: row.draws,
+        losses: row.losses,
+        score: row.score,
+        rank: row.rank || row.row_number,
+        tier: getTier(row.score),
+        rankChange: '-',
+        guild_name: row.guild_name || null
+      }))
+    }
     
     // 마지막 업데이트 시간 조회
     let lastUpdated = null

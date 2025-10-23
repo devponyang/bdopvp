@@ -28,16 +28,19 @@ export async function getSolareOverallRankChanges(today: OverallEntry[]) {
     return today.map(entry => ({ ...entry, rankChange: '-' }))
   }
 
-  // 활성 시즌인 경우에만 전날 데이터와 비교
+  // 전날 데이터와 비교 (최신 날짜가 아닌 전날 날짜 사용)
   const latest = await db.query(`
-    SELECT snapshot_date
+    SELECT DISTINCT snapshot_date
     FROM solare_overall_league_history
     ORDER BY snapshot_date DESC
-    LIMIT 1
+    LIMIT 2
   `)
 
-  const latestDate = latest.rows[0]?.snapshot_date
-  if (!latestDate) return today.map(entry => ({ ...entry, rankChange: 'NEW' }))
+  const latestDate = latest.rows.length >= 2 ? latest.rows[1]?.snapshot_date : null
+  
+  if (!latestDate) {
+    return today.map(entry => ({ ...entry, rankChange: 'NEW' }))
+  }
 
   const result = await db.query(
     `SELECT name, class_rank FROM solare_overall_league_history WHERE snapshot_date = $1`,
@@ -77,16 +80,16 @@ export async function getSolareClassRankChanges(today: ClassEntry[], className: 
     return today.map(entry => ({ ...entry, rankChange: '-' }))
   }
 
-  // 활성 시즌인 경우에만 전날 데이터와 비교
+  // 전날 데이터와 비교 (최신 날짜가 아닌 전날 날짜 사용)
   const latest = await db.query(`
-    SELECT snapshot_date
+    SELECT DISTINCT snapshot_date
     FROM solare_class_league_history
     WHERE class = $1
     ORDER BY snapshot_date DESC
-    LIMIT 1
+    LIMIT 2
   `, [className])
 
-  const latestDate = latest.rows[0]?.snapshot_date
+  const latestDate = latest.rows.length >= 2 ? latest.rows[1]?.snapshot_date : null
   if (!latestDate) return today.map(entry => ({ ...entry, rankChange: 'NEW' }))
 
   const result = await db.query(

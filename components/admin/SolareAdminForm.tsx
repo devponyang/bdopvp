@@ -14,6 +14,7 @@ export interface Entry {
 
 interface Props {
   selectedClass: string
+  selectedDate: string
   overall: Entry[]
   classData: Record<string, Entry[]>
   setOverall: (data: Entry[]) => void
@@ -22,6 +23,7 @@ interface Props {
 
 export default function SolareAdminForm({
   selectedClass,
+  selectedDate,
   overall,
   classData,
   setOverall,
@@ -129,7 +131,7 @@ export default function SolareAdminForm({
       const res = await fetch('/api/admin/solare/save-all', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ overall, classData })
+        body: JSON.stringify({ overall, classData, date: selectedDate })
       })
       
       if (res.ok) {

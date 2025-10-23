@@ -211,7 +211,7 @@ export default function SolareTable({ data }: Props) {
                       ) : (
                         <span className="text-xl">{idx + 1}</span>
                       )}
-                      <span className={`text-sm ${changeColor}`}>{change}</span>
+                      <span className={`text-sm ${changeColor}`}>{idx < 3 ? '' : change}</span>
                     </div>
                   </td>
                   <td className={`${idx < 3 ? 'py-8 pl-2 pr-6' : 'py-4 pl-2 pr-6'} relative z-10`}>
@@ -459,7 +459,7 @@ export default function SolareTable({ data }: Props) {
                       <span className="text-xl font-bold text-white">{idx + 1}</span>
                     </div>
                   )}
-                  <span className={`text-xs font-semibold ${changeColor}`}>{change}</span>
+                  <span className={`text-xs font-semibold ${changeColor}`}>{idx < 3 ? '' : change}</span>
                 </div>
 
                 {/* 중앙: 가문명 및 클릭 힌트 */}

@@ -16,26 +16,60 @@ export async function GET(req: NextRequest) {
 
   const client = await db.connect()
   try {
-    const result = await client.query(
-      `
-      SELECT
-        s.name,
-        s.subclass,
-        s.class,
-        s.wins,
-        s.draws,
-        s.losses,
-        s.score,
-        g.name AS guild_name
-      FROM solare_class_league s
-      LEFT JOIN guild_members gm ON s.name = gm.family_name
-      LEFT JOIN guilds g ON gm.guild_id = g.id
-      WHERE s.class = $1
-      ORDER BY s.score DESC
-      LIMIT 20
-      `,
-      [className]
-    )
+    // 최신 날짜의 히스토리 데이터 조회
+    const latestDateResult = await client.query(`
+      SELECT MAX(snapshot_date) as latest_date
+      FROM solare_class_league_history
+    `)
+    
+    const latestDate = latestDateResult.rows[0]?.latest_date
+    
+    let result
+    if (latestDate) {
+      // 히스토리 테이블에서 최신 데이터 조회
+      result = await client.query(
+        `
+        SELECT
+          s.name,
+          s.classtype as subclass,
+          s.class,
+          s.wins,
+          s.draws,
+          s.lose as losses,
+          s.score,
+          g.name AS guild_name
+        FROM solare_class_league_history s
+        LEFT JOIN guild_members gm ON s.name = gm.family_name
+        LEFT JOIN guilds g ON gm.guild_id = g.id
+        WHERE s.class = $1 AND s.snapshot_date = $2
+        ORDER BY s.score DESC
+        LIMIT 20
+        `,
+        [className, latestDate]
+      )
+    } else {
+      // 히스토리 데이터가 없으면 현재 테이블 사용
+      result = await client.query(
+        `
+        SELECT
+          s.name,
+          s.subclass,
+          s.class,
+          s.wins,
+          s.draws,
+          s.losses,
+          s.score,
+          g.name AS guild_name
+        FROM solare_class_league s
+        LEFT JOIN guild_members gm ON s.name = gm.family_name
+        LEFT JOIN guilds g ON gm.guild_id = g.id
+        WHERE s.class = $1
+        ORDER BY s.score DESC
+        LIMIT 20
+        `,
+        [className]
+      )
+    }
 
     const today = result.rows.map((row, idx) => ({
       ...row,
@@ -44,14 +78,8 @@ export async function GET(req: NextRequest) {
 
     const withRankChange = await getSolareClassRankChanges(today, className)
     
-    // 마지막 업데이트 시간 조회 (테이블의 updated_at 컬럼 사용)
-    const updateTimeResult = await client.query(`
-      SELECT MAX(updated_at) as last_updated 
-      FROM solare_class_league
-      WHERE class = $1
-    `, [className])
-    
-    const lastUpdated = updateTimeResult.rows[0]?.last_updated || null
+    // 마지막 업데이트 시간 조회 (created_at 컬럼이 없으므로 제거)
+    const lastUpdated = null
     
     return NextResponse.json({
       data: withRankChange,

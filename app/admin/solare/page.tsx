@@ -56,6 +56,7 @@ export default function SolareAdminPage() {
   
   // 데이터 관리 탭
   const [selectedClass, setSelectedClass] = useState('전체')
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [overall, setOverall] = useState<Entry[]>([])
   const [classData, setClassData] = useState<Record<string, Entry[]>>({})
 
@@ -88,7 +89,7 @@ export default function SolareAdminPage() {
   // 데이터 로드
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('/api/admin/solare/load')
+      const res = await fetch(`/api/admin/solare/load?date=${selectedDate}`)
       const data = await res.json()
       setOverall(data.overall)
       setClassData(data.classData)
@@ -99,7 +100,7 @@ export default function SolareAdminPage() {
     if (activeTab === 'specializations') {
       loadSpecializationData()
     }
-  }, [activeTab])
+  }, [activeTab, selectedDate])
 
   useEffect(() => {
     if (activeTab === 'seasons') {
@@ -480,7 +481,38 @@ export default function SolareAdminPage() {
       {/* 데이터 관리 탭 */}
       {activeTab === 'data' && (
         <div className="space-y-6">
+          {/* 날짜 선택 및 클래스 필터 */}
           <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
+            <div className="flex flex-col sm:flex-row gap-4 mb-4">
+              {/* 날짜 선택 */}
+              <div className="flex items-center gap-3">
+                <label className="text-white font-medium text-sm">📅 날짜:</label>
+                <Input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="bg-slate-700/50 border-slate-600 text-white"
+                />
+              </div>
+              
+              {/* 클래스 필터 */}
+              <div className="flex items-center gap-3">
+                <label className="text-white font-medium text-sm">🎯 클래스:</label>
+                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                  <SelectTrigger className="w-32 bg-slate-700/50 border-slate-600 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-800 border-slate-600">
+                    <SelectItem value="전체">전체</SelectItem>
+                    {classList.map(cls => (
+                      <SelectItem key={cls} value={cls}>{cls}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            {/* 클래스 버튼들 */}
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedClass('전체')}
@@ -510,11 +542,28 @@ export default function SolareAdminPage() {
 
           <SolareAdminForm
             selectedClass={selectedClass}
+            selectedDate={selectedDate}
             overall={overall}
             classData={classData}
             setOverall={setOverall}
             setClassData={setClassData}
           />
+          
+          {/* 데이터가 없을 때 메시지 */}
+          {overall.length === 0 && Object.keys(classData).length === 0 && (
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl text-center">
+              <div className="text-6xl mb-4">📅</div>
+              <h3 className="text-xl font-bold text-white mb-2">
+                {selectedDate} 데이터가 없습니다
+              </h3>
+              <p className="text-gray-300 mb-4">
+                해당 날짜의 솔라레 데이터가 아직 입력되지 않았습니다.
+              </p>
+              <div className="text-sm text-gray-400">
+                💡 새로운 데이터를 입력하려면 위의 폼을 사용하세요.
+              </div>
+            </div>
+          )}
         </div>
       )}
 
