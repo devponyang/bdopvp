@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: '클래스명이 필요합니다.' }, { status: 400 })
     }
 
-    // 해당 클래스의 데이터만 가져오기
+    // 해당 클래스의 데이터만 가져오기 (클래스별 랭킹 테이블에서)
     const classData = await db.query(`
       SELECT 
         name,
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
         draws,
         losses,
         score
-      FROM solare_overall_league 
+      FROM solare_class_league 
       WHERE class = $1
       ORDER BY score DESC, wins DESC, draws DESC
     `, [className])
@@ -45,10 +45,15 @@ export async function GET(request: NextRequest) {
     const totalScore = players.reduce((sum, player) => sum + player.score, 0)
     const avgScore = Math.round(totalScore / totalPlayers)
     
-    // 평균 승률 계산
-    const totalGames = players.reduce((sum, player) => sum + player.wins + player.draws + player.losses, 0)
-    const totalWins = players.reduce((sum, player) => sum + player.wins, 0)
-    const avgWinRate = totalGames > 0 ? Math.round((totalWins / totalGames) * 100) : 0
+    // 평균 승률 계산 (각 플레이어의 개별 승률을 평균)
+    const playersWithGames = players.filter(player => player.wins + player.draws + player.losses > 0)
+    const avgWinRate = playersWithGames.length > 0 
+      ? Math.round(playersWithGames.reduce((sum, player) => {
+          const totalGames = player.wins + player.draws + player.losses
+          const winRate = (player.wins / totalGames) * 100
+          return sum + winRate
+        }, 0) / playersWithGames.length)
+      : 0
     
     // 전승/각성 분포 계산
     const subclassDistribution = players.reduce((acc: any[], player) => {
