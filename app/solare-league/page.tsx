@@ -7,6 +7,7 @@ import SeasonSelector from '@/components/solare/SeasonSelector'
 import SolareTable from '@/components/solare/SolareTable'
 import { getTier } from '@/lib/utils/tier'
 import PonyangLoading from '../components/PonyangLoading'
+import SolareWithNotice from '../components/SolareWithNotice'
 
 // 클래스명을 영문 파일명으로 매핑 (ClassSelector와 동일)
 const getClassIconName = (className: string) => {
@@ -234,6 +235,7 @@ export default function SolareOverallPage() {
   if (loading) return <PonyangLoading />
 
   return (
+    <SolareWithNotice>
     <div className="p-3 md:p-6 max-w-full md:max-w-[1490px] mx-auto mt-6">
         {/* 메인 헤더 */}
         <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10">
@@ -540,5 +542,6 @@ export default function SolareOverallPage() {
           <SolareTable data={data} />
         </div>
     </div>
+    </SolareWithNotice>
   )
 }
