@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: '클래스명이 필요합니다.' }, { status: 400 })
     }
 
-    // 해당 클래스의 데이터만 가져오기
+    // 해당 클래스의 데이터만 가져오기 (클래스별 랭킹 테이블에서)
     const classData = await db.query(`
       SELECT 
         name,
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
         draws,
         losses,
         score
-      FROM solare_overall_league 
+      FROM solare_class_league 
       WHERE class = $1
       ORDER BY score DESC, wins DESC, draws DESC
     `, [className])
@@ -45,10 +45,15 @@ export async function GET(request: NextRequest) {
     const totalScore = players.reduce((sum, player) => sum + player.score, 0)
     const avgScore = Math.round(totalScore / totalPlayers)
     
-    // 평균 승률 계산
-    const totalGames = players.reduce((sum, player) => sum + player.wins + player.draws + player.losses, 0)
-    const totalWins = players.reduce((sum, player) => sum + player.wins, 0)
-    const avgWinRate = totalGames > 0 ? Math.round((totalWins / totalGames) * 100) : 0
+    // 평균 승률 계산 (각 플레이어의 개별 승률을 평균)
+    const playersWithGames = players.filter(player => player.wins + player.draws + player.losses > 0)
+    const avgWinRate = playersWithGames.length > 0 
+      ? Math.round(playersWithGames.reduce((sum, player) => {
+          const totalGames = player.wins + player.draws + player.losses
+          const winRate = (player.wins / totalGames) * 100
+          return sum + winRate
+        }, 0) / playersWithGames.length)
+      : 0
     
     // 전승/각성 분포 계산
     const subclassDistribution = players.reduce((acc: any[], player) => {
@@ -70,16 +75,19 @@ export async function GET(request: NextRequest) {
       item.percentage = Math.round((item.count / totalPlayers) * 100)
     })
     
-    // 티어별 분포 계산
+    // 개수 기준으로 내림차순 정렬 (가장 많은 것이 첫 번째)
+    subclassDistribution.sort((a, b) => b.count - a.count)
+    
+    // 티어별 분포 계산 (전체 통계와 동일한 기준 사용)
     const tierDistribution = players.reduce((acc: any[], player) => {
       let tier = '언랭크'
-      if (player.score >= 2000) tier = '솔라레'
-      else if (player.score >= 1800) tier = '영광의 창'
-      else if (player.score >= 1600) tier = '여명의 창'
-      else if (player.score >= 1400) tier = '불꽃의 창'
-      else if (player.score >= 1200) tier = '노을의 창'
-      else if (player.score >= 1000) tier = '숙련된 병사'
-      else if (player.score >= 800) tier = '견습 병사'
+      if (player.score >= 2401) tier = '솔라레'
+      else if (player.score >= 2101) tier = '영광의 창'
+      else if (player.score >= 1801) tier = '여명의 창'
+      else if (player.score >= 1501) tier = '불꽃의 창'
+      else if (player.score >= 1201) tier = '노을의 창'
+      else if (player.score >= 801) tier = '숙련된 병사'
+      else if (player.score >= 401) tier = '견습 병사'
       
       const existing = acc.find(item => item.tier === tier)
       if (existing) {
@@ -99,9 +107,8 @@ export async function GET(request: NextRequest) {
       item.percentage = Math.round((item.count / totalPlayers) * 100)
     })
     
-    // 티어별로 정렬
-    const tierOrder = ['솔라레', '영광의 창', '여명의 창', '불꽃의 창', '노을의 창', '숙련된 병사', '견습 병사', '언랭크']
-    tierDistribution.sort((a, b) => tierOrder.indexOf(a.tier) - tierOrder.indexOf(b.tier))
+    // 개수 기준으로 내림차순 정렬 (가장 많은 것이 첫 번째)
+    tierDistribution.sort((a, b) => b.count - a.count)
 
     return NextResponse.json({
       classStats: {

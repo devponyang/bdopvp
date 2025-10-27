@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
         `
         INSERT INTO solare_overall_league_history (snapshot_date, name, class, classtype, wins, draws, lose, score, class_rank)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-      `,
+        `,
         [targetDate, entry.name, entry.class, entry.subclass, entry.wins, entry.draws, entry.losses, entry.score, i + 1]
       )
     }
@@ -73,36 +73,33 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 오늘 날짜인 경우에만 현재 테이블도 업데이트
-    const today = new Date().toISOString().split('T')[0]
-    if (targetDate === today) {
-      await client.query('DELETE FROM solare_overall_league')
-      await client.query('DELETE FROM solare_class_league')
+    // 입력한 날짜의 데이터를 현재 테이블에도 반영
+    await client.query('DELETE FROM solare_overall_league')
+    await client.query('DELETE FROM solare_class_league')
 
-      // 전체 랭킹 현재 테이블 업데이트 (중복 제거된 데이터 사용)
-      for (let i = 0; i < sortedOverall.length; i++) {
-        const entry = sortedOverall[i]
+    // 전체 랭킹 현재 테이블 업데이트 (중복 제거된 데이터 사용)
+    for (let i = 0; i < sortedOverall.length; i++) {
+      const entry = sortedOverall[i]
+      await client.query(
+        `
+        INSERT INTO solare_overall_league (name, subclass, class, wins, draws, losses, score)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `,
+        [entry.name, entry.subclass, entry.class, entry.wins, entry.draws, entry.losses, entry.score]
+      )
+    }
+
+    // 클래스별 랭킹 현재 테이블 업데이트 (중복 제거된 데이터 사용)
+    for (const [, entries] of Object.entries(uniqueClassData)) {
+      for (let i = 0; i < entries.length; i++) {
+        const entry = entries[i]
         await client.query(
           `
-          INSERT INTO solare_overall_league (name, subclass, class, wins, draws, losses, score)
+          INSERT INTO solare_class_league (name, subclass, class, wins, draws, losses, score)
           VALUES ($1, $2, $3, $4, $5, $6, $7)
-        `,
+          `,
           [entry.name, entry.subclass, entry.class, entry.wins, entry.draws, entry.losses, entry.score]
         )
-      }
-
-      // 클래스별 랭킹 현재 테이블 업데이트 (중복 제거된 데이터 사용)
-      for (const [, entries] of Object.entries(uniqueClassData)) {
-        for (let i = 0; i < entries.length; i++) {
-          const entry = entries[i]
-          await client.query(
-            `
-            INSERT INTO solare_class_league (name, subclass, class, wins, draws, losses, score)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-          `,
-            [entry.name, entry.subclass, entry.class, entry.wins, entry.draws, entry.losses, entry.score]
-          )
-        }
       }
     }
 

@@ -57,17 +57,7 @@ export async function GET() {
         count,
         ROUND(count * 100.0 / SUM(count) OVER()::numeric, 1) as percentage
       FROM tier_counts
-      ORDER BY 
-        CASE tier
-          WHEN '솔라레' THEN 1
-          WHEN '영광의 창' THEN 2
-          WHEN '여명의 창' THEN 3
-          WHEN '불꽃의 창' THEN 4
-          WHEN '노을의 창' THEN 5
-          WHEN '숙련된 병사' THEN 6
-          WHEN '견습 병사' THEN 7
-          WHEN '언랭크' THEN 8
-        END
+      ORDER BY count DESC
     `)
 
     // 승률별 분포 통계

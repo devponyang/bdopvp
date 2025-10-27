@@ -67,7 +67,7 @@ export async function getSolareOverallRankChanges(today: OverallEntry[]) {
   })
 }
 
-// ✅ 클래스별 랭킹 순위 변동 계산 (시즌 상태에 따라 처리)
+// ✅ 클래스별 랭킹 순위 변동 계산 (현재 테이블 기준)
 export async function getSolareClassRankChanges(today: ClassEntry[], className: string) {
   // 활성 시즌 확인
   const activeSeason = await db.query(`
@@ -81,7 +81,7 @@ export async function getSolareClassRankChanges(today: ClassEntry[], className: 
     return today.map(entry => ({ ...entry, rankChange: '-' }))
   }
 
-  // 전날 데이터와 비교 (최신 날짜가 아닌 전날 날짜 사용)
+  // 전날 히스토리 데이터와 비교
   const latest = await db.query(`
     SELECT DISTINCT snapshot_date
     FROM solare_class_league_history

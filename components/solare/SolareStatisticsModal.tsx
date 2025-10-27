@@ -413,7 +413,7 @@ export default function SolareStatisticsModal({ isOpen, onClose }: Props) {
 
                   {/* 인사이트 */}
                   <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-xl p-6 border border-indigo-400/30">
-                    <h4 className="text-lg font-bold text-white mb-3">📈 인사이트</h4>
+                    <h4 className="text-lg font-bold text-white mb-3">📈 전체 인사이트</h4>
                     <div className="space-y-2 text-gray-300">
                       <p>• 가장 많은 플레이어가 사용하는 클래스: <span className="text-blue-400 font-bold">{data.classDistribution[0]?.class}</span> ({data.classDistribution[0]?.percentage}%)</p>
                       <p>• 가장 높은 평균 점수를 가진 클래스: <span className="text-yellow-400 font-bold">{data.classAverageScore[0]?.class}</span> ({data.classAverageScore[0]?.avg_score}점)</p>
