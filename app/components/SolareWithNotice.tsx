@@ -10,15 +10,14 @@ export default function SolareWithNotice({ children }: SolareWithNoticeProps) {
   const [showNotice, setShowNotice] = useState(false);
 
   useEffect(() => {
-    // 오늘 날짜 확인
-    const today = new Date();
-    const todayString = today.toDateString();
-    const dismissedDate = localStorage.getItem('solareNoticeDismissed');
-    
-    // 공지사항 표시 (오늘 하루 보지 않기를 선택하지 않았으면)
-    if (dismissedDate !== todayString) {
-      setShowNotice(true);
-    }
+    // 공지사항 업데이트 완료 - 더 이상 표시하지 않음
+    // const today = new Date();
+    // const todayString = today.toDateString();
+    // const dismissedDate = localStorage.getItem('solareNoticeDismissed');
+    // 
+    // if (dismissedDate !== todayString) {
+    //   setShowNotice(true);
+    // }
   }, []);
 
   const handleCloseNotice = () => {
