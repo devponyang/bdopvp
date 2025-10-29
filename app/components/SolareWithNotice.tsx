@@ -11,13 +11,13 @@ export default function SolareWithNotice({ children }: SolareWithNoticeProps) {
 
   useEffect(() => {
     // 공지사항 업데이트 완료 - 더 이상 표시하지 않음
-    const today = new Date();
-    const todayString = today.toDateString();
-    const dismissedDate = localStorage.getItem('solareNoticeDismissed');
+    //const today = new Date();
+    //const todayString = today.toDateString();
+    //const dismissedDate = localStorage.getItem('solareNoticeDismissed');
      
-     if (dismissedDate !== todayString) {
-       setShowNotice(true);
-     }
+    // if (dismissedDate !== todayString) {
+    //   setShowNotice(true);
+    // }
   }, []);
 
   const handleCloseNotice = () => {
