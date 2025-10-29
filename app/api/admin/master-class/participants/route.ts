@@ -39,7 +39,8 @@ export async function POST(req: NextRequest) {
   } = await req.json()
   
   const totalApDp = attackPower + defensePower
-  const isQualified = totalApDp >= 810
+  // 자격 요건을 무시하고 항상 자격 있음으로 설정 (관리자가 직접 추가한 경우)
+  const isQualified = true
   
   const client = await db.connect()
 

@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import MasterClassGrid from '@/components/master-class/ClassGrid'
 
 export const metadata: Metadata = {
   title: '2025 마스터 클래스 - 검은사막 클래스 최강자 대회',
@@ -548,6 +549,19 @@ export default function MasterClassPage() {
               </div>
             </div>
           </div>
+      </div>
+
+      {/* 클래스 선택 그리드 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
+        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+          <span className="text-3xl">⚔️</span>
+          클래스별 대진표
+        </h2>
+        <p className="text-gray-300 mb-6 text-center">
+          각 클래스를 선택하여 대진표를 확인하세요
+        </p>
+        
+        <MasterClassGrid />
       </div>
 
       {/* 하단 안내 */}
