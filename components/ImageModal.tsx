@@ -33,36 +33,31 @@ export default function ImageModal({ isOpen, imageUrl, onClose }: ImageModalProp
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* 배경 오버레이 */}
-      <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+      <div
+        className="absolute inset-0 bg-black/85 backdrop-blur-sm"
         onClick={onClose}
       />
-      
-      {/* 모달 컨텐츠 */}
-      <div className="relative max-w-[90vw] max-h-[90vh] p-4">
-        {/* 닫기 버튼 */}
+
+      <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-8">
         <button
           onClick={onClose}
-          className="absolute -top-2 -right-2 z-10 w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white text-xl transition-colors"
+          className="absolute top-6 right-6 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white text-2xl transition-colors"
           title="닫기 (ESC)"
         >
           ×
         </button>
-        
-        {/* 이미지 */}
-        <div className="relative">
+
+        <div className="w-full h-full flex items-center justify-center">
           <img
             src={imageUrl}
-            alt="확대된 이미지"
-            className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+            alt="대진표 이미지"
+            className="w-full h-full object-contain rounded-xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           />
         </div>
-        
-        {/* 하단 안내 */}
-        <div className="mt-4 text-center text-white/70 text-sm">
-          이미지를 클릭하거나 ESC 키를 눌러 닫을 수 있습니다
+
+        <div className="mt-6 text-center text-white/70 text-sm">
+          화면을 클릭하거나 ESC 키를 눌러 닫을 수 있습니다
         </div>
       </div>
     </div>

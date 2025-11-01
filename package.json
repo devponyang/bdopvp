@@ -23,6 +23,7 @@
     "critters": "^0.0.23",
     "date-fns": "^3.6.0",
     "git": "^0.1.5",
+    "html-to-image": "^1.11.13",
     "lucide-react": "^0.487.0",
     "net": "^1.0.2",
     "next": "15.2.4",

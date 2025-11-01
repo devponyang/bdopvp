@@ -5,6 +5,7 @@ import UpdateCard from '@/components/home/UpdateCard'
 import CouponCard from '@/components/home/CouponCard'
 import PvPScheduleCard from '@/components/home/PvPScheduleCard'
 import NodeWarScheduleCard from '@/components/home/NodeWarScheduleCard'
+import NodeWarVideo from '@/components/home/NodeWarVideo'
 import GuildLeagueTop10Server from '@/components/home/GuildLeagueTop10Server'
 import SolareTop10 from '@/components/home/SolareTop10'
 import ChzzkCard from '@/components/home/ChzzkCard'
@@ -105,6 +106,9 @@ export default async function Home() {
 
             {/* 중앙: 거점전 + PvP */}
             <section className="space-y-3 sm:space-y-4 md:space-y-6 lg:col-span-1 flex flex-col items-center order-2 lg:order-2">
+              <div className="w-full max-w-full sm:max-w-[710px] mx-auto">
+                <NodeWarVideo />
+              </div>
               <div className="w-full max-w-full sm:max-w-[710px] mx-auto">
                 <NodeWarScheduleCard />
               </div>

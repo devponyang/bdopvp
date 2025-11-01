@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
-import BracketClient from '@/components/master-class/BracketClient'
+import BracketGenerator from '@/components/master-class/BracketGenerator'
+import StaticBracket from '@/components/master-class/StaticBracket'
 import { MASTER_CLASS_CLASSES, getClassIcon, getClassBg } from '@/lib/constants/master-class'
+import { MASTER_CLASS_BRACKETS } from '@/lib/data/master-class-brackets'
 
 interface PageProps {
   params: Promise<{
@@ -26,6 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function MasterClassBracketPage({ params }: PageProps) {
   const { className: encodedClassName } = await params
   const className = decodeURIComponent(encodedClassName)
+  const predefinedBracket = MASTER_CLASS_BRACKETS[className]
   const iconName = getClassIcon(className)
   const bgImage = getClassBg(className)
   
@@ -91,7 +94,19 @@ export default async function MasterClassBracketPage({ params }: PageProps) {
       </div>
 
       {/* 대진표 */}
-      <BracketClient className={className} />
+      {predefinedBracket ? (
+        <StaticBracket
+          title={`${className} 클래스 토너먼트`}
+          stages={predefinedBracket}
+          exportFileName={`master-class-${encodeURIComponent(className)}`}
+        />
+      ) : (
+        <BracketGenerator
+          bracketTitle={`${className} 클래스 토너먼트`}
+          initialParticipants={Array.from({ length: 16 }, (_, idx) => `${className} 선수 ${idx + 1}`)}
+          exportFileName={`master-class-${encodeURIComponent(className)}`}
+        />
+      )}
     </div>
   )
 }
