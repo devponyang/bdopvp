@@ -56,18 +56,23 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
             {/* 모달 내용 */}
             <div className="p-6 space-y-6">
               <div className="text-gray-300 leading-relaxed">
-                {/* 제목 */}
-                <div className="text-xl font-bold text-yellow-400 text-center mb-6">
-                  📝 클래스 가이드 작성자 모집
-                </div>
                 
                 {/* 메인 내용 */}
                 <div className="space-y-4">
+                  <div className="bg-gradient-to-r from-rose-900/30 to-red-900/30 rounded-lg p-4 border-l-4 border-rose-400">
+                    <h3 className="font-semibold text-rose-200 mb-2">🙏 30~31일 서비스 중단 안내</h3>
+                    <p className="text-sm leading-relaxed text-gray-300">
+                      30일과 31일에 이어진 호스팅 업체의 시스템 점검으로 인해 포냥이를 이용하지 못하신 점 진심으로 사과드립니다.
+                      이용에 불편을 드려 죄송하며, 안정적인 서비스 제공을 위해 호스팅사와 긴밀히 협력하여 재발을 방지하겠습니다.
+                    </p>
+                    <p className="text-sm leading-relaxed text-gray-300 mt-2">
+                      기다려 주시고 응원해 주신 모든 분들께 감사드리며, 앞으로 더욱 안정된 환경에서 서비스를 이용하실 수 있도록 최선을 다하겠습니다.
+                    </p>
+                  </div>
                   <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-yellow-400">
                     <h3 className="font-semibold text-gray-200 mb-2">🎯 모집 안내</h3>
                     <p className="text-sm leading-relaxed">
-                      현재 각 클래스별 고수분들께 연락해서 PvP 가이드를 부탁 드리고 있으나 쉽지 않은 상황 입니다..
-                      그래서 혹시 클래스별 PvP 가이드 작성을 해주실 분들은 포냥이 디스코드 티켓을 열어서 문의 해주시면 감사하겠습니다!
+                      클래스별 PvP 가이드 작성을 해주실 분들은 포냥이 디스코드 티켓을 열어서 문의 해주시면 감사하겠습니다!
                     </p>
                   </div>
                   
@@ -104,17 +109,11 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
                         <span className="text-xs text-center text-gray-300">레인저</span>
                         <span className="text-xs text-center text-gray-400">각성</span>
                       </div>
-                      {/* 드라카니아 */}
-                      <div className="flex flex-col items-center">
-                        <img src="/class-icons/draca.png" alt="드라카니아" className="w-8 h-8 mb-1" />
-                        <span className="text-xs text-center text-gray-300">드라카니아</span>
-                        <span className="text-xs text-center text-gray-400">전승</span>
-                      </div>
                       {/* 소서러 */}
                       <div className="flex flex-col items-center">
                         <img src="/class-icons/sor.png" alt="소서러" className="w-8 h-8 mb-1" />
                         <span className="text-xs text-center text-gray-300">소서러</span>
-                        <span className="text-xs text-center text-gray-400">전승/각성</span>
+                        <span className="text-xs text-center text-gray-400">각성</span>
                       </div>
                       {/* 노바 */}
                       <div className="flex flex-col items-center">
@@ -230,23 +229,6 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
                   <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-green-400">
                     <p className="text-sm leading-relaxed">
                       💬 <strong>문의 방법:</strong> 포냥이 디스코드에서 티켓을 생성하여 연락주시면 감사하겠습니다!
-                    </p>
-                  </div>
-                  
-                  <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-lg p-4 border-l-4 border-purple-400">
-                    <h3 className="font-semibold text-purple-300 mb-2">🎨 디자인 도움 주실 분 찾습니다!</h3>
-                    <p className="text-sm leading-relaxed text-gray-300">
-                      포냥이 사이트의 <strong>길드리그, 솔라레 배너</strong> 등 다양한 디자인 작업을 도와주실 분들을 찾고 있습니다. 
-                      UI/UX 디자인이나 그래픽 작업에 관심이 있으시다면 디스코드로 연락주세요!
-                    </p>
-                  </div>
-                  
-                  <div className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 rounded-lg p-4 border-l-4 border-amber-400">
-                    <h3 className="font-semibold text-amber-300 mb-2">💰 구글 애드센스 광고 시작 안내</h3>
-                    <p className="text-sm leading-relaxed text-gray-300">
-                      BDOPVP-포냥이 사이트의 <strong>서버 비용 충당</strong>을 위해 구글 애드센스 광고를 시작하게 되었습니다. 
-                      사이트를 유지를 위해, 광고 수익을 서버 유지비에 사용할 예정입니다. 
-                      애드블록 쓰셔도 컨텐츠는 정상적으로 표시 될 예정입니다. 양해 부탁드립니다! 🙏
                     </p>
                   </div>
                 </div>
