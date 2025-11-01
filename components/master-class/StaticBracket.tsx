@@ -93,8 +93,9 @@ function StageRow({ label, matches, cardWidth, gap, baseWidth, nextMatches }: St
   const offset = Math.max((baseWidth - rowWidth) / 2, 0)
   const hasNext = Array.isArray(nextMatches) && nextMatches.length > 0
   const connectorHeight = hasNext ? 64 : 0
+  const cardAreaHeight = 150
 
-  const parentCenters = matches.map((_, index) => offset + index * (cardWidth + gap) + cardWidth / 2)
+  const defaultCenters = matches.map((_, index) => offset + index * (cardWidth + gap) + cardWidth / 2)
 
   const nextRowWidth = hasNext
     ? nextMatches!.length * cardWidth + Math.max(nextMatches!.length - 1, 0) * gap
@@ -103,53 +104,90 @@ function StageRow({ label, matches, cardWidth, gap, baseWidth, nextMatches }: St
   const childCenters = hasNext
     ? nextMatches!.map((_, index) => nextOffset + index * (cardWidth + gap) + cardWidth / 2)
     : []
+  const childCentersByReference = new Map<string, number[]>()
 
-  const baseChildCount = hasNext && matches.length > 0 ? Math.max(Math.floor(childCenters.length / matches.length), 1) : 1
-  const remainder = hasNext && matches.length > 0 ? childCenters.length % matches.length : 0
-  let runningIndex = 0
+  if (hasNext) {
+    nextMatches!.forEach((childMatch, childIndex) => {
+      const center = childCenters[childIndex]
+      if (typeof center !== 'number') return
+
+      childMatch.competitors.forEach((competitor) => {
+        if (competitor.type === 'winner' && competitor.referenceMatchId) {
+          const list = childCentersByReference.get(competitor.referenceMatchId) ?? []
+          list.push(center)
+          childCentersByReference.set(competitor.referenceMatchId, list)
+        }
+      })
+    })
+  }
+
+  const desiredCenters = matches.map((match, index) => {
+    if (!hasNext) return defaultCenters[index]
+
+    const childPositions = childCentersByReference.get(match.id) ?? []
+
+    if (childPositions.length === 0) return defaultCenters[index]
+
+    const uniquePositions = Array.from(new Set(childPositions.map((value) => Math.round(value * 100))))
+    if (uniquePositions.length <= 1 && matches.length > 1) {
+      return defaultCenters[index]
+    }
+
+    const sum = childPositions.reduce((acc, value) => acc + value, 0)
+    return sum / childPositions.length
+  })
+
+  const parentCenters = desiredCenters
 
   return (
     <div className="flex w-full flex-col items-center gap-3" style={{ width: baseWidth }}>
-      <div
-        className="text-sm font-semibold text-orange-300 text-center"
-        style={{ width: rowWidth, marginLeft: offset, marginRight: offset }}
-      >
-        {label}
+      <div className="relative" style={{ width: baseWidth }}>
+        <div
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{ width: rowWidth }}
+        >
+          <div
+            className="text-sm font-semibold text-orange-300 text-center"
+            style={{ marginLeft: offset, marginRight: offset }}
+          >
+            {label}
+          </div>
+        </div>
       </div>
-      <div
-        className="grid justify-items-center"
-        style={{
-          gridTemplateColumns: `repeat(${matches.length}, minmax(${cardWidth}px, ${cardWidth}px))`,
-          columnGap: gap,
-          width: rowWidth,
-          marginLeft: offset,
-          marginRight: offset
-        }}
-      >
-        {matches.map((match) => (
-          <MatchCard key={match.id} label={match.label} competitors={match.competitors} align="center" />
-        ))}
+      <div className="relative" style={{ width: baseWidth, height: cardAreaHeight }}>
+        {matches.map((match, index) => {
+          const centerX = desiredCenters[index]
+          const left = centerX - cardWidth / 2
+          return (
+            <div
+              key={match.id}
+              className="absolute"
+              style={{
+                left,
+                width: cardWidth,
+                top: 0
+              }}
+            >
+              <MatchCard label={match.label} competitors={match.competitors} align="center" />
+            </div>
+          )
+        })}
       </div>
 
       {hasNext && (
         <div className="relative" style={{ width: baseWidth, height: connectorHeight, marginTop: 4 }}>
           {parentCenters.map((parentCenter, index) => {
-            const extra = remainder > 0 && index < remainder ? 1 : 0
-            const childCount = Math.max(Math.min(baseChildCount + extra, childCenters.length - runningIndex), 1)
-            const startIndex = runningIndex
-            if (startIndex >= childCenters.length) {
-              return null
-            }
+            const parentMatch = matches[index]
+            if (!parentMatch) return null
 
-            const endIndex = Math.min(startIndex + childCount - 1, childCenters.length - 1)
-            runningIndex = endIndex + 1
+            const childPositions = (childCentersByReference.get(parentMatch.id) ?? [])
+              .slice()
+              .sort((a, b) => a - b)
 
-            const firstChild = childCenters[startIndex]
-            if (firstChild === undefined) return null
+            if (childPositions.length === 0) return null
 
-            const lastChild = childCenters[endIndex] ?? firstChild
-            const horizontalLeft = Math.min(firstChild, lastChild)
-            const horizontalRight = Math.max(firstChild, lastChild)
+            const horizontalLeft = Math.min(...childPositions)
+            const horizontalRight = Math.max(...childPositions)
             const horizontalWidth = Math.max(horizontalRight - horizontalLeft, 2)
 
             return (
@@ -172,24 +210,18 @@ function StageRow({ label, matches, cardWidth, gap, baseWidth, nextMatches }: St
                     height: 2
                   }}
                 />
-                {Array.from({ length: endIndex - startIndex + 1 }).map((_, childOffset) => {
-                  const childIndex = startIndex + childOffset
-                  const childCenter = childCenters[childIndex]
-                  if (childCenter === undefined) return null
-
-                  return (
-                    <div
-                      key={`connector-${label}-${index}-child-${childIndex}`}
-                      className="absolute bg-orange-400/60"
-                      style={{
-                        left: childCenter - 1,
-                        top: connectorHeight / 2,
-                        width: 2,
-                        height: connectorHeight / 2
-                      }}
-                    />
-                  )
-                })}
+                {childPositions.map((childCenter, childIdx) => (
+                  <div
+                    key={`connector-${label}-${index}-child-${childIdx}`}
+                    className="absolute bg-orange-400/60"
+                    style={{
+                      left: childCenter - 1,
+                      top: connectorHeight / 2,
+                      width: 2,
+                      height: connectorHeight / 2
+                    }}
+                  />
+                ))}
               </div>
             )
           })}

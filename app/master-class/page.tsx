@@ -1,6 +1,4 @@
 import { Metadata } from 'next'
-import BracketGenerator from '@/components/master-class/BracketGenerator'
-import { MASTER_CLASS_CLASSES } from '@/lib/constants/master-class'
 
 export const metadata: Metadata = {
   title: '2025 마스터 클래스 - 검은사막 클래스 최강자 대회',
@@ -552,21 +550,16 @@ export default function MasterClassPage() {
           </div>
       </div>
 
-      {/* 클래스 선택 그리드 */}
-      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6">
-        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+      {/* 클래스 대진표 안내 - 공개 전 */}
+      <div className="bg-gradient-to-br from-slate-800/60 to-indigo-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-6 mb-6 text-center">
+        <h2 className="text-2xl font-bold text-white mb-4 flex items-center justify-center gap-2">
           <span className="text-3xl">⚔️</span>
-          클래스별 대진표 생성기
+          클래스별 대진표
         </h2>
-        <p className="text-gray-300 mb-6 text-center">
-          참가자 명단을 입력하거나 기본 명단을 사용해 대진표를 생성하고 이미지를 내려받을 수 있습니다.
-        </p>
-
-        <BracketGenerator
-          bracketTitle="2025 마스터 클래스 대진표"
-          initialParticipants={MASTER_CLASS_CLASSES}
-          exportFileName="master-class-bracket"
-        />
+        <div className="inline-flex flex-col items-center gap-3 rounded-xl border border-white/10 bg-slate-900/70 px-6 py-5">
+          <p className="text-gray-200 text-base font-semibold">클래스 대진표는 준비 중입니다.</p>
+          <p className="text-gray-400 text-sm">최종 검수 완료 후 공개될 예정이니 조금만 기다려 주세요!</p>
+        </div>
       </div>
 
       {/* 하단 안내 */}
