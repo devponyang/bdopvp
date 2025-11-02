@@ -31,6 +31,43 @@ export default function SolareTable({ data }: Props) {
   const [imagePopupOpen, setImagePopupOpen] = useState(false)
   const [popupImageUrl, setPopupImageUrl] = useState('')
 
+  // 클래스 아이콘 매핑 함수
+  const getClassIconPath = (className: string) => {
+    const classMap: { [key: string]: string } = {
+      '워리어': '/class-icons/warrior.png',
+      '하사신': '/class-icons/hasasin.png',
+      '세이지': '/class-icons/saji.png',
+      '레인저': '/class-icons/ranger.png',
+      '가디언': '/class-icons/gadi.png',
+      '스칼라': '/class-icons/scara.png',
+      '드라카니아': '/class-icons/draca.png',
+      '소서러': '/class-icons/sor.png',
+      '노바': '/class-icons/nova.png',
+      '커세어': '/class-icons/cosair.png',
+      '란': '/class-icons/lhan.png',
+      '자이언트': '/class-icons/jai.png',
+      '매구': '/class-icons/magu.png',
+      '금수랑': '/class-icons/taimer.png',
+      '샤이': '/class-icons/shai.png',
+      '격투가': '/class-icons/fighter.png',
+      '무사': '/class-icons/musa.png',
+      '매화': '/class-icons/mahwa.png',
+      '미스틱': '/class-icons/mistic.png',
+      '발키리': '/class-icons/valc.png',
+      '쿠노이치': '/class-icons/kuno.png',
+      '닌자': '/class-icons/ninja.png',
+      '다크나이트': '/class-icons/darknight.png',
+      '위자드': '/class-icons/wizard.png',
+      '아처': '/class-icons/archer.png',
+      '우사': '/class-icons/usa.png',
+      '위치': '/class-icons/witch.png',
+      '도사': '/class-icons/dosa.png',
+      '데드아이': '/class-icons/dead.png',
+      '오공': '/class-icons/ukong.png'
+    }
+    return classMap[className] || `/class-icons/${className.toLowerCase()}.png`
+  }
+
   // ✅ 중복 제거: name + score + class 조합으로 유일한 데이터만 남김
   const uniqueData = Array.from(
     new Map(data.map((d) => [`${d.name}-${d.score}-${d.class}`, d])).values()
@@ -273,53 +310,13 @@ export default function SolareTable({ data }: Props) {
                         </>
                       )}
                       {(!entry.subclass || (entry.subclass !== '전승' && entry.subclass !== '각성')) && (
-                        <>
-                          {entry.class === '샤이' && (
-                            <Image
-                              src="/ponyang/shai.png"
-                              alt="샤이"
-                              width={idx < 3 ? 40 : 28}
-                              height={idx < 3 ? 40 : 28}
-                              className="inline drop-shadow-lg"
-                            />
-                          )}
-                          {entry.class === '스칼라' && (
-                            <Image
-                              src="/ponyang/scara.png"
-                              alt="스칼라"
-                              width={idx < 3 ? 40 : 28}
-                              height={idx < 3 ? 40 : 28}
-                              className="inline drop-shadow-lg"
-                            />
-                          )}
-                          {entry.class === '아처' && (
-                            <Image
-                              src="/ponyang/archer.png"
-                              alt="아처"
-                              width={idx < 3 ? 40 : 28}
-                              height={idx < 3 ? 40 : 28}
-                              className="inline drop-shadow-lg"
-                            />
-                          )}
-                          {entry.class === '오공' && (
-                            <Image
-                              src="/ponyang/ukong.png"
-                              alt="오공"
-                              width={idx < 3 ? 40 : 28}
-                              height={idx < 3 ? 40 : 28}
-                              className="inline drop-shadow-lg"
-                            />
-                          )}
-                          {entry.class === '데드아이' && (
-                            <Image
-                              src="/ponyang/dead.png"
-                              alt="데드아이"
-                              width={idx < 3 ? 40 : 28}
-                              height={idx < 3 ? 40 : 28}
-                              className="inline drop-shadow-lg"
-                            />
-                          )}
-                        </>
+                        <Image
+                          src={getClassIconPath(entry.class)}
+                          alt={entry.class}
+                          width={idx < 3 ? 40 : 28}
+                          height={idx < 3 ? 40 : 28}
+                          className="inline drop-shadow-lg"
+                        />
                       )}
                     </div>
                   </td>
@@ -400,221 +397,100 @@ export default function SolareTable({ data }: Props) {
         </table>
       </div>
 
-      {/* 모바일 카드 레이아웃 */}
-      <div className="md:hidden space-y-3 p-2">
-        {uniqueData.map((entry, idx) => {
-          const tier = getTier(entry.score)
-          const change = entry.rankChange || '-'
-          let changeColor = 'text-gray-400'
-          if (change.startsWith('▲')) changeColor = 'text-red-500'
-          else if (change.startsWith('▼')) changeColor = 'text-blue-500'
-          else if (change === 'NEW') changeColor = 'text-green-600'
+      {/* 모바일 리스트형 레이아웃 - 한 줄에 모든 정보 */}
+      <div className="md:hidden">
+        <div className="space-y-1">
+          {uniqueData.map((entry, idx) => {
+            const tier = getTier(entry.score)
+            const change = entry.rankChange || '-'
+            let changeColor = 'text-gray-400'
+            if (change.startsWith('▲')) changeColor = 'text-red-500'
+            else if (change.startsWith('▼')) changeColor = 'text-blue-500'
+            else if (change === 'NEW') changeColor = 'text-green-600'
 
-          return (
-            <div
-              key={`mobile-${entry.name}-${entry.score}-${idx}`}
-              className={`p-4 rounded-2xl border-2 shadow-xl transition-all duration-300 active:scale-95 ${
-                idx < 3 ? "text-white relative overflow-hidden" : "bg-gradient-to-r from-slate-800/70 to-blue-900/70 border-white/20 text-white backdrop-blur-sm"
-              }`}
-              style={idx < 3 ? {
-                backgroundImage: `url('/ponyang/${idx + 1}st-bg.png')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                position: 'relative'
-              } : {}}
-              onClick={() => handleMobilePlayerClick(entry.name, entry.class)}
-            >
-              {/* 클래스 배경 오버레이 - 모바일에서는 비활성화 */}
-              {/* {idx < 3 && getClassBackground(entry.class, entry.subclass || '') && (
-                <div 
-                  className="absolute opacity-50 pointer-events-none"
-                  style={{
-                    backgroundImage: `url('${getClassBackground(entry.class, entry.subclass || '')}')`,
-                    backgroundSize: '320px auto',
-                    backgroundPosition: '200% bottom',
-                    backgroundRepeat: 'no-repeat',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    zIndex: 0
-                  }}
-                />
-              )} */}
-              {/* 상단: 순위, 가문명, 티어 */}
-              <div className="flex items-start justify-between mb-3 relative z-10">
-                {/* 좌측: 순위 */}
-                <div className="flex flex-col items-center gap-1">
+            const winRate = entry.wins + entry.draws + entry.losses > 0
+              ? Math.round((entry.wins / (entry.wins + entry.draws + entry.losses)) * 100)
+              : 0
+
+            return (
+              <div
+                key={`mobile-${entry.name}-${entry.score}-${idx}`}
+                className={`flex items-center gap-2 px-3 py-2.5 border-b border-white/10 cursor-pointer transition-colors hover:bg-white/5 ${
+                  idx < 3 ? 'bg-gradient-to-r from-amber-900/20 to-yellow-900/20' : 'bg-zinc-900/30'
+                }`}
+                style={idx < 3 ? {
+                  backgroundImage: `url('/ponyang/${idx + 1}st-bg.png')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundBlendMode: 'overlay'
+                } : {}}
+                onClick={() => handleMobilePlayerClick(entry.name, entry.class)}
+              >
+                {/* 순위 */}
+                <div className="flex-shrink-0 w-12 flex items-center justify-center gap-1">
                   {idx < 3 ? (
-                    <Image
-                      src={`/ponyang/${idx + 1}st.png`}
-                      alt={`${idx + 1}등`}
-                      width={40}
-                      height={40}
-                      className="relative"
-                    />
+                    <Image src={`/ponyang/${idx + 1}st.png`} alt={`${idx + 1}등`} width={28} height={28} />
                   ) : (
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <span className="text-xl font-bold text-white">{idx + 1}</span>
-                    </div>
+                    <>
+                      <span className="text-base font-bold text-white">{idx + 1}</span>
+                      <span className={`text-xs ${changeColor}`}>{change}</span>
+                    </>
                   )}
-                  <span className={`text-xs font-semibold ${changeColor}`}>{idx < 3 ? '' : change}</span>
                 </div>
 
-                {/* 중앙: 가문명 및 클릭 힌트 */}
-                <div className="flex-1 flex flex-col items-center gap-1 mx-2 mt-1">
-                  <div className="text-xl font-bold text-white text-center leading-tight">
-                    {entry.name}
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-blue-300">
-                    <span>👆</span>
-                    <span className="font-medium">특화 보기</span>
+                {/* 티어 아이콘 */}
+                <div className="flex-shrink-0">
+                  <Image
+                    src={idx === 0 && entry.score >= 2401 ? `/solare-icons/rank1.png` : `/solare-icons/${tier}.png`}
+                    alt={idx === 0 && entry.score >= 2401 ? '1위 아이콘' : `${tier} 티어`}
+                    width={24}
+                    height={24}
+                    className="drop-shadow-lg"
+                  />
+                </div>
+
+                {/* 가문명 */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-white leading-tight break-all">{entry.name}</span>
                   </div>
                 </div>
 
-                {/* 우측: 티어 */}
-                <div className="flex flex-col items-center gap-1">
-                  <div className="relative w-10 h-10">
-                    <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 to-orange-400/30 rounded-full blur-sm"></div>
-                    <Image
-                      src={idx === 0 && entry.score >= 2401 ? `/solare-icons/rank1.png` : `/solare-icons/${tier}.png`}
-                      alt={idx === 0 && entry.score >= 2401 ? '1위 아이콘' : `${tier} 티어`}
-                      width={40}
-                      height={40}
-                      className="relative z-10 drop-shadow-lg"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* 중앙: 전승/각성 및 클래스 - 더 눈에 띄게 */}
-              <div className="mb-3 py-2 px-3 bg-black/30 rounded-xl border border-white/20 relative z-10">
-                <div className="flex items-center justify-center gap-2">
-                  {/* 전승/각성 아이콘 - 크게 */}
-                  <div className="flex flex-col items-center gap-1">
-                    {entry.subclass === '전승' && (
-                      <>
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-blue-400/30 rounded-full blur-md"></div>
-                          <Image
-                            src="/ponyang/ac.png"
-                            alt="전승"
-                            width={36}
-                            height={36}
-                            className="relative z-10 drop-shadow-lg"
-                          />
-                        </div>
-                        <span className="text-xs font-bold text-blue-300">전승</span>
-                      </>
-                    )}
-                    {entry.subclass === '각성' && (
-                      <>
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-purple-400/30 rounded-full blur-md"></div>
-                          <Image
-                            src="/ponyang/aw.png"
-                            alt="각성"
-                            width={36}
-                            height={36}
-                            className="relative z-10 drop-shadow-lg"
-                          />
-                        </div>
-                        <span className="text-xs font-bold text-purple-300">각성</span>
-                      </>
-                    )}
-                    {(!entry.subclass || (entry.subclass !== '전승' && entry.subclass !== '각성')) && (
-                      <>
-                        {entry.class === '샤이' && (
-                          <>
-                            <Image src="/ponyang/shai.png" alt="샤이" width={36} height={36} className="drop-shadow-lg" />
-                            <span className="text-xs font-bold text-pink-300">샤이</span>
-                          </>
-                        )}
-                        {entry.class === '스칼라' && (
-                          <>
-                            <Image src="/ponyang/scara.png" alt="스칼라" width={36} height={36} className="drop-shadow-lg" />
-                            <span className="text-xs font-bold text-green-300">스칼라</span>
-                          </>
-                        )}
-                        {entry.class === '아처' && (
-                          <>
-                            <Image src="/ponyang/archer.png" alt="아처" width={36} height={36} className="drop-shadow-lg" />
-                            <span className="text-xs font-bold text-emerald-300">아처</span>
-                          </>
-                        )}
-                        {entry.class === '오공' && (
-                          <>
-                            <Image src="/ponyang/ukong.png" alt="오공" width={36} height={36} className="drop-shadow-lg" />
-                            <span className="text-xs font-bold text-yellow-300">오공</span>
-                          </>
-                        )}
-                        {entry.class === '데드아이' && (
-                          <>
-                            <Image src="/ponyang/dead.png" alt="데드아이" width={36} height={36} className="drop-shadow-lg" />
-                            <span className="text-xs font-bold text-red-300">데드아이</span>
-                          </>
-                        )}
-                      </>
+                {/* 클래스명 및 전승/각성 */}
+                <div className="flex-shrink-0 text-xs font-bold text-center min-w-[3rem]">
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-blue-200">{entry.class}</span>
+                    {entry.subclass && (entry.subclass === '전승' || entry.subclass === '각성') && (
+                      <span className={`text-[10px] ${entry.subclass === '전승' ? 'text-blue-300' : 'text-purple-300'}`}>
+                        {entry.subclass}
+                      </span>
                     )}
                   </div>
-                  
-                  {/* 구분선 */}
-                  <div className="w-px h-8 bg-white/20"></div>
-                  
-                  {/* 클래스명 */}
-                  <div className="flex flex-col items-center">
-                    <span className="text-xs text-gray-400 mb-1">클래스</span>
-                    <span className="text-sm font-medium text-blue-200">{entry.class}</span>
-                  </div>
                 </div>
-              </div>
 
-              {/* 전적 정보 - 간격 조정 */}
-              <div className="grid grid-cols-3 gap-3 mb-3 relative z-10">
-                <div className="bg-black/20 rounded-lg p-2 border border-white/10 text-center">
-                  <div className="text-gray-400 text-xs mb-0.5">승/무/패</div>
-                  <div className="text-white font-bold text-base">{entry.wins}/{entry.draws}/{entry.losses}</div>
-                </div>
-                <div className="bg-black/20 rounded-lg p-2 border border-white/10 text-center">
-                  <div className="text-gray-400 text-xs mb-0.5">승률</div>
-                  <div className="font-bold text-base">
-                    {entry.wins + entry.draws + entry.losses > 0 ? (
-                      (() => {
-                        const winRate = Math.round((entry.wins / (entry.wins + entry.draws + entry.losses)) * 100)
-                        if (winRate >= 80) {
-                          return <span className="text-rose-400 font-bold">{winRate}%</span>
-                        } else if (winRate >= 70) {
-                          return <span className="text-yellow-300">{winRate}%</span>
-                        } else {
-                          return <span className="text-white">{winRate}%</span>
-                        }
-                      })()
-                    ) : '-'}
+                {/* 승률 */}
+                <div className="flex-shrink-0 w-11 text-right">
+                  <div className={`text-xs font-bold ${
+                    winRate >= 80 ? 'text-rose-400' : winRate >= 70 ? 'text-yellow-300' : 'text-white'
+                  }`}>
+                    {winRate > 0 ? `${winRate}%` : '-'}
                   </div>
+                  <div className="text-xs text-gray-400">{entry.wins}/{entry.draws}/{entry.losses}</div>
                 </div>
-                <div className="bg-black/20 rounded-lg p-2 border border-white/10 text-center">
-                  <div className="text-gray-400 text-xs mb-0.5">점수</div>
-                  <div className="text-yellow-300 font-bold text-base">{entry.score}</div>
+
+                {/* 점수 */}
+                <div className="flex-shrink-0 w-12 text-right">
+                  <div className="text-sm font-bold text-yellow-300">{entry.score}</div>
                 </div>
               </div>
-              
-              {/* 길드 정보 */}
-              {entry.guild_name && (
-                <div className="text-center py-2 px-3 bg-black/20 rounded-lg border border-white/10 relative z-10">
-                  <div className="text-gray-400 text-xs mb-0.5">길드</div>
-                  <Link 
-                    href={`/guild/${encodeURIComponent(entry.guild_name)}`} 
-                    className="text-blue-300 hover:text-blue-400 transition-colors font-semibold text-base"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {entry.guild_name}
-                  </Link>
-                </div>
-              )}
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
+        <div className="mt-2 px-3 py-2 bg-slate-800/50 rounded-lg border border-white/10">
+          <div className="text-xs text-gray-400 text-center">
+            💡 각 행을 클릭하면 특화 정보를 볼 수 있습니다
+          </div>
+        </div>
       </div>
 
       {/* 모바일 전용 특화 정보 모달 */}

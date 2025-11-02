@@ -348,12 +348,12 @@ export default function SolareOverallPage() {
                 <div className="p-6">
                   <div className="mb-6">
                     <div 
-                      className="text-2xl font-bold text-white flex items-center justify-between cursor-pointer hover:text-blue-300 transition-colors duration-300"
+                      className="text-2xl font-bold text-white flex flex-col md:flex-row md:items-center md:justify-between gap-2 cursor-pointer hover:text-blue-300 transition-colors duration-300"
                       onClick={handleStatisticsToggle}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center md:justify-start gap-3">
                         <img src="/solare-icons/solare.png" alt="솔라레" className="w-8 h-8 object-contain" />
-                        <span>솔라레의 창 통계</span>
+                        <span className="whitespace-nowrap">솔라레의 창 통계</span>
                         <span className={`transition-transform duration-300 ${showStatistics ? 'rotate-180' : ''}`}>
                           ▼
                         </span>
@@ -375,9 +375,14 @@ export default function SolareOverallPage() {
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                       {statisticsData.classDistribution.map((item: any) => {
                         // 해당 클래스의 전승/각성 데이터 찾기
-                        const subclassData = statisticsData.classSubclassDistribution?.filter((sub: any) => sub.class === item.class) || []
+                        const subclassData = statisticsData.classSubclassDistribution?.filter((sub: any) => sub.class === item.class && sub.subclass !== '일반') || []
                         const 전승 = subclassData.find((sub: any) => sub.subclass === '전승')
                         const 각성 = subclassData.find((sub: any) => sub.subclass === '각성')
+                        
+                        // 전승/각성 비율 계산 (API에서 계산된 percentage 사용)
+                        const 전승Percentage = 전승?.percentage || 0
+                        const 각성Percentage = 각성?.percentage || 0
+                        const hasSubclass = 전승Percentage > 0 || 각성Percentage > 0
                         
                         return (
                           <div key={item.class} className="bg-slate-700/50 rounded-lg p-3 border border-white/10 hover:bg-slate-700/70 transition-all duration-300">
@@ -393,7 +398,7 @@ export default function SolareOverallPage() {
                                   }}
                                 />
                                 <div>
-                                  <h5 className="text-sm font-bold text-white">{item.class}</h5>
+                                  <h5 className="text-sm font-bold text-white whitespace-nowrap">{item.class}</h5>
                                   <p className="text-xs text-gray-300">{item.count}명 ({item.percentage}%)</p>
                                 </div>
                               </div>
@@ -413,12 +418,26 @@ export default function SolareOverallPage() {
                               </div>
                             </div>
                             
-                            {/* 일자 그래프 */}
-                            <div className="w-full bg-slate-600 rounded-full h-2">
-                              <div 
-                                className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500"
-                                style={{ width: `${item.percentage}%` }}
-                              ></div>
+                            {/* 전승/각성 비율 그래프 */}
+                            <div className="w-full bg-slate-600 rounded-full h-2 flex overflow-hidden">
+                              {hasSubclass ? (
+                                <>
+                                  {전승Percentage > 0 && (
+                                    <div 
+                                      className="bg-blue-500 h-2 transition-all duration-500"
+                                      style={{ width: `${전승Percentage}%` }}
+                                    ></div>
+                                  )}
+                                  {각성Percentage > 0 && (
+                                    <div 
+                                      className="bg-red-500 h-2 transition-all duration-500"
+                                      style={{ width: `${각성Percentage}%` }}
+                                    ></div>
+                                  )}
+                                </>
+                              ) : (
+                                <div className="bg-yellow-500 h-2 w-full transition-all duration-500"></div>
+                              )}
                             </div>
                           </div>
                         )

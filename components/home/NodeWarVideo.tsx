@@ -41,7 +41,7 @@ export default function NodeWarVideo() {
         </div>
 
         <p className="mt-3 text-sm text-center text-gray-300">
-          AI와 상상을 더해 완성한 마스터 클래스 테마 OST를 감상해 보세요.
+          AI와 상상을 더해 완성한 마스터 클래스 테마 곡을 감상해 보세요.
         </p>
       </div>
     </section>
