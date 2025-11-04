@@ -27,8 +27,8 @@ export default function SupportPage() {
             사이트 소개
           </h2>
           <p className="text-gray-300 leading-relaxed">
-            <b className="text-white">BDOPVP-포냥이</b>는 검은사막 모험가분들이 더 쉽고, 더 재미있게 게임을 즐기실 수 있도록 만든 비공식 개인 사이트입니다.<br /><br />
-            사이트의 모든 서비스는 무료로 제공되며, 광고 및 후원은 사이트 운영비(서버비, 도메인, 개발 등)로만 사용됩니다.<br /><br />
+            <b className="text-white">BDOPVP-포냥이</b>는 검은사막 모험가분들이 더 쉽고, 더 재미있게 게임을 즐기실 수 있도록 만든 팬메이드 사이트입니다.<br /><br />
+            사이트의 모든 서비스는 무료로 제공되며, 광고 및 후원은 사이트 운영비로 사용됩니다.<br /><br />
             광고 게재, 후원, 제휴, 기타 문의는 아래 안내를 참고해 주세요.
           </p>
         </div>
@@ -38,6 +38,29 @@ export default function SupportPage() {
             <span className="text-green-400">📢</span>
             광고 안내
           </h2>
+          
+          {/* 사이트 통계 */}
+          <div className="bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-500/30 rounded-xl p-6 mb-6">
+            <h3 className="font-semibold text-green-300 mb-2 flex items-center gap-2">
+              <span className="text-green-400">📊</span>
+              사이트 통계 (Google Analytics 기준)
+            </h3>
+            <p className="text-sm text-green-200 mb-4">2025.11.04 기준</p>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600/30 text-center">
+                <div className="text-2xl font-bold text-green-400 mb-1">2024.09.20</div>
+                <div className="text-sm text-gray-300">사이트 오픈</div>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600/30 text-center">
+                <div className="text-2xl font-bold text-green-400 mb-1">4,300명</div>
+                <div className="text-sm text-gray-300">총 사용자</div>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600/30 text-center">
+                <div className="text-2xl font-bold text-green-400 mb-1">9.6만</div>
+                <div className="text-sm text-gray-300">페이지뷰 (PV)</div>
+              </div>
+            </div>
+          </div>
           
           <div className="space-y-6">
             <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600/30">
@@ -54,35 +77,52 @@ export default function SupportPage() {
                   <span className="text-blue-400 mt-1">•</span>
                   <span>사용자의 관심사에 맞는 맞춤형 광고가 표시될 수 있습니다.</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-blue-400 mt-1">•</span>
-                  <span>광고 차단 도구 사용 시 일부 기능에 제한이 있을 수 있습니다.</span>
-                </div>
               </div>
             </div>
             
             <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600/30">
               <h3 className="font-semibold text-purple-300 mb-3 flex items-center gap-2">
                 <span className="text-purple-400">🔸</span>
-                직접 광고 문의
+                배너 후원
               </h3>
-              <div className="space-y-2 text-sm text-gray-300">
-                <div className="flex items-start gap-2">
-                  <span className="text-purple-400 mt-1">•</span>
-                  <span>배너 광고, 제휴, 이벤트 등 다양한 형태의 광고 문의를 환영합니다.</span>
+              <div className="space-y-4 text-sm text-gray-300">
+                <p className="leading-relaxed">
+                  사이트 메인화면에 스트리머/유튜브 홍보 , 생일 축하, 길드 홍보, 이벤트 안내 등 배너를 게재해드립니다.
+                </p>
+                
+                <div>
+                  <h4 className="font-semibold text-purple-200 mb-2">배너 기능</h4>
+                  <div className="space-y-2 ml-2">
+                    <div className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-1">•</span>
+                      <span>
+                        <strong>링크 연결</strong> - 클릭 시 길드 정보, 연맹 정보, 캐릭터 검색, 
+                        치지직/트위치 방송 주소 등 새창으로 연결
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-1">•</span>
+                      <span>
+                        <strong>상세 이미지 출력</strong> - 클릭 시 길드 포스터, 이벤트 상세 페이지 등 
+                        배너 외 추가 이미지 출력
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-purple-400 mt-1">•</span>
-                  <span>광고 단가, 위치, 기간 등은 협의 후 결정됩니다.</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-purple-400 mt-1">•</span>
-                  <span>광고는 검은사막 및 게이머 커뮤니티에 적합한 내용만 게재 가능합니다.</span>
-                </div>
-                <div className="mt-3 p-3 bg-yellow-900/20 border border-yellow-600/30 rounded-lg">
-                  <p className="text-xs text-yellow-200">
-                    ⚠️ <strong>주의:</strong> 부적절한 광고(불법, 사행성, 선정성 등)는 사전 통보 없이 거절될 수 있습니다.
+                
+                <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg p-3">
+                  <p className="text-purple-200">
+                    <strong>후원금액은 3일(72시간)을 기준으로 10,000원입니다.</strong>
                   </p>
+                </div>
+                
+                <div className="space-y-2">
+                  <p>배너는 검은사막 및 게이머 커뮤니티에 적합한 내용만 게재 가능합니다.</p>
+                  <div className="p-3 bg-yellow-900/20 border border-yellow-600/30 rounded-lg">
+                    <p className="text-xs text-yellow-200">
+                      ⚠️ <strong>주의:</strong> 부적절한 배너(불법, 사행성, 선정성 등)는 사전 통보 없이 거절될 수 있습니다.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -98,7 +138,7 @@ export default function SupportPage() {
             <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600/30">
               <h4 className="font-semibold text-cyan-300 mb-3 flex items-center gap-2">
                 <span className="text-cyan-400">🖼️</span>
-                메인 배너 (홈페이지 상단)
+                메인 배너
               </h4>
               <div className="space-y-2 text-sm text-gray-300">
                 <div className="flex items-start gap-2">
@@ -119,7 +159,7 @@ export default function SupportPage() {
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400 mt-1">•</span>
-                  <span><strong>파일 크기:</strong> 5MB 이하</span>
+                  <span><strong>파일 크기:</strong> 1MB 이하</span>
                 </div>
               </div>
             </div>
@@ -158,9 +198,12 @@ export default function SupportPage() {
             후원 안내
           </h2>
           <p className="text-gray-300 leading-relaxed mb-6">
-            BDOPVP-포냥이는 <b className="text-white">완전 무료</b>로 운영되는 사이트입니다. 후원은 전혀 강제하지 않으며, 
+            BDOPVP-포냥이는 <b className="text-white">무료</b>로 운영되는 사이트입니다. 후원은 전혀 강제하지 않으며, 
             사이트를 이용하시는 모든 분들께 동일한 서비스를 제공합니다.<br /><br />
-            사이트 발전과 안정적인 운영을 위해 후원을 받고 있으며, 후원금은 사이트 운영비(서버, 도메인, 개발 등)로만 사용됩니다.
+            사이트 발전과 안정적인 운영을 위해 후원을 받고 있습니다. 
+            <b className="text-white">커피 한 잔 값</b>이라도 정말 감사합니다! 😊<br /><br />
+            후원금은 사이트 운영비(서버, 도메인 등)로 사용되며, 
+            <b className="text-white">길드/연맹 후원</b>과 <b className="text-white">개인 후원</b> 모두 환영합니다!
           </p>
 
           {/* 후원 계좌 정보 */}
@@ -171,17 +214,20 @@ export default function SupportPage() {
             </div>
             <div className="text-2xl font-bold tracking-widest text-white mb-2">새마을금고 9003-2947-5099-1</div>
             <div className="text-sm text-purple-200 mb-4">예금주: 김정수</div>
-            <div className="bg-purple-800/30 border border-purple-400/30 rounded-lg p-3">
-              <p className="text-xs text-purple-200">
-                💡 <strong>중요:</strong> 길드마크/연맹마크 혜택을 위해 입금자명을 <b className="text-purple-100">길드명 또는 연맹명</b>으로 입력해주세요!
+            <div className="mt-4 p-3 bg-purple-900/20 rounded-lg">
+              <p className="text-sm text-purple-200">
+                💡 <strong>입금자명은 자유롭게 입력하셔도 됩니다!</strong>
+                <br />
+                <span className="text-purple-300">(후원 정말 감사합니다 🙏)</span>
               </p>
             </div>
           </div>
           
           <div className="bg-yellow-900/20 border border-yellow-600/30 rounded-lg p-4 mb-6">
             <p className="text-sm text-yellow-200">
-              <strong>※ 입금 시 입금자명은 반드시 <span className="text-yellow-100">길드명 또는 연맹명</span>으로 입력해 주세요.</strong><br />
-              (길드마크/연맹마크 달기 혜택을 위해 필요합니다. 가문명이 아닌 길드명 또는 연맹명으로 입력해주세요!)
+              <strong>※ 길드/연맹 마크 혜택을 받으실 분들만 포냥이 디스코드에서 티켓 열어서 파일 전달 부탁드립니다.</strong>
+              <br />
+              <span className="text-yellow-300">개인 후원은 별도로 연락하실 필요 없습니다. 정말 감사합니다! 💙</span>
             </p>
           </div>
         </div>
@@ -189,9 +235,9 @@ export default function SupportPage() {
         <div className="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 mb-6">
           <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
             <span className="text-yellow-400">🎁</span>
-            후원자 혜택
+            후원 혜택
           </h2>
-          
+
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600/30">
               <div className="flex items-start gap-3">
@@ -221,20 +267,16 @@ export default function SupportPage() {
           <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg p-6">
             <div className="font-semibold text-purple-300 mb-4 flex items-center gap-2">
               <span className="text-purple-400">📝</span>
-              신청 방법
+              길드/연맹 마크 신청 방법
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <span className="bg-purple-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">1</span>
-                <span className="text-sm text-gray-300">후원 후 입금자명을 <b className="text-purple-300">길드명</b>으로 입력</span>
+                <span className="text-sm text-gray-300">후원 후 포냥이 디스코드에서 <b className="text-purple-300">티켓 열기</b></span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="bg-purple-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">2</span>
-                <span className="text-sm text-gray-300">디스코드에서 <b className="text-purple-300">@디움</b>에게 후원 완료 알림</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="bg-purple-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">3</span>
-                <span className="text-sm text-gray-300">길드명/연맹명과 마크 이미지 전달</span>
+                <span className="text-sm text-gray-300">길드명/연맹명과 <b className="text-purple-300">마크 이미지 파일</b> 전달</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">✓</span>

@@ -28,7 +28,7 @@ export default function SiteInfoPage() {
               사이트 목적
             </h2>
             <p className="text-gray-300 leading-relaxed">
-              <b className="text-white">BDOPVP-포냥이</b>는 검은사막을 사랑하는 모험가분들이 더 쉽고, 더 재미있게 게임을 즐기실 수 있도록 만든 비공식 개인 사이트입니다.
+              <b className="text-white">BDOPVP-포냥이</b>는 검은사막을 사랑하는 모험가분들이 더 쉽고, 더 재미있게 게임을 즐기실 수 있도록 만든 팬메이드 사이트입니다.
             </p>
           </div>
 
@@ -110,7 +110,7 @@ export default function SiteInfoPage() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="text-orange-400">💡</span>
-                  <span className="text-gray-300">팁 게시판</span>
+                  <span className="text-gray-300">팁 게시판 및 클래스 가이드</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-cyan-400">📊</span>
