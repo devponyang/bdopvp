@@ -63,14 +63,14 @@ useEffect(() => {
                     <h3 className="font-semibold text-amber-300 mb-2 text-lg">⚠️ 클래스별 랭킹 업데이트 안내</h3>
                     <p className="text-sm leading-relaxed text-gray-200">
                       <strong>클래스별 20위 랭킹 작업</strong>이 1인 작업으로는 과도한 시간이 소요되어, 당분간 업데이트를 진행하지 못하게 되었습니다.<br />
-                      상황이 나아지거나 도와주실 분을 찾게 되면 다시 공지드리겠습니다.
+                      <strong>솔라레의 창 in 100 랭킹은 정상적으로 계속 업데이트됩니다.</strong><br />
                     </p>
                   </div>
                   
                   <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
                     <p className="text-sm leading-relaxed text-gray-300">
                       🙏 기다려주신 분들께 진심으로 죄송합니다.<br />
-                      `솔라레의 창 in 100` 랭킹은 정상적으로 계속 업데이트됩니다.<br />
+                      <strong>솔라레의 창 in 100</strong> 랭킹은 정상적으로 계속 업데이트됩니다.<br />
                       그 외 다른 데이터와 기능도 예정대로 유지하겠습니다.
                     </p>
                   </div>
