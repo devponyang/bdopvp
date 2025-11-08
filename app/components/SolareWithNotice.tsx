@@ -9,16 +9,18 @@ interface SolareWithNoticeProps {
 export default function SolareWithNotice({ children }: SolareWithNoticeProps) {
   const [showNotice, setShowNotice] = useState(false);
 
-  useEffect(() => {
-    // 공지사항 업데이트 완료 - 더 이상 표시하지 않음
-    //const today = new Date();
-    //const todayString = today.toDateString();
-    //const dismissedDate = localStorage.getItem('solareNoticeDismissed');
-     
-    // if (dismissedDate !== todayString) {
-    //   setShowNotice(true);
-    // }
-  }, []);
+useEffect(() => {
+  try {
+    const todayString = new Date().toDateString();
+    const dismissedDate = window.localStorage.getItem('solareNoticeDismissed');
+
+    if (dismissedDate !== todayString) {
+      setShowNotice(true);
+    }
+  } catch (error) {
+    setShowNotice(true);
+  }
+}, []);
 
   const handleCloseNotice = () => {
     setShowNotice(false);
@@ -40,7 +42,7 @@ export default function SolareWithNotice({ children }: SolareWithNoticeProps) {
                     className="w-16 h-16 object-contain"
                   />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-300">솔라레의 창 업데이트 안내</h2>
+                <h2 className="text-2xl font-bold text-gray-300">솔라레의 창 공지</h2>
               </div>
               <button
                 onClick={handleCloseNotice}
@@ -58,17 +60,18 @@ export default function SolareWithNotice({ children }: SolareWithNoticeProps) {
                 {/* 메인 내용 */}
                 <div className="space-y-4">
                   <div className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 rounded-lg p-4 border-l-4 border-amber-400">
-                    <h3 className="font-semibold text-amber-300 mb-2 text-lg">⚠️ 매주 수요일 업데이트 안내</h3>
+                    <h3 className="font-semibold text-amber-300 mb-2 text-lg">⚠️ 클래스별 랭킹 업데이트 안내</h3>
                     <p className="text-sm leading-relaxed text-gray-200">
-                      <strong>매주 수요일 솔라레의 창</strong>은 검은사막 업데이트로 인해 인게임 접속이 불가하여 평소보다 늦게 업데이트 됩니다.<br />
-                      <strong>관리자의 개인사정으로 09시 업데이트가 끝나고 바로 업데이트하거나, 오후에 업데이트</strong> 하겠습니다.
+                      <strong>클래스별 20위 랭킹 작업</strong>이 1인 작업으로는 과도한 시간이 소요되어, 당분간 업데이트를 진행하지 못하게 되었습니다.<br />
+                      상황이 나아지거나 도와주실 분을 찾게 되면 다시 공지드리겠습니다.
                     </p>
                   </div>
                   
                   <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
                     <p className="text-sm leading-relaxed text-gray-300">
-                      🙏 이용에 불편을 드려 죄송합니다.<br />
-                      빠른 시간 안에 업데이트하겠습니다.
+                      🙏 기다려주신 분들께 진심으로 죄송합니다.<br />
+                      `솔라레의 창 in 100` 랭킹은 정상적으로 계속 업데이트됩니다.<br />
+                      그 외 다른 데이터와 기능도 예정대로 유지하겠습니다.
                     </p>
                   </div>
                 </div>
