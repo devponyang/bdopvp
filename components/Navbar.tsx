@@ -135,18 +135,6 @@ export default function Navbar() {
           </form>
         </div>
 
-        {/* 알림 아이콘 */}
-        <div className="hidden md:block">
-          <button 
-            onClick={() => setShowNoticeModal(true)}
-            className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-600 text-yellow-400 hover:text-yellow-300 hover:bg-zinc-700/50 transition-all duration-200 relative"
-          >
-            🔔
-            {/* 새 공지가 있을 때 빨간 점 표시 */}
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-          </button>
-        </div>
-
         {/* 모바일 검색 아이콘과 햄버거 메뉴 */}
         <div className="md:hidden flex items-center gap-2 ml-auto">
           <button 
@@ -221,6 +209,10 @@ export default function Navbar() {
           <Link href="/" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
             <img src="/icons/home-icon.png" alt="홈" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>홈</span>
+          </Link>
+          <Link href="/solare-tournament" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+            <img src="/ponyang/ponyang-3.png" alt="포냥이 솔라레 대회" className="w-6 h-6 object-contain" />
+            <span>포냥이 솔라레 대회</span>
           </Link>
           <div 
             className="relative"
@@ -322,6 +314,14 @@ export default function Navbar() {
                 >
                   <img src="/icons/home-icon.png" alt="홈" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
                   <span className="text-sm font-medium">홈</span>
+                </Link>
+                <Link 
+                  href="/solare-tournament" 
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <img src="/ponyang/ponyang-3.png" alt="포냥이 솔라레 대회" className="w-4 h-4 object-contain" />
+                  <span className="text-sm font-medium">포냥이 솔라레 대회</span>
                 </Link>
                 <Link 
                   href="/tip-board" 

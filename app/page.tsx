@@ -8,11 +8,14 @@ import NodeWarScheduleCard from '@/components/home/NodeWarScheduleCard'
 import NodeWarVideo from '@/components/home/NodeWarVideo'
 import GuildLeagueTop10Server from '@/components/home/GuildLeagueTop10Server'
 import SolareTop10 from '@/components/home/SolareTop10'
+import PonyangSolareTournamentCard from '@/components/home/PonyangSolareTournamentCard'
+import PonyangNotice from '@/components/home/PonyangNotice'
 import ChzzkCard from '@/components/home/ChzzkCard'
 import SidebarBanner from '@/components/banners/SidebarBanner'
 import CardBanner from '@/components/banners/CardBanner'
 import HomeWithNotice from './components/HomeWithNotice'
 import { db } from '@/lib/db'
+import { getSiteNotices } from '@/lib/queries/site-notices'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 60 // 1분 캐시
@@ -21,7 +24,7 @@ export const revalidate = 60 // 1분 캐시
 async function getInitialData() {
   try {
     // 병렬로 데이터 가져오기
-    const [updatesData, couponsData] = await Promise.all([
+    const [updatesData, couponsData, noticesData] = await Promise.all([
       db.query(`
         SELECT title, link, date
         FROM updates
@@ -47,18 +50,21 @@ async function getInitialData() {
             ELSE 0
           END,
           created_at DESC
-      `)
+      `),
+      getSiteNotices(5)
     ])
 
     return {
       updates: updatesData.rows,
-      coupons: couponsData.rows
+      coupons: couponsData.rows,
+      notices: noticesData
     }
   } catch (error) {
     console.error('초기 데이터 로딩 실패:', error)
     return {
       updates: [],
-      coupons: []
+      coupons: [],
+      notices: []
     }
   }
 }
@@ -81,27 +87,25 @@ export default async function Home() {
                         grid-cols-1
                         lg:grid-cols-[300px_1fr_440px]"
                style={{ maxWidth: 'min(1490px, 100vw - 2rem)' }}>
-            
+
             {/* 모바일/태블릿: 좌측 사이드바 */}
             <aside className="space-y-3 sm:space-y-4 md:space-y-6 lg:col-span-1 order-1 lg:order-1">
               {/* 디스코드 배너 */}
               <a href="https://discord.com/invite/mD37c4GEby" target="_blank" rel="noopener noreferrer" className="block bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm text-white font-bold text-base sm:text-lg md:text-xl rounded-2xl border border-white/10 shadow-xl py-2 sm:py-3 md:py-4 px-2 text-center hover:bg-white/5 transition-all">
                 💬 포냥이 디스코드
               </a>
-              
+
               {/* 사이드바 광고 배너 */}
               <SidebarBanner position="home" />
-              
+
               <UpdateCard data={initialData.updates} />
-              
+
               {/* 카드형 광고 배너 */}
               <CardBanner position="home" />
-              
+
+              <PonyangNotice notices={initialData.notices} />
               <CouponCard data={initialData.coupons} />
-              {/* 치지직 스트리머 카드 */}
-              <div className="hidden md:block">
-                <ChzzkCard />
-              </div>
+              <ChzzkCard />
             </aside>
 
             {/* 중앙: 거점전 + PvP */}
@@ -119,18 +123,18 @@ export default async function Home() {
 
             {/* 우측: 길드 리그 / 솔라레 */}
             <aside className="space-y-3 sm:space-y-4 md:space-y-6 lg:col-span-1 order-3 lg:order-3">
+              <PonyangSolareTournamentCard />
               <GuildLeagueTop10Server />
-              
+
               {/* 우측 사이드바 광고 배너 */}
               <SidebarBanner position="home-right" />
-              
+
               <SolareTop10 />
-              
+
               {/* 우측 카드형 광고 배너 */}
               <CardBanner position="home-right" />
             </aside>
           </div>
-
         </div>
       </main>
     </HomeWithNotice>

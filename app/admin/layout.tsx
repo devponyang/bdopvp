@@ -81,6 +81,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   💡 팁
                 </Link>
                 <Link 
+                  href="/admin/solare-tournament" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname.startsWith('/admin/solare-tournament')
+                      ? 'bg-gradient-to-r from-purple-600 to-purple-700 shadow-lg shadow-purple-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  🏆 솔라레 대회
+                </Link>
+                <Link 
                   href="/admin/war-records" 
                   className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
                     pathname === '/admin/war-records' 
@@ -149,6 +159,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   }`}
                 >
                   🎯 마스터
+                </Link>
+                <Link 
+                  href="/admin/site-notices" 
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    pathname.startsWith('/admin/site-notices')
+                      ? 'bg-gradient-to-r from-cyan-600 to-cyan-700 shadow-lg shadow-cyan-500/30' 
+                      : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+                  }`}
+                >
+                  📢 공지
                 </Link>
               </div>
             </div>

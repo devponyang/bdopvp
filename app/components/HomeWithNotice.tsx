@@ -10,15 +10,16 @@ export default function HomeWithNotice({ children }: HomeWithNoticeProps) {
   const [showNotice, setShowNotice] = useState(false);
 
   useEffect(() => {
-    // 오늘 날짜 확인
-    const today = new Date();
-    const todayString = today.toDateString();
-    const dismissedDate = localStorage.getItem('noticeDismissed_v3'); // v3로 변경하여 관리자 모집 공고로 인식
+    // 공지사항 비활성화
+    // const today = new Date();
+    // const todayString = today.toDateString();
+    // const dismissedDate = localStorage.getItem('noticeDismissed_v3'); // v3로 변경하여 관리자 모집 공고로 인식
     
     // 공지사항 표시 (오늘 하루 보지 않기를 선택하지 않았으면)
-    if (dismissedDate !== todayString) {
-      setShowNotice(true);
-    }
+    // if (dismissedDate !== todayString) {
+    //   setShowNotice(true);
+    // }
+    setShowNotice(false);
   }, []);
 
   const handleCloseNotice = () => {
