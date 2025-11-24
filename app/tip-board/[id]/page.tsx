@@ -27,6 +27,7 @@ import AwakenedValkyrieGuide from '../components/AwakenedValkyrieGuide'
 import AwakenedCorsairGuide from '../components/AwakenedCorsairGuide'
 import HasasinSuccessionGuide from '../components/HasasinSuccessionGuide'
 import AwakenedDracaniaGuide from '../components/AwakenedDracaniaGuide'
+import SorcererSuccessionGuide from '../components/SorcererSuccessionGuide'
 
 interface TipPost {
   id: number
@@ -179,6 +180,12 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
 
         // 각성 드라카니아 클래스 가이드는 전용 컴포넌트 렌더링
         if (id === '31') {
+          setLoading(false)
+          return
+        }
+
+        // 전승 소서러 클래스 가이드는 전용 컴포넌트 렌더링
+        if (id === '32') {
           setLoading(false)
           return
         }
@@ -383,6 +390,11 @@ export default function TipPostDetailPage({ params }: { params: Promise<{ id: st
   // 각성 드라카니아 클래스 가이드는 전용 컴포넌트 렌더링
   if (postId === '31') {
     return <AwakenedDracaniaGuide />
+  }
+
+  // 전승 소서러 클래스 가이드는 전용 컴포넌트 렌더링
+  if (postId === '32') {
+    return <SorcererSuccessionGuide />
   }
   
   if (!post) return notFound()

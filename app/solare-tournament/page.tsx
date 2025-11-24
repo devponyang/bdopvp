@@ -216,11 +216,11 @@ export default function PonyangSolareTournamentPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-300 mt-0.5">②</span>
-                <span>팀명, 대표자, 팀원 솔라레 점수 및 메인 클래스를 등록합니다.</span>
+                <span>팀명, 대표자, 팀원 솔라레 점수 및 클래스를 등록합니다.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-300 mt-0.5">③</span>
-                <span>모집 마감 후 운영진이 참가 확정 팀 및 대진을 개별 안내합니다.</span>
+                <span>모집 마감 후 운영진이 참가 확정 팀 및 대진을 안내합니다.</span>
               </li>
             </ul>
             {isApplicationOpen ? (
@@ -270,7 +270,7 @@ export default function PonyangSolareTournamentPage() {
                     <div className="flex flex-col items-stretch sm:items-end gap-2 text-xs text-gray-200">
                       <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/20 px-3 py-1 text-[11px] font-semibold text-emerald-100">
                         <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                        운영진 사비로 제공
+                        운영자 사비로 제공
                       </span>
                     </div>
                   </div>
@@ -336,7 +336,7 @@ export default function PonyangSolareTournamentPage() {
           <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/70 border border-white/10 rounded-3xl p-6 space-y-4">
             <h2 className="text-xl font-bold">중계 & 하이라이트</h2>
             <p className="text-sm text-gray-300 leading-relaxed">
-              본선 경기는 치지직에서 스트리머 사다새가 현장감 넘치는 해설과 함께
+              경기는 스트리머 사다새와 벙라가 현장감 넘치는 해설과 함께
               실시간으로 중계합니다. 경기 종료 후 하이라이트 영상과 리플레이 데이터가
               업데이트될 예정입니다.
             </p>
@@ -360,6 +360,48 @@ export default function PonyangSolareTournamentPage() {
                     <p className="text-xs text-purple-100 mt-1">치지직 라이브 & 하이라이트</p>
                   </div>
                   <span className="text-lg text-purple-200 group-hover:text-white transition-colors">→</span>
+                </div>
+              </Link>
+              <Link
+                href="https://chzzk.naver.com/0fb4e3255f30079c3d677bf4ac00e0a8"
+                target="_blank"
+                className="group relative overflow-hidden rounded-2xl border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 transition-all hover:-translate-y-1"
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-purple-500/20 to-blue-500/20" />
+                <div className="relative flex items-center gap-3 px-4 py-4">
+                  <Image
+                    src="/ponyang/벙라.jpg"
+                    alt="벙라 프로필"
+                    width={64}
+                    height={64}
+                    className="h-16 w-16 rounded-2xl object-cover border border-white/10 shadow-lg"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-white">벙라 채널</p>
+                    <p className="text-xs text-purple-100 mt-1">치지직 라이브 & 하이라이트</p>
+                  </div>
+                  <span className="text-lg text-purple-200 group-hover:text-white transition-colors">→</span>
+                </div>
+              </Link>
+              <Link
+                href="https://www.youtube.com/@벙라"
+                target="_blank"
+                className="group relative overflow-hidden rounded-2xl border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 transition-all hover:-translate-y-1"
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-red-500/20 to-pink-500/20" />
+                <div className="relative flex items-center gap-3 px-4 py-4">
+                  <Image
+                    src="/ponyang/벙라.jpg"
+                    alt="벙라 프로필"
+                    width={64}
+                    height={64}
+                    className="h-16 w-16 rounded-2xl object-cover border border-white/10 shadow-lg"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-white">벙라 채널</p>
+                    <p className="text-xs text-red-100 mt-1">유튜브 하이라이트</p>
+                  </div>
+                  <span className="text-lg text-red-200 group-hover:text-white transition-colors">→</span>
                 </div>
               </Link>
               {/* <Link

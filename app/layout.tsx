@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'ko_KR',
     url: 'https://bdopvp.com',
-    title: '포냥이 - 검은사막 PVP 정보 사이트"',
+    title: '포냥이 - 검은사막 PVP 정보 사이트',
     description: '검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트. PvP, 거점전, 점령전, 공성전, 솔라레의 창, 길드 리그 등 모든 정보를 한눈에 확인하세요.',
     siteName: '포냥이',
     images: [
