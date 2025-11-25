@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
 const infoItems = [
   {
@@ -21,7 +24,35 @@ const infoItems = [
   }
 ]
 
+// 신청 기간 체크 함수 (한국시간 기준)
+function isApplicationPeriodOpen(): boolean {
+  // 현재 시간을 한국시간 기준으로 가져옴
+  const now = new Date()
+  const kstOffset = 9 * 60 * 60 * 1000 // 9시간을 밀리초로 변환
+  const utcTime = now.getTime() + (now.getTimezoneOffset() * 60 * 1000)
+  const kstTime = new Date(utcTime + kstOffset)
+  
+  // 신청 시작일: 2025년 11월 26일 00:00:00 (KST)
+  const startDate = new Date("2025-11-26T00:00:00+09:00")
+  
+  // 신청 종료일: 2025년 12월 14일 23:59:59 (KST)
+  const endDate = new Date("2025-12-14T23:59:59+09:00")
+  
+  return kstTime >= startDate && kstTime <= endDate
+}
+
 export default function PonyangSolareTournamentCard() {
+  const [isApplicationOpen, setIsApplicationOpen] = useState(false)
+  
+  useEffect(() => {
+    setIsApplicationOpen(isApplicationPeriodOpen())
+    // 1분마다 체크하여 날짜가 변경될 때 업데이트
+    const interval = setInterval(() => {
+      setIsApplicationOpen(isApplicationPeriodOpen())
+    }, 60000)
+    
+    return () => clearInterval(interval)
+  }, [])
   return (
     <div className="relative w-full max-w-[400px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-900/90 via-slate-900/85 to-zinc-950/90 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
       <div className="absolute inset-0 opacity-[0.12] mix-blend-screen bg-[radial-gradient(circle_at_top,_#60a5fa55,_transparent_55%),radial-gradient(circle_at_bottom,_#a855f755,_transparent_55%)]" />
@@ -69,12 +100,21 @@ export default function PonyangSolareTournamentCard() {
           >
             대회 세부 정보 보기 →
           </Link>
-          <Link
-            href="/solare-tournament/apply"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-purple-400/40 bg-purple-500/10 px-4 py-2.5 text-xs font-semibold text-purple-200 transition-all hover:-translate-y-0.5 hover:bg-purple-500/20 hover:shadow-lg hover:shadow-purple-500/20"
-          >
-            BDOPVP-포냥이 홈페이지에서 신청 →
-          </Link>
+          {isApplicationOpen ? (
+            <Link
+              href="/solare-tournament/apply"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-purple-400/40 bg-purple-500/10 px-4 py-2.5 text-xs font-semibold text-purple-200 transition-all hover:-translate-y-0.5 hover:bg-purple-500/20 hover:shadow-lg hover:shadow-purple-500/20"
+            >
+              신청페이지 바로가기 →
+            </Link>
+          ) : (
+            <button
+              disabled
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-600 bg-gray-600/10 px-4 py-2.5 text-xs font-semibold text-gray-400 cursor-not-allowed opacity-50"
+            >
+              신청페이지 바로가기 →
+            </button>
+          )}
         </div>
       </div>
     </div>
