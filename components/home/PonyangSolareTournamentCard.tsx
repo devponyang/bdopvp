@@ -33,7 +33,7 @@ function isApplicationPeriodOpen(): boolean {
   const kstTime = new Date(utcTime + kstOffset)
   
   // 신청 시작일: 2025년 11월 26일 00:00:00 (KST)
-  const startDate = new Date("2025-11-26T00:00:00+09:00")
+  const startDate = new Date("2025-11-27T00:00:00+09:00")
   
   // 신청 종료일: 2025년 12월 14일 23:59:59 (KST)
   const endDate = new Date("2025-12-14T23:59:59+09:00")

@@ -33,8 +33,9 @@ const tournamentPhases = [
 ]
 
 const prizePool = [
-  { place: "우승", reward: "상금 30만원" },
-  { place: "검은사막 굿즈", reward: "펄어비스 지원 · 배포 대상 추후 안내" }
+  { place: "1등", reward: "20만원 + 굿즈 3세트" },
+  { place: "2등", reward: "10만원 + 굿즈 3세트" },
+  { place: "3등", reward: "굿즈 3세트" }
 ]
 
 const rules = [
@@ -64,6 +65,7 @@ function isApplicationPeriodOpen(): boolean {
 
 export default function PonyangSolareTournamentPage() {
   const [isApplicationOpen, setIsApplicationOpen] = useState(false)
+  const [showNotice, setShowNotice] = useState(false)
   
   useEffect(() => {
     setIsApplicationOpen(isApplicationPeriodOpen())
@@ -72,10 +74,122 @@ export default function PonyangSolareTournamentPage() {
       setIsApplicationOpen(isApplicationPeriodOpen())
     }, 60000)
     
+    // 공지사항 표시 여부 확인
+    try {
+      const todayString = new Date().toDateString()
+      const dismissedDate = window.localStorage.getItem('tournamentNoticeDismissed')
+      
+      if (dismissedDate !== todayString) {
+        setShowNotice(true)
+      }
+    } catch (error) {
+      setShowNotice(true)
+    }
+    
     return () => clearInterval(interval)
   }, [])
+  
+  const handleCloseNotice = () => {
+    setShowNotice(false)
+  }
+  
   return (
     <main className="bg-zinc-950 text-white min-h-screen pb-16">
+      {/* 공지 팝업 */}
+      {showNotice && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl border border-gray-600/30 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            {/* 모달 헤더 */}
+            <div className="flex items-center justify-between p-6 border-b border-slate-700/50">
+              <div className="flex items-center gap-3">
+                <div className="w-16 h-16 flex items-center justify-center">
+                  <img 
+                    src="/ponyang/ponyang-1.png" 
+                    alt="포냥이" 
+                    className="w-16 h-16 object-contain"
+                  />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-300">대회 공지</h2>
+              </div>
+              <button
+                onClick={handleCloseNotice}
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-slate-700/50 rounded-lg"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* 모달 내용 */}
+            <div className="p-6 space-y-6">
+              <div className="text-gray-300 leading-relaxed">
+                {/* 메인 내용 */}
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 rounded-lg p-4 border-l-4 border-amber-400">
+                    <h3 className="font-semibold text-amber-300 mb-3 text-lg">【공지】 대회 모드 변경 안내</h3>
+                    <p className="text-sm leading-relaxed text-gray-200 mb-3">
+                      안녕하세요. BDOPVP-포냥이 운영자 <strong>디움</strong>입니다.
+                    </p>
+                    <p className="text-sm leading-relaxed text-gray-200 mb-4">
+                      12월 20일 예정이었던 포냥이 솔라레 대회는 아래와 같이 변경되어 진행됩니다.
+                    </p>
+                    <div className="space-y-2 mb-4">
+                      <p className="text-sm text-gray-200">
+                        <strong className="text-amber-200">기존:</strong> 솔라레의 창 사용자 설정 대전(사설게임) 3vs3
+                      </p>
+                      <p className="text-sm text-gray-200">
+                        <strong className="text-amber-200">변경:</strong> 아르샤의 창 팀 대전 3vs3 토너먼트
+                      </p>
+                      <p className="text-sm text-gray-200">
+                        <strong className="text-amber-200">이에 따른 변화로 인해, 신청기한이 변경되었습니다. <br></br>25년 11월 27일(목) 00시부터 신청 가능합니다</strong>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
+                    <h4 className="font-semibold text-blue-300 mb-2">변경 사유</h4>
+                    <p className="text-sm leading-relaxed text-gray-300 mb-2">
+                      솔라레 사용자 설정 대전에는 실시간 관전 기능이 제공되지 않아 중계 시 실시간 경기 화면 전달이 불가능합니다.
+                    </p>
+                    <p className="text-sm leading-relaxed text-gray-300">
+                      보다 원활한 생중계와 시청자 경험 향상을 위해 아르샤의 창으로 전환합니다.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 border border-slate-600/30 rounded-lg p-4">
+                    <h4 className="font-semibold text-gray-200 mb-2">주요 변경 사항</h4>
+                    <ul className="space-y-1 text-sm text-gray-300">
+                      <li>• <strong>모드:</strong> 아르샤 서버 3vs3 팀 대전</li>
+                      <li>• <strong>장비:</strong> 아르샤의 상자2</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 모달 버튼들 */}
+            <div className="flex gap-3 p-6 border-t border-slate-700/50">
+              <button
+                onClick={() => {
+                  const today = new Date().toDateString()
+                  localStorage.setItem('tournamentNoticeDismissed', today)
+                  handleCloseNotice()
+                }}
+                className="flex-1 px-4 py-3 text-sm font-medium text-gray-300 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition-colors"
+              >
+                오늘 하루 보지 않기
+              </button>
+              <button
+                onClick={handleCloseNotice}
+                className="flex-1 px-4 py-3 text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="relative border-b border-white/10">
         <div className="mx-auto max-w-[1490px] px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1490px] py-12 lg:py-16 flex flex-col lg:flex-row items-center gap-10">
@@ -254,50 +368,69 @@ export default function PonyangSolareTournamentPage() {
                 </span>
               </div>
 
-              {prizePool.length > 0 && (
-                <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-black/30 px-5 py-4 shadow-[0_20px_45px_rgba(79,70,229,0.35)]">
-                  <div className="absolute inset-0 opacity-50 bg-gradient-to-r from-blue-500/20 via-purple-500/25 to-pink-500/20" />
-                  <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-500/20 border border-blue-200/30 text-2xl text-blue-100">
-                        🏆
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-blue-100 uppercase tracking-wide">우승</p>
-                        <p className="text-xl sm:text-2xl font-bold text-white">{prizePool[0].reward}</p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col items-stretch sm:items-end gap-2 text-xs text-gray-200">
-                      <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/20 px-3 py-1 text-[11px] font-semibold text-emerald-100">
-                        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                        운영자 사비로 제공
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {prizePool.length > 1 && (
-                <ul className="space-y-3">
-                  {prizePool.slice(1).map((item) => (
-                    <li
+              <div className="space-y-4">
+                {prizePool.map((item, index) => {
+                  const prizeStyles = [
+                    {
+                      // 1등 - 금색
+                      border: "border-yellow-400/40",
+                      bg: "bg-gradient-to-br from-yellow-500/20 via-amber-500/15 to-yellow-600/10",
+                      iconBg: "bg-gradient-to-br from-yellow-400/30 to-amber-500/20 border-yellow-300/40",
+                      icon: "🥇",
+                      textColor: "text-yellow-100",
+                      labelColor: "text-yellow-200",
+                      shadow: "shadow-[0_20px_45px_rgba(234,179,8,0.35)]",
+                      glow: "shadow-[0_0_20px_rgba(234,179,8,0.3)]"
+                    },
+                    {
+                      // 2등 - 은색
+                      border: "border-gray-300/40",
+                      bg: "bg-gradient-to-br from-gray-400/20 via-slate-400/15 to-gray-500/10",
+                      iconBg: "bg-gradient-to-br from-gray-300/30 to-slate-400/20 border-gray-200/40",
+                      icon: "🥈",
+                      textColor: "text-gray-100",
+                      labelColor: "text-gray-200",
+                      shadow: "shadow-[0_20px_45px_rgba(148,163,184,0.35)]",
+                      glow: "shadow-[0_0_15px_rgba(148,163,184,0.25)]"
+                    },
+                    {
+                      // 3등 - 동색
+                      border: "border-orange-400/40",
+                      bg: "bg-gradient-to-br from-orange-500/20 via-amber-600/15 to-orange-700/10",
+                      iconBg: "bg-gradient-to-br from-orange-400/30 to-amber-600/20 border-orange-300/40",
+                      icon: "🥉",
+                      textColor: "text-orange-100",
+                      labelColor: "text-orange-200",
+                      shadow: "shadow-[0_20px_45px_rgba(251,146,60,0.35)]",
+                      glow: "shadow-[0_0_15px_rgba(251,146,60,0.25)]"
+                    }
+                  ]
+                  
+                  const style = prizeStyles[index] || prizeStyles[0]
+                  
+                  return (
+                    <div
                       key={item.place}
-                      className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-gray-200"
+                      className={`relative overflow-hidden rounded-2xl border ${style.border} ${style.bg} px-5 py-4 ${style.shadow} transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/15 text-sm font-semibold text-blue-200">
-                        🎁
+                      <div className="absolute inset-0 opacity-30 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                      <div className="relative flex items-center gap-4">
+                        <div className={`flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl ${style.iconBg} text-3xl sm:text-4xl transition-transform duration-300 hover:scale-110`}>
+                          {style.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className={`text-xs sm:text-sm font-bold ${style.labelColor} uppercase tracking-wider mb-1`}>
+                            {item.place}
+                          </p>
+                          <p className={`text-lg sm:text-xl md:text-2xl font-black ${style.textColor} leading-tight`}>
+                            {item.reward}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3 w-full">
-                        <span className="font-semibold text-white flex items-center gap-2">
-                          {item.place}
-                          
-                        </span>
-                        <span className="text-xs text-gray-300 sm:text-right">{item.reward}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                    </div>
+                  )
+                })}
+              </div>
 
               <p className="text-[11px] text-blue-100/70">
                 ※ 보상은 운영 상황에 따라 일부 조정될 수 있으며, 확정 시 별도 공지합니다.

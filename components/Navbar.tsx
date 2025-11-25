@@ -211,8 +211,8 @@ export default function Navbar() {
             <span>홈</span>
           </Link>
           <Link href="/solare-tournament" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <img src="/ponyang/ponyang-3.png" alt="포냥이 솔라레 대회" className="w-6 h-6 object-contain" />
-            <span>포냥이 솔라레 대회</span>
+            <img src="/ponyang/ponyang-3.png" alt="Arsha Tournament" className="w-6 h-6 object-contain" />
+            <span>Arsha Tournament</span>
           </Link>
           <div 
             className="relative"
@@ -320,8 +320,8 @@ export default function Navbar() {
                   className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
-                  <img src="/ponyang/ponyang-3.png" alt="포냥이 솔라레 대회" className="w-4 h-4 object-contain" />
-                  <span className="text-sm font-medium">포냥이 솔라레 대회</span>
+                  <img src="/ponyang/ponyang-3.png" alt="Arsha Tournament" className="w-4 h-4 object-contain" />
+                  <span className="text-sm font-medium">Arsha Tournament</span>
                 </Link>
                 <Link 
                   href="/tip-board" 
