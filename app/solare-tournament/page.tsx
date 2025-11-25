@@ -39,7 +39,7 @@ const prizePool = [
 
 const rules = [
   "3명씩 팀을 짜서 신청, 총 32팀을 모집합니다.",
-  "모집 팀 초과 시 솔라레 시즌 점수 합산 순으로 참가가 확정됩니다.",
+  "모집 팀 초과/미달 시 솔라레 시즌 점수 합산 순으로 참가가 확정됩니다.",
   "본선은 Round of 16 Tournament로 진행되며, 라운드별 세부 규칙은 추후 공지됩니다.",
   "경기 운영 및 문의는 BDOPVP-포냥이 공식 디스코드에서 담당합니다.",
   "모든 참가자는 BDOPVP-포냥이 공식 디스코드 서버에 참여해야 하며, 대회 안내 및 공지는 디스코드를 통해 제공됩니다."
@@ -54,7 +54,7 @@ function isApplicationPeriodOpen(): boolean {
   const kstTime = new Date(utcTime + kstOffset)
   
   // 신청 시작일: 2025년 11월 26일 00:00:00 (KST)
-  const startDate = new Date("2025-11-26T00:00:00+09:00")
+  const startDate = new Date("2025-11-27T00:00:00+09:00")
   
   // 신청 종료일: 2025년 12월 14일 23:59:59 (KST)
   const endDate = new Date("2025-12-14T23:59:59+09:00")
@@ -84,14 +84,14 @@ export default function PonyangSolareTournamentPage() {
               🎮 BDOPVP 커뮤니티 주관
             </span>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
-              BDOPVP-포냥이 Solare Tournament 2025
+              BDOPVP-포냥이<br></br> Arena of Arsha Tournament
               <span className="block text-lg sm:text-xl font-semibold text-blue-200 mt-3">
                 2025년 12월 20일 · Round of 16 Tournament 
               </span>
             </h1>
             <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-              BDOPVP-포냥이 커뮤니티가 주최하는 솔라레의 창 토너먼트입니다. 
-              세 명이 한 팀을 이뤄 최고의 솔라레 팀을 결정짓는 승부를 펼칩니다. 참가 신청은 BDOPVP-포냥이
+              BDOPVP-포냥이 커뮤니티가 주최하는 아르샤의 창으로 진행하는 3vs3 팀 토너먼트입니다. 
+              세 명이 한 팀을 이뤄 최고의 팀을 결정짓는 승부를 펼칩니다. 참가 신청은 BDOPVP-포냥이
               홈페이지에서 진행되며, 경기는 치지직에서 생중계됩니다.
             </p>
             <p className="text-sm text-gray-500"> <b className="text-blue-200">BDOPVP-포냥이 Solare Tournament 2025 는 펄어비스로부터 소정의 검은사막 굿즈를 지원받았습니다.</b></p>
@@ -206,7 +206,7 @@ export default function PonyangSolareTournamentPage() {
             <h2 className="text-2xl font-bold">참가 안내</h2>
             <p className="text-sm text-gray-300 leading-relaxed">
               참가 신청은 BDOPVP-포냥이 홈페이지에서 접수합니다. 팀 구성(3인 1팀) 후 신청
-              정보를 입력해주세요. 접수가 마감되면 솔라레 시즌 점수 합산을 기준으로 본선
+              정보를 입력해주세요. 접수가 마감되면 3인의 솔라레의 창 시즌 점수 합산을 기준으로 본선
               시드가 확정됩니다.
             </p>
             <ul className="grid gap-3 text-sm text-gray-200">
@@ -216,7 +216,7 @@ export default function PonyangSolareTournamentPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-300 mt-0.5">②</span>
-                <span>팀명, 대표자, 팀원 솔라레 점수 및 클래스를 등록합니다.</span>
+                <span>팀명, 대표자, 팀원 솔라레의 창 점수 및 클래스를 등록합니다.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-300 mt-0.5">③</span>
@@ -434,7 +434,7 @@ export default function PonyangSolareTournamentPage() {
           <div className="relative z-10 text-center space-y-4">
             <h2 className="text-2xl sm:text-3xl font-bold text-white">Special Thanks</h2>
             <p className="text-sm sm:text-base text-gray-200 leading-relaxed sm:max-w-2xl mx-auto">
-              BDOPVP-포냥이 솔라레 토너먼트는 <span className="text-base sm:text-lg font-bold text-white drop-shadow-[0_0_25px_rgba(96,165,250,0.45)] whitespace-nowrap">펄어비스로부터 소정의 검은사막 굿즈를 지원받았습니다</span>.<br />
+              BDOPVP-포냥이 아르샤의 창 토너먼트는 <span className="text-base sm:text-lg font-bold text-white drop-shadow-[0_0_25px_rgba(96,165,250,0.45)] whitespace-nowrap">펄어비스로부터 소정의 검은사막 굿즈를 지원받았습니다</span>.<br />
               대회에 힘을 실어주신 모든 분께 감사드립니다.
             </p>
             <div className="flex items-center justify-center gap-3 text-xs sm:text-sm text-blue-100">

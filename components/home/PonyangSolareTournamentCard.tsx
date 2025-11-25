@@ -15,7 +15,7 @@ const infoItems = [
   },
   {
     label: "신청 기간",
-    value: "11월 26일(수요일) ~ 12월 14일(일요일)",
+    value: "11월 27일(목요일) ~ 12월 14일(일요일)",
     icon: "📝",
     accent: "from-rose-500/20 to-rose-500/0 border-rose-400/40"
   }
@@ -28,15 +28,15 @@ export default function PonyangSolareTournamentCard() {
       <div className="relative p-5 sm:p-6 space-y-5">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-sky-200">
           <span className="text-lg">🏆</span>
-          솔라레 최강을 가리는 커뮤니티 친선 대회
+          최강의 팀을 가리는 3vs3 커뮤니티 친선 대회
         </div>
 
         <div className="space-y-2">
           <h2 className="text-xl sm:text-2xl font-bold text-white">
-             Solare Tournament 2025
+          Arena of Arsha Tournament
           </h2>
           <p className="text-xs text-gray-400 leading-relaxed">
-            BDOPVP-포냥이가 주최하는 2025 솔라레 토너먼트!
+            BDOPVP-포냥이가 주최하는 2025 3vs3 팀 토너먼트!
           </p>
           <p className="text-xs text-gray-400 leading-relaxed">
             최고의 랭커들과 실력파 모험가들이 한 자리에 모입니다.
