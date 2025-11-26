@@ -63,7 +63,7 @@ export default function AdminSolareTournamentPage() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch("/api/solare-tournament/applications", { cache: "no-store" })
+      const res = await fetch("/api/Tournament/applications", { cache: "no-store" })
       if (!res.ok) {
         throw new Error("신청서 목록을 불러오지 못했습니다.")
       }
@@ -110,7 +110,7 @@ export default function AdminSolareTournamentPage() {
 
   const handleStatusUpdate = async (id: number, status: ApplicationStatus) => {
     try {
-      const res = await fetch(`/api/solare-tournament/applications/${id}`, {
+      const res = await fetch(`/api/Tournament/applications/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status })
@@ -129,7 +129,7 @@ export default function AdminSolareTournamentPage() {
   const handleDelete = async (id: number) => {
     if (!confirm("이 신청서를 삭제하시겠습니까?")) return
     try {
-      const res = await fetch(`/api/solare-tournament/applications/${id}`, {
+      const res = await fetch(`/api/Tournament/applications/${id}`, {
         method: "DELETE"
       })
       if (!res.ok) {
@@ -205,7 +205,7 @@ export default function AdminSolareTournamentPage() {
 
     setSaving(true)
     try {
-      const res = await fetch(`/api/solare-tournament/applications/${editingApp.id}`, {
+      const res = await fetch(`/api/Tournament/applications/${editingApp.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -250,14 +250,14 @@ export default function AdminSolareTournamentPage() {
         </div>
         <div className="flex gap-2">
           <Link
-            href="/solare-tournament"
+            href="/Tournament"
             target="_blank"
             className="px-3 py-2 text-xs font-semibold rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 transition-colors"
           >
             대회 페이지 보기
           </Link>
           <Link
-            href="/solare-tournament/apply"
+            href="/Tournament/apply"
             target="_blank"
             className="px-3 py-2 text-xs font-semibold rounded-lg border border-blue-500/40 text-blue-200 hover:bg-blue-500/20 transition-colors"
           >

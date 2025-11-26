@@ -81,9 +81,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   💡 팁
                 </Link>
                 <Link 
-                  href="/admin/solare-tournament" 
+                  href="/admin/Tournament" 
                   className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
-                    pathname.startsWith('/admin/solare-tournament')
+                    pathname.startsWith('/admin/Tournament')
                       ? 'bg-gradient-to-r from-purple-600 to-purple-700 shadow-lg shadow-purple-500/30' 
                       : 'hover:bg-white/5 border border-transparent hover:border-white/10'
                   }`}

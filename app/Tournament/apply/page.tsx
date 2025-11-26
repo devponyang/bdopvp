@@ -70,7 +70,7 @@ export default function SolareTournamentApplyPage() {
         agreeRules
       }
 
-      const res = await fetch("/api/solare-tournament/applications", {
+      const res = await fetch("/api/Tournament/applications", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -118,7 +118,7 @@ export default function SolareTournamentApplyPage() {
     setEditError("")
     setEditLoading(true)
     try {
-      const res = await fetch("/api/solare-tournament/applications/lookup", {
+      const res = await fetch("/api/Tournament/applications/lookup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -161,7 +161,7 @@ export default function SolareTournamentApplyPage() {
           <div className="max-w-4xl">
             <p className="text-sm uppercase tracking-wider text-blue-300">Application</p>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight mt-3">
-              BDOPVP-포냥이 Solare Tournament 2025 참가 신청
+              BDOPVP-포냥이 Arena Of Arsha Tournament 참가 신청
             </h1>
             <p className="mt-4 text-sm sm:text-base text-gray-300 leading-relaxed">
               아래 양식을 작성해 제출하면 운영진이 확인 후 디스코드로 개별 연락을 드립니다.
@@ -183,7 +183,7 @@ export default function SolareTournamentApplyPage() {
             </div>
             <div className="mt-6 flex gap-2">
               <Link
-                href="/solare-tournament"
+                href="/Tournament"
                 className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 transition-colors"
               >
                 ← 대회 안내로 돌아가기
@@ -363,7 +363,7 @@ export default function SolareTournamentApplyPage() {
                   required
                 />
                 <label htmlFor="agreeRules" className="text-sm text-gray-200 leading-relaxed">
-                  참가 신청을 제출하면 BDOPVP-포냥이 Solare Tournament 2025 규정(현장 일정 준수, 경기
+                  참가 신청을 제출하면 BDOPVP-포냥이 Arena Of Arsha Tournament 규정(현장 일정 준수, 경기
                   규칙, 부정행위 금지 등)에 모두 동의한 것으로 간주됩니다. 
                   연락이 닿지 않는 경우 참가가 취소될 수 있습니다.
                   <br />
@@ -402,7 +402,9 @@ export default function SolareTournamentApplyPage() {
 
             <div className="flex items-center justify-end gap-3 pt-2">
               <Link
-                href="/solare-tournament"
+                href="/Tournament"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-white/10 transition-colors"
               >
                 대회 안내 보기
