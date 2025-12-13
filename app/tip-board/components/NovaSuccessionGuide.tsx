@@ -885,7 +885,7 @@ export default function NovaSuccessionGuide() {
 
         {/* 기본콤보 */}
         <div className="bg-gradient-to-br from-red-900/30 to-red-800/20 p-6 rounded-xl mb-6 border border-red-500/50 shadow-lg">
-          <h3 className="text-red-400 text-2xl font-bold mb-4">기본콤보 (에끌님 콤보)</h3>
+          <h3 className="text-red-400 text-2xl font-bold mb-4">기본콤보 (초급님 콤보)</h3>
           
           <div className="text-slate-200 text-base">
             <div className="flex items-center justify-center gap-2">

@@ -239,6 +239,24 @@ export default function SorcererSuccessionGuide() {
         </div>
       </div>
 
+      {/* 전승소서란? */}
+      <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-cyan-500">
+        <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
+          <span className="mr-3 text-4xl">❓</span> 전승소서란?
+        </h2>
+        <div className="text-slate-200 text-lg leading-relaxed space-y-4">
+          <p>
+            전승소서는 <strong className="text-cyan-400">하이브리드 캐릭터</strong>입니다. 기동성이 좋은편이 아니지만, 근접전이나 다수전에서 강한 모습을 보입니다.
+          </p>
+          <p>
+            근접전에서는 전승소서 특유의 빠른템포에 해둠, 유린등을 이용해서 더욱 강하게 상대를 압박할 수 있습니다. 다수전에서는 역시 검은사막 최고회피기 밤까마귀가 있으니 어그로든, 딜러든 1인분이 충분한 캐릭터입니다.
+          </p>
+          <p>
+            전승소서는 뒷걸음 가드가 없는 캐릭터로서 플레이시 매우 높은 집중력을 요구한다고 생각합니다. 스킬의 갯수가 단순하지만, 그만큼 상대방이 무엇을 할지 어느정도 예상을 해야하고, 패턴을 파악하는 것이 중요합니다. 또한 이동기가 좋지 않지만 그만큼 붙어주는 상대에 한해서 준영구로 밤까마귀를 사용할 수 있습니다.
+          </p>
+        </div>
+      </div>
+
       {/* 2. 장단점 */}
       <div className="bg-slate-800 p-8 rounded-2xl mb-8 shadow-xl border-l-4 border-purple-500">
         <h2 className="text-white text-3xl font-bold mb-6 flex items-center">
@@ -378,7 +396,7 @@ export default function SorcererSuccessionGuide() {
         </div>
 
         {/* 길드리그 */}
-        <div className="bg-gradient-to-br from-purple-900/20 to-violet-900/10 p-6 rounded-xl border border-purple-400/30 shadow-lg">
+        <div className="bg-gradient-to-br from-purple-900/20 to-violet-900/10 p-6 rounded-xl mb-6 border border-purple-400/30 shadow-lg">
           <div className="flex items-center mb-6">
             <div className="w-10 h-10 bg-purple-500/80 rounded-full flex items-center justify-center mr-4">
               <span className="text-white text-xl">🏆</span>
@@ -390,6 +408,79 @@ export default function SorcererSuccessionGuide() {
             <p className="text-slate-200 text-lg leading-relaxed">
               기동성이 부족하기 때문에 현재 탱커 메타인 경우 사실상 픽하는것 자체가 매우 민폐인 클래스. 팀원들이 모두 본인의 발을 맞춰줘야 하는데 그것 자체가 쉽지 않음. 길드리그는 딜러 캐치게임이라서 특수함.
             </p>
+          </div>
+        </div>
+
+        {/* 상황별 운영법 */}
+        <div className="bg-gradient-to-br from-emerald-900/20 to-teal-900/10 p-6 rounded-xl border border-emerald-400/30 shadow-lg">
+          <div className="flex items-center mb-6">
+            <div className="w-10 h-10 bg-emerald-500/80 rounded-full flex items-center justify-center mr-4">
+              <span className="text-white text-xl">🎮</span>
+            </div>
+            <h3 className="text-emerald-200 text-xl font-bold">상황별 운영법</h3>
+          </div>
+
+          {/* 1대1 */}
+          <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50 mb-4">
+            <h4 className="text-emerald-300 text-xl font-bold mb-4 flex items-center">
+              <span className="mr-2">⚔️</span> 1대1
+            </h4>
+            
+            <div className="space-y-4">
+              <div className="bg-slate-700/30 p-4 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-base leading-relaxed">
+                  어떤 상대와 싸우든 <strong className="text-emerald-300">긴밤지르기의 치명타확률 증가버프는 유지</strong>하셔야합니다.
+                </p>
+              </div>
+
+              <div className="bg-slate-700/30 p-4 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-base leading-relaxed">
+                  상대가 빠른클래스면서 뒤를 잡기 용이한 클래스인 경우 <strong className="text-emerald-300">어둠 갈퀴는 무조건 쓰지 않고</strong>, <strong className="text-emerald-300">어둠의 파도는 최대한 자제</strong>해서 사용해 줍시다.
+                </p>
+              </div>
+
+              <div className="bg-slate-700/30 p-4 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-base leading-relaxed">
+                  회피캐랑 붙는 경우 <strong className="text-emerald-300">유린에 회깎을 무조건 붙여</strong> 줍시다.
+                </p>
+              </div>
+
+              <div className="bg-slate-700/30 p-4 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-base leading-relaxed">
+                  시속디버프를 고려한다면(특히 아르샤의 창) <strong className="text-emerald-300">파도나 유린에 공시속디버프를 넣는것</strong>이 좋습니다. 파도에는 이미 공시속디버프가 존재하고, 유린은 슈퍼아머기 때문에 공시속디버프를 묻히기 쉽습니다.
+                </p>
+              </div>
+
+              <div className="bg-slate-700/30 p-4 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-base leading-relaxed">
+                  1대1시에 가장 중요한건 딜도 딜이지만 <strong className="text-emerald-300">시속버프와 이속버프가 가장 중요</strong>합니다. 둘중에 하나라도 디버프를 맞을 경우 밤까-스킬-밤까의 구조를 지닌 소서러가 플레이하기 매우 힘든 상황이 오기 때문입니다. 최대한 디버프를 파도로 맞대응 해줍시다.
+                </p>
+              </div>
+
+              <div className="bg-slate-700/30 p-4 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-base leading-relaxed">
+                  그리고 어떤 스킬을 사용하든 <strong className="text-emerald-300">최대한 상대를 맞추셔야합니다</strong>. 그래야 밤까마귀를 더 쓸 수 있습니다. 극분출, 극업화, 유린을 제외하곤 모두 조각이 회복되기 때문에 최대한 맞추는 버릇을 들이도록 합시다. 상대 가드를 깨는게 목적이 아닌 본인의 조각을 채우고 밤까를 더하기 위해.
+                </p>
+              </div>
+
+              <div className="bg-slate-700/30 p-4 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-base leading-relaxed">
+                  cc는 <strong className="text-emerald-300">밤까-그불-밤까, 밤까-해둠-밤까, 파도or연격or업화 - 극분출, 당멸, 핏재카운터, 까돌-분출</strong>로 걸어줍시다.
+                </p>
+                <p className="text-slate-200 text-base leading-relaxed mt-2">
+                  그리고 딜교시에 상대가 잡기가 빠지거나 본인이 시속버프가 충분하다면 <strong className="text-emerald-300">유린으로 딜교</strong>를 해줍시다.
+                </p>
+              </div>
+
+              <div className="bg-slate-700/30 p-4 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-base leading-relaxed">
+                  방막캐와 상대할 시에는 상대 잡기가 빠진것을 보고 <strong className="text-emerald-300">유린을 사용</strong>하도록 합시다. 가드를 깨서 잡고싶으면 <strong className="text-emerald-300">심불을 자주 써주면</strong> 됩니다.
+                </p>
+                <p className="text-slate-300 text-sm mt-2 italic">
+                  저는 심불을 그렇게 자주쓰는 스타일이 아니라서 이건 본인 스타일대로!
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -469,6 +560,291 @@ export default function SorcererSuccessionGuide() {
             </div>
           </div>
         </div>
+
+        {/* 스킬 활용 */}
+        <div className="bg-gradient-to-br from-orange-900/20 to-amber-900/10 p-6 rounded-xl border border-orange-400/30 shadow-lg mt-6">
+          <h3 className="text-orange-300 text-2xl font-bold mb-6 flex items-center">
+            <span className="mr-3 text-3xl">🎯</span> 스킬 활용
+          </h3>
+
+          <div className="space-y-6">
+            {/* 강 : 어둠의 파도 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 어둠의 파도</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                각성소서의 카르티안의 악몽 포지션을 가지는 스킬입니다. 리부트이전에는 맨몸판정이라 1대1 콤보 초반에 사용했지만 리부트 이후에 전방가드 판정을 받으면서 전승소서의 핵심딜링스킬 중 하나가 되었습니다.
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                파도같은 경우 채널링스킬이며 전방가드스킬이기 때문에 각성위치의 고르굴리기를 쓰는방식과 비슷하게 벽을 등지고 쓰는게 가장 안정적입니다. 최대한 쓸 수 있다면 마지막 타격까지 쓰면 좋지만 굳이 꼭 막타를 쓸 필요는 없습니다.
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                사용은 대치할 때, 벽을 등질 때, 3분켰을 때 입니다. 눈앞에서 쓰면 생각보다 모션이 길기 때문에 잡기와 뒤잡히기에 취약한 상태가 됩니다. 가까이서 쓰는건 상대가 잡기가 빠졌거나, 조각이 없을 때 조각회복용도로 쓰시는 것을 추천드립니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 특화:</strong> 시속증가 특화가있으면 더욱 빠르게 딜을 넣을 수 있기 때문에 어떤 특화를 해도 파도 시속특화는 무조건 추천드립니다.
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 해방된 어둠 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 해방된 어둠</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                리메이크 이후 CC기면서 콤보 딜량의 큰 부분을 차지하는 스킬이 되었습니다. 비비면서 백어택 해둠이 딜이 정말 쏠쏨합니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 특화:</strong> 백어택피해량, 다운어택피해량, 치명타피해량 중 택2
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 긴밤 지르기 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 긴밤 지르기</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서 핵심스킬입니다. 이동기이기도하면서 버프스킬이기도 합니다. 치명타보정과 딜이 부족한 전승소서는 긴밤지르기 버프를 유지하는 것이 필수입니다. 대치중일 때 긴밤버프를 상시로 돌려줘야 쓸만한 딜이 나옵니다. 그래서 긴밤지르기 버프를 얼마나 잘 유지하냐가 숙련도를 나타낼 수 있는 지표라고 생각합니다. 교전시에 혹은 교전중에 긴밤버프를 유지할 수 있도록 연습을 충분히 하셔야 합니다. 저랑 자유결투장에서 혹은 제 영상을 보신분은 아시겠지만 제가 습관처럼 긴밤-업화 연계를 통해 긴밤의 치명타 버프를 유지하는것을 보셨을 겁니다. 전승소서의 가장 핵심스킬이기 때문에 최대한 유지하시는것을 추천드립니다.
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                이동기로 사용시에는 까돌을먼저 쓴 후 긴밤을 쓰는것이 낫습니다. 아니면 교전전에 치확버프를 땡기면서 합류할 때 사용하는 것이 좋습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 덮어-긴밤, 1cc이후 긴밤
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> X
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 까마귀 돌진 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 까마귀 돌진</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                강까돌은 전승소서의 유일한 이동기면서도 진입기입니다. 까돌-분출 연계기로 사용할 수 있으며 어떻게 보면 전승소서 cc 핵심위치에 있다고 볼 수 있습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 까돌-분출(CC), 덮어 - 까돌 - 긴밤(이동기)
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> X
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 핏빛 재앙 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 핏빛 재앙</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                핏재는 딜량이 정말 답이없기 때문에, 딜링보다는 CC를 걸거나 특화를 땡기는 식으로 사용합니다. 해당 스킬에 특화를 어떤것을 다냐에 따라 본인의 성향이 나타날 수 있습니다. 본인이 공격적인 성향이 강한 경우 공격적인 특화를, 서포팅적인 성향이 강한 경우 팀에게 유리한식으로 특화를 짤 수 있습니다. 어느것이든 좋았으니 입맛에 따라 하시면 될 것 같습니다.
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                핏재는 피흡 슈아스킬로 딜은 약하지만 다양하게 사용할 수 있습니다. 지구력이 없을 때 써주면 슈아를 최대한 끌어 쓸 수 있습니다.(지구력 회복은 안됨).
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                사용방법은 퀵슬롯 핏빛재앙과 커맨드 핏빛재앙이 있습니다.
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed mb-2">
+                슬롯 핏재는 슈퍼아머 모션이 더 길어 슈아끌기가 가능하지만 순간적인 잡기에 취약해서 근처에 있을 경우 쓰는것은 좋지 않은 선택일 수 있습니다.(ex 작열잡기)
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                커맨드 핏재는 모션이 빠르다는 장점이 있습니다. 전소의 체력이 부족할 때 몹이나 유저에게 사용하면 빠르게 피를 회복할 수 있습니다. 단 슬롯 핏빛재앙보다 슈아모션이 짧습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 특화:</strong> 이속증가, 방어력증가, 방어력감소(다수전 시), 회피력감소(다수전시)
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 어둠의 연격 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 어둠의 연격</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서의 지구력을 버는 소중한 스킬들 중 하나입니다. 연격은 쓸 수 있을 때 최대한 써주는 것이 좋으며 3타까지 전방가드이기때문에 연격스킬을 3타까지 쓸 환경을 만들어 주는 것이 중요합니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 연계:</strong> 긴밤-연격3타, 포획-연격3타, 긴밤-연격3타-극분출
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> X
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 어둠의 업화 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 어둠의 업화</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서의 지구력을 버는 소중한 스킬들 중 하나입니다. 유린 뒤에 좌클릭을해서 추가타처럼 써도 되고, 긴밤-업화 연계로 안전하게 긴밤버프를 땡기는 식으로 사용할 수 있습니다. 저는 긴밤-업화를 자주 사용하네요. 업화 또한 마찬가지로 모션이 길기 때문에 상대방과의 거리가 멀때 혹은 뒤에 벽이있을 때 사용하는 것이 좋습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 긴밤-업화, 유린-업화
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> X
+                </p>
+              </div>
+            </div>
+
+            {/* 전승 : 극 : 어둠의 업화 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">전승 : 극 : 어둠의 업화</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서의 지구력을 버는 소중한 스킬들 중 하나입니다. 리부트 이전에는 넉다운 cc가 있어서 다가오는 상대한테 마컨으로 카운터cc를 넣을 수 있는데 패치이후로 전방가드용도 밖에 없습니다. 극업화는 긴밤 - 업화 - 극업화 연계로 긴밤버프와 조각버프를 모두 땡길 수 있는 수단입니다. 뒤에 벽이 있지않은이상 근접에서 사용하는것은 비추합니다. 모션이 크고 사용도중 밤까가 되지 않습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 긴밤-업화-극업화(거리벌렸을 때), 유린-업화-극업화(안전할 경우)
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> X
+                </p>
+              </div>
+            </div>
+
+            {/* 전승 : 부리 차기 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">전승 : 부리 차기</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                까불or그불-부리차기-포획 연계시 항상 사용하는 스킬입니다. 평상시 보다는 콤보시에 사용을 하는것을 추천합니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 까불-부리차기, 그불-부리차기
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> 회깎 치명타피해량
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 까마귀 불꽃 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 까마귀 불꽃</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서 핵심스킬중 하나입니다. 슈퍼아머로 패치되기 이전엔 까불을 잘쓰는 정도가 전승소서의 숙련도를 나타냈지만 이제는 디버프도 사라졌고 슈퍼아머로 바뀌었기 때문에 크게 문제될것이 아닙니다. 지구력 유지를 위해서 슈퍼아머 모션을 끄는것이 중요합니다.
+              </p>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                또한 까마귀불꽃은 방어 뿐만아니라 다른스킬모션을 스킵하는데도 사용합니다. 당멸 이후 캐릭터가 밀려나는거나, 분출 후딜을 캔슬하는 등 여러가지 스킬들의 후딜레이를 줄일 수 있습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 밤까-까불-밤까
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> 적깎, 치피
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 그림자 분출 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 그림자 분출</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서의 cc핵심 스킬입니다. 기본적으로 밤까-분출-밤까의 메커니즘을 가지고 있고 툴팁에 적혀있는 것 처럼 까마귀돌진과 주로 사용합니다. 제가 자유결투장에서 직접만난분들에게는 많이 설명을 해드리긴했는데, 전승소서가 상대 뒤잡을 할 수 있는 유일한 스킬이 까마귀돌진-분출 연계입니다. 각성소서의 도약-긴밤처럼 사용이 가능하고 도약-긴밤보다 훨씬 안정적입니다. 이전에는 분출이 슈퍼아머라 안정적이었지만, 조각버프 갱신 및 전방가드로 바뀌면서 적절한 타이밍에 사용하는게 중요해졌습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬 연계:</strong> 분출-유린, 분출-까불, 분출-당멸-그불
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> 치확, 인추, 적중, 회깍, 방깍
+                </p>
+              </div>
+            </div>
+
+            {/* 전승 : 극 : 그림자 분출 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">전승 : 극 : 그림자 분출</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서의 CC스킬 중 하나입니다. 사정거리가 은근 길고, 범위도 매우 좋기 때문에 럭키 CC로 잘 걸립니다. 거리가 긴 이점을 사용하여 당멸 같이 원거리에서 경직을 넣는데 성공했을 경우 파도-극분출로 다음 cc를 이을 수 있습니다. 솔라레 시 팀원이 cc를 넣은거에 극분출을 통해 넉다운 cc를 추가로 넣어 보조를 할 수도 있습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">스킬 연계:</strong> 극:어둠의 업화 - 극분출(좌클), 까불 - 극분출(좌클), 연격3타 - 극분출(좌클), 파도 - 극분출(좌클)
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 심연의 불꽃 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 심연의 불꽃</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서 핵심스킬 중 하나입니다. 한방한방이 매우 강한스킬이고, 치명타보정도 매우 잘되어있기 때문에 특화가 따로 필요하지 않은 스킬입니다. 각성소서와 비교하자면 본을 찍지 않은 심판이라고 보면 될것 같습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 밤까-심불, 포획-심불
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> 치피, 시속, 방깎(1대1), 회깎(1대1)
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 멸망의 꿈 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 멸망의 꿈</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서 핵심스킬 중 하나입니다. 차징멸꿈 사용 시 매우 강력한 데미지를 낼 수 있습니다. 또한 당멸로 쓸 경우 즉발 광역 경직 cc라서 깜짝 cc로 사용 할 수 있습니다. 광역 스킬이기 때문에 디버프를 거는 용도로도 사용할 수 있습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 심불-멸꿈(심불로 특화땡기고 차징멸꿈), 분출-당멸
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> 치확, 방깎, 회깎, 공시속디버프
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 망자 유린 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 망자 유린</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서 핵심스킬 중 하나입니다. 전방가드 인 시절 쓸 때마다 뒤를 잡힐 위험이 있어 특화도 빼버리고 정말 안정적인 상황에서만 사용했는데, 이제 슈퍼아머기 때문에 자유롭게 사용해도 됩니다. 사용 시 지구력은 회복되진않지만, 다른 스킬들의 쿨타임을 벌 수 있습니다. 슈퍼아머 유지시간은 그리 넉넉한 편은 아닙니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬연계:</strong> 분출-유린, 덮어-유린
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> 방깎, 출혈(솔라레), 회깎, 치피
+                </p>
+              </div>
+            </div>
+
+            {/* 강 : 그림자 포획 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">강 : 그림자 포획</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                전승소서 콤보스킬 중 하나입니다. 회피율 감소 디버프가 있기 때문에 밤까-포획-밤까로 딜교를 해도 됩니다. 대신 후딜레이 캔슬이 다른 스킬들에 비해 느리기 때문에 연격3타나 덮어를 같이 쓰는 것이 좋습니다.
+              </p>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40 mt-3">
+                <p className="text-slate-200 text-sm">
+                  <strong className="text-orange-300">추천 스킬 연계:</strong> 까불-부리 포획, 긴밤-포획-분출, 밤까-포획-연격3타-밤까, 밤까-포획-덮어
+                </p>
+                <p className="text-slate-200 text-sm mt-1">
+                  <strong className="text-orange-300">추천 특화:</strong> 회깎
+                </p>
+              </div>
+            </div>
+
+            {/* 어둠 갈퀴 */}
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50">
+              <h4 className="text-orange-300 text-xl font-bold mb-3">어둠 갈퀴</h4>
+              <p className="text-slate-200 text-base leading-relaxed mb-3">
+                슈퍼아머 → 전방가드로 바뀐후 사장된 스킬이 되었습니다. 웬만하면 특화를 찍지 않는것을 추천드립니다. 사용할 때는 무조건 등을 지고 사용하는 것을 추천합니다.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 6. 수정 및 특화 */}
@@ -477,8 +853,210 @@ export default function SorcererSuccessionGuide() {
           <span className="mr-3 text-4xl">⚙️</span> 수정 및 특화
         </h2>
         
+        {/* 수정 */}
+        <div className="bg-gradient-to-br from-purple-900/20 to-violet-900/10 p-6 rounded-xl mb-6 border border-purple-400/30 shadow-lg">
+          <h3 className="text-purple-300 text-2xl font-bold mb-4">수정</h3>
+          
+          {/* 수정 이미지 */}
+          <div className="cursor-pointer hover:scale-105 transition-transform bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-4 rounded-xl border border-slate-600/50 mb-6" onClick={() => setSelectedImage('/ponyang/소서러수정.png')}>
+            <img src="/ponyang/소서러수정.png" alt="소서러 수정" className="w-full h-auto object-contain rounded-lg" />
+          </div>
+
+          {/* 범용 세팅 */}
+          <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-4 rounded-xl border border-slate-500/50 mb-4">
+            <h4 className="text-purple-200 text-xl font-bold mb-3">범용 세팅</h4>
+            <p className="text-slate-200 text-base leading-relaxed">
+              기본적으로 위 이미지의 세팅을 사용합니다.
+            </p>
+          </div>
+
+          {/* 적중이 필요한 경우 */}
+          <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/10 p-4 rounded-xl border border-blue-400/30 mb-4">
+            <h4 className="text-blue-200 text-xl font-bold mb-3">적중이 필요한 경우</h4>
+            <p className="text-slate-200 text-base leading-relaxed mb-2">
+              <strong className="text-blue-300">아디스 → 엘카르</strong>로 변경합니다.
+            </p>
+            <p className="text-slate-200 text-base leading-relaxed">
+              더 필요한 경우 <strong className="text-blue-300">강새벽적중</strong>을 추가합니다.
+            </p>
+          </div>
+
+          {/* 공격이 더 필요한 경우 */}
+          <div className="bg-gradient-to-r from-red-900/20 to-rose-900/10 p-4 rounded-xl border border-red-400/30">
+            <h4 className="text-red-200 text-xl font-bold mb-3">공격이 더 필요한 경우</h4>
+            <p className="text-slate-200 text-base leading-relaxed">
+              <strong className="text-red-300">엘카르, 2혹한, 아디스</strong>를 빼고 <strong className="text-red-300">4강마칼</strong>로 교체합니다.
+            </p>
+          </div>
+        </div>
+
+        {/* 특화 */}
+        <div className="bg-gradient-to-br from-indigo-900/20 to-blue-900/10 p-6 rounded-xl border border-indigo-400/30 shadow-lg">
+          <h3 className="text-indigo-300 text-2xl font-bold mb-4">특화</h3>
+          
+          {/* 특화 안내 */}
+          <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/40 p-6 rounded-xl border border-slate-600/50 mb-6">
+            <p className="text-slate-200 text-base leading-relaxed mb-4">
+              말씀드리기에 앞서 특화는 본인의 취향을 매우 타는 영역입니다. 정답은 없으며 본인의 플레이스타일을 정립하시고 그에 맞게 바꿔가시면 되겠습니다. 저같은 경우 특화를 짤 때 제가 플레이 하는 영상을 계속해서 돌려보고 그에 맞게 짰습니다. 또한 본인의 역할군에 따라 또 다르기 때문에! 무조건 직접 짜보길 추천드립니다.
+            </p>
+            
+            <p className="text-indigo-300 text-lg font-bold mb-3">
+              저는 특화를 짤 때 다음과 같은 것을 고려합니다.
+            </p>
+            
+            <div className="space-y-3 mb-4">
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-sm">
+                  • 전승소서에게 가장 필요한 특화는 무엇인가? 해당특화를 상시로 유지할 수 있는가?
+                </p>
+              </div>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-sm">
+                  • 해당 스킬의 치확보정은 어느정도 되어있는가?
+                </p>
+              </div>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-sm">
+                  • 특화끼리 겹치치는 않는가?
+                </p>
+              </div>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-sm">
+                  • 디버프가 있는가?
+                </p>
+              </div>
+              <div className="bg-slate-700/30 p-3 rounded-lg border border-slate-600/40">
+                <p className="text-slate-200 text-sm">
+                  • 처음에 사용하는 스킬인가?
+                </p>
+              </div>
+            </div>
+            
+            <p className="text-slate-200 text-base leading-relaxed mb-4">
+              위와 같은 것들을 고려하고 현재 상황이 1대1(혹은 소수전)인지, 제한공성인지, 다수전인지 까지고려합니다. 다수전일수록 디버프보다는 버프쪽으로 특화를 짭니다. 왜냐하면 다수전인 경우 혼자하는 것이 아닌 여러명이 하는것이기 때문에, 본인이 특정 클래스군을 잡는 특화를 짜지않는이상 디버프를 많이 두를 필요가없습니다. cc에 성공할경우 여러명이 때리면 대부분 죽기 때문이죠.
+            </p>
+            
+            <div className="bg-indigo-900/30 p-4 rounded-lg border border-indigo-400/40 mb-4">
+              <p className="text-indigo-300 text-base font-semibold mb-2">
+                저는 전승소서에게 가장 필요한 특화는 시전속도 증가라고 생각합니다.
+              </p>
+              <p className="text-slate-200 text-sm leading-relaxed">
+                멸꿈 치명타확률보정 상향전에는 치명타확률이 정말 중요하다고 생각했으나, 이제 치명타 보정이 파도를 제외하고 대부분 25% 이상이기 때문에 우선순위에서 밀립니다.
+              </p>
+            </div>
+            
+            <p className="text-slate-200 text-base leading-relaxed mb-4">
+              시전속도가 중요한 이유는 파도는 채널링 시간을 줄이기 위해서, 멸꿈은 차징시간을 줄이기 위해서, 그리고 상대와 대치시에 압박을 쉽게 하기 위해서 입니다. 시속버프가 없는 상황에서 시속 디버프를 맞으면 몽마도 없는 전소로서 상황을 타개하기 매우 힘들어지는 것을 많이 느꼈습니다.
+            </p>
+            
+            <p className="text-slate-200 text-base leading-relaxed mb-4">
+              디버프 같은 경우 유린 방깎, 출혈 파도 공시속감소, 부리차기 적깎, 포획 회깎 등이 있는데 실질적으로 유린 방깎을 제외하곤 크게 유의미하지 않다고 생각합니다.
+            </p>
+            
+            <p className="text-slate-200 text-base leading-relaxed mb-4">
+              처음 사용하는 스킬은 이건 개인마다 다를 수 있습니다. 또한 상황따라 다르기 때문에 정해진 답이 정말 없는데요. 저 같은 경우 분출, 당멸, 해둠, 그불로 cc를 걸고 대부분 상대랑 비비면서 특화를 땡기는 스타일이라 무엇을 해도 상관없는,,? 이건 개인의 취향이라고 생각합니다.
+            </p>
+            
+            <div className="bg-indigo-900/30 p-4 rounded-lg border border-indigo-400/40">
+              <p className="text-slate-200 text-base leading-relaxed mb-2">
+                위의 고려할 것들과 제가 생각하는 것들을 종합하여 짠 특화는 다음과 같습니다. 고정적으로 어둠의 파도는 치명타확률 버프와 시속버프를 씁니다. 채널링 스킬이자 치명타 확률보정이 하나도 없는 주 딜링스킬이기 때문에 짧은시간내에 최대한 많이 딜을 우겨넣기 위해서입니다. 본인이 cc걸림 위험에서도, 상대를 킬할 수 있는 가능성 측면에서도 시속특화가 가장 좋게 느껴졌습니다.
+              </p>
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-amber-900/30 to-orange-900/20 p-4 rounded-lg border border-amber-400/40 mb-6">
+            <p className="text-amber-300 text-base font-semibold">
+              ※ 멸꿈의 최근 상향으로 치명타 확률 보정 50%가 생겨 기존의 치명타 확률 증가 특화를 넣을 필요가 사라졌습니다. 
+              군중에 던지기 때문에 방깎은 그대로 두고, 치명타 확률 보정이 좋으니 치명타 피해량으로 조정합니다.
+            </p>
+          </div>
+
+          {/* RvR 특화 */}
+          <div className="bg-gradient-to-br from-red-900/20 to-rose-900/10 p-6 rounded-xl border border-red-400/30 shadow-lg mb-6">
+            <h4 className="text-red-300 text-xl font-bold mb-4 flex items-center">
+              <span className="mr-2">⚔️</span> RvR 특화
+            </h4>
+            <div className="space-y-3">
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-red-300">핏빛재앙</strong>: 피해 감소 +, 이동 속도 증가
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-red-300">어둠의 파도</strong>: 시전속도 증가, 치명타 확률 증가
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-red-300">멸망의 꿈</strong>: 피해 감소 -, 치명타 피해량 증가
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-red-300">그림자 분출</strong>: 치명타 확률 증가, 적중력 증가
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-red-300">해방된 어둠</strong>: 다운어택 피해량 증가, 백어택 피해량 증가
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-red-300">망자 유린</strong>: 피해 감소 -, 모든 회피력 -
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 솔라레 특화 */}
+          <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/10 p-6 rounded-xl border border-blue-400/30 shadow-lg">
+            <h4 className="text-blue-300 text-xl font-bold mb-4 flex items-center">
+              <span className="mr-2">🌟</span> 솔라레 특화
+            </h4>
+            <div className="bg-gradient-to-r from-amber-900/30 to-orange-900/20 p-3 rounded-lg border border-amber-400/40 mb-4">
+              <p className="text-amber-300 text-sm font-semibold">
+                ※ 현재는 RvR과 동일하나 아래처럼 바꿀 생각이 있습니다.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-blue-300">핏빛재앙</strong>: 피해 감소 -, 이동 속도 증가
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-blue-300">망자 유린</strong>: 피해 감소 -, 피해 감소 +
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-blue-300">멸망의 꿈</strong>: 피해 감소 -, 회피력 -
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-blue-300">해방된 어둠</strong>: 치명타 피해량 증가, 백어택 피해량 증가
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-blue-300">어둠의 파도</strong>: 시전 속도 증가, 다운어택 피해량 증가
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-slate-800/60 to-slate-900/40 p-3 rounded-lg border border-slate-500/50">
+                <p className="text-slate-200 text-base">
+                  <strong className="text-blue-300">그림자 분출</strong>: 치명타 확률 증가, 적중력 증가
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 밸런스 세팅 */}
-        <div className="bg-gradient-to-r from-slate-700/50 to-slate-800/50 p-6 rounded-xl border border-slate-600 shadow-lg">
+        <div className="bg-gradient-to-r from-slate-700/50 to-slate-800/50 p-6 rounded-xl border border-slate-600 shadow-lg mt-6">
           <h3 className="text-pink-300 text-2xl font-bold mb-4">밸런스 세팅</h3>
           <div className="bg-gradient-to-r from-amber-900/30 to-orange-900/20 p-6 rounded-xl border border-amber-400/40">
             <p className="text-slate-200 text-lg leading-relaxed">
