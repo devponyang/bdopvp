@@ -71,6 +71,19 @@ export async function POST(req: NextRequest) {
     const client = await db.connect()
     
     try {
+      // 중복 체크
+      const checkResult = await client.query(
+        `SELECT id FROM coupons WHERE code = $1`,
+        [sanitizedCode]
+      )
+
+      if (checkResult.rows.length > 0) {
+        return NextResponse.json(
+          { error: `쿠폰 코드 "${sanitizedCode}"가 이미 존재합니다.` },
+          { status: 409 }
+        )
+      }
+
       const result = await client.query(
         `
         INSERT INTO coupons (code, title, description, start_date, end_date)
@@ -81,6 +94,21 @@ export async function POST(req: NextRequest) {
       )
 
       return NextResponse.json(result.rows[0])
+    } catch (error: any) {
+      console.error('Failed to create coupon:', error)
+      
+      // PostgreSQL 중복 키 오류 처리
+      if (error.code === '23505' && error.constraint === 'coupons_code_key') {
+        return NextResponse.json(
+          { error: `쿠폰 코드 "${sanitizedCode}"가 이미 존재합니다.` },
+          { status: 409 }
+        )
+      }
+      
+      return NextResponse.json(
+        { error: error.message || 'Failed to create coupon' },
+        { status: 500 }
+      )
     } finally {
       client.release()
     }

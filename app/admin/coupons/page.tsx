@@ -15,6 +15,7 @@ export default function CouponAdmin() {
   const [coupons, setCoupons] = useState<Coupon[]>([])
   const [newCoupon, setNewCoupon] = useState<Partial<Coupon>>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCoupons()
@@ -33,6 +34,7 @@ export default function CouponAdmin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError(null)
 
     try {
       const response = await fetch('/api/admin/coupons', {
@@ -51,10 +53,15 @@ export default function CouponAdmin() {
 
       if (response.ok) {
         setNewCoupon({})
+        setError(null)
         fetchCoupons()
+      } else {
+        const data = await response.json()
+        setError(data.error || '쿠폰 생성에 실패했습니다.')
       }
     } catch (error) {
       console.error('Failed to create coupon:', error)
+      setError('쿠폰 생성 중 오류가 발생했습니다.')
     } finally {
       setIsLoading(false)
     }
@@ -91,6 +98,12 @@ export default function CouponAdmin() {
       {/* 쿠폰 추가 폼 */}
       <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
         <h2 className="text-xl font-bold text-white mb-6">새 쿠폰 추가</h2>
+        
+        {error && (
+          <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300">
+            ⚠️ {error}
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
