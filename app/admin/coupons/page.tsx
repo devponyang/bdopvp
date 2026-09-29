@@ -84,9 +84,9 @@ export default function CouponAdmin() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 헤더 */}
-      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
             <span className="text-2xl">🎫</span>
@@ -96,7 +96,7 @@ export default function CouponAdmin() {
       </div>
 
       {/* 쿠폰 추가 폼 */}
-      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
         <h2 className="text-xl font-bold text-white mb-6">새 쿠폰 추가</h2>
         
         {error && (
@@ -141,7 +141,7 @@ export default function CouponAdmin() {
       </div>
 
       {/* 쿠폰 목록 */}
-      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
         <h2 className="text-xl font-bold text-white mb-6">쿠폰 목록</h2>
         
         {coupons.length === 0 ? (

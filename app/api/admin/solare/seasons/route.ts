@@ -42,10 +42,11 @@ export async function POST(req: NextRequest) {
     
     await client.query('COMMIT')
     return NextResponse.json(result.rows[0])
-  } catch (err) {
+  } catch (err: any) {
     await client.query('ROLLBACK')
     console.error('시즌 생성 오류:', err)
-    return new NextResponse('Internal Server Error', { status: 500 })
+    const message = err?.detail || err?.message || 'Internal Server Error'
+    return new NextResponse(message, { status: 500 })
   } finally {
     client.release()
   }

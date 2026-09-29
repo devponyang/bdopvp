@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     for (const a of alliances) {
       const name = a.name?.trim()
       const tiers: string[] = Array.isArray(a.tiers) ? a.tiers : []
-      const guilds: string[] = Array.isArray(a.guilds) ? a.guilds : []
+      const guilds: string[] = [...new Set<string>(Array.isArray(a.guilds) ? a.guilds : [])]
       const isActive = a.isActive !== false // 프론트엔드에서 보낸 isActive 값 사용
 
       if (!name || guilds.length === 0) continue

@@ -53,6 +53,8 @@ const CLASSES = [
 
 export default function SolareAdminPage() {
   const [activeTab, setActiveTab] = useState<'data' | 'seasons' | 'specializations'>('data')
+  const [guildRefreshing, setGuildRefreshing] = useState(false)
+  const [guildRefreshResult, setGuildRefreshResult] = useState<string | null>(null)
   
   // 데이터 관리 탭
   const [selectedClass, setSelectedClass] = useState('전체')
@@ -85,6 +87,8 @@ export default function SolareAdminPage() {
   const [activeSeasonId, setActiveSeasonId] = useState<number | null>(null)
   const [selectedSeasonId, setSelectedSeasonId] = useState<number | null>(null)
   const [solareSeasons, setSolareSeasons] = useState<any[]>([])
+  const [seasonStatus, setSeasonStatus] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
+  const [specializationStatus, setSpecializationStatus] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
 
   // 데이터 로드
   useEffect(() => {
@@ -132,48 +136,43 @@ export default function SolareAdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newSeason)
       })
-      
+
       if (response.ok) {
-        alert('새 솔라레 시즌이 생성되었습니다!')
+        setSeasonStatus({ type: 'success', msg: '새 솔라레 시즌이 생성되었습니다!' })
         setShowNewSeasonForm(false)
-        setNewSeason({
-          seasonName: '',
-          seasonNumber: 1,
-          startDate: new Date().toISOString().split('T')[0],
-          description: ''
-        })
         loadSeasons()
       } else {
-        alert('솔라레 시즌 생성에 실패했습니다.')
+        const errorText = await response.text()
+        setSeasonStatus({ type: 'error', msg: `솔라레 시즌 생성 실패 (${response.status}): ${errorText}` })
       }
     } catch (error) {
       console.error('솔라레 시즌 생성 오류:', error)
-      alert('솔라레 시즌 생성 중 오류가 발생했습니다.')
+      setSeasonStatus({ type: 'error', msg: '솔라레 시즌 생성 중 오류가 발생했습니다.' })
     }
   }
 
   const archiveSeason = async (seasonId: number) => {
     if (!confirm('현재 솔라레 시즌을 종료하고 데이터를 보관하시겠습니까?')) return
-    
+
     try {
       const response = await fetch('/api/admin/solare/archive-season', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          seasonId, 
-          endDate: new Date().toISOString().split('T')[0] 
+        body: JSON.stringify({
+          seasonId,
+          endDate: new Date().toISOString().split('T')[0]
         })
       })
-      
+
       if (response.ok) {
-        alert('솔라레 시즌이 성공적으로 보관되었습니다!')
+        setSeasonStatus({ type: 'success', msg: '솔라레 시즌이 성공적으로 보관되었습니다!' })
         loadSeasons()
       } else {
-        alert('솔라레 시즌 보관에 실패했습니다.')
+        setSeasonStatus({ type: 'error', msg: '솔라레 시즌 보관에 실패했습니다.' })
       }
     } catch (error) {
       console.error('솔라레 시즌 보관 오류:', error)
-      alert('솔라레 시즌 보관 중 오류가 발생했습니다.')
+      setSeasonStatus({ type: 'error', msg: '솔라레 시즌 보관 중 오류가 발생했습니다.' })
     }
   }
 
@@ -370,7 +369,7 @@ export default function SolareAdminPage() {
   // 특화 정보 저장
   const handleSpecializationSave = async () => {
     if (!specializationPlayerName || !specializationClassName) {
-      alert('플레이어명과 클래스를 선택해주세요.')
+      setSpecializationStatus({ type: 'error', msg: '플레이어명과 클래스를 선택해주세요.' })
       return
     }
 
@@ -413,34 +412,70 @@ export default function SolareAdminPage() {
       })
 
       if (res.ok) {
-        alert('특화 정보가 저장되었습니다!')
+        setSpecializationStatus({ type: 'success', msg: '특화 정보가 저장되었습니다!' })
         setSpecializationPlayerName('')
         setSpecializationDescription('')
         setSpecializationImageFile(null)
         setSpecializationImagePreview(null)
         setPlayerSearch('')
-        // 현재 시즌의 특화 정보 다시 로드
         fetchSpecializations(solarePlayers, selectedSeasonId)
       } else {
         throw new Error('저장 실패')
       }
     } catch (error) {
       console.error('저장 오류:', error)
-      alert('저장 중 오류가 발생했습니다.')
+      setSpecializationStatus({ type: 'error', msg: '저장 중 오류가 발생했습니다.' })
     } finally {
       setSpecializationLoading(false)
     }
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 헤더 */}
-      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
             <span className="text-2xl">⚡</span>
           </div>
           <h1 className="text-3xl font-bold text-white">솔라레의 창 관리</h1>
+        </div>
+        <div className="mt-4 flex items-center gap-3 flex-wrap">
+          <a
+            href="/admin/solare/ocr"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 rounded-lg text-sm font-semibold hover:bg-cyan-500/30 transition-colors"
+          >
+            📷 OCR 파이프라인
+          </a>
+          <button
+            onClick={async () => {
+              setGuildRefreshing(true)
+              setGuildRefreshResult(null)
+              try {
+                const res = await fetch('/api/admin/solare/refresh-guilds', { method: 'POST' })
+                if (res.ok) {
+                  const data = await res.json()
+                  setGuildRefreshResult(`완료: ${data.total}명 중 ${data.updated}행 갱신`)
+                } else {
+                  const text = await res.text()
+                  setGuildRefreshResult(`오류: ${text}`)
+                }
+              } catch (e) {
+                setGuildRefreshResult(`오류: ${e}`)
+              } finally {
+                setGuildRefreshing(false)
+              }
+            }}
+            disabled={guildRefreshing}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 rounded-lg text-sm font-semibold hover:bg-emerald-500/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {guildRefreshing ? '⏳ 갱신 중...' : '🏰 길드 갱신'}
+          </button>
+          {guildRefreshResult && (
+            <span className={`text-sm font-medium ${guildRefreshResult.startsWith('오류') ? 'text-red-400' : 'text-emerald-400'}`}>
+              {guildRefreshResult}
+            </span>
+          )}
         </div>
       </div>
 
@@ -448,7 +483,7 @@ export default function SolareAdminPage() {
       <div className="flex space-x-2 bg-slate-700/40 p-1.5 rounded-xl border border-white/10">
         <button
           onClick={() => setActiveTab('data')}
-          className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
+          className={`flex-1 px-5 py-2.5 text-sm font-semibold rounded-lg transition-all ${
             activeTab === 'data'
               ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/30'
               : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -458,7 +493,7 @@ export default function SolareAdminPage() {
         </button>
         <button
           onClick={() => setActiveTab('seasons')}
-          className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
+          className={`flex-1 px-5 py-2.5 text-sm font-semibold rounded-lg transition-all ${
             activeTab === 'seasons'
               ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/30'
               : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -468,7 +503,7 @@ export default function SolareAdminPage() {
         </button>
         <button
           onClick={() => setActiveTab('specializations')}
-          className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
+          className={`flex-1 px-5 py-2.5 text-sm font-semibold rounded-lg transition-all ${
             activeTab === 'specializations'
               ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/30'
               : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -480,46 +515,25 @@ export default function SolareAdminPage() {
 
       {/* 데이터 관리 탭 */}
       {activeTab === 'data' && (
-        <div className="space-y-6">
-          {/* 날짜 선택 및 클래스 필터 */}
-          <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
-            <div className="flex flex-col sm:flex-row gap-4 mb-4">
-              {/* 날짜 선택 */}
-              <div className="flex items-center gap-3">
-                <label className="text-white font-medium text-sm">📅 날짜:</label>
-                <Input
-                  type="date"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="bg-slate-700/50 border-slate-600 text-white"
-                />
-              </div>
-              
-              {/* 클래스 필터 */}
-              <div className="flex items-center gap-3">
-                <label className="text-white font-medium text-sm">🎯 클래스:</label>
-                <Select value={selectedClass} onValueChange={setSelectedClass}>
-                  <SelectTrigger className="w-32 bg-slate-700/50 border-slate-600 text-white">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-600">
-                    <SelectItem value="전체">전체</SelectItem>
-                    {classList.map(cls => (
-                      <SelectItem key={cls} value={cls}>{cls}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+        <div className="space-y-4">
+          {/* 날짜 + 클래스 필터 */}
+          <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-4 border border-white/10 shadow-xl">
+            <div className="flex items-center gap-3 mb-3">
+              <label className="text-gray-400 text-xs font-medium whitespace-nowrap">날짜:</label>
+              <Input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="w-36 bg-slate-700/50 border-slate-600 text-white text-sm h-8"
+              />
             </div>
-            
-            {/* 클래스 버튼들 */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               <button
                 onClick={() => setSelectedClass('전체')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  selectedClass === '전체' 
-                    ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg' 
-                    : 'bg-slate-700/50 text-gray-300 hover:bg-slate-600/50'
+                className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                  selectedClass === '전체'
+                    ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-md'
+                    : 'bg-slate-700/50 text-gray-300 hover:bg-slate-600/50 border border-white/5'
                 }`}
               >
                 전체
@@ -528,10 +542,10 @@ export default function SolareAdminPage() {
                 <button
                   key={cls}
                   onClick={() => setSelectedClass(cls)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    selectedClass === cls 
-                      ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg' 
-                      : 'bg-slate-700/50 text-gray-300 hover:bg-slate-600/50'
+                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                    selectedClass === cls
+                      ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-md'
+                      : 'bg-slate-700/50 text-gray-300 hover:bg-slate-600/50 border border-white/5'
                   }`}
                 >
                   {cls}
@@ -551,7 +565,7 @@ export default function SolareAdminPage() {
           
           {/* 데이터가 없을 때 메시지 */}
           {overall.length === 0 && Object.keys(classData).length === 0 && (
-            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl text-center">
+            <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl text-center">
               <div className="text-6xl mb-4">📅</div>
               <h3 className="text-xl font-bold text-white mb-2">
                 {selectedDate} 데이터가 없습니다
@@ -571,10 +585,26 @@ export default function SolareAdminPage() {
       {activeTab === 'seasons' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
+            {seasonStatus && (
+              <p className={`mb-3 text-sm font-medium ${seasonStatus.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {seasonStatus.type === 'success' ? '✅' : '❌'} {seasonStatus.msg}
+              </p>
+            )}
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-white">시즌 관리</h2>
-              <Button 
-                onClick={() => setShowNewSeasonForm(true)}
+              <Button
+                onClick={() => {
+                  const nextNumber = seasons.length > 0
+                    ? Math.max(...seasons.map(s => s.season_number)) + 1
+                    : 1
+                  setNewSeason({
+                    seasonName: `솔라레 시즌 ${nextNumber}`,
+                    seasonNumber: nextNumber,
+                    startDate: new Date().toISOString().split('T')[0],
+                    description: ''
+                  })
+                  setShowNewSeasonForm(true)
+                }}
                 className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg"
               >
                 새 시즌 생성
@@ -692,7 +722,12 @@ export default function SolareAdminPage() {
       {/* 특화 관리 탭 */}
       {activeTab === 'specializations' && (
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+          <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
+            {specializationStatus && (
+              <p className={`mb-3 text-sm font-medium ${specializationStatus.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {specializationStatus.type === 'success' ? '✅' : '❌'} {specializationStatus.msg}
+              </p>
+            )}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">

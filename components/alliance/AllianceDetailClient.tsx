@@ -288,8 +288,8 @@ export default function AllianceDetailClient({ alliance }: { alliance: AllianceD
         </h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
-          {alliance.guilds.map((guild) => (
-            <div key={guild.name} className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-600 hover:border-blue-500/50 transition-all duration-300 hover:bg-slate-700/50 group">
+          {alliance.guilds.map((guild, idx) => (
+            <div key={`${guild.name}-${idx}`} className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-600 hover:border-blue-500/50 transition-all duration-300 hover:bg-slate-700/50 group">
               <div className="flex items-start gap-2 mb-2 sm:mb-3">
                 {guild.iconUrl && (
                   <img 

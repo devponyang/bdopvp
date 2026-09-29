@@ -16,10 +16,13 @@ interface TipPost {
   priority?: number
 }
 
+type Status = { type: 'success' | 'error'; msg: string } | null
+
 export default function AdminTipBoardManagePage() {
   const [posts, setPosts] = useState<TipPost[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [status, setStatus] = useState<Status>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -52,8 +55,9 @@ export default function AdminTipBoardManagePage() {
       const res = await fetch(`/api/tip-board/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('삭제 실패')
       setPosts(posts.filter(p => p.id !== id))
+      setStatus({ type: 'success', msg: '삭제되었습니다.' })
     } catch (err: any) {
-      alert(err.message || '오류 발생')
+      setStatus({ type: 'error', msg: err.message || '오류 발생' })
     }
   }
 
@@ -65,12 +69,9 @@ export default function AdminTipBoardManagePage() {
         body: JSON.stringify({ [flag]: !currentValue })
       })
       if (!res.ok) throw new Error('플래그 업데이트 실패')
-      
-      setPosts(posts.map(p => 
-        p.id === id ? { ...p, [flag]: !currentValue } : p
-      ))
+      setPosts(posts.map(p => p.id === id ? { ...p, [flag]: !currentValue } : p))
     } catch (err: any) {
-      alert(err.message || '오류 발생')
+      setStatus({ type: 'error', msg: err.message || '플래그 업데이트 실패' })
     }
   }
 
@@ -82,18 +83,16 @@ export default function AdminTipBoardManagePage() {
         body: JSON.stringify({ action: 'up' })
       })
       if (!res.ok) throw new Error('우선순위 업데이트 실패')
-      
-      // 목록 새로고침
       fetchPosts()
     } catch (err: any) {
-      alert(err.message || '오류 발생')
+      setStatus({ type: 'error', msg: err.message || '우선순위 업데이트 실패' })
     }
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 헤더 */}
-      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -101,32 +100,39 @@ export default function AdminTipBoardManagePage() {
             </div>
             <h1 className="text-3xl font-bold text-white">팁 게시판 관리</h1>
           </div>
-          <Button
-            onClick={() => router.push('/admin/tip-board/write')}
-            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all"
-          >
-            ✏️ 글쓰기
-          </Button>
+          <div className="flex items-center gap-3">
+            {status && (
+              <p className={`text-sm font-medium ${status.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {status.type === 'success' ? '✅' : '❌'} {status.msg}
+              </p>
+            )}
+            <Button
+              onClick={() => router.push('/admin/tip-board/write')}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all"
+            >
+              ✏️ 글쓰기
+            </Button>
+          </div>
         </div>
       </div>
 
       {/* 게시글 목록 */}
       {loading ? (
-        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
           <div className="flex flex-col items-center justify-center py-12">
             <div className="animate-spin w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full mb-3"></div>
             <div className="text-gray-400">로딩 중...</div>
           </div>
         </div>
       ) : error ? (
-        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
           <div className="text-center py-12">
             <div className="text-5xl mb-4">⚠️</div>
             <p className="text-red-400 text-lg">{error}</p>
           </div>
         </div>
       ) : posts.length === 0 ? (
-        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
           <div className="text-center py-12">
             <div className="text-5xl mb-4">📝</div>
             <p className="text-gray-400 text-lg">등록된 팁 게시글이 없습니다.</p>

@@ -35,6 +35,8 @@ interface EditFormState {
   members: Member[]
 }
 
+type Status = { type: 'success' | 'error'; msg: string } | null
+
 const STATUS_LABELS: Record<ApplicationStatus, string> = {
   pending: "대기",
   approved: "승인",
@@ -53,10 +55,12 @@ export default function AdminSolareTournamentPage() {
   const [applications, setApplications] = useState<Application[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [actionStatus, setActionStatus] = useState<Status>(null)
   const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus | "all">("all")
   const [searchTerm, setSearchTerm] = useState("")
   const [editingApp, setEditingApp] = useState<Application | null>(null)
   const [editForm, setEditForm] = useState<EditFormState | null>(null)
+  const [modalError, setModalError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
 
   const fetchApplications = async () => {
@@ -122,7 +126,7 @@ export default function AdminSolareTournamentPage() {
         prev.map((app) => (app.id === id ? { ...app, status } : app))
       )
     } catch (err) {
-      alert(err instanceof Error ? err.message : "상태 변경 중 오류가 발생했습니다.")
+      setActionStatus({ type: 'error', msg: err instanceof Error ? err.message : "상태 변경 중 오류가 발생했습니다." })
     }
   }
 
@@ -136,13 +140,15 @@ export default function AdminSolareTournamentPage() {
         throw new Error("삭제에 실패했습니다.")
       }
       setApplications((prev) => prev.filter((app) => app.id !== id))
+      setActionStatus({ type: 'success', msg: '신청서가 삭제되었습니다.' })
     } catch (err) {
-      alert(err instanceof Error ? err.message : "삭제 중 오류가 발생했습니다.")
+      setActionStatus({ type: 'error', msg: err instanceof Error ? err.message : "삭제 중 오류가 발생했습니다." })
     }
   }
 
   const openEditModal = (app: Application) => {
     setEditingApp(app)
+    setModalError(null)
     setEditForm({
       teamName: app.team_name,
       leaderFamilyName: app.leader_family_name,
@@ -161,6 +167,7 @@ export default function AdminSolareTournamentPage() {
     if (saving) return
     setEditingApp(null)
     setEditForm(null)
+    setModalError(null)
   }
 
   const handleEditMemberChange = (index: number, key: keyof Member, value: string) => {
@@ -189,20 +196,21 @@ export default function AdminSolareTournamentPage() {
     if (!editingApp || !editForm) return
 
     if (!editForm.teamName.trim()) {
-      alert("팀명을 입력해주세요.")
+      setModalError("팀명을 입력해주세요.")
       return
     }
 
     if (editForm.teamName.trim().length > 6) {
-      alert("팀명은 최대 6글자까지 입력할 수 있습니다.")
+      setModalError("팀명은 최대 6글자까지 입력할 수 있습니다.")
       return
     }
 
     if (!editForm.members.every((m) => m.familyName.trim() && m.className.trim())) {
-      alert("팀원 가문명과 클래스를 모두 입력해주세요.")
+      setModalError("팀원 가문명과 클래스를 모두 입력해주세요.")
       return
     }
 
+    setModalError(null)
     setSaving(true)
     try {
       const res = await fetch(`/api/Tournament/applications/${editingApp.id}`, {
@@ -231,9 +239,10 @@ export default function AdminSolareTournamentPage() {
       setApplications((prev) =>
         prev.map((app) => (app.id === updated.id ? { ...app, ...updated } : app))
       )
+      setActionStatus({ type: 'success', msg: '신청서가 수정되었습니다.' })
       closeEditModal()
     } catch (err) {
-      alert(err instanceof Error ? err.message : "저장 중 오류가 발생했습니다.")
+      setModalError(err instanceof Error ? err.message : "저장 중 오류가 발생했습니다.")
     } finally {
       setSaving(false)
     }
@@ -241,28 +250,40 @@ export default function AdminSolareTournamentPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-white">🏆 솔라레 대회 신청 관리</h1>
-          <p className="mt-1 text-sm text-gray-400">
-            참가 신청서를 검토하고 승인/거절 상태를 관리하세요. 신청자는 팀명 6글자, 3인 팀 구성만 지원합니다.
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Link
-            href="/Tournament"
-            target="_blank"
-            className="px-3 py-2 text-xs font-semibold rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 transition-colors"
-          >
-            대회 페이지 보기
-          </Link>
-          <Link
-            href="/Tournament/apply"
-            target="_blank"
-            className="px-3 py-2 text-xs font-semibold rounded-lg border border-blue-500/40 text-blue-200 hover:bg-blue-500/20 transition-colors"
-          >
-            신청 폼 열기
-          </Link>
+      <header className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-2xl">🏆</span>
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-white">솔라레 대회 신청 관리</h1>
+              <p className="mt-1 text-sm text-gray-400">
+                참가 신청서를 검토하고 승인/거절 상태를 관리하세요.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            {actionStatus && (
+              <p className={`text-sm font-medium ${actionStatus.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {actionStatus.type === 'success' ? '✅' : '❌'} {actionStatus.msg}
+              </p>
+            )}
+            <Link
+              href="/Tournament"
+              target="_blank"
+              className="px-3 py-2 text-xs font-semibold rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 transition-colors"
+            >
+              대회 페이지 보기
+            </Link>
+            <Link
+              href="/Tournament/apply"
+              target="_blank"
+              className="px-3 py-2 text-xs font-semibold rounded-lg border border-blue-500/40 text-blue-200 hover:bg-blue-500/20 transition-colors"
+            >
+              신청 폼 열기
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -297,7 +318,7 @@ export default function AdminSolareTournamentPage() {
         </div>
       </section>
 
-      <section className="bg-zinc-900/60 border border-white/10 rounded-3xl p-4 sm:p-6 space-y-4">
+      <section className="bg-slate-900/60 border border-white/10 rounded-3xl p-4 sm:p-6 space-y-4">
         {loading ? (
           <div className="py-20 text-center text-gray-400">불러오는 중...</div>
         ) : error ? (
@@ -335,7 +356,7 @@ export default function AdminSolareTournamentPage() {
                     <select
                       value={app.status}
                       onChange={(e) => handleStatusUpdate(app.id, e.target.value as ApplicationStatus)}
-                      className="rounded-lg border border-white/10 bg-zinc-900/80 px-2 py-1 text-xs text-gray-200 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/30"
+                      className="rounded-lg border border-white/10 bg-slate-900/80 px-2 py-1 text-xs text-gray-200 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/30"
                     >
                       {(["pending", "approved", "waitlist", "rejected"] as ApplicationStatus[]).map(
                         (status) => (
@@ -404,7 +425,7 @@ export default function AdminSolareTournamentPage() {
 
       {editingApp && editForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-3">
-          <div className="w-full max-w-3xl bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="w-full max-w-3xl bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
             <form onSubmit={handleEditSubmit} className="p-6 space-y-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -422,6 +443,12 @@ export default function AdminSolareTournamentPage() {
                   ✕
                 </button>
               </div>
+
+              {modalError && (
+                <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
+                  ❌ {modalError}
+                </div>
+              )}
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -567,4 +594,3 @@ export default function AdminSolareTournamentPage() {
     </div>
   )
 }
-

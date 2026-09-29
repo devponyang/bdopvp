@@ -34,14 +34,14 @@ export async function GET(req: Request) {
 
       const alliance = allianceResult.rows[0]
 
-      // 연맹 소속 길드 목록 조회 (최적화된 쿼리)
+      // 연맹 소속 길드 목록 조회 (DISTINCT ON으로 중복 제거)
       const guildsResult = await client.query(
-        `SELECT ag.guild_name, 
-                COALESCE(g.member_count, 0) AS member_count, 
-                COALESCE(g.leader, '정보 없음') AS leader, 
+        `SELECT DISTINCT ON (ag.guild_name) ag.guild_name,
+                COALESCE(g.member_count, 0) AS member_count,
+                COALESCE(g.leader, '정보 없음') AS leader,
                 gm.mark_url AS icon_url,
-                COALESCE(l.rank, NULL) AS rank, 
-                COALESCE(l.wins, 0) AS wins, 
+                COALESCE(l.rank, NULL) AS rank,
+                COALESCE(l.wins, 0) AS wins,
                 COALESCE(l.losses, 0) AS losses
          FROM alliance_guilds ag
          LEFT JOIN guilds g ON LOWER(g.name) = LOWER(ag.guild_name) AND g.is_deleted = FALSE
@@ -50,7 +50,7 @@ export async function GET(req: Request) {
          WHERE ag.alliance_id = (
            SELECT id FROM alliances WHERE name = $1
          )
-         ORDER BY ag.id ASC
+         ORDER BY ag.guild_name, ag.id ASC
          LIMIT 100`,
         [allianceName]
       )

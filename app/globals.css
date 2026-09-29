@@ -1,677 +1,221 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* 라이트 모드 스타일 */
+@theme {
+  /* Base backgrounds */
+  --color-bg-primary: oklch(0.08 0.01 270);
+  --color-bg-secondary: oklch(0.12 0.015 270);
+  --color-bg-tertiary: oklch(0.16 0.02 270);
+
+  /* Neon accents */
+  --color-neon-cyan: oklch(0.85 0.18 200);
+  --color-neon-magenta: oklch(0.7 0.28 340);
+  --color-neon-purple: oklch(0.65 0.25 290);
+
+  /* Text */
+  --color-text-primary: oklch(0.95 0.005 270);
+  --color-text-muted: oklch(0.65 0.01 270);
+
+  /* Border */
+  --color-border-neon: oklch(0.25 0.02 270);
+
+  /* Status */
+  --color-success: oklch(0.75 0.18 150);
+  --color-warning: oklch(0.8 0.18 80);
+  --color-danger: oklch(0.65 0.25 25);
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-interaction: 200ms;
+  --duration-transition: 400ms;
+}
+
+/* ─── Semantic theme tokens ─── */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --theme-bg: #ffffff;
+  --theme-bg-card: #f8fafc;
+  --theme-bg-elevated: #f1f5f9;
+  --theme-text: #1e293b;
+  --theme-text-muted: #64748b;
+  --theme-border: #e2e8f0;
 }
 
 .dark {
   --background: #000000;
   --foreground: #ededed;
+  --theme-bg: #18181b;
+  --theme-bg-card: #27272a;
+  --theme-bg-elevated: #3f3f46;
+  --theme-text: #ffffff;
+  --theme-text-muted: #a1a1aa;
+  --theme-border: #3f3f46;
 }
 
-/* 전역 테마 적용 */
 html {
   background-color: var(--background);
   color: var(--foreground);
 }
 
-/* 다크 모드 기본 스타일 */
-.dark {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-}
-
-/* 라이트 모드 스타일 */
+/* .light class는 테마 토글이 <html>에 추가함 */
 .light {
-  background-color: #ffffff !important;
-  color: #171717 !important;
+  background-color: #ffffff;
+  color: #171717;
 }
 
-/* 라이트 모드에서 배경색 변경 */
+/* ─── Light mode: 배경 ─── */
 .light .bg-zinc-900,
-.light .bg-black {
-  background-color: #f8fafc !important;
-}
-
-.light .bg-zinc-800 {
-  background-color: #f1f5f9 !important;
-}
-
-.light .bg-zinc-700 {
-  background-color: #e2e8f0 !important;
-}
-
-/* 라이트 모드에서 텍스트 색상 변경 */
-.light .text-white:not(.solare-table .text-white) {
-  color: #171717 !important;
-}
-
-.light .text-gray-300 {
-  color: #64748b !important;
-}
-
-.light .text-gray-400 {
-  color: #94a3b8 !important;
-}
-
-/* 라이트 모드에서 테두리 색상 변경 */
-.light .border-zinc-800 {
-  border-color: #e2e8f0 !important;
-}
-
-.light .border-zinc-700 {
-  border-color: #cbd5e1 !important;
-}
-
-/* 라이트 모드에서 호버 효과 */
-.light .hover\:bg-zinc-700:hover {
-  background-color: #e2e8f0 !important;
-}
-
-.light .hover\:bg-zinc-600:hover {
-  background-color: #cbd5e1 !important;
-}
-
-/* 라이트 모드에서 카드 스타일 */
-.light .bg-slate-800\/30 {
-  background-color: rgba(248, 250, 252, 0.8) !important;
-}
-
-.light .bg-slate-800\/50 {
-  background-color: rgba(248, 250, 252, 0.9) !important;
-}
-
-/* 라이트 모드에서 테이블 헤더 스타일 */
-.light .bg-slate-800\/50 .text-gray-300,
-.light .bg-slate-800\/50 .text-white,
-.light .bg-slate-800\/50 .text-gray-400 {
-  color: #1e293b !important;
-}
-
-.light .bg-slate-800\/50 .bg-slate-800\/50 {
-  background-color: #e2e8f0 !important;
-}
-
-/* 라이트 모드에서 그라데이션 배경 */
-.light .bg-gradient-to-r {
-  background: linear-gradient(to right, #f1f5f9, #e2e8f0) !important;
-}
-
-.light .bg-gradient-to-r .text-white {
-  color: #1e293b !important;
-}
-
-/* 라이트 모드에서 테이블 헤더 텍스트 */
-.light .bg-slate-800\/50 th,
-.light .bg-slate-800\/50 .font-semibold,
-.light .bg-slate-800\/50 .text-center {
-  color: #1e293b !important;
-}
-
-/* 라이트 모드에서 카드 내부 텍스트 */
-.light .bg-slate-800\/50 .text-gray-300,
-.light .bg-slate-800\/50 .text-gray-400 {
-  color: #475569 !important;
-}
-
-/* 라이트 모드에서 테이블 헤더 배경 (길드리그 순위 헤더 제외) */
-.light .bg-slate-800\/50:not(.guild-league-header):not(.rank-header) {
-  background-color: #e2e8f0 !important;
-}
-
-/* 라이트 모드에서 모든 테이블 헤더 텍스트 (순위 배경 제외) */
-.light table th:not(.rank-header),
-.light .table-header:not(.rank-header),
-.light .bg-slate-800\/50 table th:not(.rank-header),
-.light table thead tr:not(.rank-header),
-.light table thead th:not(.rank-header) {
-  color: #1e293b !important;
-  background-color: #e2e8f0 !important;
-}
-
-/* 길드리그 테이블 헤더 특별 처리 */
-.light .bg-slate-800\/50 table thead tr,
-.light .bg-slate-800\/50 table thead th {
-  background-color: #e2e8f0 !important;
-  color: #1e293b !important;
-}
-
-/* 길드리그 테이블 헤더 강제 적용 - 더 강력한 선택자 */
-.light .guild-table-header,
-.light .guild-table-header th,
-body.light .guild-table-header,
-body.light .guild-table-header th,
-html.light .guild-table-header,
-html.light .guild-table-header th {
-  background-color: #e2e8f0 !important;
-  color: #1e293b !important;
-}
-
-/* 라이트 모드에서 그라데이션 헤더 (길드리그 제외) - 강력한 선택자 */
-.light .bg-gradient-to-r.from-slate-800\/50.to-blue-900\/50:not(.guild-league-header),
-body.light .bg-gradient-to-r.from-slate-800\/50.to-blue-900\/50:not(.guild-league-header) {
-  background: linear-gradient(to right, #e2e8f0, #cbd5e1) !important;
-}
-
-.light .bg-gradient-to-r.from-slate-800\/50.to-blue-900\/50:not(.guild-league-header) .text-white:not(.text-rose-400):not(.text-yellow-300):not(.text-gray-800),
-body.light .bg-gradient-to-r.from-slate-800\/50.to-blue-900\/50:not(.guild-league-header) .text-white:not(.text-rose-400):not(.text-yellow-300):not(.text-gray-800) {
-  color: #1e293b !important;
-}
-
-/* 길드리그 헤더는 더 어두운 남색으로 - 강력한 선택자 */
-.light .guild-league-header,
-body.light .guild-league-header,
-html.light .guild-league-header {
-  background: linear-gradient(to right, #0f172a, #1e1b4b) !important;
-}
-
-.light .guild-league-header .text-white,
-body.light .guild-league-header .text-white,
-html.light .guild-league-header .text-white,
-.light .guild-league-header *,
-body.light .guild-league-header *,
-html.light .guild-league-header *,
-.light .guild-league-header span,
-body.light .guild-league-header span,
-html.light .guild-league-header span {
-  color: #ffffff !important;
-}
-
-/* 1,2,3등 순위 배경은 원래 색상 유지 - 강력한 보호 */
-.light .rank-header,
-body.light .rank-header,
-html.light .rank-header {
-  /* 원래 다크모드 색상 유지 - CSS 변경 없음 */
-  background: inherit;
-  color: #ffffff !important;
-}
-
-.light .rank-header .text-white,
-body.light .rank-header .text-white,
-html.light .rank-header .text-white,
-.light .rank-header *:not(.text-rose-400):not(.text-yellow-300),
-body.light .rank-header *:not(.text-rose-400):not(.text-yellow-300),
-html.light .rank-header *:not(.text-rose-400):not(.text-yellow-300),
-.light tr.rank-header .text-white,
-body.light tr.rank-header .text-white,
-html.light tr.rank-header .text-white,
-.light tr.rank-header td,
-body.light tr.rank-header td,
-html.light tr.rank-header td,
-.light tr.rank-header span,
-body.light tr.rank-header span,
-html.light tr.rank-header span {
-  color: #ffffff !important;
-}
-
-/* 1등 (금메달) 보호 - 실제 클래스명 사용 */
-.light .bg-gradient-to-r.from-yellow-500.to-black-700,
-body.light .bg-gradient-to-r.from-yellow-500.to-black-700 {
-  background: linear-gradient(to right, #eab308, #374151) !important;
-}
-
-/* 2등 (은메달) 보호 - 실제 클래스명 사용 */
-.light .bg-gradient-to-r.from-gray-400.to-black-700,
-body.light .bg-gradient-to-r.from-gray-400.to-black-700 {
-  background: linear-gradient(to right, #9ca3af, #374151) !important;
-}
-
-/* 3등 (동메달) 보호 - 실제 클래스명 사용 */
-.light .bg-gradient-to-r.from-amber-700.to-black-700,
-body.light .bg-gradient-to-r.from-amber-700.to-black-700 {
-  background: linear-gradient(to right, #b45309, #374151) !important;
-}
-
-/* 라이트 모드에서 승률 색상 개선 */
-.light .text-yellow-300 {
-  color: #ea580c !important; /* 주황색 */
-}
-
-.light .text-rose-400 {
-  color: #dc2626 !important; /* 더 진한 빨간색 */
-}
-
-/* 모바일 길드리그 전체 카드 텍스트 색상 - 라이트 모드에서 흰색으로 */
-@media (max-width: 767px) {
-  .light .bg-gray-800,
-  .light .bg-gray-800 *,
-  .light .border-gray-700,
-  .light .border-gray-700 * {
-    color: #ffffff !important;
-  }
-  
-  /* 길드리그 모바일 카드 특별 처리 - 더 강력한 선택자 */
-  .light .md\\:hidden .bg-gray-800,
-  .light .md\\:hidden .bg-gray-800 *,
-  .light .md\\:hidden .bg-gray-800 .text-white,
-  .light .md\\:hidden .bg-gray-800 .font-semibold,
-  .light .md\\:hidden .bg-gray-800 .font-bold,
-  body.light .md\\:hidden .bg-gray-800,
-  body.light .md\\:hidden .bg-gray-800 *,
-  body.light .md\\:hidden .bg-gray-800 .text-white,
-  body.light .md\\:hidden .bg-gray-800 .font-semibold,
-  body.light .md\\:hidden .bg-gray-800 .font-bold,
-  html.light .md\\:hidden .bg-gray-800,
-  html.light .md\\:hidden .bg-gray-800 *,
-  html.light .md\\:hidden .bg-gray-800 .text-white,
-  html.light .md\\:hidden .bg-gray-800 .font-semibold,
-  html.light .md\\:hidden .bg-gray-800 .font-bold {
-    color: #ffffff !important;
-  }
-  
-  /* 승률 색상은 예외로 유지 */
-  .light .bg-gray-800 .text-rose-400,
-  .light .border-gray-700 .text-rose-400,
-  .light .md\\:hidden .bg-gray-800 .text-rose-400,
-  body.light .md\\:hidden .bg-gray-800 .text-rose-400,
-  html.light .md\\:hidden .bg-gray-800 .text-rose-400 {
-    color: #dc2626 !important;
-  }
-  
-  /* 낮은 승률 색상 예외 처리 */
-  .light .md\\:hidden .bg-gray-800 .text-gray-800,
-  body.light .md\\:hidden .bg-gray-800 .text-gray-800,
-  html.light .md\\:hidden .bg-gray-800 .text-gray-800,
-  .light .bg-gradient-to-r.from-slate-800\/50.to-blue-900\/50 .text-gray-800,
-  body.light .bg-gradient-to-r.from-slate-800\/50.to-blue-900\/50 .text-gray-800 {
-    color: #1f2937 !important;
-  }
-  
-  /* 길드카드 승률 색상 강제 적용 */
-  .light .guild-card .text-rose-400,
-  body.light .guild-card .text-rose-400 {
-    color: #f87171 !important;
-  }
-  
-  .light .guild-card .text-yellow-300,
-  body.light .guild-card .text-yellow-300 {
-    color: #ea580c !important; /* 주황색 */
-  }
-  
-  .light .guild-card .text-gray-800,
-  body.light .guild-card .text-gray-800 {
-    color: #1f2937 !important;
-  }
-  
-  .light .bg-gray-800 .text-yellow-300,
-  .light .border-gray-700 .text-yellow-300,
-  .light .md\\:hidden .bg-gray-800 .text-yellow-300,
-  body.light .md\\:hidden .bg-gray-800 .text-yellow-300,
-  html.light .md\\:hidden .bg-gray-800 .text-yellow-300,
-  .light .bg-gradient-to-r .text-yellow-300,
-  .light .from-slate-800\/50 .text-yellow-300,
-  .light .to-blue-900\/50 .text-yellow-300,
-  .light .md\\:hidden .bg-gradient-to-r .text-yellow-300,
-  .light .md\\:hidden .from-slate-800\/50 .text-yellow-300,
-  .light .md\\:hidden .to-blue-900\/50 .text-yellow-300,
-  body.light .md\\:hidden .bg-gradient-to-r .text-yellow-300,
-  body.light .md\\:hidden .from-slate-800\/50 .text-yellow-300,
-  body.light .md\\:hidden .to-blue-900\/50 .text-yellow-300 {
-    color: #ea580c !important; /* 주황색 */
-  }
-}
-
-/* 라이트 모드에서 홈페이지 카드 텍스트 색상 개선 */
-.light .text-slate-300 {
-  color: #1e293b !important; /* 진한 회색 */
-}
-
-.light .text-slate-200 {
-  color: #334155 !important; /* 중간 회색 */
-}
-
-.light .text-slate-500 {
-  color: #64748b !important; /* 연한 회색 */
-}
-
-/* 라이트 모드에서 zinc 색상 개선 */
-.light .text-zinc-300 {
-  color: #1e293b !important; /* 진한 회색 - 검은사막 업데이트 날짜 */
-}
-
-.light .text-zinc-400 {
-  color: #374151 !important; /* 중간 회색 */
-}
-
-.light .text-zinc-500 {
-  color: #6b7280 !important; /* 연한 회색 */
-}
-
-/* 다크모드에서 솔라레 테이블 텍스트 색상 개선 */
-.dark .text-white {
-  color: #ffffff !important;
-}
-
-/* 모바일에서 솔라레 테이블 텍스트 색상 강제 설정 */
-@media (max-width: 767px) {
-  .dark table td,
-  .dark table th {
-    color: #ffffff !important;
-  }
-  
-  .dark .font-semibold {
-    color: #ffffff !important;
-  }
-}
-
-/* 업데이트 카드 텍스트 색상 강제 설정 */
-.dark .update-text {
-  color: #ffffff !important;
-}
-
-.light .update-text {
-  color: #000000 !important;
-}
-
-/* 라이트 모드에서 거점전/공성전 날짜 박스 배경색 강제 설정 */
-.light .bg-white.dark\:bg-zinc-800 {
-  background-color: #ffffff !important;
-}
-
-/* 라이트 모드에서 거점전/공성전 카드 배경색 강제 설정 */
+.light .bg-black { background-color: #f8fafc !important; }
+.light .bg-zinc-800:not(.guild-achievements-container) { background-color: #f1f5f9 !important; }
+.light .bg-zinc-700 { background-color: #e2e8f0 !important; }
+.light .bg-slate-800\/30 { background-color: rgba(248, 250, 252, 0.8) !important; }
+.light .bg-slate-800\/50 { background-color: #f1f5f9 !important; }
+.light .bg-slate-600\/50 { background-color: #f1f5f9 !important; }
+.light .bg-white.dark\:bg-zinc-800 { background-color: #ffffff !important; }
+.light .bg-white.dark\:bg-gradient-to-br { background-color: #ffffff !important; }
 .light .node-war-card,
 .light .pvp-schedule-card {
   background-color: #ffffff !important;
   background-image: none !important;
 }
-
-/* 라이트 모드에서 거점전/공성전 카드 내부 배경도 흰색으로 */
 .light .node-war-card .bg-gradient-to-br,
 .light .pvp-schedule-card .bg-gradient-to-br {
   background-color: #ffffff !important;
   background-image: none !important;
 }
 
-/* 라이트 모드에서 팁게시판 텍스트 색상 개선 */
-.light .text-blue-200 {
-  color: #1e40af !important; /* 진한 파란색 */
-}
+/* ─── Light mode: 텍스트 ─── */
+.light .text-white:not(.solare-table .text-white) { color: #1e293b !important; }
+.light .text-gray-300,
+.light .text-gray-400 { color: #64748b !important; }
 
-.light .text-gray-300 {
-  color: #374151 !important; /* 진한 회색 */
-}
+/* ─── Light mode: 텍스트 (continued) ─── */
+.light .text-zinc-300 { color: #1e293b !important; }
+.light .text-zinc-400 { color: #374151 !important; }
+.light .text-zinc-500 { color: #6b7280 !important; }
+.light .text-slate-200 { color: #334155 !important; }
+.light .text-slate-300 { color: #1e293b !important; }
+.light .text-slate-500 { color: #64748b !important; }
+.light .text-blue-200,
+.light .text-blue-300 { color: #1e40af !important; }
+.light .text-cyan-300 { color: #0891b2 !important; }
+.light .text-yellow-300,
+.light span[class*="text-yellow-300"] { color: #ea580c !important; }
+.light .text-rose-400,
+.light span[class*="text-rose-400"] { color: #dc2626 !important; }
+.dark span[class*="text-yellow-300"] { color: #ea580c !important; }
 
-.light .text-gray-400 {
-  color: #6b7280 !important; /* 중간 회색 */
-}
+/* ─── Light mode: 테두리·호버 ─── */
+.light .border-zinc-800 { border-color: #e2e8f0 !important; }
+.light .border-zinc-700 { border-color: #cbd5e1 !important; }
+.light .hover\:bg-zinc-700:hover,
+.light .hover\:bg-zinc-600:hover { background-color: #e2e8f0 !important; }
 
-.light .bg-zinc-800:not(.guild-achievements-container) {
-  background-color: #f8fafc !important; /* 연한 회색 배경 */
-}
-
-/* 길드 특징 컨테이너 라이트모드 하늘색 배경 - 더 강력한 선택자 */
-.light .guild-achievements-container,
-html.light .guild-achievements-container,
-body.light .guild-achievements-container,
-:root:not(.dark) .guild-achievements-container {
-  background-color: #f0f9ff !important; /* 얕은 하늘색 sky-50 */
-  border-color: #e0f2fe !important; /* 하늘색 테두리 sky-200 */
-}
-
-/* 라이트모드에서 길드 특징 카드 내부 모든 텍스트를 검은색으로 */
-.light .guild-achievements-container h3,
-.light .guild-achievements-container h5,
-.light .guild-achievements-container p,
-.light .guild-achievements-container span,
-.light .guild-achievements-container div,
-html.light .guild-achievements-container h3,
-html.light .guild-achievements-container h5,
-html.light .guild-achievements-container p,
-html.light .guild-achievements-container span,
-html.light .guild-achievements-container div,
-body.light .guild-achievements-container h3,
-body.light .guild-achievements-container h5,
-body.light .guild-achievements-container p,
-body.light .guild-achievements-container span,
-body.light .guild-achievements-container div {
-  color: #000000 !important; /* 검은색 */
-}
-
-/* 라이트모드에서 후원 배지 스타일 */
-.light .sponsor-badge,
-html.light .sponsor-badge,
-body.light .sponsor-badge {
-  background: linear-gradient(to right, #fbbf24, #f59e0b) !important; /* 노란색 그라데이션 */
-  color: #000000 !important; /* 검은색 텍스트 */
-  border: 2px solid #d97706 !important; /* 진한 노란색 테두리 */
-}
-
-/* 후원 배지 내부 모든 텍스트 강제 적용 */
-.light .sponsor-badge *,
-html.light .sponsor-badge *,
-body.light .sponsor-badge * {
-  color: #000000 !important; /* 라이트모드에서 검은색 텍스트 */
-}
-
-.dark .sponsor-badge *,
-html.dark .sponsor-badge *,
-body.dark .sponsor-badge * {
-  color: #ffffff !important; /* 다크모드에서 흰색 텍스트 */
-}
-
-.light .bg-zinc-800 .text-blue-200,
-.light .bg-zinc-800 .text-gray-300,
-.light .bg-zinc-800 .text-gray-400 {
-  color: #1e293b !important; /* 진한 회색 텍스트 */
-}
-
-.light .hover\:bg-zinc-700:hover {
-  background-color: #e2e8f0 !important; /* 호버 시 더 진한 회색 */
-}
-
-/* 라이트 모드에서 거점/점령전 탭 텍스트 색상 개선 */
-.light .text-blue-300 {
-  color: #1e40af !important; /* 진한 파란색 */
-}
-
-.light .text-cyan-300 {
-  color: #0891b2 !important; /* 진한 청록색 */
-}
-
-.light .text-white:not(.solare-table .text-white) {
-  color: #1e293b !important; /* 진한 회색 */
-}
-
-/* 라이트 모드에서 영지별 성주 텍스트는 검은색으로 */
-.light .bg-slate-700\/50 .text-white {
+/* ─── Light mode: 테이블 헤더 ─── */
+.light table th:not(.rank-header),
+.light table thead th:not(.rank-header),
+.light .guild-table-header,
+.light .guild-table-header th {
+  background-color: #e2e8f0 !important;
   color: #1e293b !important;
 }
+.light .bg-slate-800\/50 .text-gray-300,
+.light .bg-slate-800\/50 .text-white,
+.light .bg-slate-800\/50 .text-gray-400 { color: #1e293b !important; }
 
-/* 솔라레 테이블 다크모드 텍스트 강제 적용 */
-.solare-table tr:not(.rank-header) {
-  color: #000000; /* 라이트모드 기본 */
+/* ─── Light mode: 그라데이션 (순위 배경 제외) ─── */
+.light .bg-gradient-to-r:not(.guild-league-header):not(.rank-header):not([class*="from-yellow"]):not([class*="from-gray-4"]):not([class*="from-amber"]) {
+  background: linear-gradient(to right, #f1f5f9, #e2e8f0) !important;
+}
+.light .bg-gradient-to-r:not(.guild-league-header):not(.rank-header) .text-white {
+  color: #1e293b !important;
+}
+.light .bg-gradient-to-r.from-slate-800\/50.to-blue-900\/50:not(.guild-league-header) {
+  background: linear-gradient(to right, #e2e8f0, #cbd5e1) !important;
 }
 
-.dark .solare-table tr:not(.rank-header) {
-  color: #ffffff !important; /* 다크모드 강제 흰색 */
+/* ─── Component: 길드 리그 헤더 ─── */
+.light .guild-league-header {
+  background: linear-gradient(to right, #0f172a, #1e1b4b) !important;
 }
+.light .guild-league-header * { color: #ffffff !important; }
 
-/* 모바일 솔라레 1,2,3등 텍스트 흰색 강제 적용 */
-@media (max-width: 767px) {
-  .light .rank-header,
-  .light .rank-header *,
-  .light .rank-header span,
-  .light .rank-header div,
-  .light .rank-header .font-semibold,
-  .light .rank-header .font-bold,
-  .light .rank-header .text-white,
-  body.light .rank-header,
-  body.light .rank-header *,
-  body.light .rank-header span,
-  body.light .rank-header div,
-  body.light .rank-header .font-semibold,
-  body.light .rank-header .font-bold,
-  body.light .rank-header .text-white,
-  html.light .rank-header,
-  html.light .rank-header *,
-  html.light .rank-header span,
-  html.light .rank-header div,
-  html.light .rank-header .font-semibold,
-  html.light .rank-header .font-bold,
-  html.light .rank-header .text-white {
-    color: #ffffff !important;
-  }
-  
-  /* 승률 색상은 예외 유지 */
-  .light .rank-header .text-rose-400 {
-    color: #dc2626 !important;
-  }
-  
-  .light .rank-header .text-yellow-300 {
-    color: #ea580c !important;
-  }
-  
-  /* 솔라레 모바일 카드 그라데이션 배경에서 텍스트 흰색 강제 */
-  .light .bg-gradient-to-r.from-yellow-500.to-black-700,
-  .light .bg-gradient-to-r.from-yellow-500.to-black-700 *,
-  .light .bg-gradient-to-r.from-gray-400.to-black-700,
-  .light .bg-gradient-to-r.from-gray-400.to-black-700 *,
-  .light .bg-gradient-to-r.from-amber-700.to-black-700,
-  .light .bg-gradient-to-r.from-amber-700.to-black-700 *,
-  body.light .bg-gradient-to-r.from-yellow-500.to-black-700,
-  body.light .bg-gradient-to-r.from-yellow-500.to-black-700 *,
-  body.light .bg-gradient-to-r.from-gray-400.to-black-700,
-  body.light .bg-gradient-to-r.from-gray-400.to-black-700 *,
-  body.light .bg-gradient-to-r.from-amber-700.to-black-700,
-  body.light .bg-gradient-to-r.from-amber-700.to-black-700 * {
-    color: #ffffff !important;
-  }
-}
-
-/* PC 길드리그 1,2,3등 그라데이션 배경에서 텍스트 흰색 강제 */
+/* ─── Component: 1~3등 순위 행 ─── */
+.light .rank-header { background: inherit; color: #ffffff !important; }
+.light .rank-header *:not(.text-rose-400):not(.text-yellow-300) { color: #ffffff !important; }
+.light .rank-header .text-rose-400 { color: #dc2626 !important; }
+.light .rank-header .text-yellow-300 { color: #ea580c !important; }
+/* 금/은/동 배경 보호 */
+.light .bg-gradient-to-r.from-yellow-500.to-black-700 { background: linear-gradient(to right, #eab308, #374151) !important; }
+.light .bg-gradient-to-r.from-gray-400.to-black-700 { background: linear-gradient(to right, #9ca3af, #374151) !important; }
+.light .bg-gradient-to-r.from-amber-700.to-black-700 { background: linear-gradient(to right, #b45309, #374151) !important; }
 .light .bg-gradient-to-r.from-yellow-500.to-black-700 *:not(.text-rose-400):not(.text-yellow-300),
 .light .bg-gradient-to-r.from-gray-400.to-black-700 *:not(.text-rose-400):not(.text-yellow-300),
-.light .bg-gradient-to-r.from-amber-700.to-black-700 *:not(.text-rose-400):not(.text-yellow-300),
-body.light .bg-gradient-to-r.from-yellow-500.to-black-700 *:not(.text-rose-400):not(.text-yellow-300),
-body.light .bg-gradient-to-r.from-gray-400.to-black-700 *:not(.text-rose-400):not(.text-yellow-300),
-body.light .bg-gradient-to-r.from-amber-700.to-black-700 *:not(.text-rose-400):not(.text-yellow-300) {
-  color: #ffffff !important;
+.light .bg-gradient-to-r.from-amber-700.to-black-700 *:not(.text-rose-400):not(.text-yellow-300) { color: #ffffff !important; }
+html.light body tr.rank-header span.text-rose-400 { color: #dc2626 !important; }
+html.light body tr.rank-header span.text-yellow-300 { color: #ea580c !important; }
+
+/* ─── Component: 길드 특징 ─── */
+.light .guild-achievements-container {
+  background-color: #f0f9ff !important;
+  border-color: #e0f2fe !important;
+}
+.light .guild-achievements-container * { color: #000000 !important; }
+.dark .guild-achievements-container {
+  background-color: #27272a !important;
+  border-color: #3f3f46 !important;
 }
 
-/* PC 길드리그 1,2,3등 승률 색상 예외 처리 - 최고 우선순위 */
-html.light body .bg-gradient-to-r.from-yellow-500.to-black-700 span.text-rose-400,
-html.light body .bg-gradient-to-r.from-gray-400.to-black-700 span.text-rose-400,
-html.light body .bg-gradient-to-r.from-amber-700.to-black-700 span.text-rose-400,
-html.light body tr.rank-header span.text-rose-400,
-html.light body table tr.rank-header span.text-rose-400 {
-  color: #dc2626 !important;
+/* ─── Component: 후원 배지 ─── */
+.light .sponsor-badge {
+  background: linear-gradient(to right, #fbbf24, #f59e0b) !important;
+  border: 2px solid #d97706 !important;
 }
+.light .sponsor-badge * { color: #000000 !important; }
+.dark .sponsor-badge * { color: #ffffff !important; }
 
-html.light body .bg-gradient-to-r.from-yellow-500.to-black-700 span.text-yellow-300,
-html.light body .bg-gradient-to-r.from-gray-400.to-black-700 span.text-yellow-300,
-html.light body .bg-gradient-to-r.from-amber-700.to-black-700 span.text-yellow-300,
-html.light body tr.rank-header span.text-yellow-300,
-html.light body table tr.rank-header span.text-yellow-300 {
-  color: #ea580c !important;
-}
+/* ─── Component: 솔라레 테이블 ─── */
+.solare-table tr:not(.rank-header) { color: #000000; }
+.dark .solare-table tr:not(.rank-header) { color: #ffffff; }
 
-/* 최종 강력한 승률 색상 규칙 */
-.light span[class*="text-rose-400"] {
-  color: #dc2626 !important;
-}
-
-.light span[class*="text-yellow-300"] {
-  color: #ea580c !important;
-}
-
-/* 다크모드에서도 승률 색상 통일 */
-.dark span[class*="text-yellow-300"] {
-  color: #ea580c !important; /* 다크모드에서도 주황색 */
-}
-
-/* 모바일 전투 기록 카드 다크모드 배경 강제 설정 */
-.dark .war-record-mobile-card,
-html.dark .war-record-mobile-card,
-body.dark .war-record-mobile-card {
+/* ─── Component: 모바일 전투 기록 카드 ─── */
+.dark .war-record-mobile-card {
   background: linear-gradient(to bottom right, rgba(30, 41, 59, 0.5), rgba(51, 65, 85, 0.5)) !important;
   border-color: rgb(71, 85, 105) !important;
 }
 
-/* 다크모드에서 성채단계(파란색 텍스트) 색상 강제 변경 */
+/* ─── Component: 다크모드 성채 단계 텍스트 ─── */
 .dark .text-blue-300,
-.dark .text-blue-600,
-html.dark .text-blue-300,
-html.dark .text-blue-600,
-body.dark .text-blue-300,
-body.dark .text-blue-600,
-.dark table .text-blue-300,
-.dark table .text-blue-600 {
-  color: #fdba74 !important; /* 주황색 orange-300 */
-}
+.dark .text-blue-600 { color: #fdba74 !important; }
 
-/* 다크모드에서 페이지 텍스트 강제 흰색 */
-.dark .max-w-2xl,
-.dark .max-w-3xl {
-  color: #ffffff !important;
-}
-
-.dark .max-w-2xl h1,
-.dark .max-w-2xl h2,
-.dark .max-w-2xl h3,
-.dark .max-w-2xl p,
-.dark .max-w-2xl span,
-.dark .max-w-2xl div,
-.dark .max-w-3xl h1,
-.dark .max-w-3xl h2,
-.dark .max-w-3xl h3,
-.dark .max-w-3xl p,
-.dark .max-w-3xl span,
-.dark .max-w-3xl div {
-  color: #ffffff !important;
-}
-
-.light .bg-slate-600\/50 {
-  background-color: #f1f5f9 !important; /* 연한 회색 배경 */
-}
-
-.light .bg-slate-600\/50 .text-gray-400 {
-  color: #374151 !important; /* 진한 회색 */
-}
-
-.light .bg-slate-600\/50 .text-blue-300 {
-  color: #1e40af !important; /* 진한 파란색 */
-}
-
-.light .bg-slate-600\/50 .text-cyan-300 {
-  color: #0891b2 !important; /* 진한 청록색 */
-}
-
-.light .bg-slate-600\/50 .text-white {
-  color: #1e293b !important; /* 진한 회색 */
-}
-
-.dark .bg-white.dark\:bg-zinc-800 {
-  background-color: #1f2937 !important;
-}
-
-/* 라이트 모드에서 거점전/공성전 메인 컨테이너 배경색 강제 설정 */
-.light .bg-white.dark\:bg-gradient-to-br {
-  background-color: #ffffff !important;
-}
-
+/* ─── Component: 다크모드 거점/공성전 컨테이너 ─── */
+.dark .bg-white.dark\:bg-zinc-800 { background-color: #1f2937 !important; }
 .dark .bg-white.dark\:bg-gradient-to-br {
   background: linear-gradient(to bottom right, #1f2937, #374151, #1f2937) !important;
 }
 
-/* 길드 특징 제목 다크모드에서 흰색 강제 적용 */
-.dark h3:has(span:contains("길드 특징")) {
-  color: #ffffff !important;
-}
+/* ─── Update card ─── */
+.dark .update-text { color: #ffffff !important; }
+.light .update-text { color: #000000 !important; }
 
-.dark h3 span {
-  color: #ffffff !important;
-}
-
-/* 길드 특징 컨테이너 다크모드 배경 강제 적용 */
-.dark .guild-achievements-container,
-html.dark .guild-achievements-container,
-body.dark .guild-achievements-container,
-.guild-achievements-container.dark\:bg-zinc-800 {
-  background-color: #27272a !important; /* 다크모드에서 확실히 어두운 배경 */
-  border-color: #3f3f46 !important; /* 어두운 테두리 */
+/* ─── Mobile: 모바일 길드리그 카드 (dark bg on light mode) ─── */
+@media (max-width: 767px) {
+  .light .bg-gray-800,
+  .light .bg-gray-800 * { color: #ffffff !important; }
+  .light .bg-gray-800 .text-rose-400 { color: #dc2626 !important; }
+  .light .bg-gray-800 .text-yellow-300 { color: #ea580c !important; }
+  .light .bg-gray-800 .text-gray-800 { color: #1f2937 !important; }
+  .light .guild-card .text-rose-400 { color: #f87171 !important; }
+  .light .guild-card .text-yellow-300 { color: #ea580c !important; }
+  .light .guild-card .text-gray-800 { color: #1f2937 !important; }
+  .light .rank-header,
+  .light .rank-header *:not(.text-rose-400):not(.text-yellow-300) { color: #ffffff !important; }
+  .light .rank-header .text-rose-400 { color: #dc2626 !important; }
+  .light .rank-header .text-yellow-300 { color: #ea580c !important; }
+  .light .bg-gradient-to-r.from-yellow-500.to-black-700 *,
+  .light .bg-gradient-to-r.from-gray-400.to-black-700 *,
+  .light .bg-gradient-to-r.from-amber-700.to-black-700 * { color: #ffffff !important; }
 }
 
 
@@ -834,7 +378,7 @@ body {
 @media (max-width: 1920px) {
   main {
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: clip; /* clip은 overflow-y를 auto로 강제하지 않아 scroll container 생성 방지 */
   }
 }
 
@@ -847,4 +391,73 @@ body {
 
 .font-gong {
     font-family: 'GongGothicMedium', sans-serif;
+}
+
+/* ─── Neon glow utilities ─── */
+.glow-cyan {
+  box-shadow:
+    0 0 20px oklch(0.85 0.18 200 / 0.3),
+    0 0 40px oklch(0.85 0.18 200 / 0.15),
+    inset 0 0 20px oklch(0.85 0.18 200 / 0.05);
+}
+
+.glow-magenta {
+  box-shadow:
+    0 0 20px oklch(0.7 0.28 340 / 0.3),
+    0 0 40px oklch(0.7 0.28 340 / 0.15),
+    inset 0 0 20px oklch(0.7 0.28 340 / 0.05);
+}
+
+.glow-purple {
+  box-shadow:
+    0 0 20px oklch(0.65 0.25 290 / 0.3),
+    0 0 40px oklch(0.65 0.25 290 / 0.15),
+    inset 0 0 20px oklch(0.65 0.25 290 / 0.05);
+}
+
+.glow-text-cyan {
+  text-shadow:
+    0 0 10px oklch(0.85 0.18 200 / 0.8),
+    0 0 30px oklch(0.85 0.18 200 / 0.4);
+}
+
+.glow-text-magenta {
+  text-shadow:
+    0 0 10px oklch(0.7 0.28 340 / 0.8),
+    0 0 30px oklch(0.7 0.28 340 / 0.4);
+}
+
+/* 그라데이션 네온 테두리 */
+.glow-border {
+  position: relative;
+}
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, oklch(0.85 0.18 200), oklch(0.7 0.28 340));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* 글로우 펄스 애니메이션 */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 0.7;
+    filter: blur(2px);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2.5s ease-in-out infinite;
 }

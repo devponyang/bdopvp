@@ -39,53 +39,45 @@ export default function PonyangNotice({ notices }: PonyangNoticeProps) {
     setSelectedNotice(null)
   }
 
-  if (sortedNotices.length === 0) {
-    return null
-  }
+  if (sortedNotices.length === 0) return null
 
   return (
     <>
-      <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px] text-sm text-gray-300">
-        <h2 className="text-lg font-bold text-white mb-4 flex items-center justify-center gap-2">
+      <div
+        className="w-full max-w-[400px] rounded-xl overflow-hidden border border-zinc-800/50"
+        style={{ background: 'oklch(0.1 0.015 270)', borderTop: '2px solid oklch(0.85 0.18 200)' }}
+      >
+        {/* 헤더 */}
+        <div
+          className="flex items-center gap-2 px-4 py-3.5 border-b border-white/[0.06]"
+          style={{ background: 'oklch(0.12 0.02 270)' }}
+        >
           <img
             src="/ponyang/ponyang-1.png"
             alt="포냥이 공지"
-            className="w-7 h-7 object-contain"
+            className="w-5 h-5 object-contain"
           />
-          포냥이 공지
-        </h2>
+          <h2 className="text-sm font-bold text-white">포냥이 공지</h2>
+        </div>
 
-        <div className="space-y-2">
-          {sortedNotices.slice(0, 4).map((notice, idx) => (
+        {/* 공지 목록 */}
+        <div className="divide-y divide-white/[0.05]">
+          {sortedNotices.slice(0, 4).map((notice) => (
             <button
               key={notice.id}
               type="button"
               onClick={() => handleOpenNotice(notice)}
-              className={`w-full text-left p-3 rounded-lg border transition-all duration-200 group ${
-                idx === 0
-                  ? "bg-white/10 border-blue-500/50 hover:bg-white/15"
-                  : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-blue-500/40"
-              }`}
+              className="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors group"
             >
-              <div className="flex items-center gap-2">
-                <div className="bg-gradient-to-r from-blue-500/30 to-purple-500/30 text-blue-300 px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 border border-blue-500/40">
-                  {formatDate(notice.created_at)}
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium text-gray-200 group-hover:text-blue-300 transition-colors text-xs leading-tight line-clamp-2">
-                    {notice.title}
-                  </p>
-                </div>
-              </div>
+              <span className="shrink-0 text-[11px] text-zinc-500 tabular-nums w-14">
+                {formatDate(notice.created_at)}
+              </span>
+              <span className="text-xs text-zinc-300 group-hover:text-white transition-colors leading-tight line-clamp-2 flex-1 text-left">
+                {notice.title}
+              </span>
             </button>
           ))}
         </div>
-
-        {sortedNotices.length > 4 && (
-          <p className="mt-3 text-xs text-gray-500 text-center">
-            이전 공지는 관리자 페이지에서 확인할 수 있습니다.
-          </p>
-        )}
       </div>
 
       {selectedNotice && (
@@ -107,4 +99,3 @@ function formatDate(dateStr: string) {
   const day = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()]
   return `${mm}.${dd}(${day})`
 }
-

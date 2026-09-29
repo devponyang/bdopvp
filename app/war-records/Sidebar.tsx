@@ -15,18 +15,18 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* 모바일용 가로 배치 */}
-      <aside className="md:hidden bg-slate-800/30 rounded-lg p-3">
-        <div className="flex gap-2">
+      {/* 모바일 가로 탭 */}
+      <aside className="md:hidden">
+        <div className="flex rounded-lg overflow-hidden border border-zinc-800/50" style={{ background: 'oklch(0.1 0.015 270)' }}>
           {navItems.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                'flex-1 px-3 py-2 rounded text-sm transition-all text-center',
-                pathname === href 
-                  ? 'bg-blue-600 text-white' 
-                  : 'text-gray-300 hover:bg-slate-700/50 hover:text-white'
+                'flex-1 px-3 py-2 text-xs font-medium text-center transition-colors',
+                pathname === href
+                  ? 'bg-[oklch(0.85_0.18_200)] text-zinc-900'
+                  : 'text-zinc-400 hover:text-zinc-200'
               )}
             >
               {label}
@@ -34,45 +34,42 @@ export default function Sidebar() {
           ))}
         </div>
       </aside>
-      
-      {/* 데스크톱용 세로 배치 */}
-      <aside className="hidden md:block p-4 w-80 space-y-4">
-        <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-xl p-5 border border-slate-600/30 shadow-xl">
-          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-600/30">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-              <span className="text-white text-lg font-bold">⚔️</span>
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-white">거점전</h2>
-              <p className="text-xs text-gray-400">전투 기록 및 순위</p>
-            </div>
+
+      {/* 데스크톱 세로 사이드바 */}
+      <aside className="hidden md:block w-52 shrink-0 space-y-3">
+        <div
+          className="rounded-xl overflow-hidden border border-zinc-800/50"
+          style={{ background: 'oklch(0.1 0.015 270)', borderTop: '2px solid oklch(0.85 0.18 200)' }}
+        >
+          <div
+            className="flex items-center gap-2 px-4 py-3.5 border-b border-white/[0.06]"
+            style={{ background: 'oklch(0.12 0.02 270)' }}
+          >
+            <span className="text-sm">⚔️</span>
+            <h2 className="text-sm font-bold text-white">거점/점령전</h2>
           </div>
-          
-          <div className="space-y-2">
+          <div className="p-2 space-y-0.5">
             {navItems.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
                 className={cn(
-                  'group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
-                  pathname === href 
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform scale-105' 
-                    : 'text-gray-300 hover:bg-slate-700/60 hover:text-white hover:translate-x-1'
+                  'flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium transition-colors',
+                  pathname === href
+                    ? 'text-[oklch(0.85_0.18_200)] bg-[oklch(0.85_0.18_200/0.08)]'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
                 )}
               >
-                <div className={cn(
-                  'w-2 h-2 rounded-full transition-all duration-200',
-                  pathname === href 
-                    ? 'bg-white' 
-                    : 'bg-gray-500 group-hover:bg-blue-400'
+                <span className={cn(
+                  'w-1.5 h-1.5 rounded-full shrink-0',
+                  pathname === href ? 'bg-[oklch(0.85_0.18_200)]' : 'bg-zinc-700'
                 )} />
                 {label}
               </Link>
             ))}
           </div>
         </div>
-        
-        {/* 종군기자 섹션 */}
+
         <WarCorrespondents />
       </aside>
     </>

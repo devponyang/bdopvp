@@ -27,14 +27,29 @@ const formatDate = (dateString: string) => {
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
 }
 
+const isNewCoupon = (createdAt?: string) => {
+  if (!createdAt) return false
+  const diffDays = (Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24)
+  return diffDays <= 7
+}
+
+const CardShell = ({ children }: { children: React.ReactNode }) => (
+  <div
+    className="w-full max-w-[400px] rounded-xl overflow-hidden border border-zinc-800/50"
+    style={{ background: 'oklch(0.1 0.015 270)', borderTop: '2px solid oklch(0.85 0.18 200)' }}
+  >
+    {children}
+  </div>
+)
+
 const CouponCard = ({ data }: CouponCardProps) => {
   const { data: coupons = data || [], isLoading, error } = useQuery({
     queryKey: ['coupons'],
     queryFn: fetchCoupons,
-    staleTime: 3600 * 1000, // 1시간
-    gcTime: 3600 * 1000, // 1시간
+    staleTime: 3600 * 1000,
+    gcTime: 3600 * 1000,
     initialData: data,
-    enabled: !data, // 초기 데이터가 있으면 쿼리 비활성화
+    enabled: !data,
   })
 
   const copyToClipboard = async (code: string) => {
@@ -46,86 +61,80 @@ const CouponCard = ({ data }: CouponCardProps) => {
     }
   }
 
-  // 7일 이내 추가된 쿠폰인지 확인
-  const isNewCoupon = (createdAt?: string) => {
-    if (!createdAt) return false
-    const created = new Date(createdAt)
-    const now = new Date()
-    const diffDays = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24)
-    return diffDays <= 7
-  }
-
-  if (isLoading) {
-    return (
-      <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
-        <div className="animate-pulse">
-          <div className="bg-white/10 rounded h-6 w-3/4 mb-4"></div>
-          <div className="space-y-2">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="bg-white/5 rounded-lg h-16"></div>
-            ))}
-          </div>
-        </div>
+  if (isLoading) return (
+    <CardShell>
+      <div
+        className="px-4 py-3.5 border-b border-white/[0.06]"
+        style={{ background: 'oklch(0.12 0.02 270)' }}
+      >
+        <div className="h-4 w-24 bg-zinc-700/60 rounded animate-pulse" />
       </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
-        <div className="text-red-300 text-center py-4">
-          쿠폰 정보를 불러오는데 실패했습니다.
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/10 p-4 w-full max-w-[400px]">
-      <h2 className="text-lg font-bold text-white mb-4 flex items-center justify-center gap-2">
-        <span className="text-xl">🎫</span>
-        최신 쿠폰
-      </h2>
-      <div className="space-y-2">
-        {coupons
-          .filter(c => c.status === 'active')
-          .map((coupon) => (
-          <div
-            key={coupon.code}
-            className="relative bg-white/5 hover:bg-white/10 rounded-lg p-3 border border-white/10 hover:border-yellow-500/50 transition-all group"
-          >
-            {/* New 배지 */}
-            {isNewCoupon(coupon.created_at) && (
-              <div className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg animate-pulse">
-                NEW
-              </div>
-            )}
-            
-            <div className="space-y-2">
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-yellow-300 group-hover:text-yellow-200 transition-colors break-all">
-                    {coupon.code}
-                  </p>
-                </div>
-                <button
-                  onClick={() => copyToClipboard(coupon.code)}
-                  className="flex-shrink-0 px-3 py-1.5 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30 rounded-lg text-yellow-400 transition-all text-xs font-bold border border-yellow-500/30"
-                >
-                  복사
-                </button>
-              </div>
-              {coupon.description && (
-                <p className="text-xs text-gray-400 line-clamp-2">{coupon.description}</p>
-              )}
-              <div className="text-xs text-gray-500">
-                {formatDate(coupon.end_date)} 까지
-              </div>
-            </div>
-          </div>
+      <div className="px-4 py-3 space-y-2">
+        {[1, 2, 3].map(i => (
+          <div key={i} className="h-16 bg-zinc-800/40 rounded-lg animate-pulse" />
         ))}
       </div>
-    </div>
+    </CardShell>
+  )
+
+  if (error) return (
+    <CardShell>
+      <div className="py-10 text-center text-zinc-600 text-sm">
+        쿠폰 정보를 불러오는데 실패했습니다.
+      </div>
+    </CardShell>
+  )
+
+  const activeCoupons = coupons.filter(c => c.status === 'active')
+
+  return (
+    <CardShell>
+      {/* 헤더 */}
+      <div
+        className="flex items-center gap-2 px-4 py-3.5 border-b border-white/[0.06]"
+        style={{ background: 'oklch(0.12 0.02 270)' }}
+      >
+        <span className="text-base leading-none">🎫</span>
+        <h2 className="text-sm font-bold text-white">최신 쿠폰</h2>
+      </div>
+
+      {/* 쿠폰 목록 */}
+      <div className="divide-y divide-white/[0.05]">
+        {activeCoupons.length === 0 ? (
+          <div className="py-10 text-center text-zinc-600 text-sm">
+            현재 활성화된 쿠폰이 없습니다.
+          </div>
+        ) : (
+          activeCoupons.map((coupon) => (
+            <div
+              key={coupon.code}
+              className="relative flex items-start gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors group"
+            >
+              {isNewCoupon(coupon.created_at) && (
+                <span className="absolute top-2.5 right-3 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                  NEW
+                </span>
+              )}
+              <div className="flex-1 min-w-0 space-y-0.5">
+                <p className="text-xs font-bold text-zinc-200 group-hover:text-white transition-colors break-all pr-8">
+                  {coupon.code}
+                </p>
+                {coupon.description && (
+                  <p className="text-[11px] text-zinc-500 line-clamp-1">{coupon.description}</p>
+                )}
+                <p className="text-[11px] text-zinc-600">{formatDate(coupon.end_date)} 까지</p>
+              </div>
+              <button
+                onClick={() => copyToClipboard(coupon.code)}
+                className="shrink-0 px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors text-[11px] font-medium mt-0.5"
+              >
+                복사
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </CardShell>
   )
 }
 

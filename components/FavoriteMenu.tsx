@@ -12,7 +12,7 @@ export default function FavoriteMenu() {
   }
 
   return (
-    <div className="border-t border-zinc-600/50 border-b border-zinc-600/50">
+    <div className="border-y border-zinc-600/50">
       {/* 데스크톱 버전 */}
       <div className="hidden md:block">
         <div className="max-w-[1490px] mx-auto px-6 py-3">

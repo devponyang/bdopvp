@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { useSearchParams } from 'next/navigation'
-import PonyangLoading from '../components/PonyangLoading'
+import PonyangLoading from '@/components/shared/PonyangLoading'
 import { TIP_CATEGORIES, CLASS_GUIDE_CLASSES, CLASS_ICONS, getCategoryFromTags, getClassFromTags, type TipCategory, type ClassGuideClass } from '@/lib/constants/tip-categories'
 
 interface TipPost {

@@ -8,9 +8,10 @@ export async function GET() {
   try {
     // 활성 종군기자 목록 조회
     const correspondentsResult = await client.query(`
-      SELECT * FROM war_correspondents 
-      WHERE is_active = TRUE 
-      ORDER BY created_at ASC
+      SELECT DISTINCT ON (streamer_name) *
+      FROM war_correspondents
+      WHERE is_active = TRUE
+      ORDER BY streamer_name, created_at ASC
     `)
 
     const correspondents = correspondentsResult.rows

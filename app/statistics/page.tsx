@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { filterProfanity, filterProfanityStrings } from 'lib/profanity-filter'
-import PonyangLoading from '../components/PonyangLoading'
+import PonyangLoading from '@/components/shared/PonyangLoading'
 
 interface Statistics {
   totalGuilds: number

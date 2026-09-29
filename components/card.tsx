@@ -1,6 +1,6 @@
 // components/ui/card.tsx (shadcn/ui 기반 수정 버전)
 import * as React from "react"
-import { cn } from "lib/utils"
+import { cn } from "@/lib/utils"
 
 const Card = React.forwardRef<
   HTMLDivElement,

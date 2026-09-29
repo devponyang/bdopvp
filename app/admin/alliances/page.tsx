@@ -17,9 +17,11 @@ interface GuildMark {
   updated_at: string
 }
 
+type Status = { type: 'success' | 'error'; msg: string } | null
+
 export default function MarksAdmin() {
   const [activeTab, setActiveTab] = useState<'alliance' | 'guild'>('alliance')
-  
+
   // 연맹 마크
   const [allianceMarks, setAllianceMarks] = useState<AllianceMark[]>([])
   const [allianceLoading, setAllianceLoading] = useState(true)
@@ -27,7 +29,8 @@ export default function MarksAdmin() {
   const [newAllianceName, setNewAllianceName] = useState('')
   const [newAllianceFile, setNewAllianceFile] = useState<File | null>(null)
   const [allianceUploading, setAllianceUploading] = useState(false)
-  
+  const [allianceStatus, setAllianceStatus] = useState<Status>(null)
+
   // 길드 마크
   const [guildMarks, setGuildMarks] = useState<GuildMark[]>([])
   const [guildLoading, setGuildLoading] = useState(true)
@@ -35,6 +38,7 @@ export default function MarksAdmin() {
   const [newGuildName, setNewGuildName] = useState('')
   const [newGuildFile, setNewGuildFile] = useState<File | null>(null)
   const [guildUploading, setGuildUploading] = useState(false)
+  const [guildStatus, setGuildStatus] = useState<Status>(null)
 
   useEffect(() => {
     fetchAllianceMarks()
@@ -61,6 +65,7 @@ export default function MarksAdmin() {
     if (!newAllianceName.trim() || !newAllianceFile) return
 
     setAllianceUploading(true)
+    setAllianceStatus(null)
     try {
       const formData = new FormData()
       formData.append('file', newAllianceFile)
@@ -73,7 +78,7 @@ export default function MarksAdmin() {
 
       if (!uploadResponse.ok) {
         const errorData = await uploadResponse.json()
-        alert(`이미지 업로드 실패: ${errorData.error}`)
+        setAllianceStatus({ type: 'error', msg: `이미지 업로드 실패: ${errorData.error}` })
         return
       }
 
@@ -94,13 +99,13 @@ export default function MarksAdmin() {
         setNewAllianceFile(null)
         setShowAllianceForm(false)
         fetchAllianceMarks()
-        alert('연맹마크가 등록되었습니다.')
+        setAllianceStatus({ type: 'success', msg: '연맹마크가 등록되었습니다.' })
       } else {
-        alert('연맹마크 등록에 실패했습니다.')
+        setAllianceStatus({ type: 'error', msg: '연맹마크 등록에 실패했습니다.' })
       }
     } catch (error) {
       console.error('연맹마크 등록 오류:', error)
-      alert('연맹마크 등록 중 오류가 발생했습니다.')
+      setAllianceStatus({ type: 'error', msg: '연맹마크 등록 중 오류가 발생했습니다.' })
     } finally {
       setAllianceUploading(false)
     }
@@ -116,13 +121,13 @@ export default function MarksAdmin() {
 
       if (response.ok) {
         fetchAllianceMarks()
-        alert('연맹마크가 삭제되었습니다.')
+        setAllianceStatus({ type: 'success', msg: '연맹마크가 삭제되었습니다.' })
       } else {
-        alert('연맹마크 삭제에 실패했습니다.')
+        setAllianceStatus({ type: 'error', msg: '연맹마크 삭제에 실패했습니다.' })
       }
     } catch (error) {
       console.error('연맹마크 삭제 오류:', error)
-      alert('연맹마크 삭제 중 오류가 발생했습니다.')
+      setAllianceStatus({ type: 'error', msg: '연맹마크 삭제 중 오류가 발생했습니다.' })
     }
   }
 
@@ -146,6 +151,7 @@ export default function MarksAdmin() {
     if (!newGuildName.trim() || !newGuildFile) return
 
     setGuildUploading(true)
+    setGuildStatus(null)
     try {
       const formData = new FormData()
       formData.append('file', newGuildFile)
@@ -158,7 +164,7 @@ export default function MarksAdmin() {
 
       if (!uploadResponse.ok) {
         const errorData = await uploadResponse.json()
-        alert(`이미지 업로드 실패: ${errorData.error}`)
+        setGuildStatus({ type: 'error', msg: `이미지 업로드 실패: ${errorData.error}` })
         return
       }
 
@@ -179,13 +185,13 @@ export default function MarksAdmin() {
         setNewGuildFile(null)
         setShowGuildForm(false)
         fetchGuildMarks()
-        alert('길드마크가 등록되었습니다.')
+        setGuildStatus({ type: 'success', msg: '길드마크가 등록되었습니다.' })
       } else {
-        alert('길드마크 등록에 실패했습니다.')
+        setGuildStatus({ type: 'error', msg: '길드마크 등록에 실패했습니다.' })
       }
     } catch (error) {
       console.error('길드마크 등록 오류:', error)
-      alert('길드마크 등록 중 오류가 발생했습니다.')
+      setGuildStatus({ type: 'error', msg: '길드마크 등록 중 오류가 발생했습니다.' })
     } finally {
       setGuildUploading(false)
     }
@@ -201,20 +207,20 @@ export default function MarksAdmin() {
 
       if (response.ok) {
         fetchGuildMarks()
-        alert('길드마크가 삭제되었습니다.')
+        setGuildStatus({ type: 'success', msg: '길드마크가 삭제되었습니다.' })
       } else {
-        alert('길드마크 삭제에 실패했습니다.')
+        setGuildStatus({ type: 'error', msg: '길드마크 삭제에 실패했습니다.' })
       }
     } catch (error) {
       console.error('길드마크 삭제 오류:', error)
-      alert('길드마크 삭제 중 오류가 발생했습니다.')
+      setGuildStatus({ type: 'error', msg: '길드마크 삭제 중 오류가 발생했습니다.' })
     }
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 헤더 */}
-      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
             <span className="text-2xl">🤝</span>
@@ -227,7 +233,7 @@ export default function MarksAdmin() {
       <div className="flex space-x-2 bg-slate-700/40 p-1.5 rounded-xl border border-white/10">
         <button
           onClick={() => setActiveTab('alliance')}
-          className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
+          className={`flex-1 px-5 py-2.5 text-sm font-semibold rounded-lg transition-all ${
             activeTab === 'alliance'
               ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-lg shadow-indigo-500/30'
               : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -237,7 +243,7 @@ export default function MarksAdmin() {
         </button>
         <button
           onClick={() => setActiveTab('guild')}
-          className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
+          className={`flex-1 px-5 py-2.5 text-sm font-semibold rounded-lg transition-all ${
             activeTab === 'guild'
               ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-lg shadow-indigo-500/30'
               : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -251,7 +257,7 @@ export default function MarksAdmin() {
       {activeTab === 'alliance' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-2">
               <h2 className="text-2xl font-bold text-white">연맹 마크 관리</h2>
               <button
                 onClick={() => setShowAllianceForm(!showAllianceForm)}
@@ -260,6 +266,12 @@ export default function MarksAdmin() {
                 {showAllianceForm ? '취소' : '+ 연맹 마크 추가'}
               </button>
             </div>
+
+            {allianceStatus && (
+              <p className={`mb-4 text-sm font-medium ${allianceStatus.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {allianceStatus.type === 'success' ? '✅' : '❌'} {allianceStatus.msg}
+              </p>
+            )}
 
             {showAllianceForm && (
               <form onSubmit={handleAddAllianceMark} className="bg-slate-700/40 rounded-xl p-6 mb-6 border border-white/10">
@@ -271,7 +283,7 @@ export default function MarksAdmin() {
                       value={newAllianceName}
                       onChange={(e) => setNewAllianceName(e.target.value)}
                       placeholder="연맹 이름을 입력하세요"
-                      className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-white/20"
+                      className="w-full bg-slate-700/50 border border-slate-600 text-white px-4 py-3 rounded-lg focus:border-indigo-500 focus:outline-none"
                       required
                     />
                   </div>
@@ -288,7 +300,7 @@ export default function MarksAdmin() {
                   <button
                     type="submit"
                     disabled={allianceUploading}
-                    className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+                    className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
                   >
                     {allianceUploading ? '등록 중...' : '등록'}
                   </button>
@@ -299,10 +311,12 @@ export default function MarksAdmin() {
             {allianceLoading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="flex items-center gap-3 text-gray-400">
-                  <div className="w-6 h-6 border-3 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-6 h-6 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
                   <span className="text-lg">연맹 마크 불러오는 중...</span>
                 </div>
               </div>
+            ) : allianceMarks.length === 0 ? (
+              <div className="text-center py-12 text-gray-500">등록된 연맹마크가 없습니다.</div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {allianceMarks.map((mark) => (
@@ -338,7 +352,7 @@ export default function MarksAdmin() {
       {activeTab === 'guild' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-2">
               <h2 className="text-2xl font-bold text-white">길드 마크 관리 (후원자)</h2>
               <button
                 onClick={() => setShowGuildForm(!showGuildForm)}
@@ -347,6 +361,12 @@ export default function MarksAdmin() {
                 {showGuildForm ? '취소' : '+ 길드 마크 추가'}
               </button>
             </div>
+
+            {guildStatus && (
+              <p className={`mb-4 text-sm font-medium ${guildStatus.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {guildStatus.type === 'success' ? '✅' : '❌'} {guildStatus.msg}
+              </p>
+            )}
 
             {showGuildForm && (
               <form onSubmit={handleAddGuildMark} className="bg-slate-700/40 rounded-xl p-6 mb-6 border border-white/10">
@@ -358,7 +378,7 @@ export default function MarksAdmin() {
                       value={newGuildName}
                       onChange={(e) => setNewGuildName(e.target.value)}
                       placeholder="길드 이름을 입력하세요"
-                      className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-white/20"
+                      className="w-full bg-slate-700/50 border border-slate-600 text-white px-4 py-3 rounded-lg focus:border-indigo-500 focus:outline-none"
                       required
                     />
                   </div>
@@ -375,7 +395,7 @@ export default function MarksAdmin() {
                   <button
                     type="submit"
                     disabled={guildUploading}
-                    className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+                    className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
                   >
                     {guildUploading ? '등록 중...' : '등록'}
                   </button>
@@ -386,10 +406,12 @@ export default function MarksAdmin() {
             {guildLoading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="flex items-center gap-3 text-gray-400">
-                  <div className="w-6 h-6 border-3 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-6 h-6 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
                   <span className="text-lg">길드 마크 불러오는 중...</span>
                 </div>
               </div>
+            ) : guildMarks.length === 0 ? (
+              <div className="text-center py-12 text-gray-500">등록된 길드마크가 없습니다.</div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {guildMarks.map((mark) => (
@@ -423,4 +445,3 @@ export default function MarksAdmin() {
     </div>
   )
 }
-

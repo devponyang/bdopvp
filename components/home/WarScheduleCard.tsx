@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import PonyangLoading from '../../app/components/PonyangLoading'
+import PonyangLoading from '@/components/shared/PonyangLoading'
 
 interface RecentVictory {
   alliance_name: string

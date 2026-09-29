@@ -155,30 +155,36 @@ export default function AdminSiteNoticesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-white">📢 사이트 공지 관리</h1>
-          <p className="text-sm text-gray-400 mt-1">
-            메인 페이지에 노출되는 공지사항을 등록하고 관리합니다.
-          </p>
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-2xl">📢</span>
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-white">사이트 공지 관리</h1>
+              <p className="text-sm text-gray-400 mt-1">메인 페이지에 노출되는 공지사항을 관리합니다.</p>
+            </div>
+          </div>
+          <button
+            onClick={resetForm}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 rounded-lg text-sm font-semibold hover:bg-cyan-500/30 transition-colors"
+          >
+            + 새 공지 작성
+          </button>
         </div>
-        <button
-          onClick={resetForm}
-          className="px-4 py-2 text-sm font-medium rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-white/10 transition-colors"
-        >
-          새 공지 작성
-        </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-6">
         <form
           onSubmit={handleSubmit}
-          className="bg-zinc-900/70 border border-white/10 rounded-2xl p-4 space-y-4 shadow-lg shadow-black/40"
+          className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-4 shadow-xl"
         >
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-white">{title}</h2>
             {selectedNotice && (
               <span className="text-xs text-gray-400">
-                마지막 수정: {new Date(selectedNotice.updated_at).toLocaleString()}
+                수정: {new Date(selectedNotice.updated_at).toLocaleString()}
               </span>
             )}
           </div>
@@ -189,7 +195,7 @@ export default function AdminSiteNoticesPage() {
               type="text"
               value={form.title}
               onChange={(e) => setForm((prev) => ({ ...prev, title: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:border-blue-500 focus:outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-slate-700/50 border border-slate-600 text-white text-sm focus:border-cyan-500 focus:outline-none"
               placeholder="메인 공지 제목을 입력하세요"
               maxLength={200}
             />
@@ -200,31 +206,27 @@ export default function AdminSiteNoticesPage() {
             <textarea
               value={form.content}
               onChange={(e) => setForm((prev) => ({ ...prev, content: e.target.value }))}
-              className="w-full min-h-[180px] px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:border-blue-500 focus:outline-none resize-y"
-              placeholder="공지 내용을 입력하세요. 줄바꿈과 링크를 지원합니다."
+              className="w-full min-h-[180px] px-3 py-2 rounded-lg bg-slate-700/50 border border-slate-600 text-white text-sm focus:border-cyan-500 focus:outline-none resize-y"
+              placeholder="공지 내용을 입력하세요."
             />
           </div>
 
-          <div className="flex items-center justify-between bg-zinc-800/60 border border-zinc-700/60 rounded-lg px-3 py-2">
-            <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
+          <div className="flex items-center justify-between bg-slate-700/40 border border-slate-600/60 rounded-lg px-3 py-2">
+            <label className="text-sm font-medium text-gray-200 flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
                 checked={form.isPublished}
-                onChange={(e) =>
-                  setForm((prev) => ({ ...prev, isPublished: e.target.checked }))
-                }
-                className="w-4 h-4 rounded border-zinc-600 text-blue-500 focus:ring-blue-400"
+                onChange={(e) => setForm((prev) => ({ ...prev, isPublished: e.target.checked }))}
+                className="w-4 h-4 rounded border-slate-600 text-cyan-500 focus:ring-cyan-400"
               />
               메인 페이지에 노출
             </label>
-            <span className="text-xs text-gray-400">
-              비공개로 저장하면 목록에만 유지됩니다.
-            </span>
+            <span className="text-xs text-gray-400">비공개 시 목록에만 유지</span>
           </div>
 
           {error && (
             <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
-              {error}
+              ❌ {error}
             </div>
           )}
 
@@ -232,7 +234,7 @@ export default function AdminSiteNoticesPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-500 disabled:bg-blue-900 rounded-lg transition-colors"
+              className="flex-1 px-4 py-2 text-sm font-semibold bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 disabled:opacity-50 rounded-lg transition-all shadow-lg"
             >
               {submitting ? '저장 중...' : ctaLabel}
             </button>
@@ -240,26 +242,25 @@ export default function AdminSiteNoticesPage() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="px-4 py-2 text-sm font-medium bg-zinc-800 hover:bg-zinc-700 rounded-lg border border-white/10 transition-colors"
+                className="px-4 py-2 text-sm font-medium bg-slate-700/50 hover:bg-slate-600/50 rounded-lg border border-white/10 transition-colors"
               >
                 취소
               </button>
             )}
           </div>
 
-          <div className="bg-zinc-800/60 border border-zinc-700/60 rounded-lg px-3 py-2 text-xs text-gray-400 space-y-1">
+          <div className="bg-slate-700/40 border border-slate-600/60 rounded-lg px-3 py-2 text-xs text-gray-400 space-y-1">
             <p>• 줄바꿈은 자동으로 적용됩니다.</p>
             <p>• URL은 자동으로 링크로 변환됩니다.</p>
-            <p>• 메인 페이지 카드에서 제목을 클릭하면 모달로 노출됩니다.</p>
           </div>
         </form>
 
-        <div className="bg-zinc-900/60 border border-white/10 rounded-2xl p-4 space-y-4 shadow-lg shadow-black/40">
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-4 shadow-xl">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-white">공지 목록</h2>
             <button
               onClick={fetchNotices}
-              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-white/10 transition-colors"
+              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-700/50 hover:bg-slate-600/50 border border-white/10 transition-colors text-gray-300"
             >
               새로고침
             </button>
@@ -276,47 +277,38 @@ export default function AdminSiteNoticesPage() {
                   key={notice.id}
                   className={`rounded-xl border px-4 py-3 transition-colors ${
                     selectedId === notice.id
-                      ? 'border-blue-500/40 bg-blue-500/10'
-                      : 'border-white/10 bg-zinc-900/40 hover:border-white/20'
+                      ? 'border-cyan-500/40 bg-cyan-500/10'
+                      : 'border-white/10 bg-slate-700/20 hover:border-white/20'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-1">
+                    <div className="space-y-1 flex-1 min-w-0">
                       <button
                         type="button"
                         onClick={() => handleEdit(notice)}
-                        className="text-left text-sm font-semibold text-white hover:text-blue-300"
+                        className="text-left text-sm font-semibold text-white hover:text-cyan-300 truncate block w-full"
                       >
                         {notice.title}
                       </button>
                       <div className="text-xs text-gray-500 flex items-center gap-2">
-                        <span>
-                          작성 {new Date(notice.created_at).toLocaleString()}
-                        </span>
+                        <span>{new Date(notice.created_at).toLocaleString()}</span>
                         <span>·</span>
-                        <span>
+                        <span className={notice.is_published ? 'text-emerald-400' : 'text-gray-500'}>
                           {notice.is_published ? '공개' : '비공개'}
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-shrink-0">
                       <button
                         onClick={() => handleTogglePublish(notice)}
                         className={`px-3 py-1 text-xs font-medium rounded-lg border transition-colors ${
                           notice.is_published
                             ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300 hover:bg-emerald-500/30'
-                            : 'bg-zinc-800 border-white/20 text-gray-300 hover:bg-zinc-700'
+                            : 'bg-slate-700/50 border-white/20 text-gray-300 hover:bg-slate-600/50'
                         }`}
                       >
                         {notice.is_published ? '비공개' : '공개'}
                       </button>
-                      <Link
-                        href={`/api/site-notices/${notice.id}`}
-                        target="_blank"
-                        className="px-3 py-1 text-xs font-medium rounded-lg border border-white/20 text-gray-300 hover:bg-zinc-800"
-                      >
-                        JSON
-                      </Link>
                       <button
                         onClick={() => handleDelete(notice)}
                         disabled={deletingId === notice.id}

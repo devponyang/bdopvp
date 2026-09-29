@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-// import Tooltip from '../app/components/Tooltip' // 더 이상 사용하지 않음
 import FavoriteMenu from './FavoriteMenu'
 import { TIP_CATEGORIES } from '@/lib/constants/tip-categories'
 
@@ -92,10 +91,10 @@ export default function Navbar() {
   }
 
   return (
-    <div className="w-full sticky top-0 z-50 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 shadow-xl border-b border-zinc-700">
+    <div className="w-full sticky top-0 z-50 bg-zinc-950/95 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_4px_24px_oklch(0_0_0/0.6),0_0_0_1px_oklch(0.85_0.18_200/0.06)]">
       <div className="flex items-center max-w-full md:max-w-[1490px] mx-auto px-4 md:px-8 py-4">
         {/* 로고 */}
-        <a href="/" className="flex items-center gap-2 md:gap-3 shrink-0 group">
+        <Link href="/" className="flex items-center gap-2 md:gap-3 shrink-0 group">
           <div className="relative">
             <Image
               src="/logo.png"
@@ -105,12 +104,12 @@ export default function Navbar() {
               className="object-contain rounded-lg w-10 h-8 md:w-14 md:h-12 transition-transform duration-200 group-hover:scale-105 shadow-lg"
               priority
             />
-            <div className="absolute inset-0 rounded-lg bg-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+            <div className="absolute inset-0 rounded-lg bg-[oklch(0.85_0.18_200/0.2)] opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
           </div>
-          <span className="text-xl md:text-3xl font-bold text-white group-hover:text-yellow-400 transition-colors duration-200">
+          <span className="text-xl md:text-3xl font-bold text-white group-hover:text-[oklch(0.85_0.18_200)] transition-colors duration-200">
             BDOPVP-포냥이
           </span>
-        </a>
+        </Link>
 
         {/* 검색창 - 데스크톱에서만 표시 */}
         <div className="relative flex-1 mx-8 md:mx-12 max-w-2xl hidden md:block">
@@ -121,12 +120,12 @@ export default function Navbar() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="길드명 또는 연맹명을 검색해주세요"
-                className="w-full px-4 md:px-6 py-3 rounded-xl bg-white/95 dark:bg-zinc-800/80 border-2 border-zinc-400 dark:border-zinc-600 text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-sm md:text-base backdrop-blur-sm transition-all duration-200 shadow-lg"
+                className="w-full px-4 md:px-6 py-3 rounded-xl bg-white/95 dark:bg-zinc-800/80 border-2 border-zinc-400 dark:border-zinc-600 text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[oklch(0.85_0.18_200)] focus:border-[oklch(0.85_0.18_200)] text-sm md:text-base backdrop-blur-sm transition-all duration-200 shadow-lg"
               />
               <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-gradient-to-r from-yellow-500 to-yellow-400 text-black rounded-lg hover:from-yellow-400 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+                  className="px-4 py-2 bg-[oklch(0.85_0.18_200)] text-zinc-900 rounded-lg hover:bg-[oklch(0.9_0.18_200)] transition-all duration-200 shadow-lg hover:shadow-[0_0_20px_oklch(0.85_0.18_200/0.5)] font-semibold"
                 >
                   검색
                 </button>
@@ -139,16 +138,13 @@ export default function Navbar() {
         <div className="md:hidden flex items-center gap-2 ml-auto">
           <button 
             onClick={() => setShowMobileSearch(!showMobileSearch)}
-            className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-600 text-yellow-400 hover:text-yellow-300 hover:bg-zinc-700/50 transition-all duration-200"
+            className="p-2 rounded-lg bg-zinc-900/80 border border-[oklch(0.85_0.18_200/0.3)] text-[oklch(0.85_0.18_200)] hover:text-[oklch(0.9_0.18_200)] hover:bg-zinc-800/80 hover:border-[oklch(0.85_0.18_200/0.6)] transition-all duration-200"
           >
             🔍
           </button>
           <button
-            onClick={() => {
-              console.log('햄버거 메뉴 클릭됨, 현재 상태:', showMobileMenu)
-              setShowMobileMenu(!showMobileMenu)
-            }}
-            className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-600 hover:bg-zinc-700/50 transition-all duration-200"
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className="p-2 rounded-lg bg-zinc-900/80 border border-white/[0.1] hover:border-[oklch(0.85_0.18_200/0.3)] hover:bg-zinc-800/80 transition-all duration-200"
             aria-label="메뉴 열기/닫기"
           >
             <div className="flex flex-col justify-center items-center w-6 h-6 space-y-1">
@@ -175,7 +171,7 @@ export default function Navbar() {
 
       {/* 모바일 검색창 - 메뉴바 위에 표시 */}
       {showMobileSearch && (
-        <div className="md:hidden px-3 sm:px-4 py-3 bg-zinc-800/95 border-t border-zinc-600 backdrop-blur-sm">
+        <div className="md:hidden px-3 sm:px-4 py-3 bg-zinc-950/98 border-t border-white/[0.06] backdrop-blur-xl">
           <form onSubmit={handleSearch} className="relative">
             <div className="relative">
               <input
@@ -183,13 +179,13 @@ export default function Navbar() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="길드명 또는 연맹명을 검색해주세요"
-                className="w-full px-3 sm:px-4 py-3 rounded-xl bg-white/95 dark:bg-zinc-700/80 border-2 border-zinc-400 dark:border-zinc-500 text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-sm sm:text-base backdrop-blur-sm transition-all duration-200 shadow-lg"
+                className="w-full px-3 sm:px-4 py-3 rounded-xl bg-white/95 dark:bg-zinc-700/80 border-2 border-zinc-400 dark:border-zinc-500 text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[oklch(0.85_0.18_200)] focus:border-[oklch(0.85_0.18_200)] text-sm sm:text-base backdrop-blur-sm transition-all duration-200 shadow-lg"
                 autoFocus
               />
               <div className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2">
                 <button
                   type="submit"
-                  className="px-2 sm:px-3 py-1.5 bg-gradient-to-r from-yellow-500 to-yellow-400 text-black rounded-lg hover:from-yellow-400 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold text-xs sm:text-sm"
+                  className="px-2 sm:px-3 py-1.5 bg-[oklch(0.85_0.18_200)] text-zinc-900 rounded-lg hover:bg-[oklch(0.9_0.18_200)] transition-all duration-200 shadow-lg hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.5)] font-semibold text-xs sm:text-sm"
                 >
                   검색
                 </button>
@@ -203,16 +199,12 @@ export default function Navbar() {
       <FavoriteMenu />
 
       {/* 메뉴바 */}
-      <div className="bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800 border-t border-zinc-600 shadow-lg">
+      <div className="bg-zinc-900/90 border-t border-white/[0.06]">
         {/* 데스크톱 메뉴 */}
         <div className="hidden md:flex justify-between max-w-[1490px] mx-auto px-6 py-3 text-base font-semibold text-white">
-          <Link href="/" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+          <Link href="/" className="px-4 py-2 rounded-lg hover:text-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.1)] transition-all duration-200 flex items-center gap-2">
             <img src="/icons/home-icon.png" alt="홈" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>홈</span>
-          </Link>
-          <Link href="/Tournament" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
-            <img src="/ponyang/ponyang-3.png" alt="Arsha Tournament" className="w-6 h-6 object-contain" />
-            <span>Arsha Tournament</span>
           </Link>
           <div 
             className="relative"
@@ -230,7 +222,7 @@ export default function Navbar() {
               setTipDropdownTimeout(timeout)
             }}
           >
-            <Link href="/tip-board" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+            <Link href="/tip-board" className="px-4 py-2 rounded-lg hover:text-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.1)] transition-all duration-200 flex items-center gap-2">
               <img src="/icons/tip-icon.png" alt="팁게시판" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <span>팁게시판</span>
               <span className="text-xs">▼</span>
@@ -239,7 +231,7 @@ export default function Navbar() {
             {/* 드롭다운 메뉴 */}
             {showTipDropdown && (
               <div 
-                className="absolute top-full left-0 mt-1 bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl z-50 min-w-48"
+                className="absolute top-full left-0 mt-1 bg-zinc-950 border border-white/[0.1] rounded-lg shadow-[0_8px_30px_oklch(0_0_0/0.5)] z-50 min-w-48"
                 onMouseEnter={() => {
                   if (tipDropdownTimeout) {
                     clearTimeout(tipDropdownTimeout)
@@ -257,7 +249,7 @@ export default function Navbar() {
                 <div className="py-2">
                   <Link 
                     href="/tip-board" 
-                    className="block px-4 py-2 text-sm text-white hover:bg-zinc-700 hover:text-yellow-400 transition-colors duration-200"
+                    className="block px-4 py-2 text-sm text-white hover:bg-zinc-800 hover:text-[oklch(0.85_0.18_200)] transition-colors duration-200"
                     onClick={() => setShowTipDropdown(false)}
                   >
                     📝 전체
@@ -266,7 +258,7 @@ export default function Navbar() {
                     <Link 
                       key={category}
                       href={`/tip-board?category=${encodeURIComponent(category)}`}
-                      className="block px-4 py-2 text-sm text-white hover:bg-zinc-700 hover:text-yellow-400 transition-colors duration-200"
+                      className="block px-4 py-2 text-sm text-white hover:bg-zinc-800 hover:text-[oklch(0.85_0.18_200)] transition-colors duration-200"
                       onClick={() => setShowTipDropdown(false)}
                     >
                       {category}
@@ -276,27 +268,27 @@ export default function Navbar() {
               </div>
             )}
           </div>
-          <Link href="/guild-recruit" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+          <Link href="/guild-recruit" className="px-4 py-2 rounded-lg hover:text-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.1)] transition-all duration-200 flex items-center gap-2">
             <img src="/icons/guild-icon.png" alt="길드모집" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>길드모집</span>
           </Link>
-          <Link href="/war-records" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+          <Link href="/war-records" className="px-4 py-2 rounded-lg hover:text-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.1)] transition-all duration-200 flex items-center gap-2">
             <img src="/icons/war-icon.png" alt="거점/점령전" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>거점/점령전</span>
           </Link>
-          <Link href="/guild-league" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+          <Link href="/guild-league" className="px-4 py-2 rounded-lg hover:text-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.1)] transition-all duration-200 flex items-center gap-2">
             <img src="/icons/guild-league-icon.png" alt="길드 리그" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>길드 리그</span>
           </Link>
-          <Link href="/solare-league" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+          <Link href="/solare-league" className="px-4 py-2 rounded-lg hover:text-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.1)] transition-all duration-200 flex items-center gap-2">
             <img src="/icons/rank1.png" alt="솔라레의 창" className="w-6 h-6 object-contain" />
             <span>솔라레의 창</span>
           </Link>
-          <Link href="/master-class" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+          <Link href="/master-class" className="px-4 py-2 rounded-lg hover:text-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.1)] transition-all duration-200 flex items-center gap-2">
             <img src="/icons/masterclass-icon.png" alt="마스터 클래스" className="w-6 h-6 object-contain" />
             <span>마스터 클래스</span>
           </Link>
-          <Link href="/statistics" className="px-4 py-2 rounded-lg hover:text-yellow-400 hover:bg-zinc-600/50 hover:shadow-md transition-all duration-200 flex items-center gap-2">
+          <Link href="/statistics" className="px-4 py-2 rounded-lg hover:text-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:shadow-[0_0_15px_oklch(0.85_0.18_200/0.1)] transition-all duration-200 flex items-center gap-2">
             <img src="/icons/tong-tip.png" alt="통계" className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span>통계</span>
           </Link>
@@ -304,12 +296,12 @@ export default function Navbar() {
 
         {/* 모바일 햄버거 메뉴 */}
         {showMobileMenu && (
-          <div className="mobile-menu-container md:hidden bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800 border-t border-zinc-600 shadow-lg">
+          <div className="mobile-menu-container md:hidden bg-zinc-900/90 border-t border-white/[0.06]">
             <div className="px-3 py-2">
               <div className="grid grid-cols-2 gap-2">
                 <Link 
                   href="/" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/icons/home-icon.png" alt="홈" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
@@ -317,7 +309,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/Tournament" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/ponyang/ponyang-3.png" alt="Arsha Tournament" className="w-4 h-4 object-contain" />
@@ -325,7 +317,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/tip-board" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/icons/tip-icon.png" alt="팁게시판" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
@@ -333,7 +325,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/guild-recruit" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/icons/guild-icon.png" alt="길드모집" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
@@ -341,7 +333,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/war-records" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/icons/war-icon.png" alt="거점/점령전" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
@@ -349,7 +341,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/guild-league" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/icons/guild-league-icon.png" alt="길드리그" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
@@ -357,7 +349,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/solare-league" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/icons/rank1.png" alt="솔라레의 창" className="w-4 h-4 object-contain" />
@@ -365,7 +357,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/master-class" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/icons/masterclass-icon.png" alt="마스터클래스" className="w-4 h-4 object-contain" />
@@ -373,7 +365,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/statistics" 
-                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-yellow-400 hover:bg-zinc-600/50 hover:text-yellow-400 transition-all duration-200 text-white"
+                  className="flex items-center gap-2 px-3 py-3 rounded-lg border border-zinc-600 hover:border-[oklch(0.85_0.18_200)] hover:bg-white/[0.05] hover:text-[oklch(0.85_0.18_200)] transition-all duration-200 text-white"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   <img src="/icons/tong-tip.png" alt="통계" className="w-4 h-4 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
@@ -415,13 +407,13 @@ export default function Navbar() {
             <div className="p-6 space-y-6">
               <div className="text-gray-300 leading-relaxed">
                 {/* 제목 */}
-                <div className="text-xl font-bold text-yellow-400 text-center mb-6">
+                <div className="text-xl font-bold text-[oklch(0.85_0.18_200)] text-center mb-6">
                   📝 클래스 가이드 작성자 모집
                 </div>
                 
                 {/* 메인 내용 */}
                 <div className="space-y-4">
-                  <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-yellow-400">
+                  <div className="bg-slate-700/30 rounded-lg p-4 border-l-4 border-[oklch(0.85_0.18_200)]">
                     <h3 className="font-semibold text-gray-200 mb-2">🎯 모집 안내</h3>
                     <p className="text-sm leading-relaxed">
                       현재 각 클래스별 고수분들께 연락해서 PvP 가이드를 부탁 드리고 있으나 쉽지 않은 상황 입니다..

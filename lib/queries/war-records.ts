@@ -83,17 +83,20 @@ export async function getAlliancesWithGuilds() {
       `SELECT
          a.name AS alliance_name,
          a.tiers AS tiers,
-         ARRAY_AGG(ag.guild_name ORDER BY ag.id) AS guilds
+         ARRAY(
+           SELECT DISTINCT guild_name
+           FROM alliance_guilds
+           WHERE alliance_id = a.id AND guild_name IS NOT NULL
+           ORDER BY guild_name
+         ) AS guilds
        FROM alliances a
-       LEFT JOIN alliance_guilds ag ON ag.alliance_id = a.id
        WHERE a.is_active = TRUE
-       GROUP BY a.name, a.tiers
        ORDER BY a.name`
     )
 
     return result.rows.map(row => ({
       alliance_name: row.alliance_name,
-      guilds: row.guilds.filter(Boolean),
+      guilds: row.guilds ?? [],
       tiers: row.tiers ?? [],
     }))
   } finally {

@@ -1,6 +1,6 @@
 'use server'
 
-import { db } from 'lib/db'
+import { db } from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 
 export async function saveAllGuildLeague(data: any[], date?: string) {

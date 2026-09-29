@@ -27,14 +27,17 @@ interface WarCorrespondent {
   updated_at: string
 }
 
+type Status = { type: 'success' | 'error'; msg: string } | null
+
 export default function BannersAdmin() {
   const [activeTab, setActiveTab] = useState<'banners' | 'correspondents'>('banners')
-  
+
   // 배너 관리
   const [banners, setBanners] = useState<Banner[]>([])
   const [bannersLoading, setBannersLoading] = useState(true)
   const [bannersError, setBannersError] = useState('')
-  
+  const [bannerStatus, setBannerStatus] = useState<Status>(null)
+
   // 종군기자 관리
   const [correspondents, setCorrespondents] = useState<WarCorrespondent[]>([])
   const [correspondentsLoading, setCorrespondentsLoading] = useState(true)
@@ -46,6 +49,7 @@ export default function BannersAdmin() {
     description: '',
   })
   const [saving, setSaving] = useState(false)
+  const [correspondentStatus, setCorrespondentStatus] = useState<Status>(null)
 
   useEffect(() => {
     fetchBanners()
@@ -74,31 +78,31 @@ export default function BannersAdmin() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ is_active: !isActive })
       })
-      
+
       if (!response.ok) throw new Error('상태 변경에 실패했습니다')
-      
-      setBanners(prev => prev.map(banner => 
+
+      setBanners(prev => prev.map(banner =>
         banner.id === id ? { ...banner, is_active: !isActive } : banner
       ))
     } catch (err) {
-      alert(err instanceof Error ? err.message : '알 수 없는 오류')
+      setBannerStatus({ type: 'error', msg: err instanceof Error ? err.message : '알 수 없는 오류' })
     }
   }
 
   const deleteBanner = async (id: number) => {
     if (!confirm('정말로 이 배너를 삭제하시겠습니까?')) return
-    
+
     try {
       const response = await fetch(`/api/admin/banners/${id}`, {
         method: 'DELETE'
       })
-      
+
       if (!response.ok) throw new Error('삭제에 실패했습니다')
-      
+
       setBanners(prev => prev.filter(banner => banner.id !== id))
-      alert('배너가 삭제되었습니다')
+      setBannerStatus({ type: 'success', msg: '배너가 삭제되었습니다.' })
     } catch (err) {
-      alert(err instanceof Error ? err.message : '알 수 없는 오류')
+      setBannerStatus({ type: 'error', msg: err instanceof Error ? err.message : '알 수 없는 오류' })
     }
   }
 
@@ -138,14 +142,14 @@ export default function BannersAdmin() {
         })
         setShowAddCorrespondentForm(false)
         fetchCorrespondents()
-        alert('종군기자가 성공적으로 추가되었습니다!')
+        setCorrespondentStatus({ type: 'success', msg: '종군기자가 성공적으로 추가되었습니다!' })
       } else {
         const errorData = await response.json()
-        alert(`종군기자 추가 실패: ${errorData.error}`)
+        setCorrespondentStatus({ type: 'error', msg: `종군기자 추가 실패: ${errorData.error}` })
       }
     } catch (error) {
       console.error('종군기자 추가 중 오류:', error)
-      alert('종군기자 추가 중 오류가 발생했습니다.')
+      setCorrespondentStatus({ type: 'error', msg: '종군기자 추가 중 오류가 발생했습니다.' })
     } finally {
       setSaving(false)
     }
@@ -162,11 +166,11 @@ export default function BannersAdmin() {
       if (response.ok) {
         fetchCorrespondents()
       } else {
-        alert('상태 변경에 실패했습니다.')
+        setCorrespondentStatus({ type: 'error', msg: '상태 변경에 실패했습니다.' })
       }
     } catch (error) {
       console.error('상태 변경 중 오류:', error)
-      alert('상태 변경 중 오류가 발생했습니다.')
+      setCorrespondentStatus({ type: 'error', msg: '상태 변경 중 오류가 발생했습니다.' })
     }
   }
 
@@ -180,20 +184,20 @@ export default function BannersAdmin() {
 
       if (response.ok) {
         fetchCorrespondents()
-        alert('종군기자가 삭제되었습니다.')
+        setCorrespondentStatus({ type: 'success', msg: '종군기자가 삭제되었습니다.' })
       } else {
-        alert('종군기자 삭제에 실패했습니다.')
+        setCorrespondentStatus({ type: 'error', msg: '종군기자 삭제에 실패했습니다.' })
       }
     } catch (error) {
       console.error('종군기자 삭제 중 오류:', error)
-      alert('종군기자 삭제 중 오류가 발생했습니다.')
+      setCorrespondentStatus({ type: 'error', msg: '종군기자 삭제 중 오류가 발생했습니다.' })
     }
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 헤더 */}
-      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-xl">
+      <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
             <span className="text-2xl">🎨</span>
@@ -206,7 +210,7 @@ export default function BannersAdmin() {
       <div className="flex space-x-2 bg-slate-700/40 p-1.5 rounded-xl border border-white/10">
         <button
           onClick={() => setActiveTab('banners')}
-          className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
+          className={`flex-1 px-5 py-2.5 text-sm font-semibold rounded-lg transition-all ${
             activeTab === 'banners'
               ? 'bg-gradient-to-r from-pink-600 to-pink-700 text-white shadow-lg shadow-pink-500/30'
               : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -216,7 +220,7 @@ export default function BannersAdmin() {
         </button>
         <button
           onClick={() => setActiveTab('correspondents')}
-          className={`flex-1 px-6 py-3 text-sm font-bold rounded-lg transition-all ${
+          className={`flex-1 px-5 py-2.5 text-sm font-semibold rounded-lg transition-all ${
             activeTab === 'correspondents'
               ? 'bg-gradient-to-r from-pink-600 to-pink-700 text-white shadow-lg shadow-pink-500/30'
               : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -230,7 +234,7 @@ export default function BannersAdmin() {
       {activeTab === 'banners' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-2">
               <h2 className="text-2xl font-bold text-white">배너 목록</h2>
               <Link href="/admin/banners/new">
                 <button className="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg">
@@ -239,10 +243,16 @@ export default function BannersAdmin() {
               </Link>
             </div>
 
+            {bannerStatus && (
+              <p className={`mb-4 text-sm font-medium ${bannerStatus.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {bannerStatus.type === 'success' ? '✅' : '❌'} {bannerStatus.msg}
+              </p>
+            )}
+
             {bannersLoading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="flex items-center gap-3 text-gray-400">
-                  <div className="w-6 h-6 border-3 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-6 h-6 border-2 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
                   <span className="text-lg">배너 목록을 불러오는 중...</span>
                 </div>
               </div>
@@ -250,7 +260,7 @@ export default function BannersAdmin() {
               <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-6">
                 <h2 className="text-red-400 font-bold mb-2">⚠️ 오류 발생</h2>
                 <p className="text-red-300">{bannersError}</p>
-                <button 
+                <button
                   onClick={fetchBanners}
                   className="mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
                 >
@@ -275,13 +285,13 @@ export default function BannersAdmin() {
                           </div>
                           <div className="flex items-center gap-2">
                             <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                              banner.is_active 
-                                ? 'bg-green-600 text-white' 
-                                : 'bg-gray-600 text-gray-300'
+                              banner.is_active
+                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                                : 'bg-slate-600/40 text-gray-400 border border-white/10'
                             }`}>
                               {banner.is_active ? '활성' : '비활성'}
                             </span>
-                            <span className="px-3 py-1 text-xs font-semibold bg-blue-600 text-white rounded-full">
+                            <span className="px-3 py-1 text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/40 rounded-full">
                               우선순위: {banner.priority}
                             </span>
                           </div>
@@ -289,11 +299,11 @@ export default function BannersAdmin() {
                         <div className="flex gap-2 mt-4">
                           <button
                             onClick={() => toggleBannerStatus(banner.id, banner.is_active)}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                            className={`px-4 py-2 rounded-lg font-medium transition-all text-white shadow-lg ${
                               banner.is_active
                                 ? 'bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800'
-                                : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800'
-                            } text-white shadow-lg`}
+                                : 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800'
+                            }`}
                           >
                             {banner.is_active ? '비활성화' : '활성화'}
                           </button>
@@ -323,7 +333,7 @@ export default function BannersAdmin() {
       {activeTab === 'correspondents' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-xl">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-2">
               <h2 className="text-2xl font-bold text-white">종군기자 관리</h2>
               <button
                 onClick={() => setShowAddCorrespondentForm(!showAddCorrespondentForm)}
@@ -332,6 +342,12 @@ export default function BannersAdmin() {
                 {showAddCorrespondentForm ? '취소' : '+ 종군기자 추가'}
               </button>
             </div>
+
+            {correspondentStatus && (
+              <p className={`mb-4 text-sm font-medium ${correspondentStatus.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {correspondentStatus.type === 'success' ? '✅' : '❌'} {correspondentStatus.msg}
+              </p>
+            )}
 
             {showAddCorrespondentForm && (
               <form onSubmit={handleAddCorrespondent} className="bg-slate-700/40 rounded-xl p-6 mb-6 border border-white/10">
@@ -343,7 +359,7 @@ export default function BannersAdmin() {
                       value={newCorrespondent.streamer_name}
                       onChange={(e) => setNewCorrespondent({...newCorrespondent, streamer_name: e.target.value})}
                       placeholder="스트리머 이름"
-                      className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-white/20"
+                      className="w-full bg-slate-700/50 border border-slate-600 text-white px-4 py-3 rounded-lg focus:border-pink-500 focus:outline-none"
                       required
                     />
                   </div>
@@ -354,7 +370,7 @@ export default function BannersAdmin() {
                       value={newCorrespondent.chzzk_channel_url}
                       onChange={(e) => setNewCorrespondent({...newCorrespondent, chzzk_channel_url: e.target.value})}
                       placeholder="https://chzzk.naver.com/..."
-                      className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-white/20"
+                      className="w-full bg-slate-700/50 border border-slate-600 text-white px-4 py-3 rounded-lg focus:border-pink-500 focus:outline-none"
                       required
                     />
                   </div>
@@ -365,7 +381,7 @@ export default function BannersAdmin() {
                       value={newCorrespondent.profile_image_url}
                       onChange={(e) => setNewCorrespondent({...newCorrespondent, profile_image_url: e.target.value})}
                       placeholder="프로필 이미지 URL (선택사항)"
-                      className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-white/20"
+                      className="w-full bg-slate-700/50 border border-slate-600 text-white px-4 py-3 rounded-lg focus:border-pink-500 focus:outline-none"
                     />
                   </div>
                   <div>
@@ -375,13 +391,13 @@ export default function BannersAdmin() {
                       value={newCorrespondent.description}
                       onChange={(e) => setNewCorrespondent({...newCorrespondent, description: e.target.value})}
                       placeholder="스트리머 설명 (선택사항)"
-                      className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-white/20"
+                      className="w-full bg-slate-700/50 border border-slate-600 text-white px-4 py-3 rounded-lg focus:border-pink-500 focus:outline-none"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={saving}
-                    className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
+                    className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg disabled:opacity-50"
                   >
                     {saving ? '추가 중...' : '종군기자 추가'}
                   </button>
@@ -392,7 +408,7 @@ export default function BannersAdmin() {
             {correspondentsLoading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="flex items-center gap-3 text-gray-400">
-                  <div className="w-6 h-6 border-3 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-6 h-6 border-2 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
                   <span className="text-lg">종군기자 목록을 불러오는 중...</span>
                 </div>
               </div>
@@ -412,9 +428,9 @@ export default function BannersAdmin() {
                         <div className="flex justify-between items-start mb-2">
                           <h3 className="text-lg font-bold text-white">{correspondent.streamer_name}</h3>
                           <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                            correspondent.is_active 
-                              ? 'bg-green-600 text-white' 
-                              : 'bg-gray-600 text-gray-300'
+                            correspondent.is_active
+                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                              : 'bg-slate-600/40 text-gray-400 border border-white/10'
                           }`}>
                             {correspondent.is_active ? '활성' : '비활성'}
                           </span>
@@ -435,11 +451,11 @@ export default function BannersAdmin() {
                     <div className="flex gap-2 mt-4">
                       <button
                         onClick={() => handleToggleCorrespondentActive(correspondent.id, correspondent.is_active)}
-                        className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+                        className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all text-white shadow-lg ${
                           correspondent.is_active
                             ? 'bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800'
-                            : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800'
-                        } text-white shadow-lg`}
+                            : 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800'
+                        }`}
                       >
                         {correspondent.is_active ? '비활성화' : '활성화'}
                       </button>
@@ -460,4 +476,3 @@ export default function BannersAdmin() {
     </div>
   )
 }
-

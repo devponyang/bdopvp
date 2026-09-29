@@ -4,71 +4,47 @@ import Sidebar from './Sidebar'
 
 export default function WarRecordsLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="max-w-[1490px] mx-auto p-4 mt-6">
-      {/* 메인 헤더 */}
-      <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 mb-8">
-        {/* 배경 이미지 */}
-        <div 
-          className="absolute inset-0 bg-no-repeat opacity-50"
+    <div className="max-w-[1490px] mx-auto px-4 pt-6 pb-12">
+      {/* 배너 헤더 */}
+      <div className="relative overflow-hidden rounded-xl border border-zinc-800/50 mb-6" style={{ background: 'oklch(0.1 0.015 270)' }}>
+        <div
+          className="absolute inset-0 bg-no-repeat opacity-30"
           style={{
             backgroundImage: "url('/ponyang/war-bg.png')",
-            backgroundSize: "100% auto",
-            backgroundPosition: "center 55%"
+            backgroundSize: '100% auto',
+            backgroundPosition: 'center 55%',
           }}
-        ></div>
-        
-        {/* 콘텐츠 */}
-        <div className="relative p-3 md:p-8">
-          {/* 데스크톱 레이아웃 */}
-          <div className="hidden md:flex items-center gap-6">
-            {/* 왼쪽: 아이콘과 제목 */}
-            <div className="flex items-center gap-4">
-              {/* 아이콘 */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-400/30 to-orange-400/30 rounded-xl blur-sm"></div>
-        <div className="relative w-20 h-20 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg p-2">
-          <img src="/icons/war-icon.png" alt="거점/점령전" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-        </div>
-              </div>
-              
-              {/* 제목 블록 */}
-              <div className="px-4 py-3">
-                <h1 className="text-4xl font-bold text-white">
-                  거점/점령전
-                </h1>
-                <div className="text-lg text-white font-medium">
-                  전투 기록 및 순위
-                </div>
-              </div>
-            </div>
+        />
+        <div className="relative flex items-center gap-4 px-5 py-4">
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+            style={{ background: 'oklch(0.12 0.02 270)', border: '1px solid oklch(0.85 0.18 200 / 0.3)' }}
+          >
+            <img
+              src="/icons/war-icon.png"
+              alt="거점/점령전"
+              className="w-5 h-5 object-contain"
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
           </div>
-
-          {/* 모바일 레이아웃 */}
-          <div className="md:hidden flex flex-col items-center text-center">
-            <div>
-              <h1 className="text-xl font-bold text-white">
-                거점/점령전
-              </h1>
-              <div className="text-xs text-white font-medium">
-                전투 기록 및 순위
-              </div>
-            </div>
+          <div>
+            <h1 className="text-lg font-bold text-white">거점/점령전</h1>
+            <p className="text-xs text-zinc-500">전투 기록 및 순위</p>
           </div>
         </div>
       </div>
 
-      {/* 모바일에서 상단에 표시 */}
+      {/* 모바일 탭 */}
       <div className="md:hidden mb-4">
         <Sidebar />
       </div>
-      
-      {/* 데스크톱과 모바일 레이아웃 */}
-      <div className="flex gap-4">
-        {/* 데스크톱에서만 사이드바 표시 */}
+
+      <div className="flex gap-5">
+        {/* 데스크톱 사이드바 */}
         <div className="hidden md:block">
           <Sidebar />
         </div>
-        
+
         <main className="flex-1 min-w-0">
           {children}
         </main>

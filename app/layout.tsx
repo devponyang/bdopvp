@@ -1,21 +1,19 @@
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// app/layout.tsx에서 아래처럼 고쳐줘
-import Navbar from "@/components/Navbar"
-import { createIndexes } from '@/lib/db'
-import { Providers } from './providers'
-import { ReactNode } from 'react'
-import TrafficTracker from './components/TrafficTracker'
-import StructuredData from './components/StructuredData'
-import Script from 'next/script'
-import SidebarAd from '@/components/SidebarAd'
-import FooterAd from '@/components/FooterAd'
-// import PageTracker from './components/PageTracker'
+import Navbar from "@/components/Navbar";
+import { createIndexes } from '@/lib/db';
+import { Providers } from './providers';
+import { ReactNode } from 'react';
+import TrafficTracker from './components/TrafficTracker';
+import StructuredData from './components/StructuredData';
+import Script from 'next/script';
+import SidebarAd from '@/components/SidebarAd';
+import FooterAd from '@/components/FooterAd';
+import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,7 +75,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '포냥이 - 검은사막 PVP 정보 사이트"',
+    title: '포냥이 - 검은사막 PVP 정보 사이트',
     description: '검은사막 온라인의 최신 정보를 제공하는 포냥이 사이트',
     images: ['/logo.png'],
   },
@@ -99,25 +97,20 @@ export default function RootLayout({
 }: {
   children: ReactNode
 }) {
-  // 앱 시작 시 인덱스 생성 (서버에서만 실행)
-  createIndexes().catch(console.error)
+  createIndexes().catch(console.error);
 
   return (
-    <html lang="ko" className="dark">
+    <html lang="ko" className="dark" suppressHydrationWarning>
       <head>
-        {/* Google AdSense - head에 직접 배치 */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7268080263912053"
           crossOrigin="anonymous"
         />
-        
-        
         <StructuredData type="website" />
         <StructuredData type="organization" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white dark`}>
-        {/* Google Analytics */}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white dark`} suppressHydrationWarning>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-GK1BTTBNEF"
           strategy="afterInteractive"
@@ -131,7 +124,6 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* Naver Analytics */}
         <Script
           src="//wcs.pstatic.net/wcslog.js"
           strategy="afterInteractive"
@@ -146,7 +138,6 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* Google Tag Manager */}
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -157,7 +148,6 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PTQT3NFW"
@@ -166,34 +156,28 @@ export default function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
+
         <Providers>
           <TrafficTracker />
-          {/* <PageTracker /> */}
           <Navbar />
-          
-          {/* 좌우 사이드바 광고 - 큰 화면에서만 표시 */}
           <SidebarAd position="left" />
           <SidebarAd position="right" />
-          
           <main className="min-h-screen pb-24">
             {children}
           </main>
-          
-          {/* 푸터 위 광고 */}
           <FooterAd />
-          
           <footer className="bg-zinc-900 border-t border-zinc-800 py-3 px-4 text-center text-xs text-zinc-400">
             <div className="flex flex-col items-center gap-1">
               <div className="flex flex-wrap justify-center gap-2 text-[13px] text-zinc-300">
-                <a href="/site-info" className="hover:underline">사이트 소개</a>
+                <Link href="/site-info" className="hover:underline">사이트 소개</Link>
                 <span>|</span>
-                <a href="/agreement" className="hover:underline">사이트 이용약관</a>
+                <Link href="/agreement" className="hover:underline">사이트 이용약관</Link>
                 <span>|</span>
-                <a href="/privacy" className="hover:underline">개인정보처리방침</a>
+                <Link href="/privacy" className="hover:underline">개인정보처리방침</Link>
                 <span>|</span>
-                <a href="https://discord.gg/mD37c4GEby" className="hover:underline">오류/건의</a>
+                <a href="https://discord.gg/mD37c4GEby" target="_blank" rel="noopener noreferrer" className="hover:underline">오류/건의</a>
                 <span>|</span>
-                <a href="/support" className="hover:underline">광고/후원문의</a>
+                <Link href="/support" className="hover:underline">광고/후원문의</Link>
               </div>
               <div className="text-[12px] mt-1">© 2025. BDOPonyang All rights reserved.</div>
               <div className="text-[12px] text-zinc-500">This site is not associated with Pearl Abyss.</div>

@@ -17,10 +17,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }))
 
   return (
-    <div className="dark">
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
   )
 } 
