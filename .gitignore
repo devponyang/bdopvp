@@ -32,6 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# Local verification artifacts
+/artifacts/
+/build-result.txt
+/typecheck-*.txt
+/audit-result.json
 
 # vercel
 .vercel
@@ -48,3 +55,4 @@ public/tip-images/*.mov
 
 # Unused files
 traffic.json
+/public/solare-ocr/runtime/

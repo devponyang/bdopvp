@@ -1,8 +1,7 @@
-import React from "react";
 
 export default function AgreementPage() {
   return (
-    <div className="max-w-3xl mx-auto p-6 text-zinc-800 dark:text-white">
+    <div className="panel prose-panel">
       <h1 className="text-2xl font-bold mb-4">사이트 이용약관</h1>
       <p className="mb-2 text-sm text-zinc-600 dark:text-gray-400">본 약관은 2025년 09월 15일부터 적용됩니다.</p>
       <h2 className="font-semibold mt-6 mb-2">목적</h2>
@@ -94,4 +93,4 @@ export default function AgreementPage() {
       </ol>
     </div>
   );
-} 
+}

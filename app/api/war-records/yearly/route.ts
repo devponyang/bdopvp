@@ -1,12 +1,2 @@
-import { getYearlyWarRanking } from '@/lib/queries/war-records'
-import { NextResponse } from 'next/server'
-
-export async function GET() {
-  try {
-    const data = await getYearlyWarRanking()
-    return NextResponse.json(data)
-  } catch (err) {
-    console.error('[YEARLY WAR RANK ERROR]', err)
-    return NextResponse.json({ error: 'DB Error' }, { status: 500 })
-  }
-}
+// Retired during the database rebuild. Kept so old callers receive an explicit response.
+export { retiredApi as GET, retiredApi as POST, retiredApi as PUT, retiredApi as PATCH, retiredApi as DELETE } from '@/lib/portal/retired-api'

@@ -1,9 +1,15 @@
 import { MetadataRoute } from 'next'
+import { guides } from '@/lib/portal/guides'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://bdopvp.com'
-  
+
   return [
+    ...guides.map(({ id }) => ({
+      url: `${baseUrl}/tip-board/${id}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -78,5 +84,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 }
-
-

@@ -1,2 +1,1 @@
-import PonyangLoading from '@/components/shared/PonyangLoading';
-export default PonyangLoading; 
+export {default} from '../../loading'

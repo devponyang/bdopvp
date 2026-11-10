@@ -1,8 +1,7 @@
-import React from "react";
 
 export default function PrivacyPage() {
   return (
-    <div className="max-w-3xl mx-auto p-6 text-zinc-800 dark:text-white">
+    <div className="panel prose-panel">
       <h1 className="text-2xl font-bold mb-4">개인정보 처리방침</h1>
       <p className="mb-2 text-sm text-zinc-600 dark:text-gray-400">최종 업데이트: 2025년 09월 18일</p>
       <p className="mb-4">
@@ -60,7 +59,7 @@ export default function PrivacyPage() {
       <p className="mb-4 text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 p-3 rounded">
         <strong>참고:</strong> 광고 서비스 제공업체는 자체 개인정보 처리방침을 가지고 있으며, 해당 업체의 정책에 따라 개인정보가 처리될 수 있습니다. 자세한 내용은 각 업체의 개인정보 처리방침을 확인해 주세요.
       </p>
-      
+
       <h2 className="font-semibold mt-6 mb-2">9. 외부 서비스</h2>
       <ul className="list-disc pl-6 mb-2">
         <li>Discord: 사용자 문의 및 소통</li>
@@ -92,4 +91,4 @@ export default function PrivacyPage() {
       </ul>
     </div>
   );
-} 
+}

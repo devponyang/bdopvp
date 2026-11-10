@@ -1,5 +1,4 @@
 // components/home/NoticeCard.tsx
-import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../card';
 
 const NoticeCard = () => {

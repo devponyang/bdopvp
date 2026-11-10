@@ -1,7 +1,2 @@
-import { getAlliancesWithGuilds } from '@/lib/queries/war-records'
-import { NextResponse } from 'next/server'
-
-export async function GET() {
-  const data = await getAlliancesWithGuilds()
-  return NextResponse.json(data)
-}
+// Retired during the database rebuild. Kept so old callers receive an explicit response.
+export { retiredApi as GET, retiredApi as POST, retiredApi as PUT, retiredApi as PATCH, retiredApi as DELETE } from '@/lib/portal/retired-api'

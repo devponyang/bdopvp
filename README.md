@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 포냥이 · 검은사막 PvP
 
-## Getting Started
+Next.js App Router 기반 PvP 커뮤니티. 데이터베이스가 없어도 대시보드, 검색과 보관된 클래스 가이드가 동작합니다. 실제 랭킹과 전적은 데이터가 등록된 이후 표시됩니다.
 
-First, run the development server:
+## 시작
 
-```bash
+Node.js 22 이상에서:
+
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+기본 주소는 http://localhost:3000 입니다. `.env.example`을 참고하세요. `DB_ENABLED=false`가 기본이며, DB 연결 정보 없이 실행할 수 있습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 검증
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm run typecheck
+npm test
+npm run build
+npm run test:browser
+```
 
-## Learn More
+브라우저 검사는 프로덕션 빌드 이후 실행합니다. 테스트가 127.0.0.1:3101에 임시 서버를 만들고 종료합니다. DB에 접속하거나 실제 계정을 만들지 않습니다.
 
-To learn more about Next.js, take a look at the following resources:
+## 운영 준비
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [단계별 업그레이드 계획](docs/upgrade-plan.md)
+- [재구축 및 마이그레이션 안내](docs/rebuild.md)
+- [빈 데이터 템플릿](docs/portal-data-template.json)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+새 DB에 연결한 뒤 `npm run db:migrate`로 이번 재구축용 마이그레이션만 실행합니다. 기존 전체 마이그레이션 스크립트는 실행하지 마세요. 실제 데이터 복원, DNS/호스팅 설정, DDoS 방어와 외부 백업은 운영 환경에서 별도로 수행해야 합니다.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+관리자는 구조화 폼 또는 JSON으로 초안을 작성하고 검증 후 게시합니다. 충돌하는 수정은 거절하며 이전 게시본은 DB 이력에 보관합니다. 과거 OCR·크롤링·업로드 API는 종료되어 있으며, 자세한 호환성 변경은 재구축 안내를 확인하세요.

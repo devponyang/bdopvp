@@ -1,0 +1,130 @@
+// Author introductions transcribed from the archived guide source, not live rankings.
+export type GuideAuthor = { name: string; affiliation: string; bio: string; pending: boolean }
+export const guideAuthors: Record<string, GuideAuthor> = {
+  '12': {
+    name: '격수',
+    affiliation: '포도당 길드',
+    bio: '각성 매구 장인',
+    pending: false,
+  },
+  '13': {
+    name: '사다새',
+    affiliation: '스트리머',
+    bio: '솔라레의 창 위치 랭킹 1위',
+    pending: false,
+  },
+  '14': {
+    name: 'iframe',
+    affiliation: 'Ctrl 길드',
+    bio: '솔라레의 창 다크나이트 랭킹 1위',
+    pending: false,
+  },
+  '15': {
+    name: '홍줭',
+    affiliation: '아지다하카 길드',
+    bio: '전승 레인저 장인',
+    pending: false,
+  },
+  '16': {
+    name: '무슨말',
+    affiliation: 'Ctrl 길드',
+    bio: '2025 솔라레의 창 시즌 2 - 데드아이 랭킹 1위',
+    pending: false,
+  },
+  '17': {
+    name: '눈이와',
+    affiliation: 'Ctrl 길드',
+    bio: '솔라레의 창 자이언트 랭킹 1위',
+    pending: false,
+  },
+  '18': {
+    name: '분야',
+    affiliation: 'Ctrl 길드',
+    bio: '솔라레의 창 - 무사 랭킹 1위',
+    pending: false,
+  },
+  '19': {
+    name: '퇴마록',
+    affiliation: 'Ctrl 길드',
+    bio: '마스터 클래스 - 매구 우승자',
+    pending: false,
+  },
+  '20': {
+    name: '88o',
+    affiliation: '시바 길드',
+    bio: '솔라레의 창 - 위자드 랭킹 1위',
+    pending: false,
+  },
+  '21': {
+    name: '약주',
+    affiliation: 'Ctrl 길드',
+    bio: '2025 솔라레의 창 시즌 2 - 노바 랭킹 2위',
+    pending: false,
+  },
+  '22': {
+    name: '마왕오리',
+    affiliation: '도란 길드',
+    bio: '솔라레의 창 - 스칼라 랭킹 1위',
+    pending: false,
+  },
+  '23': {
+    name: '꾸도',
+    affiliation: '아지다하카 길드',
+    bio: '솔라레의 창 - 란 랭킹 2위',
+    pending: true,
+  },
+  '24': {
+    name: 'zrw',
+    affiliation: '너왜시비냐 길드',
+    bio: '전승 우사 장인',
+    pending: false,
+  },
+  '25': {
+    name: '은신채이',
+    affiliation: '너왜시비냐 길드',
+    bio: '솔라레의 창 쿠노이치 클래스 랭킹 3위',
+    pending: true,
+  },
+  '26': {
+    name: '영점',
+    affiliation: '아지다하카 길드',
+    bio: '저격반장',
+    pending: true,
+  },
+  '27': {
+    name: '무슨말',
+    affiliation: 'Ctrl 길드',
+    bio: '샤이의 모든 것',
+    pending: true,
+  },
+  '28': {
+    name: '마창',
+    affiliation: '아지다하카 길드',
+    bio: '솔라레의 창 - 발키리 클래스 랭킹 1위',
+    pending: true,
+  },
+  '29': {
+    name: '빠야',
+    affiliation: '페페 길드',
+    bio: '끾끾끾끾끾끾끾끾끾',
+    pending: true,
+  },
+  '30': {
+    name: '츄릎',
+    affiliation: 'Sin 길드',
+    bio: '솔라레의 창 - 하사신 랭킹 1위',
+    pending: true,
+  },
+  '31': {
+    name: '도비뚜밥',
+    affiliation: 'Ctrl 길드',
+    bio: '2025 솔라레의 창 시즌 2 - 드라카니아 랭킹 1위',
+    pending: false,
+  },
+  '32': {
+    name: '동방',
+    affiliation: '아지다하카 길드',
+    bio: '전승 소서러 장인',
+    pending: false,
+  },
+}

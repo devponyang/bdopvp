@@ -2,28 +2,9 @@
   command = "npm run build"
   publish = ".next"
 
+[build.environment]
+  NODE_VERSION = "22"
+
+# Netlify's Next.js runtime owns route handling. Do not rewrite /api manually.
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-# API Routes body size 제한 증가 (30MB)
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-  force = true
-  
-[functions]
-  # 함수 타임아웃 설정 (30초)
-  timeout = 30
-  # Node.js 환경 변수 설정
-  node_bundler = "esbuild"
-  
-# 환경 변수로 body size 제한 증가
-[context.production.environment]
-  NODE_OPTIONS = "--max-http-header-size=80000000"
-
-[context.deploy-preview.environment]
-  NODE_OPTIONS = "--max-http-header-size=80000000"
-
-[context.branch-deploy.environment]
-  NODE_OPTIONS = "--max-http-header-size=80000000"

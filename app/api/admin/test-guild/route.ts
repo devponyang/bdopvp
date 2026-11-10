@@ -1,12 +1,2 @@
-import { NextResponse } from 'next/server'
-
-export async function GET() {
-  const res = await fetch('https://www.korbdo.co.kr/api/a/batch', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ names: ['ㅁㅇㅁㅇ'] }),
-  })
-
-  const data = await res.json()
-  return NextResponse.json(data)
-}
+// Retired during the database rebuild. Kept so old callers receive an explicit response.
+export { retiredApi as GET, retiredApi as POST, retiredApi as PUT, retiredApi as PATCH, retiredApi as DELETE } from '@/lib/portal/retired-api'
